@@ -1,0 +1,194 @@
+{% extends "header_footer.html" %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - WorkSphere</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .policy-1 {
+      padding: 20px;
+      background-color: #1565c0;
+      text-align: center;
+      width: 100%;
+      height: 130px;
+      box-sizing: border-box;
+      color: white;
+    }
+
+    .policy-1 .heading {
+      font-size: 30px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      margin-top: 10px;
+      font-family: verdana;
+    }
+
+    .policy-1 .description {
+      font-size: 16px;
+      margin: 0;
+      font-family: Verdana;
+    }
+
+    .policy-container {
+      max-width: 1000px;
+      margin: 20px auto;
+      padding: 40px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+      z-index: 1;
+      margin-top: -20px;
+    }
+
+    .policy-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .policy-header h2 {
+      color: #1565c0;
+      font-size: 35px;
+      margin-bottom: 10px;
+      font-family: verdana;
+    }
+
+    .policy-header p {
+      color: #666;
+      font-size: 18px;
+      font-family: Verdana;
+    }
+
+    .policy-section {
+      margin-bottom: 40px;
+    }
+
+    .policy-section h3 {
+      color: black;
+      font-size: 26px;
+      margin-bottom: 10px;
+      text-decoration: underline;
+      font-family: sans-serif;
+    }
+
+    .policy-section p {
+      color: #333;
+      font-size: 16px;
+      font-family: verdana;
+      line-height: 1.6;
+    }
+
+    .policy-section ul {
+      list-style: none;
+      padding: 0;
+      font-family: verdana;
+    }
+
+    .policy-section ul li {
+      margin-bottom: 10px;
+      padding-left: 20px;
+      position: relative;
+      font-family: verdana;
+    }
+
+    .policy-section ul li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #1565c0;
+      font-size: 1.2rem;
+    }
+
+    @media (max-width: 768px) {
+      .policy-header h2 {
+        font-size: 2rem;
+      }
+
+      .policy-header p {
+        font-size: 1rem;
+      }
+
+      .policy-section h3 {
+        font-size: 1.5rem;
+      }
+
+      .policy-section p {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="policy-1">
+    <h2 class="heading">Privacy Policy</h2>
+    <!-- <p class="description">Learn about how WorkSphere collects, uses, and protects your personal information.</p> -->
+  </section>
+
+  <div class="policy-container">
+    <div class="policy-header">
+      <h2>Our Commitment to Privacy</h2>
+      <p>At WorkSphere, we are committed to protecting your privacy and ensuring that your personal information is handled in a safe and responsible manner.</p>
+    </div>
+
+    <div class="policy-section">
+      <h3>1. Information We Collect</h3>
+      <p>We collect information that you provide to us directly, such as when you create an account, post a project, or communicate with us. This information may include your name, email address, phone number, payment information, and any other details you choose to provide.</p>
+    </div>
+
+    <div class="policy-section">
+      <h3>2. How We Use Your Information</h3>
+      <p>We use the information we collect to provide, maintain, and improve our services. This includes using your information to:</p>
+      <ul>
+        <li>Facilitate communication between clients and freelancers</li>
+        <li>Process transactions and send related information</li>
+        <li>Provide customer support and respond to inquiries</li>
+        <li>Send updates, security alerts, and support messages</li>
+        <li>Analyze and monitor usage trends and activities</li>
+      </ul>
+    </div>
+
+    <div class="policy-section">
+      <h3>3. Sharing Your Information</h3>
+      <p>We do not share your personal information with third parties except in the following circumstances:</p>
+      <ul>
+        <li>With your consent or at your direction</li>
+        <li>To comply with legal obligations or respond to lawful requests</li>
+        <li>To protect the rights, property, and safety of WorkSphere, our users, or the public</li>
+        <li>With service providers who perform services on our behalf</li>
+      </ul>
+    </div>
+
+    <div class="policy-section">
+      <h3>4. Data Security</h3>
+      <p>We implement appropriate technical and organizational measures to protect your personal information from unauthorized access, use, or disclosure. However, no method of transmission over the internet or electronic storage is completely secure, and we cannot guarantee absolute security.</p>
+    </div>
+
+    <div class="policy-section">
+      <h3>5. Your Choices</h3>
+      <p>You have the right to access, update, and delete your personal information. You can do this by logging into your account and updating your profile settings. If you need assistance, please contact our support team.</p>
+    </div>
+
+    <div class="policy-section">
+      <h3>6. Changes to This Policy</h3>
+      <p>We may update this Privacy Policy from time to time to reflect changes in our practices or legal requirements. We will notify you of any significant changes by posting the new policy on our website and updating the effective date.</p>
+    </div>
+
+    <div class="policy-section">
+      <h3>7. Contact Us</h3>
+      <p>If you have any questions or concerns about this Privacy Policy or our data practices, please contact us at <a href="mailto:worksphere05@gmail.com">worksphere05@gmail.com</a>.</p>
+    </div>
+  </div>
+</body>
+</html>
+
+{% endblock %}

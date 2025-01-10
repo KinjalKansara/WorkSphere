@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkSphere - Freelancer Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> <!-- Font Awesome -->
+    <style>
+        body {
+            font-family: verdana;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            opacity: 0;
+            animation: fadeIn 1s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+        }
+
+        /* Header Styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1565c0; /* Dark blue background */
+            color: white; /* White text */
+            padding: 10px 20px;
+        }
+
+        .header .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .header nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        .header nav a {
+            color: white; /* White links */
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-family: verdana;
+        }
+
+        .header nav a:hover {
+            color: #82b1ff; /* Light blue hover color */
+        }
+
+        .header input[type="text"] {
+            padding: 10px;
+            border-radius: 5px;
+            /* border: 2px solid white; White border */
+            background-color: white; /* Light blue background */
+            color: #1565c0; /* Dark blue text */
+        }
+
+        /* Hamburger Menu Styles */
+        .hamburger1 {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white; /* White icon */
+            transition: transform 0.3s ease;
+        }
+
+        .hamburger1:hover {
+            transform: rotate(90deg);
+        }
+
+        .mobile-nav {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            background-color: rgba(255, 255, 255, 0.9); /* Transparent white background */
+            padding: 15px;
+            border-radius: 5px;
+            position: absolute;
+            top: 60px;
+            right: 10px;
+            width: 200px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .mobile-nav.active {
+            display: flex;
+        }
+
+        .mobile-nav a {
+            color: black; /* Black links */
+            text-decoration: none;
+            padding: 10px;
+            font-family: Candara;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .mobile-nav a:hover {
+            color: #82b1ff; /* Light blue hover color */
+        }
+
+        .mobile-nav a:last-child {
+            border-bottom: none;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger1 {
+                display: block;
+            }
+
+            .header nav {
+                display: none;
+            }
+
+            .mobile-nav.active {
+                display: flex;
+            }
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: #1565c0; /* Dark blue background */
+            color: white; /* White text */
+            padding: 20px 0;
+        }
+
+        .footer .containers {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .footer .row {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .footer .col {
+            flex: 1 1 20%;
+            padding: 5px;
+        }
+
+        .footer .col img {
+            width: 150px;
+            height: 150px; /* Adjust height to maintain aspect ratio */
+            padding-left: 14px;
+        }
+
+        .footer h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-family: verdana;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer ul li a {
+            color: white; /* White links */
+            text-decoration: none;
+            font-family: verdana;
+        }
+
+        .footer ul li a:hover {
+            color: #82b1ff; /* Light blue hover color */
+        }
+
+        .social-icons a {
+            color: white; /* White icons */
+            margin-right: 10px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+            font-size: 20px;
+            display: inline-block;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .social-icons a:hover {
+            color: #82b1ff; /* Light blue hover color */
+            transform: scale(1.1);
+        }
+
+        .copy {
+            text-align: center;
+            margin-top: 20px;
+            font-family: verdana;
+        }
+
+        .footer .col:last-child {
+            text-align: center;
+            margin-bottom: -20px;
+        }
+
+        /* loader */
+        .loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .loader img {
+            width: 150px;
+            height: 150px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .footer .col {
+                flex: 1 1 100%; /* Full width on smaller screens */
+                text-align: center; /* Center content */
+            }
+
+            .footer .col img {
+                display:none;
+            }
+
+            .footer h4 {
+                text-align: center;
+            }
+
+            .social-icons {
+                justify-content: center; /* Center social icons */
+            }
+
+            .second-header {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .category-icon {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .subcategories {
+                position: static;
+                box-shadow: none;
+                padding: 0;
+            }
+
+            .subcategories a {
+                padding: 10px;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .subcategories a:last-child {
+                border-bottom: none;
+            }
+        }
+</style>
+
+</head>
+<body>
+<!-- Loader -->
+    <div class="loader-wrapper" id="loader-wrapper">
+        <div class="loader">
+        <img src="/media/address.png" alt="Loader Image">
+        </div>
+    </div> 
+    <!-- First Header -->
+    <header class="header">
+        <div class="logo">
+            <img src="/media/2.png" alt="WorkSphere Logo" width="50">
+        </div>
+        <button class="hamburger1">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav>
+            <a href="#signup"><i class="fas fa-home"></i>Home</a>
+            <a href="#signup"><i class="fas fa-user"></i> Sign Up</a>
+            <a href="#login"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="#how-it-works" style="color: #82b1ff"><i class="fas fa-info-circle"></i> How It Works</a>
+        </nav>
+        <div class="mobile-nav">
+            <a href="#signup"><i class="fas fa-home"></i>Home</a>
+            <a href="#signup"><i class="fas fa-user"></i> Sign Up</a>
+            <a href="#login"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="#how-it-works" style="color: #1565c0;"><i class="fas fa-info-circle"></i> How It Works</a>
+        </div>
+    </header>
+
+   <!-- main -->
+  <main class="main">
+    {% block content %}
+    
+
+
+
+    {% endblock %}
+  </main>
+  <!-- end main -->
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="containers">
+            
+
+                <div class="col">
+                    <h4 style="text-decoration:none;">Follow Us on</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>                    
+                    <p class="copy">&copy; 2024 WorkSphere. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const hamburger = document.querySelector('.hamburger1');
+        const mobileNav = document.querySelector('.mobile-nav');
+
+        hamburger.addEventListener('click', () => {
+            mobileNav.classList.toggle('active');
+        });
+
+        // Loader Timeout
+        const loaderWrapper = document.getElementById('loader-wrapper');
+        const content = document.getElementById('content');
+
+        window.addEventListener('load', () => {
+        setTimeout(() => {
+            loaderWrapper.style.display = 'none';
+            content.style.display = 'block';
+        }, 2000); // Show content after 5 seconds
+        });
+
+    </script>
+</body>
+</html>

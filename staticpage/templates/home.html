@@ -1,0 +1,409 @@
+{% extends "header_footer.html" %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorksPhare - Empowering Your Projects</title>
+    <meta name="description" content="WorksPhare is your ultimate platform for seamless collaboration between clients and freelancers. Post your project or browse exciting opportunities.">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arial:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* General Styles for All Sections */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 6rem 1rem;
+            background: linear-gradient(135deg, #007BFF, #0056b3) no-repeat center center/cover;
+            color: #fff;
+            position: relative;
+            border-radius: 8px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.9rem 2rem;
+            font-size: 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        .btn-primary {
+            background: #007BFF;
+            color: #fff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #333;
+            color: #fff;
+            border: none;
+        }
+
+        .btn-secondary:hover {
+            background: #555;
+            transform: translateY(-2px);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 4rem 1rem;
+            text-align: center;
+        }
+
+        .features h2 {
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            color: #007BFF;
+        }
+
+        .feature-list {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .feature {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 280px;
+            text-align: left;
+        }
+
+        .feature i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #007BFF;
+        }
+
+        .feature h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .feature p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        /* Left-Right Content Section */
+        .left-right-content {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .left-right-content img {
+            max-width: 50%;
+            border-radius: 8px;
+        }
+
+        .left-right-content-text {
+            max-width: 50%;
+            text-align: left;
+        }
+
+        /* Call to Action Section */
+        .call-to-action {
+            background: linear-gradient(135deg, #007BFF, #0056b3);
+            color: #fff;
+            padding: 5rem 1rem;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .call-to-action h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+        }
+
+        .call-to-action p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .testimonials {
+            background: #f9f9f9;
+            padding: 4rem 1rem;
+            text-align: center;
+        }
+
+        .testimonials h2 {
+            font-size: 2.5rem;
+            color: #007BFF;
+            margin-bottom: 3rem;
+        }
+
+        .testimonial {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial img {
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            margin-right: 1.5rem;
+        }
+
+        .testimonial p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+
+        .testimonial h3 {
+            margin: 0;
+            color: #007BFF;
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 4rem 1rem;
+            background: #fff;
+        }
+
+        .faq h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #007BFF;
+            margin-bottom: 2rem;
+        }
+
+        .faq .faq-item {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 1rem;
+        }
+
+        .faq h3 {
+            font-size: 1.4rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .faq h3::after {
+            content: '\f078'; /* FontAwesome down arrow */
+            font-family: 'FontAwesome';
+            position: absolute;
+            right: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .faq p {
+            font-size: 1rem;
+            color: #555;
+            display: none;
+            margin-top: 0.5rem;
+        }
+
+        .faq-item.active h3::after {
+            transform: rotate(180deg);
+        }
+
+        .faq-item.active p {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<section class="home">
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Welcome to WorksPhare</h1>
+        <p>Your ultimate platform for seamless collaboration between clients and freelancers.</p>
+        <div class="cta-buttons">
+            <a href="/post-project" class="btn btn-primary">Post a Project</a>
+            <a href="#features" class="btn btn-secondary">Learn More</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <h2>Why Choose WorksPhare?</h2>
+        <div class="feature-list">
+            <div class="feature">
+                <i class="fas fa-briefcase fa-2x"></i>
+                <h3>Easy Project Management</h3>
+                <p>Organize and track your projects effortlessly, connecting with skilled freelancers.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-users fa-2x"></i>
+                <h3>Vast Talent Pool</h3>
+                <p>Access a wide range of freelancers with diverse skills, ready to collaborate on your projects.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-lock fa-2x"></i>
+                <h3>Secure Payments</h3>
+                <p>Reliable and secure payment systems to ensure trust and transparency between clients and freelancers.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-clock fa-2x"></i>
+                <h3>Flexible Work Models</h3>
+                <p>Choose between fixed-price or hourly projects based on your needs.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Left-Right Content Section -->
+    <section class="left-right-content">
+        <div class="left-right-content-text">
+            <h2>Why WorksPhare is Perfect for You</h2>
+            <p>Our platform is designed to foster collaboration, streamline workflows, and ensure seamless communication between project owners and skilled professionals. Whether you’re a client looking for top talent or a freelancer seeking exciting opportunities, WorksPhare is the perfect bridge to achieve your goals.</p>
+        </div>
+        <img src="https://via.placeholder.com/600x400" alt="Collaboration Illustration" />
+    </section>
+
+    <!-- About WorksPhare Section -->
+    <section class="about-worksphare">
+        <h2>About WorksPhare</h2>
+        <p>At WorksPhare, we believe in connecting clients and freelancers to bring their visions to life. Our platform is designed to foster collaboration, streamline workflows, and ensure seamless communication between project owners and skilled professionals. Whether you’re a client looking for top talent or a freelancer seeking exciting opportunities, WorksPhare is the perfect bridge to achieve your goals.</p>
+        <p>We aim to empower businesses and individuals to unlock their full potential, one project at a time. Our commitment to transparency, security, and quality ensures that every project, no matter how big or small, is handled with care and precision.</p>
+    </section>
+
+    <!-- Benefits Section for Freelancers and Clients -->
+    <section class="benefits">
+        <h2>Benefits for Freelancers and Clients</h2>
+        <div class="left-right-content">
+            <img src="https://via.placeholder.com/600x400" alt="Freelancer Benefits Illustration" />
+            <div class="left-right-content-text">
+                <h3>Freelancers</h3>
+                <p>Gain access to a variety of projects, showcase your skills, and connect with potential clients who value your expertise. Earn competitive rates and build a portfolio that reflects your talent.</p>
+            </div>
+        </div>
+        <div class="left-right-content">
+            <div class="left-right-content-text">
+                <h3>Clients</h3>
+                <p>Find top-tier freelancers for your projects, streamline workflows, and ensure quality deliverables. Save time and resources while ensuring your project goals are met with precision.</p>
+            </div>
+            <img src="https://via.placeholder.com/600x400" alt="Client Benefits Illustration" />
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="call-to-action">
+        <h2>Ready to Get Started?</h2>
+        <p>Join thousands of clients and freelancers who are transforming their ideas into reality. Post your project or browse exciting opportunities today!</p>
+        <div class="cta-buttons">
+            <a href="/post-project" class="btn btn-primary">Post Your Project</a>
+            <a href="#testimonials" class="btn btn-secondary">See Testimonials</a>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <h2>What Our Users Say</h2>
+        <div class="testimonial">
+            <img src="https://via.placeholder.com/80" alt="User Image" />
+            <div>
+                <p>"WorksPhare has transformed the way I work! The seamless project management and access to top-tier freelancers are exactly what I needed. Highly recommend!"</p>
+                <h3>John Doe</h3>
+                <p>CEO, Example Company</p>
+            </div>
+        </div>
+        <div class="testimonial">
+            <img src="https://via.placeholder.com/80" alt="User Image" />
+            <div>
+                <p>"Finding skilled freelancers was never this easy. WorksPhare helped me complete my project on time and exceeded my expectations!"</p>
+                <h3>Jane Smith</h3>
+                <p>Project Manager</p>
+            </div>
+        </div>
+        <div class="testimonial">
+            <img src="https://via.placeholder.com/80" alt="User Image" />
+            <div>
+                <p>"The platform is intuitive, user-friendly, and secure. I've had a fantastic experience with WorksPhare!"</p>
+                <h3>Emily Johnson</h3>
+                <p>Freelancer</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-item">
+            <h3>How does WorksPhare ensure payment security?</h3>
+            <p>We use secure payment systems to ensure trust and transparency between clients and freelancers. Funds are held securely until project milestones are met.</p>
+        </div>
+        <div class="faq-item">
+            <h3>Can I post projects for free?</h3>
+            <p>Yes, you can post projects for free. Our platform offers flexible options to meet your needs, whether you're a client or a freelancer.</p>
+        </div>
+        <div class="faq-item">
+            <h3>How do I find the right freelancer for my project?</h3>
+            <p>Our advanced search and filtering tools allow you to browse through a diverse range of freelancers based on your specific requirements and preferences.</p>
+        </div>
+        <div class="faq-item">
+            <h3>Is there customer support available?</h3>
+            <p>Yes, we offer 24/7 customer support to assist with any questions or issues you may encounter while using WorksPhare. For more information, please visit our <a href="/contact.html">Contact Us</a> page.</p>
+        </div>
+    </section>
+
+</section>
+<script>
+    document.querySelectorAll('.faq h3').forEach(item => {
+        item.addEventListener('click', () => {
+            const parent = item.parentElement;
+            parent.classList.toggle('active');
+        });
+    });
+</script>
+{% endblock %}

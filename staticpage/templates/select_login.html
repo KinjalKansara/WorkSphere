@@ -1,0 +1,171 @@
+{% extends "header_footer_select.html" %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Register</title>
+    <style>
+        .background {
+            background: url('/media/select.gif') no-repeat center center;
+            background-size: contain;
+            position: absolute;
+            top: 68%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            z-index: -1;
+        }
+
+        .container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            height: 400px;
+            width: 400px;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+            margin-bottom: 50px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .container h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-family: verdana;
+            color: #1e88e5;
+        }
+
+        .container h1 span {
+            color: #1e88e5;
+            margin-top:10px;
+            font-family: 'Times New Roman', Times, serif;
+            text-decoration: underline;
+        }
+
+        .container p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            font-family: verdana;
+            margin-top:30px;
+            color: #333;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .buttons .button {
+            display: inline-block;
+            background: #1e88e5; /* Light blue */
+            color: #ffffff; /* White */
+            padding: 15px 25px;
+            font-size: 15px;
+            font-family: verdana;
+            text-decoration: none;
+            border-radius: 10px;
+            /* box-shadow: 0 4px 10px rgba(179, 205, 224, 0.7); Light blue shadow */
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+            margin: 10px;
+        }
+
+        .buttons .button:hover {
+            transform: translateY(-5px);
+            /* box-shadow: 0 6px 15px rgba(68, 114, 196, 0.4); Dark blue shadow */
+            color: #000000; /* Black */
+        }
+
+        @media (max-width: 768px) {
+            .background {
+                width: 70%;
+                height: 70%;
+            }
+
+            .container {
+                width: 80%;
+                height: auto;
+                padding: 20px;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+
+            .container h1 {
+                font-size: 2rem;
+            }
+
+            .container h1 span {
+                font-size: 2rem;
+            }
+
+            .container p {
+                font-size: 1rem;
+            }
+
+            .buttons .button {
+                width: 100%;
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .background {
+                width: 90%;
+                height: 90%;
+            }
+
+            .container {
+                width: 95%;
+                height: auto;
+                padding: 15px;
+                margin-top: 15px;
+                margin-bottom: 15px;
+            }
+
+            .container h1 {
+                font-size: 1.8rem;
+            }
+
+            .container h1 span {
+                font-size: 1.8rem;
+            }
+
+            .container p {
+                font-size: 0.9rem;
+            }
+
+            .buttons .button {
+                width: 100%;
+                padding: 10px 15px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <center>    
+        <div class="container">
+            <h1>Welcome to <span>WorkSphere</span></h1>
+            <p>Your gateway to finding work or hiring top talent.</p>
+            <div class="buttons">
+                <a href="/register/freelancer" class="button">I'm a Freelancer<br>Login for Work</a>
+                <a href="/register/client" class="button">I'm a Client<br>login for Projects</a>
+            </div>
+        </div>
+    </center>
+</body>
+</html> 
+
+{% endblock %}

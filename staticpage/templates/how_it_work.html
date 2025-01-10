@@ -1,0 +1,185 @@
+{% extends "header_footer.html" %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works - WorksPhare</title>
+    <meta name="description" content="Learn how WorksPhare connects clients and freelancers for seamless project collaboration.">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arial:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* General Styles for All Sections */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: verdana;
+            background-color: #f4f4f9;
+        }
+
+        .work-1 {
+            padding: 20px;
+            background-color: #1565c0;
+            text-align: center;
+            width: 100%;
+            height: 120px;
+            box-sizing: border-box;
+            color: white;
+        }
+
+        .work-1 .heading {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            margin-top: 10px;
+            font-family: verdana;
+        }
+
+        .how-it-works { 
+            text-align: center;
+            background-color: #fff;
+        }
+
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+            margin-top:20px;
+            padding:20px;   
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .step:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .step img {
+            max-width: 50%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-content {
+            max-width: 50%;
+            text-align: left;
+            padding: 0 2rem;
+        }
+
+        .step-content h2 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .step-content p {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .step-content i {
+            font-size: 20px;
+            color: #007BFF;
+            margin-right: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .step {
+                flex-direction: column;
+            }
+
+            .step:nth-child(even) {
+                flex-direction: column;
+            }
+
+            .step img {
+                max-width: 100%;
+                margin-bottom: 1rem;
+            }
+
+            .step-content {
+                max-width: 100%;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<section class="how-it-works">
+    <section class="work-1">
+        <h2 class="heading">How It Work</h2>
+        <!-- <p class="description">The "Terms" explain the rules for using WorkSphere. They help everyone understand their rights and responsibilities to keep the platform safe and fair.</p> -->
+      </section>
+    <div class="steps-container">
+        <div class="step">
+            <img src="https://via.placeholder.com/600x400" alt="Sign Up Image">
+            <div class="step-content">
+                <h2><i class="fas fa-user-plus"></i> Sign Up</h2>
+                <p>Create an account on WorksPhare to get started. Whether you're a client looking to post a project or a freelancer seeking opportunities, our platform is designed to cater to your needs.</p>
+            </div>
+        </div>
+        <div class="step">
+            <img src="https://via.placeholder.com/600x400" alt="Post a Project Image">
+            <div class="step-content">
+                <h2><i class="fas fa-clipboard-list"></i> Post a Project</h2>
+                <p>Clients can post their projects with detailed descriptions, requirements, and budgets. This helps freelancers understand the scope of work and submit their proposals accordingly.</p>
+            </div>
+        </div>
+        <div class="step">
+            <img src="https://via.placeholder.com/600x400" alt="Browse Projects Image">
+            <div class="step-content">
+                <h2><i class="fas fa-search"></i> Browse Projects</h2>
+                <p>Freelancers can browse through a variety of projects that match their skills and interests. Use our advanced search and filtering tools to find the perfect project for you.</p>
+            </div>
+        </div>
+        <div class="step">
+            <img src="https://via.placeholder.com/600x400" alt="Submit Proposals Image">
+            <div class="step-content">
+                <h2><i class="fas fa-paper-plane"></i> Submit Proposals</h2>
+                <p>Freelancers can submit proposals to projects they are interested in. Highlight your skills, experience, and why you are the best fit for the project.</p>
+            </div>
+        </div>
+        <div class="step">
+            <img src="https://via.placeholder.com/600x400" alt="Communicate Image">
+            <div class="step-content">
+                <h2><i class="fas fa-comments"></i> Communicate</h2>
+                <p>Clients and freelancers can communicate through our messaging system to discuss project details, timelines, and expectations. Clear communication ensures a smooth workflow.</p>
+            </div>
+        </div>
+        <div class="step">
+            <img src="https://via.placeholder.com/600x400" alt="Manage Projects Image">
+            <div class="step-content">
+                <h2><i class="fas fa-tasks"></i> Manage Projects</h2>
+                <p>Use our project management tools to track progress, set milestones, and ensure that the project stays on schedule. Both clients and freelancers can monitor the project's status in real-time.</p>
+            </div>
+        </div>
+        <div class="step">
+            <img src="https://via.placeholder.com/600x400" alt="Secure Payments Image">
+            <div class="step-content">
+                <h2><i class="fas fa-lock"></i> Secure Payments</h2>
+                <p>Our secure payment system ensures that funds are held safely until project milestones are met. Clients can release payments once they are satisfied with the work delivered.</p>
+            </div>
+        </div>
+        <div class="step">
+            <img src="https://via.placeholder.com/600x400" alt="Review and Feedback Image">
+            <div class="step-content">
+                <h2><i class="fas fa-star"></i> Review and Feedback</h2>
+                <p>After the project is completed, both clients and freelancers can leave reviews and feedback. This helps build a trustworthy community and allows users to make informed decisions for future projects.</p>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
+
+{% endblock %}
