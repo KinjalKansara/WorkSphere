@@ -1,0 +1,234 @@
+{% extends "header_2.html" %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Project</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            animation: fadeIn 1s ease-in-out;
+            transition: all 0.3s ease;
+        }
+        .container:hover {
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 20px;
+            font-weight: 700;
+            font-size: 2.5em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+        .about-section {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #555;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .form-group {
+            position: relative;
+            width: 100%;
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 15px 50px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            background-color: #f8f8f8;
+        }
+        .form-group textarea {
+            resize: none;
+            height: 120px;
+        }
+        .form-group i {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: #007bff;
+            font-size: 18px;
+        }
+        .form-group select {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cHM6Ly93d3cuMy5ldS9zMyIgeG1sbnM6Y29sb3I9ImhlYWQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiI+PC9zdmc+');
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+            padding-right: 50px;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.4);
+            outline: none;
+            background-color: #fff;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        button {
+            padding: 15px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        button i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Post a Project</h1>
+        <div class="about-section">
+            <p>Describe your project, share your requirements, and connect with top-tier freelancers who have the expertise to bring your vision to life.</p>
+        </div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Title -->
+            <div class="form-group">
+                <i class="fas fa-heading"></i>
+                <input type="text" id="title" name="title" placeholder="Project Title" required>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group">
+                <i class="fas fa-align-left"></i>
+                <textarea id="description" name="description" placeholder="Project Description"></textarea>
+            </div>
+
+            <!-- Categories -->
+            <div class="form-group">
+                <i class="fas fa-list"></i>
+                <select id="categories" name="categories" required>
+                    <option value="" disabled selected>Choose a Category</option>
+                    <option value="ai_services">AI Services</option>
+                    <option value="technology_programming">Technology & Programming</option>
+                    <option value="writing_translation">Writing & Translation</option>
+                </select>
+            </div>
+
+            <!-- Budget -->
+            <div class="form-group">
+                <i class="fas fa-dollar-sign"></i>
+                <input type="number" id="budget" name="budget" placeholder="Budget (e.g., 500)" required>
+            </div>
+
+            <!-- Budget Type -->
+            <div class="form-group">
+                <i class="fas fa-coins"></i>
+                <select id="budget_type" name="budget_type" required>
+                    <option value="" disabled selected>Budget Type</option>
+                    <option value="fixed">Fixed</option>
+                    <option value="hourly">Hourly</option>
+                </select>
+            </div>
+
+            <!-- Skills -->
+            <div class="form-group">
+                <i class="fas fa-lightbulb"></i>
+                <input type="text" id="skills" name="skills" placeholder="Required Skills (e.g., Python, Django)" required>
+            </div>
+
+            <!-- Experience Level -->
+            <div class="form-group">
+                <i class="fas fa-user-tie"></i>
+                <select id="experience_level" name="experience_level" required>
+                    <option value="" disabled selected>Experience Level</option>
+                    <option value="entry">Entry Level</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="expert">Expert</option>
+                </select>
+            </div>
+
+            <!-- Image -->
+            <div class="form-group">
+                <i class="fas fa-image"></i>
+                <input type="file" id="image" name="image" accept="image/*">
+            </div>
+
+            <!-- Attachment -->
+            <div class="form-group">
+                <i class="fas fa-paperclip"></i>
+                <input type="file" id="attachment" name="attachment">
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-group">
+                <button type="submit">
+                    <i class="fas fa-paper-plane"></i> Post Project
+                </button>
+                <button type="reset">
+                    <i class="fas fa-plus"></i> Add New
+                </button>
+            </div>
+        </form>
+        <div class="about-section">
+            <p>If you need any assistance or have questions, feel free to <a href="/contact" style="color: #007bff; text-decoration: none;">contact us</a>.</p>
+        </div>
+        
+    </div>
+
+    
+    
+</body>
+</html>
+
+{% endblock %}

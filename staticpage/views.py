@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.core.mail import send_mail
 import re
-from .models import ClientContact
+from .models import *
 
 # Create your views here.
 

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Layout</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: #f4f4f4;
+    
+      
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #1565c0; 
+      padding: 15px 30px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 1000;
+    }
+    .logo img {
+      height: 50px;
+      transition: transform 0.3s ease;
+    }
+    .logo img:hover {
+      transform: scale(1.1);
+    }
+    .nav-links {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+    }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      position: relative;
+      padding: 5px 0;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background-color: #82b1ff;
+      left: 50%;
+      bottom: -5px;
+      transition: all 0.3s ease;
+    }
+    .nav-links a:hover::after {
+      width: 100%;
+      left: 0;
+    }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: space-around;
+      height: 24px;
+      width: 30px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .hamburger div {
+      width: 30px;
+      height: 3px;
+      background-color: #fff;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .hamburger:hover {
+      transform: rotate(90deg);
+    }
+    @media (max-width: 768px) {
+      .header {
+        background-color: #1565c0;
+        transition: background-color 0.3s ease;
+        color: white;
+      }
+      .nav-links {
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background-color: rgba(255, 255, 255, 0.9); /* Transparent white background */
+        flex-direction: column;
+        align-items: center;
+        display: none;
+        gap: 15px;
+        padding: 15px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+      .nav-links.active {
+        display: flex;
+      }
+      .nav-links a {
+        color: #000;
+      }
+      .hamburger {
+        display: flex;
+      }
+      .hamburger div {
+        background-color: #fff;
+      }
+    }
+    /* .main {
+      flex: 1;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin: 20px;
+      border-radius: 8px;
+      opacity: 0;
+      animation: fadeIn 1s ease-in-out 0.5s forwards;
+      margin-bottom:10px;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    } */
+
+    .footer {
+      background-color: #1565c0;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+      box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .footer p {
+      margin: 0;
+      font-size: 16px;
+    }
+    .footer a {
+      color: #82b1ff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .footer a:hover {
+      color: #fff;
+    }
+    /* Social Icons */
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .social-icons a {
+      color: white;
+      font-size: 20px;
+      transition: transform 0.3s ease-in-out;
+    }
+    .social-icons a:hover {
+      color: #82b1ff;
+      transform: scale(1.1);
+    }
+
+    /* loader */
+    .loader-wrapper {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+    .loader img {
+      width: 150px;
+      height: 150px;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+  <!-- Loader -->
+  <div class="loader-wrapper" id="loader-wrapper">
+    <div class="loader">
+      <img src="/media/address.png" alt="Loader Image">
+    </div>
+  </div>
+  <!-- header -->
+  <header class="header">
+    <div class="logo">
+      <img src="your-logo-url.png" alt="Logo">
+    </div>
+    <nav class="nav-links">
+      <a href="#post-project">Home</a>
+      <a href="#post-project">Post Project</a>
+      <a href="#list-projects">List of Projects</a>
+      <a href="#proposal-page">Proposal</a>
+      <a href="#freelancer-profile">Freelancer Profile</a>
+      <a href="#client-profile">Client Profile</a>
+      <a href="#client-profile">Contact</a>
+      <a href="#client-profile">logout</a>
+    </nav>
+    <div class="hamburger">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </header>
+  <!-- end header -->
+
+  <!-- main -->
+  <main class="main">
+    {% block content %}
+    <!-- Main content goes here -->
+    {% endblock %}
+  </main>
+  <!-- end main -->
+
+  <!-- footer -->
+  <footer class="footer">
+    <p>&copy; 2025 WorkSphere. All rights reserved.</p>
+    <p>Follow us on
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+      </div>
+    </p>
+  </footer>
+  <!-- end footer -->
+
+  <script>
+    document.querySelector('.hamburger').addEventListener('click', () => {
+      const nav = document.querySelector('.nav-links');
+      nav.classList.toggle('active');
+    });
+
+    // Loader Timeout
+    const loaderWrapper = document.getElementById('loader-wrapper');
+    const content = document.getElementById('content');
+
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        loaderWrapper.style.display = 'none';
+        content.style.display = 'block';
+      }, 2000); // Show content after 5 seconds
+    });
+
+  </script>
+</body>
+</html>

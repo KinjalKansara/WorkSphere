@@ -1,0 +1,156 @@
+{% extends 'header_2.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report an Issue</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    /* General Styling */
+    body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background-color: #f0f2f5;
+    color: #333;
+    }
+
+    /* Form Container */
+    .form-container {
+    width: 85%;
+    max-width: 800px;
+    background: #fff;
+    margin: 40px auto;
+    border-radius: 15px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 30px;
+    }
+
+    /* Form Header */
+    .form-header {
+    text-align: center;
+    margin-bottom: 20px;
+    }
+
+    .form-header h2 {
+    font-size: 28px;
+    color: #333;
+    font-weight: 600;
+    margin: 0;
+    }
+
+    /* Form Fields */
+    .form-group {
+    margin-bottom: 20px;
+    }
+
+    .form-group label {
+    display: block;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+    }
+
+    .form-group textarea{
+        font-size: 16px;        /* Adjust as needed */
+        line-height: 1.5;       /* Adjust as needed */
+        height: calc(16px * 1.5 * 6); /* Height = font-size * line-height * rows */
+        resize: none;           /* Optional: Disable resizing */
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+    width: 100%;
+    padding: 8px 2px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+    }
+    
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+    background-color: #fff;
+    border-color: #1565c0;
+    }
+
+    .form-group textarea {
+    resize: vertical;
+    }
+
+    /* Submit Button */
+    .submit-button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #1565c0;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .submit-button:hover {
+    background-color: #104a8e;
+    transform: scale(1.05);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+    .form-container {
+        width: 95%;
+        padding: 20px;
+    }
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <div class="form-header">
+      <h2>Report an Issue</h2>
+    </div>
+    <form action="/submit-issue" method="POST">
+      <div class="form-group">
+        <label for="issue_title">Issue Title</label>
+        <input type="text" id="issue_title" name="issue_title" required>
+      </div>
+      <div class="form-group">
+        <label for="issue_description">Issue Description</label>
+        <textarea id="issue_description" name="issue_description" rows="5" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="issue_type">Issue Type</label>
+        <select id="issue_type" name="issue_type" required>
+          <option value="" disabled selected>Select Issue Type</option>
+          <option value="bug">Bug</option>
+          <option value="feature_request">Feature Request</option>
+          <option value="general_feedback">General Feedback</option>
+          <!-- Add more issue types as needed -->
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="priority">Priority</label>
+        <select id="priority" name="priority" required>
+          <option value="" disabled selected>Select Priority</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+      </div>
+      <button type="submit" class="submit-button">Submit Issue</button>
+    </form>
+  </div>
+</body>
+</html>
+
+{% endblock %}
