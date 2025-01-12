@@ -1,0 +1,463 @@
+{% extends 'freelancer_header.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Details</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    /* General Styling */
+    body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background-color: #f0f2f5;
+    color: #333;
+    }
+
+    /* Project Container */
+    .project-container {
+    width: 85%;
+    max-width: 1000px;
+    background: #fff;
+    margin: 40px auto;
+    border-radius: 15px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 30px;
+    }
+
+    /* Header Section */
+    .project-header {
+    text-align: center;
+    border-bottom: 2px solid #ececec;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    }
+
+    .project-header h2 {
+    font-size: 28px;
+    color: #333;
+    font-weight: 600;
+    margin: 0;
+    }
+
+    .project-header p {
+    font-size: 16px;
+    color: #666;
+    margin: 10px 0 0;
+    }
+
+    /* Project Image and Client Bio */
+    .project-image-bio {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+    }
+
+    .project-image {
+    flex: 1;
+    width: 100%;
+    height: 300px;
+    border-radius: 15px;
+    object-fit: cover;
+    }
+
+    .client-bio {
+    flex: 1;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .client-bio h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #1565c0;
+    }
+
+    .client-bio p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+    }
+
+    .read-more {
+    color: #1565c0;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 14px;
+    }
+
+    /* Description Section */
+    .description-section {
+    margin-bottom: 20px;
+    }
+
+    .description-section h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #1565c0;
+    }
+
+    .description-section p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+    }
+
+    /* Project Details */
+    .project-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+    }
+
+    .detail-card {
+    flex: 1;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .detail-card i {
+    font-size: 36px;
+    color: #1565c0;
+    margin-bottom: 10px;
+    }
+
+    .detail-card h4 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 5px;
+    }
+
+    .detail-card p {
+    font-size: 16px;
+    color: #555;
+    }
+
+    /* Skills Section */
+    .skills-section {
+    margin-bottom: 20px;
+    }
+
+    .skills-section h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #1565c0;
+    }
+
+    .skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    }
+
+    .skill-item {
+    background: #f9f9f9;
+    color: #333;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .skill-item:hover {
+    transform: scale(1.05);
+    }
+
+    /* Attachments Section */
+    .attachments-section {
+    margin-bottom: 20px;
+    }
+
+    .attachments-section h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #1565c0;
+    }
+
+    .attachments-section ul {
+    list-style: none;
+    padding: 0;
+    }
+
+    .attachments-section li {
+    background: #f9f9f9;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    }
+
+    .attachments-section li i {
+    color: #1565c0;
+    margin-right: 10px;
+    }
+
+    .attachment-info {
+    display: flex;
+    align-items: center;
+    }
+
+    .attachment-actions {
+    display: flex;
+    gap: 10px;
+    }
+
+    .attachment-actions a {
+    color: #1565c0;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    cursor: pointer;
+    padding: 5px 10px;
+    border: 1px solid #1565c0;
+    border-radius: 5px;
+    }
+
+    .attachment-actions a:hover {
+    background-color: #1565c0;
+    color: white;
+    }
+
+    /* Apply Button */
+    .apply-button {
+    display: block;
+    margin: 30px auto 0;
+    background: #1565c0;
+    color: white;
+    text-align: center;
+    padding: 10px 20px;
+    width: 20%;
+    font-size: 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    
+    }
+
+    .apply-button i {
+    margin-right: 8px;
+    }
+
+    .apply-button:hover {
+    background: #104a8e;
+    
+    }
+
+    /* Popup Modal */
+    .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 1000px;
+    height: 80%;
+    max-height: 800px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+    }
+
+    .attachment-frame {
+    width: 100%;
+    height: 100%;
+    border: none;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+    .project-container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .project-image-bio {
+        flex-direction: column;
+    }
+
+    .project-details {
+        flex-direction: column;
+    }
+    }
+  </style>
+</head>
+<body>
+  <div class="project-container">
+    <div class="project-header">
+      <h2>Project Title</h2>
+      <p>Posted by Client Name on Jan 20, 2025</p>
+    </div>
+
+    <div class="project-image-bio">
+      <img src="https://via.placeholder.com/600x300" alt="Project Image" class="project-image">
+      <div class="client-bio">
+        <h3>Client Bio</h3>
+        <p>
+          The client is a reputable company with a history of successful projects. They value quality work and timely delivery. They are looking for a skilled freelancer to bring their vision to life.
+        </p>
+        <span class="read-more" onclick="openModal()">Read More</span>
+      </div>
+    </div>
+
+    <div class="description-section">
+      <h3>Project Description</h3>
+      <p></p>
+        This is a detailed description of the project. It includes all the necessary information about the project requirements, objectives, and deliverables. The client expects high-quality work and timely delivery.
+      </p>
+    </div>
+
+    <div class="project-details">
+      <div class="detail-card">
+        <i class="fas fa-dollar-sign"></i>
+        <h4>Budget</h4>
+        <p>$500 - $1000</p>
+      </div>
+      <div class="detail-card">
+        <i class="fas fa-coins"></i>
+        <h4>Budget Type</h4>
+        <p>Fixed</p>
+      </div>
+      <div class="detail-card">
+        <i class="fas fa-clock"></i>
+        <h4>Deadline</h4>
+        <p>Feb 20, 2025</p>
+      </div>
+      <div class="detail-card">
+        <i class="fas fa-map-marker-alt"></i>
+        <h4>Location</h4>
+        <p>Remote</p>
+      </div>
+      <div class="detail-card">
+        <i class="fas fa-briefcase"></i>
+        <h4>Experience Level</h4>
+        <p>Intermediate</p>
+      </div>
+    </div>
+
+    <div class="skills-section">
+      <h3>Required Skills</h3>
+      <div class="skills-list">
+        <div class="skill-item">Web Development</div>
+        <div class="skill-item">Graphic Design</div>
+        <div class="skill-item">SEO Optimization</div>
+        <div class="skill-item">JavaScript</div>
+        <div class="skill-item">Python</div>
+      </div>
+    </div>
+
+    <div class="attachments-section">
+      <h3>Attachments</h3>
+      <ul>
+        <li>
+          <div class="attachment-info">
+            <i class="fas fa-file-pdf"></i>
+            <span>Project_Specifications.pdf</span>
+          </div>
+          <div class="attachment-actions">
+            <a onclick="showAttachment('/media/attachment1.pdf')">View</a>
+            <a href="/media/attachment1.pdf" download>Download</a>
+          </div>
+        </li>
+        <li>
+          <div class="attachment-info">
+            <i class="fas fa-file-word"></i>
+            <span>Requirements_Document.docx</span>
+          </div>
+          <div class="attachment-actions">
+            <a onclick="showAttachment('/media/attachment2.docx')">View</a>
+            <a href="/media/attachment2.docx" download>Download</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <a href="/apply-for-project" class="apply-button"><i class="fas fa-paper-plane"></i>Apply for this Project</a>
+  </div>
+
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h3>Client Bio</h3>
+      <p>
+        The client is a reputable company with a history of successful projects. They value quality work and timely delivery. They are looking for a skilled freelancer to bring their vision to life. The client has worked on numerous projects in various industries and has a strong track record of delivering high-quality results. They are committed to clear communication and collaboration throughout the project to ensure that the final deliverables meet their expectations.
+      </p>
+    </div>
+  </div>
+
+  <!-- Attachment Modal -->
+  <div id="attachmentModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeAttachmentModal()">&times;</span>
+      <iframe id="attachmentFrame" class="attachment-frame"></iframe>
+    </div>
+  </div>
+
+  <script>
+    function openModal() {
+      document.getElementById("myModal").style.display = "block";
+    }
+
+    function closeModal() {
+      document.getElementById("myModal").style.display = "none";
+    }
+
+    function showAttachment(url) {
+      document.getElementById("attachmentFrame").src = url;
+      document.getElementById("attachmentModal").style.display = "block";
+    }
+
+    function closeAttachmentModal() {
+      document.getElementById("attachmentModal").style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      if (event.target == document.getElementById("myModal")) {
+        closeModal();
+      }
+      if (event.target == document.getElementById("attachmentModal")) {
+        closeAttachmentModal();
+      }
+    }
+  </script>
+</body>
+</html>
+
+{% endblock %}

@@ -1,0 +1,330 @@
+{% extends "freelancer_header.html" %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact WorksPhare</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .background {
+      background: url('/media/contact.gif') no-repeat center center;
+      background-size: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 200%;
+      z-index: -1;
+    }
+
+    .contact-container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 40px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-container h2 {
+      color: #1565c0;
+      margin-bottom: 10px;
+      text-align: center;
+      font-size: 2rem;
+      margin-top: -20px;
+      font-family: 'Georgia', serif;
+    }
+
+    .contact-container h2 span {
+      color: #1e88e5;
+      font-weight: bold;
+    }
+
+    .contact-container p {
+      margin-top: 5px;
+      text-align: center;
+      font-size: 1rem;
+      color: #666;
+      font-weight: bold;
+      font-family: 'Verdana', Geneva, Tahoma, sans-serif;
+    }
+
+    .form-group {
+      position: relative;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group textarea{
+        font-size: 16px;        /* Adjust as needed */
+        line-height: 1.5;       /* Adjust as needed */
+        height: calc(16px * 1.5 * 6); /* Height = font-size * line-height * rows */
+        resize: none;           /* Optional: Disable resizing */
+      }
+
+    .form-group input,
+    .form-group textarea {
+      width: calc(100% - 50px);
+      padding: 12px 12px 12px 40px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-sizing: border-box;
+      background: rgba(255, 255, 255, 0.8);
+      font-family: 'Verdana', Geneva, Tahoma, sans-serif;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: #1565c0;
+      outline: none;
+    }
+
+    .form-group i {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #1565c0;
+      font-size: 18px;
+      pointer-events: none;
+    }
+
+    .error-message {
+      color: #d32f2f;
+      font-size: 14px;
+      margin-top: 5px;
+      display: block;
+    }
+
+    .form-group.error i {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .submit-button {
+      display: inline-block;
+      padding: 12px 20px;
+      border-radius: 5px;
+      background-color: #1565c0;
+      color: white;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      border: none;
+      font-size: 16px;
+      width: 100%;
+      font-family: 'Georgia', serif;
+    }
+
+    .submit-button:hover {
+      background-color: #1e88e5;
+    }
+
+    .submit-button i {
+      margin-right: 8px;
+    }
+
+    /* Contact Info Section */
+    .info-container {
+      display: flex;
+      justify-content: space-around;
+      align-items: stretch;
+      margin: 30px auto;
+      width: 80%;
+    }
+
+    .info-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      width: 100%;
+      max-width: 250px;
+      min-height: 2px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      margin-top: 0;
+      box-sizing: border-box;
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .info-box:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .info-box img {
+      width: 100px;
+      height: 100px;
+    }
+
+    .info-box h3 {
+      font-size: 20px;
+      color: #333;
+      font-family: 'Georgia', serif;
+      margin: 0;
+    }
+
+    .info-box p {
+      font-size: 14px;
+      color: #666;
+      margin-top: 10px;
+      font-family: 'Verdana', Geneva, Tahoma, sans-serif;
+    }
+
+    @media (max-width: 768px) {
+    .contact-container {
+      margin: 20px;
+      padding: 20px;
+    }
+
+    .background {
+    height: auto; /* Let the image scale naturally on smaller screens */
+    background-position: center;
+    background-size: cover; /* Keep the image scaled properly */
+  }
+
+
+    form .form-group input,
+    form .form-group textarea {
+      width: calc(100% - 40px); /* Full width for mobile */
+      font-size: 14px;
+    }
+
+    .info-container {
+      display: flex;
+      flex-wrap: wrap; /* Allow wrapping */
+      justify-content: center;
+      gap: 15px; /* Spacing between items */
+      margin: 20px auto;
+      padding: 10px;
+      overflow-x: auto;
+    }
+
+    .info-box {
+      flex: 0 0 calc(50% - 10px); /* Two boxes per row */
+      max-width: calc(50% - 10px);
+      padding: 15px;
+      margin: 10px auto; /* Center items */
+    }
+
+    .info-box img {
+      width: 60px;
+      height: 60px;
+    }
+
+    .info-box h3 {
+      font-size: 16px;
+    }
+
+    .info-box p {
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .background {
+    height: auto; /* Let the image scale naturally on smaller screens */
+    background-position: center;
+    background-size: cover; /* Keep the image scaled properly */
+  }
+    form .form-group input,
+    form .form-group textarea {
+      width: calc(100% - 30px); /* Further reduce padding for small screens */
+      font-size: 14px;
+    }
+
+    .info-box {
+      flex: 0 0 100%; /* One box per row for narrow screens */
+      max-width: 100%;
+    }
+
+    .info-box img {
+      width: 50px;
+      height: 50px;
+    }
+
+    .info-box h3 {
+      font-size: 14px;
+    }
+
+    .info-box p {
+      font-size: 12px;
+    }
+  }
+  </style>
+  
+</head>
+<body>
+  <div class="background"></div>
+  <div class="contact-container">
+    <h2>Contact <span>WorksPhere</span></h2>
+    <p>Your feedback and inquiries help us improve. Reach out, and we'll get back to you as soon as possible!</p>
+    <form method="POST">
+      {% csrf_token %}
+      <div class="form-group {% if errors.firstname %}error{% endif %}">
+        <i class="fas fa-user"></i>
+        <input type="text" id="firstname" name="firstname" placeholder="First Name">
+        {% if errors.firstname %}
+          <span class="error-message">{{ errors.firstname }}</span>
+        {% endif %}
+      </div>
+      <div class="form-group {% if errors.lastname %}error{% endif %}">
+        <i class="fas fa-user"></i>
+        <input type="text" id="lastname" name="lastname" placeholder="Last Name">
+        {% if errors.lastname %}
+          <span class="error-message">{{ errors.lastname }}</span>
+        {% endif %}
+      </div>
+      <div class="form-group {% if errors.email %}error{% endif %}">
+        <i class="fas fa-envelope"></i>
+        <input type="text" id="email" name="email" placeholder="Email">
+        {% if errors.email %}
+          <span class="error-message">{{ errors.email }}</span>
+        {% endif %}
+      </div>
+      <div class="form-group {% if errors.phonenumber %}error{% endif %}">
+        <i class="fas fa-phone"></i>
+        <input type="tel" id="phonenumber" name="phonenumber" placeholder="Phone Number">
+        {% if errors.phonenumber %}
+          <span class="error-message">{{ errors.phonenumber }}</span>
+        {% endif %}
+      </div>
+      <div class="form-group {% if errors.subject %}error{% endif %}">
+        <i class="fas fa-comment"></i>
+        <input type="text" id="subject" name="subject" placeholder="Subject">
+        {% if errors.subject %}
+          <span class="error-message">{{ errors.subject }}</span>
+        {% endif %}
+      </div>
+      <div class="form-group {% if errors.message %}error{% endif %}">
+        <i class="fas fa-comment"></i>
+        <textarea id="message" name="message" placeholder="Your Message"></textarea>
+        {% if errors.message %}
+          <span class="error-message">{{ errors.message }}</span>
+        {% endif %}
+      </div>
+      <button type="submit" class="submit-button"><i class="fas fa-paper-plane"></i> Submit</button>
+    </form>
+  </div>
+   
+</body>
+</html>
+
+{% endblock %}

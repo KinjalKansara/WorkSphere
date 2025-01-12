@@ -1,0 +1,261 @@
+{% extends 'freelancer_header.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Proposals</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+/* General Styling */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background-color: #f0f2f5;
+  color: #333;
+}
+
+/* Proposals Container */
+.proposals-container {
+  width: 85%;
+  max-width: 1000px;
+  background: #fff;
+  margin: 40px auto;
+  border-radius: 15px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 30px;
+}
+
+/* Header Section */
+.proposals-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #ececec;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.proposals-header h2 {
+  font-size: 28px;
+  color: #333;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Proposal List */
+.proposal-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.proposal-card {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 15px;
+  width: calc(33.333% - 20px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.proposal-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.proposal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.proposal-header h3 {
+  font-size: 22px;
+  color: #333;
+  margin: 0;
+}
+
+.proposal-header span {
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+  font-size: 12px;
+}
+
+.proposal-header .status-open {
+  background-color: #4caf50;
+}
+
+.proposal-header .status-closed {
+  background-color: #f44336;
+}
+
+.proposal-body {
+  margin-bottom: 10px;
+}
+
+.proposal-body p {
+  font-size: 16px;
+  color: #555;
+  margin: 0;
+}
+
+.proposal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #666;
+}
+
+.proposal-footer span {
+  display: flex;
+  align-items: center;
+}
+
+.proposal-footer i {
+  margin-right: 5px;
+  color: #1565c0;
+}
+
+.view-details {
+  display: block;
+  margin: 10px auto 0;
+  padding: 12px 24px;
+  background-color: #1565c0;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  text-align: center;
+}
+
+.view-details:hover {
+  background-color: #104a8e;
+  transform: scale(1.05);
+}
+
+/* Responsive Design */
+
+/* Responsive Design for Mobile */
+@media (max-width: 768px) {
+  .proposals-container {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .proposals-header h2 {
+    font-size: 24px;
+  }
+
+  .proposal-card {
+    padding: 15px;
+    width: 100%;
+  }
+
+  .proposal-header h3 {
+    font-size: 20px;
+  }
+
+  .proposal-body p {
+    font-size: 14px;
+  }
+
+  .proposal-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .view-details {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+/* Responsive Design for Small Mobile Devices */
+@media (max-width: 480px) {
+  .proposals-container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .proposals-header h2 {
+    font-size: 20px;
+  }
+
+  .proposal-card {
+    padding: 10px;
+  }
+
+  .proposal-header h3 {
+    font-size: 18px;
+  }
+
+  .proposal-body p {
+    font-size: 12px;
+  }
+
+  .proposal-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 12px;
+  }
+
+  .view-details {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+}
+  </style>
+</head>
+<body>
+  <div class="proposals-container">
+    <div class="proposals-header">
+      <h2>My Proposals</h2>
+    </div>
+    <ul class="proposal-list">
+      <li class="proposal-card">
+        <div class="proposal-header">
+          <h3>Project Title</h3>
+          <span class="status-open">Open</span>
+        </div>
+        <div class="proposal-body">
+          <p>Proposal description goes here. This is a brief overview of your proposal for the project.</p>
+        </div>
+        <div class="proposal-footer">
+          <span><i class="fas fa-calendar-alt"></i> Submitted on: Jan 20, 2025</span>
+        </div>
+        <button class="view-details" onclick="window.location.href='/proposal-details/1'">View Details</button>
+      </li>
+      <li class="proposal-card">
+        <div class="proposal-header">
+          <h3>Project Title</h3>
+          <span class="status-closed">Closed</span>
+        </div>
+        <div class="proposal-body">
+          <p>Proposal description goes here. This is a brief overview of your proposal for the project.</p>
+        </div>
+        <div class="proposal-footer">
+          <span><i class="fas fa-calendar-alt"></i> Submitted on: Dec 15, 2024</span>
+        </div>
+        <button class="view-details" onclick="window.location.href='/proposal-details/2'">View Details</button>
+      </li>
+      <!-- Add more proposal items as needed -->
+    </ul>
+  </div>
+</body>
+</html>
+
+{% endblock %}

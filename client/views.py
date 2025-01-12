@@ -27,7 +27,7 @@ def client_register_login(request):
             username = request.POST.get('username')
             password = request.POST.get('password')
 
-            user = Client.objects.get(username=username, password=password)
+            user = ClientRegisterLogin.objects.get(username=username, password=password)
             if user:
                 request.session['loggedin_user'] = username
                 return redirect('client_dashboard')
@@ -48,7 +48,7 @@ def client_register_login(request):
     
             if not username:
                 errors['username'] = 'Username is required.'
-            elif Client.objects.filter(username=username).exists():
+            elif ClientRegisterLogin.objects.filter(username=username).exists():
                 errors['username'] = 'Username already exists.'
     
             email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
@@ -56,7 +56,7 @@ def client_register_login(request):
                 errors['email'] = 'Email is required.'
             elif not re.match(email_regex, email):
                 errors['email'] = 'Enter a valid email address.'
-            elif Client.objects.filter(email=email).exists():
+            elif ClientRegisterLogin.objects.filter(email=email).exists():
                 errors['email'] = 'Email already exists.'
     
             if not password:
@@ -79,7 +79,7 @@ def client_register_login(request):
             if errors:
                 return render(request, 'auth/client_register_login.html', {'errors': errors})
     
-            register = Client(
+            register = ClientRegisterLogin(
                 profile_photo=profile,
                 first_name=firstname,
                 last_name=lastname,
@@ -100,23 +100,10 @@ def client_register_login(request):
 
     return render(request, 'auth/client_register_login.html')
 
-def client_login_display(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = Client.objects.get(username=username, password=password)
-        if user:
-            request.session['loggedin_user'] = username
-            return redirect('client_dashoard')
-        else:
-            return redirect('client_register_login')
-        
-    return render(request, 'client_dashboard.html')
-
 def client_forgot_password(request):
     if request.method == 'POST':
         user_email = request.POST.get('email')
-        user = Client.objects.get(email=user_email)
+        user = ClientRegisterLogin.objects.get(email=user_email)
 
         if user:
             otp = random.randint(100000,999999)
@@ -149,7 +136,7 @@ def client_reset_password(request):
 
         if password == confirm_password:
             user_email = request.session.get('email')
-            user = Client.objects.get(email=user_email)
+            user = ClientRegisterLogin.objects.get(email=user_email)
             user.password = password
             user.save()
             request.session.flush()
@@ -256,11 +243,11 @@ def client_list_of_project(request):
 def client_profile(request):
     return render(request, 'client_profile.html')
 
+def client_edit_profile(request):
+    return render(request, 'client_edit_profile.html')
+
 def client_received_proposal(request):
     return render(request, 'client_received_proposal.html')
-
-def client_report_issue(request):
-    return render(request, 'client_report_issue.html')
 
 def header_1(request):
     return render(request, 'header_1.html')

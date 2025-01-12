@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Client(models.Model):
+class ClientRegisterLogin(models.Model):
     profile_photo = models.ImageField(upload_to='profile_photos/')
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)

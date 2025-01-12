@@ -1,0 +1,298 @@
+{% extends 'freelancer_header.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Projects</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+/* General Styling */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background-color: #f0f2f5;
+  color: #333;
+}
+
+/* Projects Container */
+.projects-container {
+  width: 85%;
+  max-width: 1000px;
+  background: #fff;
+  margin: 40px auto;
+  border-radius: 15px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 30px;
+}
+
+/* Header Section */
+.projects-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #ececec;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.projects-header h2 {
+  font-size: 28px;
+  color: #333;
+  font-weight: 600;
+  margin: 0;
+}
+
+.projects-header .add-project-button {
+  padding: 10px 20px;
+  background-color: #1565c0;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.projects-header .add-project-button:hover {
+  background-color: #104a8e;
+  transform: scale(1.05);
+}
+
+/* Project List */
+.project-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.project-card {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 15px;
+  width: calc(33.333% - 20px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.project-card img {
+  width: 100%;
+  height: 150px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.project-header h3 {
+  font-size: 22px;
+  color: #333;
+  margin: 0;
+}
+
+.project-header span {
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+  font-size: 12px;
+}
+
+.project-header .status-open {
+  background-color: #4caf50;
+}
+
+.project-header .status-closed {
+  background-color: #f44336;
+}
+
+.project-body {
+  margin-bottom: 10px;
+}
+
+.project-body p {
+  font-size: 16px;
+  color: #555;
+  margin: 0;
+}
+
+.project-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #666;
+}
+
+.project-footer span {
+  display: flex;
+  align-items: center;
+}
+
+.project-footer i {
+  margin-right: 5px;
+  color: #1565c0;
+}
+
+.view-details {
+  display: block;
+  margin: 10px auto 0;
+  padding: 12px 24px;
+  background-color: #1565c0;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  text-align: center;
+}
+
+.view-details:hover {
+  background-color: #104a8e;
+  transform: scale(1.05);
+}
+
+/* Responsive Design */
+
+/* Responsive Design for Mobile */
+@media (max-width: 768px) {
+  .projects-container {
+    width: 90%;
+    /* max-width: 800px; */
+    padding: 15px;
+  }
+
+  .projects-header h2 {
+    font-size: 24px;
+  }
+
+  .projects-header .add-project-button {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  .project-card {
+    padding: 15px;
+    width: 100%;
+  }
+
+  .project-header h3 {
+    font-size: 20px;
+  }
+
+  .project-body p {
+    font-size: 14px;
+  }
+
+  .project-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .view-details {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+/* Responsive Design for Small Mobile Devices */
+@media (max-width: 480px) {
+  .projects-container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .projects-header h2 {
+    font-size: 20px;
+  }
+
+  .projects-header .add-project-button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .project-card {
+    padding: 10px;
+  }
+
+  .project-header h3 {
+    font-size: 18px;
+  }
+
+  .project-body p {
+    font-size: 12px;
+  }
+
+  .project-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 12px;
+  }
+
+  .view-details {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+}
+  </style>
+</head>
+<body>
+  <div class="projects-container">
+    <div class="projects-header">
+      <h2>Client Projects</h2>
+    </div>
+    <ul class="project-list">
+      <li class="project-card">
+        <img src="/media/project1.jpg" alt="Project Image">
+        <div class="project-header">
+          <h3>Website Redesign</h3>
+          <span class="status-open">Open</span>
+        </div>
+        <div class="project-body">
+          <p>A project focused on redesigning a corporate website to enhance user experience and modernize the look.</p>
+        </div>
+        <div class="project-footer">
+          <span><i class="fas fa-calendar-alt"></i> Deadline: Jan 20, 2025</span>
+        </div>
+        <button class="view-details" onclick="window.location.href='/project-details/1'">View Details</button>
+      </li>
+      <li class="project-card">
+        <img src="/media/project2.jpg" alt="Project Image">
+        <div class="project-header">
+          <h3>Mobile App Development</h3>
+          <span class="status-closed">Closed</span>
+        </div>
+        <div class="project-body">
+          <p>Developing a mobile application for e-commerce with a focus on user-friendly design and seamless functionality.</p>
+        </div>
+        <div class="project-footer">
+          <span><i class="fas fa-calendar-alt"></i> Deadline: Dec 15, 2024</span>
+        </div>
+        <button class="view-details" onclick="window.location.href='/project-details/2'">View Details</button>
+      </li>
+      <!-- Add more project items as needed -->
+    </ul>
+  </div>
+</body>
+</html>
+
+{% endblock %}
