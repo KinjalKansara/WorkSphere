@@ -1,0 +1,228 @@
+{% extends 'header_2.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rate a Freelancer</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    /* General Styling */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background-color: #f0f2f5;
+      color: #333;
+    }
+
+    /* Rating Container */
+    .rating-container {
+      width: 85%;
+      max-width: 600px;
+      background: #fff;
+      margin: 40px auto;
+      border-radius: 15px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      padding: 30px;
+    }
+
+    /* Header Section */
+    .rating-header {
+      text-align: center;
+      border-bottom: 2px solid #ececec;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
+
+    .rating-header h2 {
+      font-size: 28px;
+      color: #333;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .rating-header p {
+      font-size: 16px;
+      color: #666;
+      margin: 10px 0 0;
+    }
+
+    /* Rating Form */
+    .rating-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .form-group label {
+      font-size: 16px;
+      color: #333;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      outline: none;
+      background-color: #f8f8f8;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: #1565c0;
+    }
+
+    .form-group textarea {
+      resize: none;
+      height: 120px;
+    }
+
+    /* Star Rating */
+    .star-rating {
+      display: flex;
+      gap: 10px;
+      font-size: 24px;
+      color: #ccc;
+      cursor: pointer;
+    }
+
+    .star-rating .fas {
+      transition: color 0.3s ease;
+    }
+
+    .star-rating .fas:hover,
+    .star-rating .fas:hover ~ .fas,
+    .star-rating .fas.selected {
+      color: #ffa500;
+    }
+
+    /* Submit Button */
+    .submit-button {
+      padding: 12px 20px;
+      background-color: #1565c0;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      text-align: center;
+    }
+
+    .submit-button:hover {
+      background-color: #104a8e;
+      transform: scale(1.05);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .rating-container {
+        width: 90%;
+        padding: 20px;
+      }
+
+      .rating-header h2 {
+        font-size: 24px;
+      }
+
+      .form-group label {
+        font-size: 14px;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        font-size: 14px;
+      }
+
+      .submit-button {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .rating-container {
+        width: 100%;
+        padding: 15px;
+      }
+
+      .rating-header h2 {
+        font-size: 20px;
+      }
+
+      .form-group label {
+        font-size: 12px;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        font-size: 12px;
+      }
+
+      .submit-button {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="rating-container">
+    <div class="rating-header">
+      <h2>Rate a Freelancer</h2>
+      <p>Share your feedback and rate the freelancer's performance.</p>
+    </div>
+    <form class="rating-form">
+      <div class="form-group">
+        <label for="freelancer-name">Freelancer Name</label>
+        <input type="text" id="freelancer-name" name="freelancer-name" placeholder="Enter freelancer's name" required>
+      </div>
+      <div class="form-group">
+        <label for="rating">Rating</label>
+        <div class="star-rating" id="star-rating">
+          <i class="fas fa-star" data-value="1"></i>
+          <i class="fas fa-star" data-value="2"></i>
+          <i class="fas fa-star" data-value="3"></i>
+          <i class="fas fa-star" data-value="4"></i>
+          <i class="fas fa-star" data-value="5"></i>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="comments">Comments</label>
+        <textarea id="comments" name="comments" placeholder="Write your comments here..." required></textarea>
+      </div>
+      <button type="submit" class="submit-button">Submit Rating</button>
+    </form>
+  </div>
+
+  <script>
+    // Star rating functionality
+    const stars = document.querySelectorAll('.star-rating .fas');
+    stars.forEach(star => {
+      star.addEventListener('click', () => {
+        stars.forEach(s => s.classList.remove('selected'));
+        star.classList.add('selected');
+        let previousSibling = star.previousElementSibling;
+        while (previousSibling) {
+          previousSibling.classList.add('selected');
+          previousSibling = previousSibling.previousElementSibling;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+
+{% endblock %}

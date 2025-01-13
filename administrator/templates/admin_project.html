@@ -1,0 +1,423 @@
+{% extends 'admin_header_2.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Information</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    /* General Styling */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background-color: #f0f2f5;
+      color: #333;
+    }
+
+    /* Project Container */
+    .project-container {
+      width: 85%;
+      max-width: 1000px;
+      background: #fff;
+      margin: 40px auto;
+      border-radius: 15px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      padding: 30px;
+    }
+
+    /* Header Section */
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #ececec;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
+
+    .project-header h2 {
+      font-size: 28px;
+      color: #333;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .back-button {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #1565c0;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .back-button i {
+      margin-right: 10px;
+    }
+
+    .back-button:hover {
+      background-color: #104a8e;
+      transform: scale(1.05);
+    }
+
+    /* Project Table */
+    .project-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .project-table th, .project-table td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .project-table th {
+      background-color: #f4f4f4;
+      font-weight: 600;
+    }
+
+    .project-table tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .view-button, .delete-button {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .view-button {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .view-button:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    .delete-button {
+      background-color: #f44336;
+      color: white;
+    }
+
+    .delete-button:hover {
+      background-color: #d32f2f;
+      transform: scale(1.05);
+    }
+
+    /* Popup Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: 5% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 80%;
+      max-width: 700px;
+      text-align: left;
+      animation: slideIn 0.5s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal-content .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .modal-content .close:hover,
+    .modal-content .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .modal-description {
+      font-size: 1.1em;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .modal-description img {
+      border-radius: 50%;
+      margin-bottom: 20px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .modal-description .row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .modal-description .row p {
+      flex: 1;
+      margin: 0 10px;
+    }
+
+    .modal-description .row p strong {
+      color: #333;
+    }
+
+    .modal-description .full-width {
+      margin-bottom: 10px;
+    }
+
+    .modal-description .full-width p {
+      margin: 0;
+    }
+
+    .modal-description .full-width p strong {
+      color: #333;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .project-container {
+        width: 90%;
+        padding: 15px;
+      }
+
+      .project-header h2 {
+        font-size: 24px;
+      }
+
+      .project-table th, .project-table td {
+        padding: 10px;
+        font-size: 14px;
+      }
+
+      .view-button, .delete-button {
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+
+      .modal-content {
+        width: 90%;
+      }
+
+      .modal-description .row {
+        flex-direction: column;
+      }
+
+      .modal-description .row p {
+        margin: 5px 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .project-container {
+        width: 100%;
+        padding: 10px;
+      }
+
+      .project-header h2 {
+        font-size: 20px;
+      }
+
+      .project-table th, .project-table td {
+        padding: 8px;
+        font-size: 12px;
+      }
+
+      .view-button, .delete-button {
+        padding: 4px 8px;
+        font-size: 10px;
+      }
+
+      .modal-content {
+        width: 95%;
+      }
+
+      .modal-description .row {
+        flex-direction: column;
+      }
+
+      .modal-description .row p {
+        margin: 5px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="project-container">
+    <div class="project-header">
+      <h2>Project Information</h2>
+      <a href="{% url 'admin_dashboard' %}" class="back-button"><i class="fas fa-arrow-left"></i>Back</a>
+    </div>
+    <table class="project-table">
+      <thead>
+        <tr>
+          <th>Project ID</th>
+          <th>Client Name</th>
+          <th>Project Title</th>
+          <th>Budget</th>
+          <th>Deadline</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>12345</td>
+          <td>John Doe</td>
+          <td>Website Redesign</td>
+          <td>$5000</td>
+          <td>Jan 20, 2025</td>
+          <td>Open</td>
+          <td>
+            <div class="action-buttons">
+              <button class="view-button" onclick="viewProject(1)">View</button>
+              <button class="delete-button" onclick="deleteProject(1)">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>67890</td>
+          <td>Michael Brown</td>
+          <td>Mobile App Development</td>
+          <td>$3000</td>
+          <td>Dec 15, 2024</td>
+          <td>Closed</td>
+          <td>
+            <div class="action-buttons">
+              <button class="view-button" onclick="viewProject(2)">View</button>
+              <button class="delete-button" onclick="deleteProject(2)">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <!-- Add more dummy project items as needed -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Popup Modal -->
+  <div id="projectModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <div class="modal-description" id="projectDetails">
+        <!-- Project details will be displayed here -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function viewProject(projectId) {
+      // Dummy data for project details
+      const projectDetails = {
+        1: {
+          project_id: "12345",
+          client_name: "John Doe",
+          project_title: "Website Redesign",
+          budget: "$5000",
+          deadline: "Jan 20, 2025",
+          status: "Open",
+          description: "A project focused on redesigning a corporate website to enhance user experience and modernize the look."
+        },
+        2: {
+          project_id: "67890",
+          client_name: "Michael Brown",
+          project_title: "Mobile App Development",
+          budget: "$3000",
+          deadline: "Dec 15, 2024",
+          status: "Closed",
+          description: "Developing a mobile application for e-commerce with a focus on user-friendly design and seamless functionality."
+        }
+      };
+
+      const project = projectDetails[projectId];
+      const projectDetailsDiv = document.getElementById("projectDetails");
+      projectDetailsDiv.innerHTML = `
+        <div class="row">
+          <p><strong>Project ID:</strong> ${project.project_id}</p>
+          <p><strong>Client Name:</strong> ${project.client_name}</p>
+        </div>
+        <div class="row">
+          <p><strong>Project Title:</strong> ${project.project_title}</p>
+          <p><strong>Budget:</strong> ${project.budget}</p>
+        </div>
+        <div class="row">
+          <p><strong>Deadline:</strong> ${project.deadline}</p>
+          <p><strong>Status:</strong> ${project.status}</p>
+        </div>
+        <div class="full-width">
+          <p><strong>Description:</strong> ${project.description}</p>
+        </div>
+      `;
+
+      // Show the modal
+      const modal = document.getElementById("projectModal");
+      modal.style.display = "block";
+    }
+
+    function closeModal() {
+      const modal = document.getElementById("projectModal");
+      modal.style.display = "none";
+    }
+
+    function deleteProject(projectId) {
+      // Implement the delete functionality here
+      // For example, you can make an AJAX request to delete the project from the database
+      console.log('Delete project with ID:', projectId);
+    }
+
+    // Close the modal when the user clicks anywhere outside of it
+    window.onclick = function(event) {
+      const modal = document.getElementById("projectModal");
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>
+
+{% endblock %}

@@ -1,0 +1,182 @@
+{% extends 'header_2.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    /* General Styling */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background-color: #f0f2f5;
+      color: #333;
+    }
+
+    /* Payment Container */
+    .payment-container {
+      width: 85%;
+      max-width: 600px;
+      background: #fff;
+      margin: 40px auto;
+      border-radius: 15px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      padding: 30px;
+    }
+
+    /* Header Section */
+    .payment-header {
+      text-align: center;
+      border-bottom: 2px solid #ececec;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
+
+    .payment-header h2 {
+      font-size: 28px;
+      color: #333;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .payment-header p {
+      font-size: 16px;
+      color: #666;
+      margin: 10px 0 0;
+    }
+
+    /* Payment Form */
+    .payment-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .form-group label {
+      font-size: 16px;
+      color: #333;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      outline: none;
+      background-color: #f8f8f8;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-group input:focus {
+      border-color: #1565c0;
+    }
+
+    /* Payment Button */
+    .payment-button {
+      padding: 12px 20px;
+      background-color: #1565c0;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      text-align: center;
+    }
+
+    .payment-button:hover {
+      background-color: #104a8e;
+      transform: scale(1.05);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .payment-container {
+        width: 90%;
+        padding: 20px;
+      }
+
+      .payment-header h2 {
+        font-size: 24px;
+      }
+
+      .form-group label {
+        font-size: 14px;
+      }
+
+      .form-group input {
+        font-size: 14px;
+      }
+
+      .payment-button {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .payment-container {
+        width: 100%;
+        padding: 15px;
+      }
+
+      .payment-header h2 {
+        font-size: 20px;
+      }
+
+      .form-group label {
+        font-size: 12px;
+      }
+
+      .form-group input {
+        font-size: 12px;
+      }
+
+      .payment-button {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="payment-container">
+    <div class="payment-header">
+      <h2>Payment</h2>
+      <p>Complete your payment securely.</p>
+    </div>
+    <form class="payment-form">
+      <div class="form-group">
+        <label for="card-number">Card Number</label>
+        <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456" required>
+      </div>
+      <div class="form-group">
+        <label for="card-holder">Card Holder Name</label>
+        <input type="text" id="card-holder" name="card-holder" placeholder="John Doe" required>
+      </div>
+      <div class="form-group">
+        <label for="expiry-date">Expiry Date</label>
+        <input type="text" id="expiry-date" name="expiry-date" placeholder="MM/YY" required>
+      </div>
+      <div class="form-group">
+        <label for="cvv">CVV</label>
+        <input type="text" id="cvv" name="cvv" placeholder="123" required>
+      </div>
+      <button type="submit" class="payment-button">Pay Now</button>
+    </form>
+  </div>
+</body>
+</html>
+
+{% endblock %}

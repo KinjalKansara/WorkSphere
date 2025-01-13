@@ -1,0 +1,204 @@
+{% extends 'admin_header_2.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Information</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    /* General Styling */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background-color: #f0f2f5;
+      color: #333;
+    }
+
+    /* Contact Container */
+    .contact-container {
+      width: 85%;
+      max-width: 1000px;
+      background: #fff;
+      margin: 40px auto;
+      border-radius: 15px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      padding: 30px;
+    }
+
+    /* Header Section */
+    .contact-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #ececec;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
+
+    .contact-header h2 {
+      font-size: 28px;
+      color: #333;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .back-button {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #1565c0;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .back-button i {
+      margin-right: 10px;
+    }
+
+    .back-button:hover {
+      background-color: #104a8e;
+      transform: scale(1.05);
+    }
+
+    /* Contact Table */
+    .contact-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .contact-table th, .contact-table td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .contact-table th {
+      background-color: #f4f4f4;
+      font-weight: 600;
+    }
+
+    .contact-table tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .delete-button {
+      padding: 8px 12px;
+      background-color: #f44336;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .delete-button:hover {
+      background-color: #d32f2f;
+      transform: scale(1.05);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .contact-container {
+        width: 90%;
+        padding: 15px;
+      }
+
+      .contact-header h2 {
+        font-size: 24px;
+      }
+
+      .contact-table th, .contact-table td {
+        padding: 10px;
+        font-size: 14px;
+      }
+
+      .delete-button {
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .contact-container {
+        width: 100%;
+        padding: 10px;
+      }
+
+      .contact-header h2 {
+        font-size: 20px;
+      }
+
+      .contact-table th, .contact-table td {
+        padding: 8px;
+        font-size: 12px;
+      }
+
+      .delete-button {
+        padding: 4px 8px;
+        font-size: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="contact-container">
+    <div class="contact-header">
+      <h2>Contact Information</h2>
+      <a href="{% url 'admin_dashboard' %}" class="back-button"><i class="fas fa-arrow-left"></i>Back</a>
+    </div>
+    <table class="contact-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Message</th>
+          <th>Submitted On</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>John Doe</td>
+          <td>john.doe@example.com</td>
+          <td>+1234567890</td>
+          <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
+          <td>Jan 20, 2025</td>
+          <td><button class="delete-button" onclick="deleteContact(1)">Delete</button></td>
+        </tr>
+        <tr>
+          <td>Jane Smith</td>
+          <td>jane.smith@example.com</td>
+          <td>+0987654321</td>
+          <td>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</td>
+          <td>Dec 15, 2024</td>
+          <td><button class="delete-button" onclick="deleteContact(2)">Delete</button></td>
+        </tr>
+        <!-- Add more contact items as needed -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    function deleteContact(contactId) {
+      // Implement the delete functionality here
+      // For example, you can make an AJAX request to delete the contact from the database
+      console.log('Delete contact with ID:', contactId);
+    }
+  </script>
+</body>
+</html>
+
+{% endblock %}

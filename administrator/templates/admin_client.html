@@ -1,0 +1,430 @@
+{% extends 'admin_header_2.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Information</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    /* General Styling */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background-color: #f0f2f5;
+      color: #333;
+    }
+
+    /* Client Container */
+    .client-container {
+      width: 85%;
+      max-width: 1000px;
+      background: #fff;
+      margin: 40px auto;
+      border-radius: 15px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      padding: 30px;
+    }
+
+    /* Header Section */
+    .client-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #ececec;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
+
+    .client-header h2 {
+      font-size: 28px;
+      color: #333;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .back-button {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #1565c0;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .back-button i {
+      margin-right: 10px;
+    }
+
+    .back-button:hover {
+      background-color: #104a8e;
+      transform: scale(1.05);
+    }
+
+    /* Client Table */
+    .client-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .client-table th, .client-table td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .client-table th {
+      background-color: #f4f4f4;
+      font-weight: 600;
+    }
+
+    .client-table tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .view-button, .delete-button {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .view-button {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .view-button:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    .delete-button {
+      background-color: #f44336;
+      color: white;
+    }
+
+    .delete-button:hover {
+      background-color: #d32f2f;
+      transform: scale(1.05);
+    }
+
+    /* Popup Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: 5% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 80%;
+      max-width: 700px;
+      text-align: left;
+      animation: slideIn 0.5s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal-content .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .modal-content .close:hover,
+    .modal-content .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .modal-description {
+      font-size: 1.1em;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .modal-description img {
+      border-radius: 50%;
+      margin-bottom: 20px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .modal-description .row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .modal-description .row p {
+      flex: 1;
+      margin: 0 10px;
+    }
+
+    .modal-description .row p strong {
+      color: #333;
+    }
+
+    .modal-description .full-width {
+      margin-bottom: 10px;
+    }
+
+    .modal-description .full-width p {
+      margin: 0;
+    }
+
+    .modal-description .full-width p strong {
+      color: #333;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .client-container {
+        width: 90%;
+        padding: 15px;
+      }
+
+      .client-header h2 {
+        font-size: 24px;
+      }
+
+      .client-table th, .client-table td {
+        padding: 10px;
+        font-size: 14px;
+      }
+
+      .view-button, .delete-button {
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+
+      .modal-content {
+        width: 90%;
+      }
+
+      .modal-description .row {
+        flex-direction: column;
+      }
+
+      .modal-description .row p {
+        margin: 5px 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .client-container {
+        width: 100%;
+        padding: 10px;
+      }
+
+      .client-header h2 {
+        font-size: 20px;
+      }
+
+      .client-table th, .client-table td {
+        padding: 8px;
+        font-size: 12px;
+      }
+
+      .view-button, .delete-button {
+        padding: 4px 8px;
+        font-size: 10px;
+      }
+
+      .modal-content {
+        width: 95%;
+      }
+
+      .modal-description .row {
+        flex-direction: column;
+      }
+
+      .modal-description .row p {
+        margin: 5px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="client-container">
+    <div class="client-header">
+      <h2>Client Information</h2>
+      <a href="{% url 'admin_dashboard' %}" class="back-button"><i class="fas fa-arrow-left"></i>Back</a>
+    </div>
+    <table class="client-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Company</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>John Doe</td>
+          <td>johndoe</td>
+          <td>john.doe@example.com</td>
+          <td>+1234567890</td>
+          <td>Example Company</td>
+          <td>
+            <div class="action-buttons">
+              <button class="view-button" onclick="viewClient(1)">View</button>
+              <button class="delete-button" onclick="deleteClient(1)">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Jane Smith</td>
+          <td>janesmith</td>
+          <td>jane.smith@example.com</td>
+          <td>+0987654321</td>
+          <td>Another Company</td>
+          <td>
+            <div class="action-buttons">
+              <button class="view-button" onclick="viewClient(2)">View</button>
+              <button class="delete-button" onclick="deleteClient(2)">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <!-- Add more dummy client items as needed -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Popup Modal -->
+  <div id="clientModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <div class="modal-description" id="clientDetails">
+        <!-- Client details will be displayed here -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function viewClient(clientId) {
+      // Dummy data for client details
+      const clientDetails = {
+        1: {
+          profile_photo: "https://via.placeholder.com/150",
+          name: "John Doe",
+          username: "johndoe",
+          email: "john.doe@example.com",
+          phone: "+1234567890",
+          company: "Example Company",
+          address: "123 Street, City, Country",
+          bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+          registration_date: "Jan 20, 2025"
+        },
+        2: {
+          profile_photo: "https://via.placeholder.com/150",
+          name: "Jane Smith",
+          username: "janesmith",
+          email: "jane.smith@example.com",
+          phone: "+0987654321",
+          company: "Another Company",
+          address: "456 Avenue, City, Country",
+          bio: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          registration_date: "Dec 15, 2024"
+        }
+      };
+
+      const client = clientDetails[clientId];
+      const clientDetailsDiv = document.getElementById("clientDetails");
+      clientDetailsDiv.innerHTML = `
+        <div style="text-align: center;">
+          <img src="${client.profile_photo}" alt="Profile Photo" width="150" height="150">
+        </div>
+        <div class="row">
+          <p><strong>Name:</strong> ${client.name}</p>
+          <p><strong>Username:</strong> ${client.username}</p>
+        </div>
+        <div class="row">
+          <p><strong>Email:</strong> ${client.email}</p>
+          <p><strong>Phone:</strong> ${client.phone}</p>
+        </div>
+        <div class="row">
+          <p><strong>Company:</strong> ${client.company}</p>
+          <p><strong>Registration Date:</strong> ${client.registration_date}</p>
+        </div>
+        <div class="full-width">
+          <p><strong>Address:</strong> ${client.address}</p>
+        </div>
+        <div class="full-width">
+          <p><strong>Bio:</strong> ${client.bio}</p>
+        </div>
+      `;
+
+      // Show the modal
+      const modal = document.getElementById("clientModal");
+      modal.style.display = "block";
+    }
+
+    function closeModal() {
+      const modal = document.getElementById("clientModal");
+      modal.style.display = "none";
+    }
+
+    function deleteClient(clientId) {
+      // Implement the delete functionality here
+      // For example, you can make an AJAX request to delete the client from the database
+      console.log('Delete client with ID:', clientId);
+    }
+
+    // Close the modal when the user clicks anywhere outside of it
+    window.onclick = function(event) {
+      const modal = document.getElementById("clientModal");
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>
+
+{% endblock %}

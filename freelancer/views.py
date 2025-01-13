@@ -154,3 +154,12 @@ def freelancer_proposal(request):
 
 def freelancer_send_proposal(request):
     return render(request, 'freelancer_send_proposal.html')
+
+def freelancer_header_1(request):
+    return render(request, 'freelancer_header_1.html')
+
+def freelancer_header_2(request):
+    return render(request, 'freelancer_header_2.html')
+
+def freelancer_header_3(request):
+    return render(request, 'freelancer_header_3.html')

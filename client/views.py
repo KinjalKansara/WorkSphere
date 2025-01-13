@@ -30,6 +30,7 @@ def client_register_login(request):
             user = ClientRegisterLogin.objects.get(username=username, password=password)
             if user:
                 request.session['loggedin_user'] = username
+                request.session['show_modal'] = True  # Set session variable to show modal
                 return redirect('client_dashboard')
             else:
                 return redirect('client_register_login')
@@ -99,6 +100,10 @@ def client_register_login(request):
                 return render(request, 'auth/client_register_login.html', {'error': 'Failed to save registration information.'})
 
     return render(request, 'auth/client_register_login.html')
+
+def client_dashboard(request):
+    show_modal = request.session.pop('show_modal', False)  # Get and remove the session variable
+    return render(request, 'client_dashboard.html', {'show_modal': show_modal})
 
 def client_forgot_password(request):
     if request.method == 'POST':
@@ -224,9 +229,6 @@ def client_contact(request):
         except:
             return render(request, 'client_contact.html', {'error': 'Failed to save contact information.'})
     return render(request, 'client_contact.html') 
-
-def client_dashboard(request):
-    return render(request, 'client_dashboard.html')
 
 def client_post_project(request):
     return render(request, 'client_post_project.html')

@@ -32,8 +32,8 @@ def machine_learning(request):
 def market_research(request):
     return render(request, 'market_research.html')
 
-def social_media(request):
-    return render(request, 'social_media.html')
+def social_media_marketing(request):
+    return render(request, 'social_media_marketing.html')
 
 def software_development(request):
     return render(request, 'software_development.html')

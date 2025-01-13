@@ -1,0 +1,185 @@
+{% extends 'header_2.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Chatbox</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    /* General Styling */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background-color: #f0f2f5;
+      color: #333;
+    }
+
+    /* Chat Container */
+    .chat-container {
+      width: 85%;
+      max-width: 1000px;
+      background: #fff;
+      margin: 40px auto;
+      border-radius: 15px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 80vh;
+    }
+
+    /* Header Section */
+    .chat-header {
+      background-color: #1565c0;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    /* Chat Body */
+    .chat-body {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .message {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .message.client {
+      flex-direction: row-reverse;
+    }
+
+    .message .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: white;
+    }
+
+    .message .text {
+      max-width: 70%;
+      padding: 10px 15px;
+      border-radius: 15px;
+      background-color: #f1f1f1;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .message.client .text {
+      background-color: #1565c0;
+      color: white;
+    }
+
+    /* Chat Footer */
+    .chat-footer {
+      padding: 20px;
+      border-top: 1px solid #ececec;
+      display: flex;
+      gap: 10px;
+    }
+
+    .chat-footer input {
+      flex: 1;
+      padding: 10px 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .chat-footer button {
+      padding: 10px 20px;
+      background-color: #1565c0;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    .chat-footer button:hover {
+      background-color: #104a8e;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .chat-container {
+        width: 95%;
+      }
+
+      .chat-header {
+        font-size: 20px;
+      }
+
+      .chat-footer input {
+        font-size: 14px;
+      }
+
+      .chat-footer button {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .chat-container {
+        width: 100%;
+      }
+
+      .chat-header {
+        font-size: 18px;
+      }
+
+      .chat-footer input {
+        font-size: 12px;
+      }
+
+      .chat-footer button {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">
+      Client Chatbox
+    </div>
+    <div class="chat-body">
+      <div class="message client">
+        <div class="avatar">C</div>
+        <div class="text">Hello, I need help with my project.</div>
+      </div>
+      <div class="message">
+        <div class="avatar">F</div>
+        <div class="text">Sure, I can help you with that. What do you need?</div>
+      </div>
+      <!-- Add more messages as needed -->
+    </div>
+    <div class="chat-footer">
+      <input type="text" placeholder="Type a message...">
+      <button><i class="fas fa-paper-plane"></i> Send</button>
+    </div>
+  </div>
+</body>
+</html>
+
+{% endblock %}

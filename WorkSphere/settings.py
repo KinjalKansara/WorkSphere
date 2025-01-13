@@ -43,6 +43,10 @@ INSTALLED_APPS = [
     'administrator',
     'freelancer',
     'categories',
+    'chat',
+    'rating',
+    'search',
+    'payment',
 ]
 
 MIDDLEWARE = [
