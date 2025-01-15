@@ -1,4 +1,4 @@
-{% extends 'freelancer_header_2.html' %}
+{% extends 'header_2.html' %}
 
 {% block content %}
 
@@ -57,18 +57,24 @@ body {
 /* Profile Details */
 .profile-details {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr;
   gap: 15px 20px;
+}
+
+.profile-details .detail {
+  display: flex;
+  flex-direction: column;
 }
 
 .profile-details .detail label {
   font-weight: bold;
   color: #555;
-  align-self: center;
+  margin-bottom: 5px;
 }
 
-.profile-details .detail input {
-  width: 50%;
+.profile-details .detail input,
+.profile-details .detail textarea {
+  width: 100%;
   padding: 10px 15px;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -77,9 +83,15 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.profile-details .detail input:focus {
+.profile-details .detail input:focus,
+.profile-details .detail textarea:focus {
   background-color: #fff;
   border-color: #1565c0;
+}
+
+.profile-details .detail textarea {
+  resize: none;
+  height: 100px;
 }
 
 /* Buttons */
@@ -134,25 +146,39 @@ body {
   <div class="profile-container">
     <div class="profile-header">
       <img src="/media/profile.jpg" alt="Profile Picture">
-      <h2>Freelancer Name</h2>
+      <h2>Client Name</h2>
     </div>
     <div class="profile-details">
+      <div class="detail">
+        <label>Bio:</label>
+        <textarea readonly>Client bio goes here...</textarea>
+      </div>
+      <div class="detail">
+        <label>Username:</label>
+        <input type="text" value="client_username" readonly>
+      </div>
       <div class="detail">
         <label>Email:</label>
         <input type="email" value="client@example.com" readonly>
       </div>
       <div class="detail">
+        <label>Password:</label>
+        <input type="password" value="client_password" readonly>
+      </div>
+      
+      <div class="detail">
         <label>Phone:</label>
         <input type="tel" value="+1234567890" readonly>
+      </div>
+      <div class="detail">
+        <label>Location:</label>
+        <input type="text" value="123 Street, City, Country" readonly>
       </div>
       <div class="detail">
         <label>Company:</label>
         <input type="text" value="Company Name" readonly>
       </div>
-      <div class="detail">
-        <label>Address:</label>
-        <input type="text" value="123 Street, City, Country" readonly>
-      </div>
+      
     </div>
     <div class="buttons">
       <button class="edit-button">Edit Profile</button>

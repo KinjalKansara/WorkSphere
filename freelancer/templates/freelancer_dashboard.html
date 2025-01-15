@@ -55,6 +55,8 @@
         .icon-freelancer { background-color: #1e88e5; color: white; } /* Blue */
         .icon-client { background-color: #ab47bc; color: white; } /* Purple */
         .icon-contact { background-color: #ffca28; color: white; } /* Yellow */
+        .icon-payment { background-color: #4caf50; color: white; } /* Green */
+        .icon-logout { background-color: #f44336; color: white; } /* Red */
 
         .box h3 {
             font-size: 20px;
@@ -158,40 +160,40 @@
 
     <div class="container">
         <div class="box">
-            <div class="icon icon-post"><i class="fas fa-tasks"></i></div>
-            <h3>Post Project</h3>
-            <p>Post your project to get proposals from skilled freelancers.</p>
-            <a href="#post-project">Post Now</a>
-        </div>
-        <div class="box">
             <div class="icon icon-list"><i class="fas fa-list"></i></div>
             <h3>List of Projects</h3>
             <p>Browse through the list of available projects.</p>
-            <a href="#list-projects">Browse Projects</a>
-        </div>
-        <div class="box">
-            <div class="icon icon-proposal"><i class="fas fa-file-alt"></i></div>
-            <h3>Proposal</h3>
-            <p>Submit your proposal and win exciting projects.</p>
-            <a href="#proposal-page">Submit Proposal</a>
+            <a href="{% url 'freelancer_list_of_project' %}">Browse Projects</a>
         </div>
         <div class="box">
             <div class="icon icon-freelancer"><i class="fas fa-user"></i></div>
             <h3>Freelancer Profile</h3>
             <p>Build your freelancer profile to attract clients.</p>
-            <a href="#freelancer-profile">View Profile</a>
-        </div>
-        <div class="box">
-            <div class="icon icon-client"><i class="fas fa-users"></i></div>
-            <h3>Client Profile</h3>
-            <p>Manage your client profile to hire freelancers.</p>
-            <a href="#client-profile">Manage Profile</a>
+            <a href="{% url 'freelancer_profile' %}">View Profile</a>
         </div>
         <div class="box">
             <div class="icon icon-contact"><i class="fas fa-envelope"></i></div>
             <h3>Contact</h3>
             <p>Get in touch with us for any assistance or queries.</p>
-            <a href="#contact">Contact Us</a>
+            <a href="{% url 'freelancer_contact' %}">Contact Us</a>
+        </div>
+        <div class="box">
+            <div class="icon icon-payment"><i class="fas fa-credit-card"></i></div>
+            <h3>Payment</h3>
+            <p>Manage your payments and transactions.</p>
+            <a href="#payment">Manage Payments</a>
+        </div>
+        <div class="box">
+            <div class="icon icon-proposal"><i class="fas fa-file-alt"></i></div>
+            <h3>Proposal</h3>
+            <p>Submit your proposal and win exciting projects.</p>
+            <a href="{% url 'freelancer_proposal' %}">Submit Proposal</a>
+        </div>
+        <div class="box">
+            <div class="icon icon-logout"><i class="fas fa-sign-out-alt"></i></div>
+            <h3>Logout</h3>
+            <p>Logout from your account securely.</p>
+            <a href="{% url 'logout' %}">Logout</a>
         </div>
     </div>
 </body>

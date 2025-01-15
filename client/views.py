@@ -20,6 +20,7 @@ def client_register_login(request):
         password = request.POST.get('password')
         phonenumber = request.POST.get('phonenumber')
         companyname = request.POST.get('companyname')
+        location = request.POST.get('location')
         bio = request.POST.get('bio')
         login = request.POST.get('login')
 
@@ -76,6 +77,9 @@ def client_register_login(request):
                 errors['phonenumber'] = 'Phone number is required.'
             elif not re.match(phone_regex, phonenumber):
                 errors['phonenumber'] = 'Phone number must be exactly 10 digits.'
+
+            if not profile:
+                errors['location'] = 'Login is required.'
     
             if errors:
                 return render(request, 'auth/client_register_login.html', {'errors': errors})
@@ -89,6 +93,7 @@ def client_register_login(request):
                 password=password,
                 phone_no=phonenumber,
                 company=companyname,
+                location=location,
                 bio=bio
             )
     
@@ -227,16 +232,98 @@ def client_contact(request):
     return render(request, 'client_contact.html') 
 
 def client_post_project(request):
+    username = request.session.get('loggedin_user')
+    client = ClientRegisterLogin.objects.get(username = username)
+
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        category = request.POST.get('categories')
+        budget = request.POST.get('budget')
+        budget_type = request.POST.get('budget_type')
+        skills = request.POST.get('skills')
+        experience_level = request.POST.get('experience_level')
+        deadline = request.POST.get('deadline')
+        image = request.FILES.get('image')
+        attachments = request.FILES.getlist('attachments')
+
+        # Validation
+        errors = {}
+
+        if not title:
+            errors['title'] = 'Title is required.'
+        
+        if not description:
+            errors['description'] = 'Description is required.'
+        
+        if not category:
+            errors['category'] = 'Category is required.'
+        
+        if not budget:
+            errors['budget'] = 'Budget is required.'
+        
+        if not budget_type:
+            errors['budget_type'] = 'Budget type is required.'
+        
+        if not skills:
+            errors['skills'] = 'Skills are required.'
+        
+        if not experience_level:
+            errors['experience_level'] = 'Experience level is required.'
+        
+        if not deadline:
+            errors['deadline'] = 'Deadline is required.'
+
+        if errors:
+            return render(request, 'client_post_project.html', {'errors': errors})
+
+        project = ClientPostProject(
+            client = client,
+            title=title,
+            description=description,
+            category=category,
+            budget=budget,
+            budget_type=budget_type,
+            skills_required=skills,
+            experience_level=experience_level,
+            deadline=deadline,
+            photo=image
+        )
+
+        try:
+            project.save()
+            # for attachment in attachments:
+            #     project.attachments.create(file=attachment)
+            return redirect('client_list_of_project')
+        except:
+            return render(request, 'client_post_project.html', {'error': 'Failed to save project information.'})
+
     return render(request, 'client_post_project.html')
 
 def client_freelancer_profile(request):
     return render(request, 'client_freelancer_profile.html')
 
-def client_job_details(request):
-    return render(request, 'client_job_details.html')
+def client_job_details(request, project_id):
+    username = request.session.get('loggedin_user')
+    client = ClientRegisterLogin.objects.get(username = username)
+    details = ClientPostProject.objects.get(id=project_id, client=client)
+    skills = details.skills_required.split(',')  # Assuming skills are stored as a comma-separated string
+    
+    context = {
+        'details' : details,
+        'skills' : skills,
+    }
+    return render(request, 'client_job_details.html', context)
 
 def client_list_of_project(request):
-    return render(request, 'client_list_of_project.html')
+    username = request.session.get('loggedin_user')
+    client = ClientRegisterLogin.objects.get(username = username)
+    projects = ClientPostProject.objects.filter(client=client)
+
+    context={
+        'projects' : projects
+    }
+    return render(request, 'client_list_of_project.html', context)
 
 def client_profile(request):
     return render(request, 'client_profile.html')

@@ -320,13 +320,14 @@
 </head>
 <body>
   <div class="project-container">
+    
     <div class="project-header">
-      <h2>Project Title</h2>
-      <p>Posted by Client Name on Jan 20, 2025</p>
+      <h2>{{details.title}}</h2>
+      <!-- <p>Posted by Client Name on Jan 20, 2025</p> -->
     </div>
 
     <div class="project-image-bio">
-      <img src="https://via.placeholder.com/600x300" alt="Project Image" class="project-image">
+      <img src="/media/{{details.photo}}" alt="Project Image" class="project-image">
       <div class="client-bio">
         <h3>Client Bio</h3>
         <p>
@@ -339,7 +340,7 @@
     <div class="description-section">
       <h3>Project Description</h3>
       <p></p>
-        This is a detailed description of the project. It includes all the necessary information about the project requirements, objectives, and deliverables. The client expects high-quality work and timely delivery.
+        {{details.description}}
       </p>
     </div>
 
@@ -347,31 +348,40 @@
       <div class="detail-card">
         <i class="fas fa-dollar-sign"></i>
         <h4>Budget</h4>
-        <p>$500 - $1000</p>
+        <p>{{details.budget}}</p>
       </div>
       <div class="detail-card">
         <i class="fas fa-coins"></i>
         <h4>Budget Type</h4>
-        <p>Fixed</p>
+        <p>{{details.budget_type}}</p>
       </div>
       <div class="detail-card">
         <i class="fas fa-clock"></i>
         <h4>Deadline</h4>
-        <p>Feb 20, 2025</p>
+        <p>{{details.deadline}}</p>
       </div>
       <div class="detail-card">
         <i class="fas fa-map-marker-alt"></i>
         <h4>Location</h4>
-        <p>Remote</p>
+        <p>{{details.client.location }}</p>
       </div>
       <div class="detail-card">
         <i class="fas fa-briefcase"></i>
         <h4>Experience Level</h4>
-        <p>Intermediate</p>
+        <p>{{details.experience_level}}</p>
       </div>
     </div>
 
     <div class="skills-section">
+      <h3>Required Skills</h3>
+      <div class="skills-list">
+        {% for skill in skills %}
+        <div class="skill-item">{{skill}}</div> 
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- <div class="skills-section">
       <h3>Required Skills</h3>
       <div class="skills-list">
         <div class="skill-item">Web Development</div>
@@ -380,7 +390,7 @@
         <div class="skill-item">JavaScript</div>
         <div class="skill-item">Python</div>
       </div>
-    </div>
+    </div> -->
 
     <div class="attachments-section">
       <h3>Attachments</h3>
@@ -395,20 +405,11 @@
             <a href="/media/attachment1.pdf" download>Download</a>
           </div>
         </li>
-        <li>
-          <div class="attachment-info">
-            <i class="fas fa-file-word"></i>
-            <span>Requirements_Document.docx</span>
-          </div>
-          <div class="attachment-actions">
-            <a onclick="showAttachment('/media/attachment2.docx')">View</a>
-            <a href="/media/attachment2.docx" download>Download</a>
-          </div>
-        </li>
       </ul>
     </div>
 
     <a href="javascript:history.back()" class="back-button"><i class="fas fa-arrow-left"></i>Back</a>
+ 
   </div>
 
   <!-- The Modal -->

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import *
 from staticpage.models import *
+from client.models import *
 import random
 import re
 from django.core.mail import send_mail
@@ -245,11 +246,27 @@ def freelancer_contact(request):
 def freelancer_dashboard(request):
     return render(request, 'freelancer_dashboard.html')
 
-def freelancer_job_details(request):
-    return render(request, 'freelancer_job_details.html')
+def freelancer_job_details(request, project_id):
+    username = request.session.get('loggedin_user')
+    client = ClientRegisterLogin.objects.get(username = username)
+    details = ClientPostProject.objects.get(id=project_id, client=client)
+    skills = details.skills_required.split(',')  # Assuming skills are stored as a comma-separated string
+    
+    context = {
+        'details' : details,
+        'skills' : skills,
+    }
+    return render(request, 'freelancer_job_details.html', context)
 
 def freelancer_list_of_project(request):
-    return render(request, 'freelancer_list_of_project.html')
+    username = request.session.get('loggedin_user')
+    client = ClientRegisterLogin.objects.get(username = username)
+    projects = ClientPostProject.objects.filter(client=client)
+
+    context={
+        'projects' : projects
+    }
+    return render(request, 'freelancer_list_of_project.html', context)
 
 def freelancer_profile(request):
     return render(request, 'freelancer_profile.html')

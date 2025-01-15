@@ -177,7 +177,6 @@ body {
 @media (max-width: 768px) {
   .projects-container {
     width: 90%;
-    /* max-width: 800px; */
     padding: 15px;
   }
 
@@ -261,22 +260,24 @@ body {
       <h2>My Projects</h2>
       <button class="add-project-button" onclick="window.location.href='/client/client_post_project/'">Add New Project</button>
     </div>
+    
     <ul class="project-list">
+      {% for project in projects %}
       <li class="project-card">
-        <img src="/media/project1.jpg" alt="Project Image">
+        <img src="/media/{{ project.photo }}" alt="Project Image">
         <div class="project-header">
-          <h3>Website Redesign</h3>
+          <h3>{{project.title}}</h3>
           <span class="status-open">Open</span>
         </div>
         <div class="project-body">
-          <p>A project focused on redesigning a corporate website to enhance user experience and modernize the look.</p>
+            <p>{{project.description|truncatechars:20 }}</p>
         </div>
         <div class="project-footer">
-          <span><i class="fas fa-calendar-alt"></i> Deadline: Jan 20, 2025</span>
+          <span><i class="fas fa-calendar-alt"></i> Deadline: {{project.deadline}}</span>
         </div>
-        <button class="view-details" onclick="window.location.href='/client/client_job_details/'">View Details</button>
+        <a class="view-details" href="{% url 'client_job_details' project.id %}">View Details</a>
       </li>
-      
+      {% endfor %}
       <!-- Add more project items as needed -->
     </ul>
   </div>
