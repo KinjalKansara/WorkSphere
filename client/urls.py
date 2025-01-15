@@ -18,7 +18,7 @@ urlpatterns = [
     path('header_1/', views.header_1, name='header_1'),
     path('header_2/', views.header_2, name='header_2'),
     path('header_3/', views.header_3, name='header_3'),
-    path('logout/', views.logout, name='logout'),
+    path('client_logout/', views.client_logout, name='client_logout'),
 
     
 ]

@@ -7,8 +7,10 @@ from django.core.mail import send_mail
 
 # Create your views here.
 
-
 def freelancer_register_login(request):
+    if 'done' in request.GET:
+        del request.session['done']
+
     if request.method == 'POST':
         profile = request.FILES.get('profile')
         firstname = request.POST.get('firstname')
@@ -18,40 +20,150 @@ def freelancer_register_login(request):
         password = request.POST.get('password')
         phonenumber = request.POST.get('phonenumber')
         skill = request.POST.get('skill')
-        hourlyrate = request.POST.get('horlyrate')
+        hourlyrate = request.POST.get('hourlyrate')
         location = request.POST.get('location')
+        login = request.POST.get('login')
+
+        if login is not None:
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+
+            user = FreelancerRegisterLogin.objects.get(username=username, password=password)
+
+            if user:
+                request.session['logged_user'] = username
+                request.session['show_modal'] = True
+                return redirect('freelancer_dashboard')
+            else:
+                return redirect('freelancer_register_login')
         
+        else:
 
-        register = FreelancerRegisterLogin(
-            profile=profile,
-            first_name=firstname,
-            last_name=lastname,
-            username=username,
-            email=email,
-            password=password,
-            phone_number=phonenumber,
-            skills = skill,
-            hourly_rate = hourlyrate,
-            location = location
-        )
+            # Validation
+            errors = {}
 
-        try:
-            register.save()
-            return redirect('freelancer_dashboard')
-        except:
-            return render(request, 'auth/freelancer_register_login.html', {'error': 'Failed to save registration information.'})
+            if not profile:
+                errors['profile'] = 'Profile photo is required.'
+
+            if not firstname:
+                errors['firstname'] = 'First name is required.'
+
+            if not lastname:
+                errors['lastname'] = 'Last name is required.'
+
+            if not username:
+                errors['username'] = 'Username is required.'
+            elif FreelancerRegisterLogin.objects.filter(username=username).exists():
+                errors['username'] = 'Username already exists.'
+
+            email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+            if not email:
+                errors['email'] = 'Email is required.'
+            elif not re.match(email_regex, email):
+                errors['email'] = 'Enter a valid email address.'
+            elif FreelancerRegisterLogin.objects.filter(email=email).exists():
+                errors['email'] = 'Email already exists.'
+
+            if not password:
+                errors['password'] = "Password is Required"
+            elif len(password) < 8:
+                errors['password'] = "The password must be at least 8 characters long."
+            elif not any(char.isalpha() for char in password):
+                errors['password'] = "The password must contain at least one letter."
+            elif not any(char.isdigit() for char in password):
+                errors['password'] = "The password must contain at least one digit."
+            elif not any(char in "!@#$%^&*(){}[]" for char in password):
+                errors['password'] = "The password must contain at least one special character."
+
+            phone_regex = r'^\d{10}$'
+            if not phonenumber:
+                errors['phonenumber'] = 'Phone number is required.'
+            elif not re.match(phone_regex, phonenumber):
+                errors['phonenumber'] = 'Phone number must be exactly 10 digits.'
+
+            if not skill:
+                errors['skill'] = 'Skill is required.'
+
+            if not hourlyrate:
+                errors['hourlyrate'] = 'Hourly rate is required.'
+            elif not hourlyrate.isdigit():
+                errors['hourlyrate'] = 'Hourly rate must be a number.'
+
+            if not location:
+                errors['location'] = 'Location is required.'
+
+            if errors:
+                return render(request, 'auth/freelancer_register_login.html', {'errors': errors})
+
+            register = FreelancerRegisterLogin(
+                profile=profile,
+                first_name=firstname,
+                last_name=lastname,
+                username=username,
+                email=email,
+                password=password,
+                phone_number=phonenumber,
+                skills=skill,
+                hourly_rate=hourlyrate,
+                location=location
+                
+            )
+
+            try:
+                register.save()
+                request.session['done'] = True
+                return render(request, 'auth/Freelancer_register_login.html', {'success': 'Registration successful.', 'done': request.session['done']})
+            except:
+                return redirect('freelancer_register_login')
+
     return render(request, 'auth/freelancer_register_login.html')
 
 def freelancer_forgot_password(request):
+    if request.method == 'POST':
+        user_email = request.POST.get('email')
+        user = FreelancerRegisterLogin.objects.get(email=user_email)
+
+        if user:
+            otp = random.randint(100000,999999)
+            request.session['otp'] = otp
+            request.session['email'] = user.email
+
+        send_mail(
+            subject='Password Reset',
+            message=f'Your OTP is {otp}',
+            from_email='worksphere05@gmail.com',  # Replace with your sender email
+            recipient_list=[user.email],
+            fail_silently=False,
+        )
+        return redirect('freelancer_verify_otp')
+    
     return render(request, 'auth/freelancer_forgot_password.html')
 
 def freelancer_verify_otp(request):
+    if request.method == 'POST':
+        otp = request.POST.get('otp')
+
+        if request.session.get('otp') == int(otp):
+            return redirect('freelancer_reset_password')
+        else:
+            return redirect('freelancer_verify_otp')
     return render(request, 'auth/freelancer_verify_otp.html')
 
 def freelancer_reset_password(request):
+    if request.method == 'POST':
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if password == confirm_password:
+            user_email = request.session.get('email')
+            user = FreelancerRegisterLogin.objects.get(email = user_email)
+            user.password = password
+            user.save()
+            return redirect('freelancer_register_login')
+        else:
+            return redirect('freelancer_reset_password')
+
     return render(request, 'auth/freelancer_reset_password.html')
-
-
 
 def freelancer_contact(request):
     if request.method == 'POST':
@@ -101,7 +213,6 @@ def freelancer_contact(request):
 
         if errors:
             return render(request, 'client_contact.html', {'errors': errors})
-        
 
         contact = ClientContact(
             first=first, 
@@ -131,14 +242,11 @@ def freelancer_contact(request):
             return render(request, 'freelancer_contact.html', {'error': 'Failed to save contact information.'})
     return render(request, 'freelancer_contact.html') 
 
-
 def freelancer_dashboard(request):
     return render(request, 'freelancer_dashboard.html')
 
-
 def freelancer_job_details(request):
     return render(request, 'freelancer_job_details.html')
-
 
 def freelancer_list_of_project(request):
     return render(request, 'freelancer_list_of_project.html')
@@ -163,3 +271,8 @@ def freelancer_header_2(request):
 
 def freelancer_header_3(request):
     return render(request, 'freelancer_header_3.html')
+
+def logout(request):
+    request.session.flush()
+    request.session['done'] = True
+    return redirect('client_register_login')

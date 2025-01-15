@@ -165,7 +165,8 @@
       <p>
         Enter the OTP from your email to verify your account and unlock access to top freelancers.
       </p>
-      <form>
+      <form method="post">
+        {% csrf_token %}
         <div class="input-container">
           <i class="fas fa-key"></i>
           <input type="text" name="otp" placeholder="Enter otp" required>

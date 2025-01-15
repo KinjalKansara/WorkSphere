@@ -15,16 +15,12 @@
             max-width: 800px;
             margin: 50px auto;
             padding: 25px;
-            background: rgba(255, 255, 255, 0.9);
+            background: #fff;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             animation: fadeIn 1s ease-in-out;
             transition: all 0.3s ease;
-        }
-        .container:hover {
-            background: rgba(255, 255, 255, 1);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
         }
         h1 {
             text-align: center;
@@ -76,7 +72,7 @@
             font-size: 18px;
         }
         .form-group select {
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cHM6Ly93d3cuMy5ldS9zMyIgeG1sbnM6Y29sb3I9ImhlYWQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiI+PC9zdmc+');
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cHM6Ly93d3cuMy5ldS9zMyIgeG1zbnM6Y29sb3I9ImhlYWQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiI+PC9zdmc+');
             background-repeat: no-repeat;
             background-position: right 15px center;
             background-size: 16px;
@@ -93,7 +89,7 @@
         .button-group {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 10px;
         }
         button {
             padding: 15px 20px;
@@ -155,6 +151,33 @@
             visibility: visible;
             opacity: 1;
         }
+        .add-attachment {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            color: #007bff;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .add-attachment i {
+            font-size: 20px;
+        }
+        .add-attachment:hover {
+            color: #0056b3;
+        }
+        .attachment-group {
+            margin-top: 10px;
+            position: relative;
+        }
+        .attachment-group i {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: #007bff;
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
@@ -164,8 +187,14 @@
         <div class="about-section">
             <p>Describe your project, share your requirements, and connect with top-tier freelancers who have the expertise to bring your vision to life.</p>
         </div>
-        <form method="post" enctype="multipart/form-data">
+        <form id="projectForm" method="post" enctype="multipart/form-data">
             {% csrf_token %}
+
+            <!-- Image -->
+            <div class="form-group">
+                <i class="fas fa-image"></i>
+                <input type="file" id="image" name="image" accept="image/*">
+            </div>
             
             <!-- Title -->
             <div class="form-group">
@@ -184,9 +213,22 @@
                 <i class="fas fa-list"></i>
                 <select id="categories" name="categories" required>
                     <option value="" disabled selected>Choose a Category</option>
-                    <option value="ai_services">AI Services</option>
-                    <option value="technology_programming">Technology & Programming</option>
-                    <option value="writing_translation">Writing & Translation</option>
+                    <option value="machine_learning">Machine Learning</option>
+                    <option value="ai_development">AI Development</option>
+                    <option value="web development">Web Development</option>
+                    <option value="software_development">Software Development</option>
+                    <option value="graphic_design">Graphic Design</option>
+                    <option value="logo_design">Logo Design</option>
+                    <option value="video_editing">Video Editing</option>
+                    <option value="animation">Animation</option>
+                    <option value="market_research">Market Research</option>
+                    <option value="business_strategy">Business Strategy</option>
+                    <option value="contract_drafting">Contract Drafting</option>
+                    <option value="legal_consulting">Legal Consulting</option>
+                    <option value="social_marketing">Social Marketing</option>
+                    <option value="content_creation">Content Creation</option>
+                    <option value="lyric_writting">Lyric Writting</option>
+                    <option value="music_composition">Music Composition</option>
                 </select>
             </div>
 
@@ -230,16 +272,15 @@
                 <span class="tooltiptext">Select the deadline for project completion</span>
             </div>
 
-            <!-- Image -->
-            <div class="form-group">
-                <i class="fas fa-image"></i>
-                <input type="file" id="image" name="image" accept="image/*">
+            <!-- Attachments -->
+            <div class="form-group" id="attachmentsContainer">
+                <div class="attachment-group">
+                    <i class="fas fa-paperclip"></i>
+                    <input type="file" id="attachment" name="attachments" multiple>
+                </div>
             </div>
-
-            <!-- Attachment -->
-            <div class="form-group">
-                <i class="fas fa-paperclip"></i>
-                <input type="file" id="attachment" name="attachment">
+            <div class="add-attachment" id="addAttachmentButton">
+                <i class="fas fa-plus"></i> Add Another Attachment
             </div>
 
             <!-- Buttons -->
@@ -247,19 +288,33 @@
                 <button type="submit">
                     <i class="fas fa-paper-plane"></i> Post Project
                 </button>
-                <button type="reset">
+                <button type="button" id="addNewButton">
                     <i class="fas fa-plus"></i> Add New
                 </button>
             </div>
         </form>
         <div class="about-section">
-            <p>If you need any assistance or have questions, feel free to <a href="/contact" style="color: #007bff; text-decoration: none;">contact us</a>.</p>
+            <p>If you need any assistance or have questions, feel free to <a href="{% url 'client_contact' %}" style="color: #007bff; text-decoration: none;">contact us</a>.</p>
         </div>
         
     </div>
 
-    
-    
+    <script>
+        document.getElementById('addNewButton').addEventListener('click', function() {
+            document.getElementById('projectForm').reset();
+        });
+
+        document.getElementById('addAttachmentButton').addEventListener('click', function() {
+            const attachmentsContainer = document.getElementById('attachmentsContainer');
+            const newAttachmentGroup = document.createElement('div');
+            newAttachmentGroup.classList.add('attachment-group');
+            newAttachmentGroup.innerHTML = `
+                <i class="fas fa-paperclip"></i>
+                <input type="file" name="attachments" multiple>
+            `;
+            attachmentsContainer.appendChild(newAttachmentGroup);
+        });
+    </script>
 </body>
 </html>
 

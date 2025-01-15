@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Freelancer Website</title>
+    <title>Client Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         body {
@@ -52,9 +52,11 @@
         .icon-post { background-color: #ff6f61; color: white; } /* Red */
         .icon-list { background-color: #ffbf47; color: white; } /* Orange */
         .icon-proposal { background-color: #00bfa5; color: white; } /* Green */
-        .icon-freelancer { background-color: #1e88e5; color: white; } /* Blue */
+        .icon-received { background-color: #1e88e5; color: white; } /* Blue */
         .icon-client { background-color: #ab47bc; color: white; } /* Purple */
         .icon-contact { background-color: #ffca28; color: white; } /* Yellow */
+        .icon-payment { background-color: #4caf50; color: white; } /* Green */
+        .icon-logout { background-color: #f44336; color: white; } /* Red */
 
         .box h3 {
             font-size: 20px;
@@ -148,9 +150,9 @@
     <div id="myModal" class="modal">
         <div class="modal-content">
             <div class="modal-description">
-                <h2>Welcome to the Project Posting Page!</h2>
-                <p>In this form, you can provide all the necessary details about your project, including the title, description, budget, and required skills. This information will help connect you with top-tier freelancers who can bring your vision to life.</p>
-                <p>If you have any questions or need assistance, please <a href="/contact" style="color: #007bff; text-decoration: none;">contact us</a>.</p>
+                <h2>Welcome to Your Dashboard!</h2>
+                <p>We're excited to have you here. This dashboard will help you navigate through our platform and make the most out of your experience.</p>
+                <p>Here, you can post new projects, browse through available projects, manage your profile, and much more.</p>
             </div>
             <button class="modal-button">OK</button>
         </div>
@@ -161,37 +163,43 @@
             <div class="icon icon-post"><i class="fas fa-tasks"></i></div>
             <h3>Post Project</h3>
             <p>Post your project to get proposals from skilled freelancers.</p>
-            <a href="#post-project">Post Now</a>
+            <a href="{% url 'client_post_project' %}">Post Now</a>
         </div>
         <div class="box">
             <div class="icon icon-list"><i class="fas fa-list"></i></div>
             <h3>List of Projects</h3>
             <p>Browse through the list of available projects.</p>
-            <a href="#list-projects">Browse Projects</a>
+            <a href="{% url 'client_list_of_project' %}">Browse Projects</a>
         </div>
         <div class="box">
-            <div class="icon icon-proposal"><i class="fas fa-file-alt"></i></div>
-            <h3>Proposal</h3>
-            <p>Submit your proposal and win exciting projects.</p>
-            <a href="#proposal-page">Submit Proposal</a>
-        </div>
-        <div class="box">
-            <div class="icon icon-freelancer"><i class="fas fa-user"></i></div>
-            <h3>Freelancer Profile</h3>
-            <p>Build your freelancer profile to attract clients.</p>
-            <a href="#freelancer-profile">View Profile</a>
+            <div class="icon icon-received"><i class="fas fa-inbox"></i></div>
+            <h3>Received Proposals</h3>
+            <p>View the proposals you have received for your projects.</p>
+            <a href="{% url 'client_received_proposal' %}">View Proposals</a>
         </div>
         <div class="box">
             <div class="icon icon-client"><i class="fas fa-users"></i></div>
             <h3>Client Profile</h3>
             <p>Manage your client profile to hire freelancers.</p>
-            <a href="#client-profile">Manage Profile</a>
+            <a href="{% url 'client_profile' %}">Manage Profile</a>
         </div>
         <div class="box">
             <div class="icon icon-contact"><i class="fas fa-envelope"></i></div>
             <h3>Contact</h3>
             <p>Get in touch with us for any assistance or queries.</p>
-            <a href="#contact">Contact Us</a>
+            <a href="{% url 'client_contact' %}">Contact Us</a>
+        </div>
+        <div class="box">
+            <div class="icon icon-payment"><i class="fas fa-credit-card"></i></div>
+            <h3>Payment</h3>
+            <p>Manage your payments and transactions.</p>
+            <a href="#payment">Manage Payments</a>
+        </div>
+        <div class="box">
+            <div class="icon icon-logout"><i class="fas fa-sign-out-alt"></i></div>
+            <h3>Logout</h3>
+            <p>Logout from your account securely.</p>
+            <a href="#logout">Logout</a>
         </div>
     </div>
 </body>

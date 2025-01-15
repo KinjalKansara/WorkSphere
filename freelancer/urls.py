@@ -17,4 +17,5 @@ urlpatterns = [
     path('freelancer_header_1/', views.freelancer_header_1, name='freelancer_header_1'),
     path('freelancer_header_2/', views.freelancer_header_2, name='freelancer_header_2'),
     path('freelancer_header_3/', views.freelancer_header_3, name='freelancer_header_3'),
+    path('logout/', views.logout, name='logout'),
 ]

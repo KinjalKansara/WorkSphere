@@ -101,10 +101,6 @@ def client_register_login(request):
 
     return render(request, 'auth/client_register_login.html')
 
-def client_dashboard(request):
-    show_modal = request.session.pop('show_modal', False)  # Get and remove the session variable
-    return render(request, 'client_dashboard.html', {'show_modal': show_modal})
-
 def client_forgot_password(request):
     if request.method == 'POST':
         user_email = request.POST.get('email')
@@ -251,6 +247,9 @@ def client_edit_profile(request):
 def client_received_proposal(request):
     return render(request, 'client_received_proposal.html')
 
+def client_dashboard(request):
+    return render(request, 'client_dashboard.html')
+
 def header_1(request):
     return render(request, 'header_1.html')
 
@@ -260,7 +259,7 @@ def header_2(request):
 def header_3(request):
     return render(request, 'header_3.html')
 
-def logout(request):
+def client_logout(request):
     request.session.flush()
     request.session['done'] = True
     return redirect('client_register_login')

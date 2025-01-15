@@ -206,11 +206,13 @@
       <img src="your-logo-url.png" alt="Logo">
     </div>
     <nav class="nav-links">
-      <a href="#post-project">Home</a>
-      <a href="#list-projects">List of Projects</a>
-      <a href="#freelancer-profile">Freelancer Profile</a>
-      <a href="#client-profile">My Proposals</a>
-      <a href="#client-profile">Contact</a>
+      <a href="{% url 'admin_dashboard' %}">Home</a>
+      <a href="{% url 'admin_client' %}">Client</a>
+      <a href="{% url 'admin_freelancer' %}">Freelancer</a>
+      <a href="{% url 'admin_contact' %}">Contact</a>
+      <a href="#">Payment</a>
+      <a href="{% url 'admin_project' %}">Project</a>
+      <a href="{% url 'admin_proposal' %}">Proposal</a>
       <a href="#client-profile">logout</a>
     </nav>
     <div class="hamburger">
