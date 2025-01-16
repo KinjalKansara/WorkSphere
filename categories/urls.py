@@ -18,5 +18,5 @@ urlpatterns = [
     path('web_development/', views.web_development, name='web_development'),
     path('music_composition/', views.music_composition, name='music_composition'),
     path('lyric_writting/', views.lyric_writting, name='lyric_writting'),
-    
+    path('project_view/<int:project_id>', views.project_view, name='project_view'),
 ]

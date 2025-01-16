@@ -191,50 +191,65 @@ button:active {
   <div class="profile-container">
     <h1>Client Profile</h1>
     <div class="profile-header">
-      <img src="/media/profile.jpg" alt="Profile Picture">
-      <h2>Client Name</h2>
+      <img src="/media/{{client.profile_photo}}" alt="Profile Picture">
+      <h2>{{client.first_name}} {{client.last_name}}</h2>
     </div>
     <div class="profile-details">
       <div class="detail">
         <label>Bio:</label>
-        <textarea readonly>Client bio goes here...</textarea>
+        <textarea readonly>{{client.bio}}</textarea>
       </div>
       <div class="detail">
         <label>Username:</label>
         <i class="fas fa-user"></i>
-        <input type="text" value="client_username" readonly>
+        <input type="text" value="{{client.username}}" readonly>
       </div>
       <div class="detail">
         <label>Email:</label>
         <i class="fas fa-envelope"></i>
-        <input type="email" value="client@example.com" readonly>
+        <input type="email" value="{{client.email}}" readonly>
       </div>
       <div class="detail">
         <label>Password:</label>
         <i class="fas fa-lock"></i>
-        <input type="password" value="client_password" readonly>
+        <input type="password" value="{{client.password}}" readonly>
       </div>
       <div class="detail">
         <label>Phone:</label>
         <i class="fas fa-phone"></i>
-        <input type="tel" value="+1234567890" readonly>
+        <input type="tel" value="{{client.phone_no}}" readonly>
       </div>
       <div class="detail">
         <label>Location:</label>
         <i class="fas fa-map-marker-alt"></i>
-        <input type="text" value="123 Street, City, Country" readonly>
+        <input type="text" value="{{client.location}}" readonly>
       </div>
       <div class="detail">
         <label>Company:</label>
         <i class="fas fa-building"></i>
-        <input type="text" value="Company Name" readonly>
+        <input type="text" value="{{client.company}}" readonly>
       </div>
     </div>
     <div class="buttons">
-      <button class="edit-button"><i class="fas fa-edit"></i>Edit Profile</button>
-      <button class="save-button" style="display: none;"><i class="fas fa-save"></i>Save Profile</button>
+      <button class="edit-button">
+        <i class="fas fa-edit"></i>Edit Profile
+      </button>
+    </div>
+    
     </div>
   </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const editButton = document.querySelector(".edit-button");
+      
+      editButton.addEventListener("click", () => {
+        // Redirect to the Django URL for editing the client profile
+        window.location.href = "{% url 'client_edit_profile' %}";
+      });
+    });
+  </script>
+  
 </body>
 </html>
 

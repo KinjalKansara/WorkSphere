@@ -115,6 +115,7 @@ def freelancer_register_login(request):
                 request.session['done'] = True
                 return render(request, 'auth/Freelancer_register_login.html', {'success': 'Registration successful.', 'done': request.session['done']})
             except:
+                request.session['done'] = False
                 return redirect('freelancer_register_login')
 
     return render(request, 'auth/freelancer_register_login.html')
@@ -292,4 +293,4 @@ def freelancer_header_3(request):
 def logout(request):
     request.session.flush()
     request.session['done'] = True
-    return redirect('client_register_login')
+    return redirect('freelancer_register_login')

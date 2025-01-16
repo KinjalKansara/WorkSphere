@@ -1,9 +1,22 @@
 from django.shortcuts import render
-
+from client.models import *
 # Create your views here.
 
+def project_view(request, project_id):
+    project = ClientPostProject.objects.all(id=project_id)
+
+    context ={
+        'project' : project
+    }
+    return render(request, 'project_view.html', context)
+
 def ai_developement(request):
-    return render(request, 'ai_development.html')
+    category1 = ClientPostProject.objects.filter(category = 'ai_development')
+    
+    context ={
+        'ai' : category1
+    }
+    return render(request, 'ai_development.html', context)
 
 def animation(request):
     return render(request, 'animation.html')

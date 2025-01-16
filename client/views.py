@@ -10,8 +10,8 @@ from django.core.mail import send_mail
 def client_register_login(request):
     if 'done' in request.GET:
         del request.session['done']
-    
-    if request.method == "POST":
+
+    if request.method == 'POST':
         profile = request.FILES.get('profile')
         firstname = request.POST.get('firstname')
         lastname = request.POST.get('lastname')
@@ -19,9 +19,8 @@ def client_register_login(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         phonenumber = request.POST.get('phonenumber')
-        companyname = request.POST.get('companyname')
+        company = request.POST.get('companyname')
         location = request.POST.get('location')
-        bio = request.POST.get('bio')
         login = request.POST.get('login')
 
         if login is not None:
@@ -29,30 +28,33 @@ def client_register_login(request):
             password = request.POST.get('password')
 
             user = ClientRegisterLogin.objects.get(username=username, password=password)
+
             if user:
-                request.session['loggedin_user'] = username
-                request.session['show_modal'] = True  # Set session variable to show modal
+                request.session['logged_user'] = username
+                request.session['show_modal'] = True
                 return redirect('client_dashboard')
             else:
                 return redirect('client_register_login')
+        
         else:
+
             # Validation
             errors = {}
-    
+
             if not profile:
                 errors['profile'] = 'Profile photo is required.'
-    
+
             if not firstname:
                 errors['firstname'] = 'First name is required.'
-    
+
             if not lastname:
                 errors['lastname'] = 'Last name is required.'
-    
+
             if not username:
                 errors['username'] = 'Username is required.'
             elif ClientRegisterLogin.objects.filter(username=username).exists():
                 errors['username'] = 'Username already exists.'
-    
+
             email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
             if not email:
                 errors['email'] = 'Email is required.'
@@ -60,7 +62,7 @@ def client_register_login(request):
                 errors['email'] = 'Enter a valid email address.'
             elif ClientRegisterLogin.objects.filter(email=email).exists():
                 errors['email'] = 'Email already exists.'
-    
+
             if not password:
                 errors['password'] = "Password is Required"
             elif len(password) < 8:
@@ -71,19 +73,16 @@ def client_register_login(request):
                 errors['password'] = "The password must contain at least one digit."
             elif not any(char in "!@#$%^&*(){}[]" for char in password):
                 errors['password'] = "The password must contain at least one special character."
-    
+
             phone_regex = r'^\d{10}$'
             if not phonenumber:
                 errors['phonenumber'] = 'Phone number is required.'
             elif not re.match(phone_regex, phonenumber):
                 errors['phonenumber'] = 'Phone number must be exactly 10 digits.'
 
-            if not profile:
-                errors['location'] = 'Login is required.'
-    
             if errors:
                 return render(request, 'auth/client_register_login.html', {'errors': errors})
-    
+
             register = ClientRegisterLogin(
                 profile_photo=profile,
                 first_name=firstname,
@@ -92,17 +91,18 @@ def client_register_login(request):
                 email=email,
                 password=password,
                 phone_no=phonenumber,
-                company=companyname,
-                location=location,
-                bio=bio
+                company = company,
+                location=location
+                
             )
-    
+
             try:
                 register.save()
                 request.session['done'] = True
                 return render(request, 'auth/client_register_login.html', {'success': 'Registration successful.', 'done': request.session['done']})
             except:
-                return render(request, 'auth/client_register_login.html', {'error': 'Failed to save registration information.'})
+                request.session['done'] = False
+                return redirect('client_register_login')
 
     return render(request, 'auth/client_register_login.html')
 
@@ -232,13 +232,14 @@ def client_contact(request):
     return render(request, 'client_contact.html') 
 
 def client_post_project(request):
-    username = request.session.get('loggedin_user')
+    username = request.session.get('logged_user')
     client = ClientRegisterLogin.objects.get(username = username)
 
     if request.method == 'POST':
         title = request.POST.get('title')
         description = request.POST.get('description')
         category = request.POST.get('categories')
+        category = category.lower()
         budget = request.POST.get('budget')
         budget_type = request.POST.get('budget_type')
         skills = request.POST.get('skills')
@@ -304,7 +305,7 @@ def client_freelancer_profile(request):
     return render(request, 'client_freelancer_profile.html')
 
 def client_job_details(request, project_id):
-    username = request.session.get('loggedin_user')
+    username = request.session.get('logged_user')
     client = ClientRegisterLogin.objects.get(username = username)
     details = ClientPostProject.objects.get(id=project_id, client=client)
     skills = details.skills_required.split(',')  # Assuming skills are stored as a comma-separated string
@@ -316,7 +317,7 @@ def client_job_details(request, project_id):
     return render(request, 'client_job_details.html', context)
 
 def client_list_of_project(request):
-    username = request.session.get('loggedin_user')
+    username = request.session.get('logged_user')
     client = ClientRegisterLogin.objects.get(username = username)
     projects = ClientPostProject.objects.filter(client=client)
 
@@ -326,10 +327,45 @@ def client_list_of_project(request):
     return render(request, 'client_list_of_project.html', context)
 
 def client_profile(request):
-    return render(request, 'client_profile.html')
+    username = request.session.get('logged_user')
+    client = ClientRegisterLogin.objects.get(username=username)
+
+    context ={
+        'client' : client,
+    }
+    return render(request, 'client_profile.html', context)
 
 def client_edit_profile(request):
-    return render(request, 'client_edit_profile.html')
+    username = request.session.get('logged_user')
+    client = ClientRegisterLogin.objects.get(username=username)
+
+    if request.method == "POST":
+        bio = request.POST.get('bio')
+        password = request.POST.get('password')
+        phone = request.POST.get('phone')
+        location = request.POST.get('location')
+        company = request.POST.get('company')
+
+        if bio:
+            client.bio = bio
+        if password:
+            client.password = password
+        if phone:
+            client.phone_no = phone
+        if location:
+            client.location = location
+        if company:
+            client.company = company
+
+        client.save()
+
+        return redirect('client_profile')
+
+    context = {
+        'client': client,
+    }
+
+    return render(request, 'client_edit_profile.html', context)
 
 def client_received_proposal(request):
     return render(request, 'client_received_proposal.html')
