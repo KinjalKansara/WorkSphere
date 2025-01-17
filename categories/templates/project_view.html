@@ -1,6 +1,4 @@
-{% extends 'header_2.html' %}
 
-{% block content %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -231,11 +229,11 @@
     color: white;
     }
 
-    /* Back Button */
-    .back-button {
+    /* Apply Button */
+    .apply-button {
     display: block;
-    margin: 20px auto 0;
-    background: #ccc;
+    margin: 30px auto 0;
+    background: #1565c0;
     color: white;
     text-align: center;
     padding: 10px 20px;
@@ -243,16 +241,16 @@
     font-size: 18px;
     border-radius: 8px;
     text-decoration: none;
-   
+    
     }
 
-    .back-button i {
+    .apply-button i {
     margin-right: 8px;
     }
 
-    .back-button:hover {
-    background: #999;
-
+    .apply-button:hover {
+    background: #104a8e;
+    
     }
 
     /* Popup Modal */
@@ -320,18 +318,17 @@
 </head>
 <body>
   <div class="project-container">
-    
     <div class="project-header">
-      <h2>{{details.title}}</h2>
+      <h2>{{project.title}}</h2>
       <!-- <p>Posted by Client Name on Jan 20, 2025</p> -->
     </div>
 
     <div class="project-image-bio">
-      <img src="/media/{{details.photo}}" alt="Project Image" class="project-image">
+      <img src="/media/{{project.photo}}" alt="Project Image" class="project-image">
       <div class="client-bio">
         <h3>Client Bio</h3>
         <p>
-          The client is a reputable company with a history of successful projects. They value quality work and timely delivery. They are looking for a skilled freelancer to bring their vision to life.
+         {{client.bio}}
         </p>
         <span class="read-more" onclick="openModal()">Read More</span>
       </div>
@@ -340,7 +337,7 @@
     <div class="description-section">
       <h3>Project Description</h3>
       <p></p>
-        {{details.description}}
+        {{project.description}}
       </p>
     </div>
 
@@ -348,49 +345,38 @@
       <div class="detail-card">
         <i class="fas fa-dollar-sign"></i>
         <h4>Budget</h4>
-        <p>{{details.budget}}</p>
+        <p>{{project.budget}}</p>
       </div>
       <div class="detail-card">
         <i class="fas fa-coins"></i>
         <h4>Budget Type</h4>
-        <p>{{details.budget_type}}</p>
+        <p>{{project.budget_type}}</p>
       </div>
       <div class="detail-card">
         <i class="fas fa-clock"></i>
         <h4>Deadline</h4>
-        <p>{{details.deadline}}</p>
+        <p>{{project.deadline}}</p>
       </div>
       <div class="detail-card">
         <i class="fas fa-map-marker-alt"></i>
         <h4>Location</h4>
-        <p>{{details.client.location }}</p>
+        <p>{{location}}</p>
       </div>
       <div class="detail-card">
         <i class="fas fa-briefcase"></i>
         <h4>Experience Level</h4>
-        <p>{{details.experience_level}}</p>
+        <p>{{project.experience_level}}</p>
       </div>
     </div>
 
     <div class="skills-section">
       <h3>Required Skills</h3>
       <div class="skills-list">
-        {% for skill in skills %}
+        {% for skill in skill %}
         <div class="skill-item">{{skill}}</div> 
         {% endfor %}
       </div>
     </div>
-
-    <!-- <div class="skills-section">
-      <h3>Required Skills</h3>
-      <div class="skills-list">
-        <div class="skill-item">Web Development</div>
-        <div class="skill-item">Graphic Design</div>
-        <div class="skill-item">SEO Optimization</div>
-        <div class="skill-item">JavaScript</div>
-        <div class="skill-item">Python</div>
-      </div>
-    </div> -->
 
     <div class="attachments-section">
       <h3>Attachments</h3>
@@ -405,11 +391,20 @@
             <a href="/media/attachment1.pdf" download>Download</a>
           </div>
         </li>
+        <li>
+          <div class="attachment-info">
+            <i class="fas fa-file-word"></i>
+            <span>Requirements_Document.docx</span>
+          </div>
+          <div class="attachment-actions">
+            <a onclick="showAttachment('/media/attachment2.docx')">View</a>
+            <a href="/media/attachment2.docx" download>Download</a>
+          </div>
+        </li>
       </ul>
     </div>
 
-    <a href="javascript:history.back()" class="back-button"><i class="fas fa-arrow-left"></i>Back</a>
- 
+    <a href="/apply-for-project" class="apply-button"><i class="fas fa-paper-plane"></i>Apply for this Project</a>
   </div>
 
   <!-- The Modal -->
@@ -418,7 +413,7 @@
       <span class="close" onclick="closeModal()">&times;</span>
       <h3>Client Bio</h3>
       <p>
-        The client is a reputable company with a history of successful projects. They value quality work and timely delivery. They are looking for a skilled freelancer to bring their vision to life. The client has worked on numerous projects in various industries and has a strong track record of delivering high-quality results. They are committed to clear communication and collaboration throughout the project to ensure that the final deliverables meet their expectations.
+        {{client.bio}}
       </p>
     </div>
   </div>
@@ -461,4 +456,4 @@
 </body>
 </html>
 
-{% endblock %}
+

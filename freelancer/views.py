@@ -270,10 +270,48 @@ def freelancer_list_of_project(request):
     return render(request, 'freelancer_list_of_project.html', context)
 
 def freelancer_profile(request):
-    return render(request, 'freelancer_profile.html')
+    username = request.session.get('logged_user')
+    freelancer = FreelancerRegisterLogin.objects.get(username=username)
+
+    context ={
+        'freelancer' : freelancer,
+    }
+    
+    return render(request, 'freelancer_profile.html', context)
 
 def freelancer_edit_profile(request):
-    return render(request, 'freelancer_edit_profile.html')
+    username = request.session.get('logged_user')
+    freelancer = FreelancerRegisterLogin.objects.get(username=username)
+
+    if request.method == "POST":
+        about = request.POST.get('about')
+        password = request.POST.get('password')
+        phone = request.POST.get('phone')
+        location = request.POST.get('location')
+        skill = request.POST.get('skill')
+        rate = request.POST.get('rate')
+
+        if about:
+            freelancer.about_me = about
+        if password:
+            freelancer.password = password
+        if phone:
+            freelancer.phone_number = phone
+        if location:
+            freelancer.location = location
+        if skill:
+            freelancer.skills = skill
+        if rate:
+            freelancer.hourly_rate = rate
+
+        freelancer.save()
+
+        return redirect('freelancer_profile')
+
+    context = {
+        'freelancer': freelancer,
+    }
+    return render(request, 'freelancer_edit_profile.html', context)
 
 def freelancer_proposal(request):
     return render(request, 'freelancer_proposal.html')

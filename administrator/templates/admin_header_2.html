@@ -1,3 +1,5 @@
+{% if request.session.admin %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -213,7 +215,7 @@
       <a href="#">Payment</a>
       <a href="{% url 'admin_project' %}">Project</a>
       <a href="{% url 'admin_proposal' %}">Proposal</a>
-      <a href="#client-profile">logout</a>
+      <a href="{% url 'admin_logout' %}">logout</a>
     </nav>
     <div class="hamburger">
       <div></div>
@@ -266,3 +268,10 @@
   </script>
 </body>
 </html>
+
+{% else %}
+<script>
+  window.location = "{% url 'admin_login' %}"
+</script>
+
+{% endif %}

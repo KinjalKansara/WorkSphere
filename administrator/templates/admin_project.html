@@ -307,34 +307,24 @@
       </thead>
       <tbody>
         <tr>
-          <td>12345</td>
-          <td>John Doe</td>
-          <td>Website Redesign</td>
-          <td>$5000</td>
-          <td>Jan 20, 2025</td>
-          <td>Open</td>
+          {% for project in project%}
+          <td>{{project.id}}</td>
+          <td>{{project.client.first_name}} {{project.client.last_name}}</td>
+          <td>{{project.title}}</td>
+          <td>{{project.budget}}</td>
+          <td>{{project.deadline}}</td>
+          <td>{{project.status}}</td>
           <td>
             <div class="action-buttons">
               <button class="view-button" onclick="viewProject(1)">View</button>
-              <button class="delete-button" onclick="deleteProject(1)">Delete</button>
             </div>
+            <form method="post" action="{% url 'admin_delete_project' project.id %}">
+              {% csrf_token %}
+              <button type="submit" class="delete-button">Delete</button>
+          </form>
           </td>
         </tr>
-        <tr>
-          <td>67890</td>
-          <td>Michael Brown</td>
-          <td>Mobile App Development</td>
-          <td>$3000</td>
-          <td>Dec 15, 2024</td>
-          <td>Closed</td>
-          <td>
-            <div class="action-buttons">
-              <button class="view-button" onclick="viewProject(2)">View</button>
-              <button class="delete-button" onclick="deleteProject(2)">Delete</button>
-            </div>
-          </td>
-        </tr>
-        <!-- Add more dummy project items as needed -->
+        {% endfor %}
       </tbody>
     </table>
   </div>

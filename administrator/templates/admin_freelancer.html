@@ -294,45 +294,38 @@
       <a href="{% url 'admin_dashboard' %}" class="back-button"><i class="fas fa-arrow-left"></i>Back</a>
     </div>
     <table class="freelancer-table">
+      
       <thead>
         <tr>
+          <th>Image</th>
           <th>Name</th>
           <th>Username</th>
           <th>Email</th>
-          <th>Phone</th>
-          <th>Skills</th>
+          <th>Phone Number</th>
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
+        {% for freelancer in freelancer %}
         <tr>
-          <td>John Doe</td>
-          <td>johndoe</td>
-          <td>john.doe@example.com</td>
-          <td>+1234567890</td>
-          <td>Web Development, Graphic Design</td>
+          <td>{{freelancer.profile_image}}</td>
+          <td>{{freelancer.first_name}} {{freelancer.last_name}}</td>
+          <td>{{freelancer.username}}</td>
+          <td>{{freelancer.email}}</td>
+          <td>{{freelancer.phone_number}}</td>
           <td>
             <div class="action-buttons">
               <button class="view-button" onclick="viewFreelancer(1)">View</button>
-              <button class="delete-button" onclick="deleteFreelancer(1)">Delete</button>
             </div>
+            <form method="post" action="{% url 'freelancer_delete_details' freelancer.id %}">
+              {% csrf_token %}
+              <button type="submit" class="delete-button">Delete</button>
+          </form>
           </td>
         </tr>
-        <tr>
-          <td>Jane Smith</td>
-          <td>janesmith</td>
-          <td>jane.smith@example.com</td>
-          <td>+0987654321</td>
-          <td>SEO, Content Writing</td>
-          <td>
-            <div class="action-buttons">
-              <button class="view-button" onclick="viewFreelancer(2)">View</button>
-              <button class="delete-button" onclick="deleteFreelancer(2)">Delete</button>
-            </div>
-          </td>
-        </tr>
-        <!-- Add more dummy freelancer items as needed -->
+        {% endfor %}
       </tbody>
+      
     </table>
   </div>
 
@@ -361,17 +354,6 @@
           bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
           registration_date: "Jan 20, 2025"
         },
-        2: {
-          profile_photo: "https://via.placeholder.com/150",
-          name: "Jane Smith",
-          username: "janesmith",
-          email: "jane.smith@example.com",
-          phone: "+0987654321",
-          skills: "SEO, Content Writing",
-          address: "456 Avenue, City, Country",
-          bio: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-          registration_date: "Dec 15, 2024"
-        }
       };
 
       const freelancer = freelancerDetails[freelancerId];

@@ -253,22 +253,28 @@
       <button><i class="fas fa-search"></i></button>
     </div>
     <ul class="project-list">
+      {% for ai in ai %}
       <li class="project-card">
         <div class="project-header">
-          {% for ai in ai %}
-          <h3>{{ai.title}}</h3>
+          <h3>{{ ai.title }}</h3>
+          {% if ai.status == "open" %}
           <span class="status-open">Open</span>
+          {% else %}
+          <span class="status-closed">Closed</span>
+          {% endif %}
         </div>
         <img src="/media/{{ ai.photosurl }}" alt="Project Image">
         <div class="project-footer">
-          <span><i class="fas fa-dollar-sign"></i> Budget: {{ai.budget}}</span>
-          <span><i class="fas fa-coins"></i> Type: {{ai.budget_type}}</span>
-          <span><i class="fas fa-star"></i> Rating: {{ai.rating}}</span>
-          <span><i class="fas fa-calendar-alt"></i> Deadline: {{ai.deadline}}</span>
+          <span><i class="fas fa-dollar-sign"></i> Budget: {{ ai.budget }}</span>
+          <span><i class="fas fa-coins"></i> Type: {{ ai.budget_type }}</span>
+          <span><i class="fas fa-star"></i> Rating: {{ ai.rating }}</span>
+          <span><i class="fas fa-calendar-alt"></i> Deadline: {{ ai.deadline }}</span>
         </div>
-        <button class="view-details" onclick="window.location.href='/project-details/1'">View Details</button>
-      {% endfor %}
+        <a href="{% url 'project_view' ai.id %}" class="view-details">View Project</a>
       </li>
+      {% empty %}
+      <p>No AI development projects available at the moment.</p>
+      {% endfor %}
     </ul>
   </div>
 </body>

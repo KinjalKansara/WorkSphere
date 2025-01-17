@@ -253,35 +253,28 @@
       <button><i class="fas fa-search"></i></button>
     </div>
     <ul class="project-list">
+      {% for anim in anim %}
       <li class="project-card">
         <div class="project-header">
-          <h3>AI Chatbot Development</h3>
+          <h3>{{ anim.title }}</h3>
+          {% if anim.status == "open" %}
           <span class="status-open">Open</span>
-        </div>
-        <img src="/media/ai_project1.jpg" alt="Project Image">
-        <div class="project-footer">
-          <span><i class="fas fa-dollar-sign"></i> Budget: $500 - $1000</span>
-          <span><i class="fas fa-coins"></i> Type: Fixed</span>
-          <span><i class="fas fa-star"></i> Rating: 4.5</span>
-          <span><i class="fas fa-calendar-alt"></i> Deadline: Jan 20, 2025</span>
-        </div>
-        <button class="view-details" onclick="window.location.href='/project-details/1'">View Details</button>
-      </li>
-      <li class="project-card">
-        <div class="project-header">
-          <h3>Image Recognition System</h3>
+          {% else %}
           <span class="status-closed">Closed</span>
+          {% endif %}
         </div>
-        <img src="/media/ai_project2.jpg" alt="Project Image">
+        <img src="/media/{{ ai.photosurl }}" alt="Project Image">
         <div class="project-footer">
-          <span><i class="fas fa-dollar-sign"></i> Budget: $1000 - $2000</span>
-          <span><i class="fas fa-coins"></i> Type: Hourly</span>
-          <span><i class="fas fa-star"></i> Rating: 4.8</span>
-          <span><i class="fas fa-calendar-alt"></i> Deadline: Dec 15, 2024</span>
+          <span><i class="fas fa-dollar-sign"></i> Budget: {{ anim.budget }}</span>
+          <span><i class="fas fa-coins"></i> Type: {{ anim.budget_type }}</span>
+          <span><i class="fas fa-star"></i> Rating: {{ anim.rating }}</span>
+          <span><i class="fas fa-calendar-alt"></i> Deadline: {{ anim.deadline }}</span>
         </div>
-        <button class="view-details" onclick="window.location.href='/project-details/2'">View Details</button>
+        <a href="{% url 'project_view' anim.id %}" class="view-details">View Project</a>
       </li>
-      <!-- Add more project items as needed -->
+      {% empty %}
+      <p>No Animation projects available at the moment.</p>
+      {% endfor %}
     </ul>
   </div>
 </body>

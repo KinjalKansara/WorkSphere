@@ -49,12 +49,12 @@
             justify-content: center;
         }
 
-        .icon-users { background-color: #ff6f61; color: white; } /* Red */
+        {% comment %} .icon-users { background-color: #ff6f61; color: white; } /* Red */ {% endcomment %}
         .icon-projects { background-color: #ffbf47; color: white; } /* Orange */
-        .icon-reports { background-color: #00bfa5; color: white; } /* Green */
+        .icon-notification { background-color: #00bfa5; color: white; } /* Green */
         .icon-payments { background-color: #1e88e5; color: white; } /* Blue */
-        .icon-settings { background-color: #ab47bc; color: white; } /* Purple */
-        .icon-support { background-color: #ffca28; color: white; } /* Yellow */
+        {% comment %} .icon-notification { background-color: #ab47bc; color: white; } /* Purple */ {% endcomment %}
+        {% comment %} .icon-support { background-color: #ffca28; color: white; } /* Yellow */ {% endcomment %}
         .icon-client { background-color: #4caf50; color: white; } /* Green */
         .icon-freelancer { background-color: #f44336; color: white; } /* Red */
         .icon-contact { background-color: #ff9800; color: white; } /* Orange */
@@ -117,27 +117,33 @@
         </div>
         <div class="box">
             <div class="icon icon-contact"><i class="fas fa-envelope"></i></div>
-            <h3>Contact Info</h3>
+            <h3>Contact Information</h3>
             <p>View and manage contact information.</p>
             <a href="{% url 'admin_contact' %}">Contact Information</a>
         </div>
         <div class="box">
             <div class="icon icon-payments"><i class="fas fa-credit-card"></i></div>
-            <h3>Payment Info</h3>
+            <h3>Payment Information</h3>
             <p>View and manage payment information.</p>
             <a href="#">Payment Information</a>
         </div>
         <div class="box">
             <div class="icon icon-projects"><i class="fas fa-briefcase"></i></div>
-            <h3>Project Info</h3>
+            <h3>Project Information</h3>
             <p>View and manage project information.</p>
             <a href="{% url 'admin_project' %}">Project Information</a>
         </div>
         <div class="box">
             <div class="icon icon-proposal"><i class="fas fa-file-contract"></i></div>
-            <h3>Proposal Info</h3>
+            <h3>Proposal Information</h3>
             <p>View and manage proposal information.</p>
             <a href="{% url 'admin_proposal' %}">Proposal Information</a>
+        </div>
+        <div class="box">
+            <div class="icon icon-notification"><i class="fas fa-file-contract"></i></div>
+            <h3>Notification</h3>
+            <p>View and manage Notification.</p>
+            <a href="#">Proposal Information</a>
         </div>
         <div class="box">
             <div class="icon icon-logout"><i class="fas fa-sign-out-alt"></i></div>

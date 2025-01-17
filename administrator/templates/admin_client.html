@@ -296,42 +296,34 @@
     <table class="client-table">
       <thead>
         <tr>
+          <th>Image</th>
           <th>Name</th>
           <th>Username</th>
           <th>Email</th>
-          <th>Phone</th>
-          <th>Company</th>
+          <th>Phone Number</th>
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>John Doe</td>
-          <td>johndoe</td>
-          <td>john.doe@example.com</td>
-          <td>+1234567890</td>
-          <td>Example Company</td>
+          {% for client in client %}
+          <td>{{client.profile_photo}}</td>
+          <td>{{client.first_name}} {{client.last_name}}</td>
+          <td>{{client.username}}</td>
+          <td>{{client.email}}</td>
+          <td>{{client.phone}}</td>
           <td>
             <div class="action-buttons">
               <button class="view-button" onclick="viewClient(1)">View</button>
-              <button class="delete-button" onclick="deleteClient(1)">Delete</button>
             </div>
+            <form method="post" action="{% url 'admin_delete_client' client.id %}">
+              {% csrf_token %}
+              <button type="submit" class="delete-button">Delete</button>
+          </form>
           </td>
         </tr>
-        <tr>
-          <td>Jane Smith</td>
-          <td>janesmith</td>
-          <td>jane.smith@example.com</td>
-          <td>+0987654321</td>
-          <td>Another Company</td>
-          <td>
-            <div class="action-buttons">
-              <button class="view-button" onclick="viewClient(2)">View</button>
-              <button class="delete-button" onclick="deleteClient(2)">Delete</button>
-            </div>
-          </td>
-        </tr>
-        <!-- Add more dummy client items as needed -->
+        {% endfor %}
+        
       </tbody>
     </table>
   </div>

@@ -153,52 +153,40 @@
   </style>
 </head>
 <body>
-  <div class="contact-container">
+<div class="contact-container">
     <div class="contact-header">
-      <h2>Contact Information</h2>
-      <a href="{% url 'admin_dashboard' %}" class="back-button"><i class="fas fa-arrow-left"></i>Back</a>
+        <h2>Contact Information</h2>
+        <a href="{% url 'admin_dashboard' %}" class="back-button"><i class="fas fa-arrow-left"></i>Back</a>
     </div>
     <table class="contact-table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Phone</th>
-          <th>Message</th>
-          <th>Submitted On</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>John Doe</td>
-          <td>john.doe@example.com</td>
-          <td>+1234567890</td>
-          <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
-          <td>Jan 20, 2025</td>
-          <td><button class="delete-button" onclick="deleteContact(1)">Delete</button></td>
-        </tr>
-        <tr>
-          <td>Jane Smith</td>
-          <td>jane.smith@example.com</td>
-          <td>+0987654321</td>
-          <td>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</td>
-          <td>Dec 15, 2024</td>
-          <td><button class="delete-button" onclick="deleteContact(2)">Delete</button></td>
-        </tr>
-        <!-- Add more contact items as needed -->
-      </tbody>
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Subject</th>
+                <th>Your Message</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contact in contact %}
+            <tr>
+                <td>{{ contact.first }} {{ contact.last }}</td>
+                <td>{{ contact.email }}</td>
+                <td>{{ contact.phone_number }}</td>
+                <td>{{ contact.subject }}</td>
+                <td>{{ contact.message }}</td>
+                <td>
+                    <form method="post" action="{% url 'admin_delete_contact' contact.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-button">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
-  </div>
-
-  <script>
-    function deleteContact(contactId) {
-      // Implement the delete functionality here
-      // For example, you can make an AJAX request to delete the contact from the database
-      console.log('Delete contact with ID:', contactId);
-    }
-  </script>
-</body>
-</html>
+</div>
 
 {% endblock %}

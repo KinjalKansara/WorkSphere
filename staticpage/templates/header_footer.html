@@ -341,17 +341,16 @@
             <i class="fas fa-bars"></i>
         </button>
         <nav>
-            <input type="text" placeholder="Search...">
-            <a href="#signup"><i class="fas fa-home"></i>Home</a>
-            <a href="#signup"><i class="fas fa-user"></i> Sign Up</a>
-            <a href="#login"><i class="fas fa-sign-in-alt"></i> Login</a>
-            <a href="#how-it-works" style="color: #82b1ff"><i class="fas fa-info-circle"></i> How It Works</a>
+            <a href="{% url 'home' %}"><i class="fas fa-home"></i>Home</a>
+            <a href="{% url 'select_register' %}"><i class="fas fa-user"></i> Sign Up</a>
+            <a href="{% url 'select_login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="{% url 'work' %}" style="color: #82b1ff"><i class="fas fa-info-circle"></i> How It Works</a>
         </nav>
         <div class="mobile-nav">
-            <a href="#signup"><i class="fas fa-home"></i>Home</a>
-            <a href="#signup"><i class="fas fa-user"></i> Sign Up</a>
-            <a href="#login"><i class="fas fa-sign-in-alt"></i> Login</a>
-            <a href="#how-it-works" style="color: #1565c0;"><i class="fas fa-info-circle"></i> How It Works</a>
+            <a href="{% url 'home' %}"><i class="fas fa-home"></i>Home</a>
+            <a href="{% url 'select_register' %}"><i class="fas fa-user"></i> Sign Up</a>
+            <a href="{% url 'select_login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="{% url 'work' %}" style="color: #1565c0;"><i class="fas fa-info-circle"></i> How It Works</a>
         </div>
     </header>
 
@@ -361,8 +360,8 @@
             <i class="fas fa-robot"></i>
             <a href="#ai-services" class="category-title">AI</a>
             <div class="subcategories">
-                <a href="#ml-services">Machine Learning</a>
-                <a href="#ai-development">AI Development</a>
+                <a href="{% url 'machine_learning' %}">Machine Learning</a>
+                <a href="{% url 'ai_developement' %}">AI Development</a>
             </div>
         </div>
 
@@ -370,8 +369,8 @@
             <i class="fas fa-laptop"></i>
             <a href="#tech-programming" class="category-title">Tech</a>
             <div class="subcategories">
-                <a href="#web-development">Web Development</a>
-                <a href="#software-development">Software Development</a>
+                <a href="{% url 'web_development' %}">Web Development</a>
+                <a href="{% url 'software_development' %}">Software Development</a>
             </div>
         </div>
 
@@ -379,8 +378,8 @@
             <i class="fas fa-paint-brush"></i>
             <a href="#design" class="category-title">Design</a>
             <div class="subcategories">
-                <a href="#graphic-design">Graphic Design</a>
-                <a href="#branding">Logo Design</a>
+                <a href=" #">Graphic Design</a>
+                <a href="{% url 'logo_design' %}">Logo Design</a>
             </div>
         </div>
 
@@ -388,8 +387,8 @@
             <i class="fas fa-video"></i>
             <a href="#video-photo-images" class="category-title">Video</a>
             <div class="subcategories">
-                <a href="#video-editing">Video Editing</a>
-                <a href="#animation">Animation</a>
+                <a href="{% url 'video_editing' %}">Video Editing</a>
+                <a href="{% url 'animation' %}">Animation</a>
             </div>
         </div>
 
@@ -397,8 +396,8 @@
             <i class="fas fa-briefcase"></i>
             <a href="#business" class="category-title">Business</a>
             <div class="subcategories">
-                <a href="#market-research">Market Research</a>
-                <a href="#strategy">Business Strategy</a>
+                <a href="{% url 'market_research' %}">Market Research</a>
+                <a href="{% url 'business_strategy' %}">Business Strategy</a>
             </div>
         </div>
 
@@ -406,8 +405,8 @@
             <i class="fas fa-music"></i>
             <a href="#video-photo-images" class="category-title">Music&Audio</a>
             <div class="subcategories">
-                <a href="#video-editing">Lyric Writting</a>
-                <a href="#animation">Music Composition</a>
+                <a href="{% url 'lyric_writting' %}">Lyric Writting</a>
+                <a href="{% url 'music_composition' %}">Music Composition</a>
             </div>
         </div>
 
@@ -415,8 +414,8 @@
             <i class="fas fa-share-alt"></i>
             <a href="#social-media" class="category-title">Social Media</a>
             <div class="subcategories">
-                <a href="#content-creation">Content Creation</a>
-                <a href="#marketing">Social Media Marketing</a>
+                <a href="{% url 'content_creation' %}">Content Creation</a>
+                <a href="{% url 'social_media_marketing' %}">Social Media Marketing</a>
             </div>
         </div>
 
@@ -424,8 +423,8 @@
             <i class="fas fa-gavel"></i>
             <a href="#legal-work" class="category-title">Legal</a>
             <div class="subcategories">
-                <a href="#contract-drafting">Contract Drafting</a>
-                <a href="#legal-consulting">Legal Consulting</a>
+                <a href="{% url 'contract_drafting' %}">Contract Drafting</a>
+                <a href="{% url 'legal_consulting' %}">Legal Consulting</a>
             </div>
         </div>
     </header>
