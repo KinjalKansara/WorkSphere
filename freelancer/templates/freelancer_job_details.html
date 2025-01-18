@@ -324,93 +324,105 @@
 </head>
 <body>
   <div class="project-container">
-    <div class="project-header">
-      <h2>{{details.title}}</h2>
-      <!-- <p>Posted by Client Name on Jan 20, 2025</p> -->
-    </div>
+    <form action="{% url 'freelancer_send_proposal' details.id %}" method="post">
+      {% csrf_token %}
+      <div class="project-header">
+        <h2>{{details.title}}</h2>
+        <!-- <p>Posted by Client Name on Jan 20, 2025</p> -->
+      </div>
 
-    <div class="project-image-bio">
-      <img src="https://via.placeholder.com/600x300" alt="Project Image" class="project-image">
-      <div class="client-bio">
-        <h3>Client Bio</h3>
-        <p>
-          The client is a reputable company with a history of successful projects. They value quality work and timely delivery. They are looking for a skilled freelancer to bring their vision to life.
-        </p>
-        <span class="read-more" onclick="openModal()">Read More</span>
+      <!-- Project Image and Client Bio -->
+      <div class="project-image-bio">
+        <img src="https://via.placeholder.com/600x300" alt="Project Image" class="project-image">
+        <div class="client-bio">
+          <h3>Client Bio</h3>
+          <p>
+            The client is a reputable company with a history of successful projects. They value quality work and timely delivery. They are looking for a skilled freelancer to bring their vision to life.
+          </p>
+          <span class="read-more" onclick="openModal()">Read More</span>
+        </div>
       </div>
-    </div>
 
-    <div class="description-section">
-      <h3>Project Description</h3>
-      <p class="formatted-description">{{ details.description|safe }}</p>
-  </div>  
+      <!-- Project Description -->
+      <div class="description-section">
+        <h3>Project Description</h3>
+        <p class="formatted-description">{{ details.description|safe }}</p>
+      </div>  
 
-    <div class="project-details">
-      <div class="detail-card">
-        <i class="fas fa-dollar-sign"></i>
-        <h4>Budget</h4>
-        <p>{{details.budget}}</p>
+      <!-- Project Details (Budget, Type, Deadline, etc.) -->
+      <div class="project-details">
+        <div class="detail-card">
+          <i class="fas fa-dollar-sign"></i>
+          <h4>Budget</h4>
+          <p>{{details.budget}}</p>
+        </div>
+        <div class="detail-card">
+          <i class="fas fa-coins"></i>
+          <h4>Budget Type</h4>
+          <p>{{details.budget_type}}</p>
+        </div>
+        <div class="detail-card">
+          <i class="fas fa-clock"></i>
+          <h4>Deadline</h4>
+          <p>{{details.deadline}}</p>
+        </div>
+        <div class="detail-card">
+          <i class="fas fa-map-marker-alt"></i>
+          <h4>Location</h4>
+          <p>{{details.location}}</p>
+        </div>
+        <div class="detail-card">
+          <i class="fas fa-briefcase"></i>
+          <h4>Experience Level</h4>
+          <p>{{details.experience_level}}</p>
+        </div>
       </div>
-      <div class="detail-card">
-        <i class="fas fa-coins"></i>
-        <h4>Budget Type</h4>
-        <p>{{details.budget_type}}</p>
-      </div>
-      <div class="detail-card">
-        <i class="fas fa-clock"></i>
-        <h4>Deadline</h4>
-        <p>{{details.deadline}}</p>
-      </div>
-      <div class="detail-card">
-        <i class="fas fa-map-marker-alt"></i>
-        <h4>Location</h4>
-        <p>{{details.location}}</p>
-      </div>
-      <div class="detail-card">
-        <i class="fas fa-briefcase"></i>
-        <h4>Experience Level</h4>
-        <p>{{details.experience_level}}</p>
-      </div>
-    </div>
 
-    <div class="skills-section">
-      <h3>Required Skills</h3>
-      <div class="skills-list">
-        {% for skill in skills %}
-        <div class="skill-item">{{skill}}</div> 
-        {% endfor %}
+      <!-- Skills Section -->
+      <div class="skills-section">
+        <h3>Required Skills</h3>
+        <div class="skills-list">
+          {% for skill in skills %}
+            <div class="skill-item">{{skill}}</div> 
+          {% endfor %}
+        </div>
       </div>
-    </div>
 
-    <div class="attachments-section">
-      <h3>Attachments</h3>
-      <ul>
-        <li>
-          <div class="attachment-info">
-            <i class="fas fa-file-pdf"></i>
-            <span>Project_Specifications.pdf</span>
-          </div>
-          <div class="attachment-actions">
-            <a onclick="showAttachment('/media/attachment1.pdf')">View</a>
-            <a href="/media/attachment1.pdf" download>Download</a>
-          </div>
-        </li>
-        <li>
-          <div class="attachment-info">
-            <i class="fas fa-file-word"></i>
-            <span>Requirements_Document.docx</span>
-          </div>
-          <div class="attachment-actions">
-            <a onclick="showAttachment('/media/attachment2.docx')">View</a>
-            <a href="/media/attachment2.docx" download>Download</a>
-          </div>
-        </li>
-      </ul>
-    </div>
+      <!-- Attachments Section -->
+      <div class="attachments-section">
+        <h3>Attachments</h3>
+        <ul>
+          <li>
+            <div class="attachment-info">
+              <i class="fas fa-file-pdf"></i>
+              <span>Project_Specifications.pdf</span>
+            </div>
+            <div class="attachment-actions">
+              <a onclick="showAttachment('/media/attachment1.pdf')">View</a>
+              <a href="/media/attachment1.pdf" download>Download</a>
+            </div>
+          </li>
+          <li>
+            <div class="attachment-info">
+              <i class="fas fa-file-word"></i>
+              <span>Requirements_Document.docx</span>
+            </div>
+            <div class="attachment-actions">
+              <a onclick="showAttachment('/media/attachment2.docx')">View</a>
+              <a href="/media/attachment2.docx" download>Download</a>
+            </div>
+          </li>
+        </ul>
+      </div>
 
-    <a href="/apply-for-project" class="apply-button"><i class="fas fa-paper-plane"></i>Apply for this Project</a>
+      <!-- Submit Proposal Button -->
+      <button type="submit"class="apply-button"><i class="fas fa-paper-plane"></i>Apply for this Project</button>
+    </form>
   </div>
 
+
+
+{% comment %} <a href="{% url 'freelancer_send_proposal' %}" class="apply-button"><i class="fas fa-paper-plane"></i>Apply for this Project</a> {% endcomment %}
   <!-- The Modal -->
   <div id="myModal" class="modal">
     <div class="modal-content">

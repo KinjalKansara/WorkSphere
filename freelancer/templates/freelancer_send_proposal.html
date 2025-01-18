@@ -1,198 +1,315 @@
 {% extends 'freelancer_header_2.html' %}
 
 {% block content %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Send Proposal</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <style>
-    .container {
-      max-width: 800px;
-      margin: 50px auto;
-      padding: 25px;
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      animation: fadeIn 1s ease-in-out;
-      transition: all 0.3s ease;
-    }
-    .container:hover {
-      background: rgba(255, 255, 255, 1);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    }
-    h1 {
-      text-align: center;
-      color: #007bff;
-      margin-bottom: 20px;
-      font-weight: 700;
-      font-size: 2.5em;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-    }
-    .about-section {
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 1.1em;
-      line-height: 1.6;
-      color: #555;
-    }
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .form-group {
-      position: relative;
-      width: 100%;
-    }
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-      width: 100%;
-      padding: 15px 50px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-      box-sizing: border-box;
-      transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-      background-color: #f8f8f8;
-    }
-    .form-group textarea {
-      resize: none;
-      height: 120px;
-    }
-    .form-group i {
-      position: absolute;
-      top: 50%;
-      left: 15px;
-      transform: translateY(-50%);
-      color: #007bff;
-      font-size: 18px;
-    }
-    .form-group select {
-      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cHM6Ly93d3cuMy5ldS9zMyIgeG1sbnM6Y29sb3I9ImhlYWQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiI+PC9zdmc+');
-      background-repeat: no-repeat;
-      background-position: right 15px center;
-      background-size: 16px;
-      padding-right: 50px;
-    }
-    .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
-      border-color: #007bff;
-      box-shadow: 0 0 10px rgba(0, 123, 255, 0.4);
-      outline: none;
-      background-color: #fff;
-    }
-    .button-group {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-    }
-    button {
-      padding: 15px 20px;
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      font-size: 18px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    button i {
-      margin-right: 10px;
-      font-size: 18px;
-    }
-    button:hover {
-      background-color: #0056b3;
-      transform: translateY(-2px);
-    }
-    button:active {
-      transform: translateY(0);
-    }
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Proposal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 50px auto;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
+            overflow: hidden;
+        }
+
+        .container:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+            font-weight: 700;
+            font-size: 2.5em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .about-section {
+            text-align: center;
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .form-group {
+            position: relative;
+            width: 100%;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 15px 50px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            background-color: #f8f8f8;
+            transition: all 0.3s ease;
+        }
+
+        .form-group textarea {
+            resize: none;
+            height: 120px;
+        }
+
+        .form-group i {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: #007bff;
+            font-size: 18px;
+        }
+
+        .form-group select {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cHM6Ly93d3cuMy5ldS9zMyIgeG1sbnM6Y29sb3I9ImhlYWQiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiI+PC9zdmc+');
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+            padding-right: 50px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.4);
+            outline: none;
+            background-color: #fff;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+        }
+
+        button {
+            padding: 15px 25px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button i {
+            font-size: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        h2 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .details-section {
+            margin-bottom: 40px;
+        }
+
+        .details-section .info-group {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+
+        .details-section label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .details-section span {
+            color: #555;
+        }
+
+        .divider {
+            border: 1px solid #ddd;
+            margin: 20px 0;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>Send Proposal</h1>
-    <div class="about-section">
-      <p>Fill out the form below to send your proposal for the project. Provide all the necessary details to help the client understand your approach and expertise.</p>
+    <div class="container">
+        <h1>Send Proposal</h1>
+        <div class="about-section">
+            <p>Fill out the form below to send your proposal for the project. Provide all the necessary details to help the client understand your approach and expertise.</p>
+        </div>
+
+        <div class="details-section">
+            <h2>Project Details</h2>
+            <div class="info-group">
+                <label for="title">Project Title:</label>
+                <span>{{project.title}}</span>
+            </div>
+            <div class="info-group">
+                <label for="budget">Project Budget:</label>
+                <span>{{project.budget}}</span>
+            </div>
+            <div class="info-group">
+                <label for="deadline">Project Deadline:</label>
+                <span>{{project.deadline}}</span>
+            </div>
+
+            <div class="divider"></div>
+
+            <h2>Client Information</h2>
+            <div class="info-group">
+                <label for="client_name">Client Name:</label>
+                <span>{{project.client.first_name}} {{project.client.last_name}}</span>
+            </div>
+            <div class="info-group">
+                <label for="client_email">Client Email:</label>
+                <span>{{project.client.email}}</span>
+            </div>
+            <div class="info-group">
+                <label for="client_about">About Client:</label>
+                <span>{{project.client.bio}}</span>
+            </div>
+        </div>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <i class="fas fa-heading"></i>
+                <input type="text" id="title" name="title" value={{project.title}}>
+            </div>
+            <div class="form-group">
+                <i class="fas fa-align-left"></i>
+                <textarea id="description" name="description" value={{project.description}}></textarea>
+            </div>
+            
+            <div class="form-group">
+                <i class="fas fa-dollar-sign"></i>
+                <input type="number" id="bid" name="bid" value="{{ project.budget|default:0.00 }}" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="service_fee">Freelancer Service Fee (10%):</label>
+                <input type="text" id="service_fee" readonly placeholder="$0.00">
+            </div>
+            <div class="form-group">
+                <label for="you_receive">You'll Receive:</label>
+                <input type="text" id="you_receive" readonly placeholder="$0.00">
+            </div>
+            <div class="form-group">
+              <i class="fas fa-clock"></i>
+              <select id="duration" name="duration" required>
+                  <option value="">Select Duration</option>
+                  <option value="1_day">1 Day</option>
+                  <option value="2_days">2 Days</option>
+                  <option value="3_days">3 Days</option>
+                  <option value="4_days">4 Days</option>
+                  <option value="5_days">5 Days</option>
+                  <option value="7_days">7 Days</option>
+                  <option value="10_days">10 Days</option>
+                  <option value="15_days">15 Days</option>
+                  <option value="1_month">1 Month</option>
+                  <option value="2_months">2 Months</option>
+                  <option value="3_months">3 Months</option>
+              </select>
+          </div>
+            {% comment %} <div class="form-group">
+                <i class="fas fa-calendar-alt"></i>
+                <input type="date" id="deadline" name="deadline" required>
+            </div> {% endcomment %}
+            <div class="form-group">
+                <i class="fas fa-envelope"></i>
+                <textarea id="cover_letter" name="cover_letter" placeholder="Write your cover letter here" required></textarea>
+            </div>
+            <div class="form-group">
+                <i class="fas fa-paperclip"></i>
+                <input type="file" id="attachment" name="attachment" accept=".pdf,.doc,.docx,.zip">
+            </div>
+
+            <div class="button-group">
+                <button type="submit">
+                    <i class="fas fa-paper-plane"></i> Submit Proposal
+                </button>
+            </div>
+        </form>
     </div>
-    <form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      
-      <!-- Project Title -->
-      <div class="form-group">
-        <i class="fas fa-heading"></i>
-        <input type="text" id="project_title" name="project_title" placeholder="Project Title" required>
-      </div>
-
-      <!-- Proposal Description -->
-      <div class="form-group">
-        <i class="fas fa-align-left"></i>
-        <textarea id="proposal_description" name="proposal_description" placeholder="Proposal Description" required></textarea>
-      </div>
-
-      <!-- Estimated Budget -->
-      <div class="form-group">
-        <i class="fas fa-dollar-sign"></i>
-        <input type="number" id="estimated_budget" name="estimated_budget" placeholder="Estimated Budget" required>
-      </div>
-
-      <!-- Estimated Time -->
-      <div class="form-group">
-        <i class="fas fa-clock"></i>
-        <select id="estimated_time" name="estimated_time" required>
-          <option value="" disabled selected>Estimated Time (in days)</option>
-          <option value="1">1 day</option>
-          <option value="2">2 days</option>
-          <option value="3">3 days</option>
-          <option value="4">4 days</option>
-          <option value="5">5 days</option>
-          <option value="6">6 days</option>
-          <option value="7">1 week</option>
-          <option value="14">2 weeks</option>
-          <option value="21">3 weeks</option>
-          <option value="30">1 month</option>
-        </select>
-      </div>
-
-      <!-- Attachments -->
-      <div class="form-group">
-        <i class="fas fa-paperclip"></i>
-        <input type="file" id="attachments" name="attachments" accept=".pdf,.doc,.docx,.zip">
-      </div>
-
-      <!-- Buttons -->
-      <div class="button-group">
-        <button type="submit">
-          <i class="fas fa-paper-plane"></i> Submit Proposal
-        </button>
-      </div>
-    </form>
-  </div>
 
 </body>
-</html>
+<script>
+  // Function to update the service fee and amount freelancer will receive
+  function updateFees() {
+      var bid = parseFloat(document.getElementById('bid').value);
+      if (isNaN(bid) || bid <= 0) {
+          document.getElementById('service_fee').value = "$0.00";
+          document.getElementById('you_receive').value = "$0.00";
+          return;
+      }
 
+      // Calculate the service fee (10%) and the amount freelancer will receive
+      var serviceFee = bid * 0.10; // 10% fee
+      var youReceive = bid - serviceFee;
+
+      // Update the fields with dollar formatting
+      document.getElementById('service_fee').value = "$" + serviceFee.toFixed(2);
+      document.getElementById('you_receive').value = "$" + youReceive.toFixed(2);
+  }
+
+  // Add event listener to the 'bid' field to update values on change
+  document.getElementById('bid').addEventListener('input', updateFees);
+
+  // Call the update function on page load if a bid value exists
+  window.onload = function() {
+      updateFees();
+  };
+</script>
+</html>
 {% endblock %}

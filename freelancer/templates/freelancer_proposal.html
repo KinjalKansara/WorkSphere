@@ -147,6 +147,45 @@ body {
   transform: scale(1.05);
 }
 
+/* Popup Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: 5% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 80%;
+      max-width: 700px;
+      text-align: left;
+    }
+
+    .modal-content .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .modal-content .close:hover,
+    .modal-content .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
 /* Responsive Design */
 
 /* Responsive Design for Mobile */
@@ -226,35 +265,51 @@ body {
       <h2>My Proposals</h2>
     </div>
     <ul class="proposal-list">
+      {% for proposal in proposal %}
       <li class="proposal-card">
         <div class="proposal-header">
-          <h3>Project Title</h3>
+          <h3>{{proposal.title}}</h3>
           <span class="status-open">Open</span>
         </div>
         <div class="proposal-body">
-          <p>Proposal description goes here. This is a brief overview of your proposal for the project.</p>
+          <p>{{proposal.description}}</p>
         </div>
         <div class="proposal-footer">
           <span><i class="fas fa-calendar-alt"></i> Submitted on: Jan 20, 2025</span>
         </div>
-        <button class="view-details" onclick="window.location.href='/proposal-details/1'">View Details</button>
+        <button class="view-details" onclick="viewClient({{ proposal.id }}, '{{ proposal.title }}', '{{ proposal.description }} {{ proposal.duration }}', '{{ proposal.bid }}', '{{ proposal.cover_letter }}', '{{ proposal.attachment }}', '{{ proposal.submitted_at }}')">View Details</button>
       </li>
-      <li class="proposal-card">
-        <div class="proposal-header">
-          <h3>Project Title</h3>
-          <span class="status-closed">Closed</span>
-        </div>
-        <div class="proposal-body">
-          <p>Proposal description goes here. This is a brief overview of your proposal for the project.</p>
-        </div>
-        <div class="proposal-footer">
-          <span><i class="fas fa-calendar-alt"></i> Submitted on: Dec 15, 2024</span>
-        </div>
-        <button class="view-details" onclick="window.location.href='/proposal-details/2'">View Details</button>
-      </li>
-      <!-- Add more proposal items as needed -->
+      {% endfor %}
     </ul>
   </div>
+  <div id="clientModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <div id="clientDetails"></div>
+    </div>
+  </div>
+
+  <script>
+    function viewClient(proposalId, title, description, duration, bid, coverLetter, attachment, submittedAt) {
+      const modalDetails = `
+      <div style="text-align: center; margin-bottom: 20px;">
+        <h2>${title}</h2>
+        <p><strong>Description:</strong> ${description}</p>
+        <p><strong>Duration:</strong> ${duration}</p>
+        <p><strong>Bid:</strong> ${bid}</p>
+        <p><strong>Cover Letter:</strong> ${coverLetter}</p>
+        <p><strong>Attachment:</strong> <a href="${attachment}" target="_blank">View Attachment</a></p>
+        <p><strong>Submitted on:</strong> ${submittedAt}</p>
+      </div>
+      `;
+      document.getElementById('clientDetails').innerHTML = modalDetails;
+      document.getElementById('clientModal').style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById('clientModal').style.display = 'none';
+    }
+  </script>
 </body>
 </html>
 

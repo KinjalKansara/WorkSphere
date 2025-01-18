@@ -318,10 +318,58 @@ def freelancer_edit_profile(request):
     return render(request, 'freelancer_edit_profile.html', context)
 
 def freelancer_proposal(request):
-    return render(request, 'freelancer_proposal.html')
+    user = request.session.get('logged_user')  # Get the logged-in user's session
+    freelancer = FreelancerRegisterLogin.objects.get(username=user)
+    proposals = FreelancerProposal.objects.filter(freelancer=freelancer)
 
-def freelancer_send_proposal(request):
-    return render(request, 'freelancer_send_proposal.html')
+    context={
+        'proposal' : proposals,
+    }
+    return render(request, 'freelancer_proposal.html', context)
+
+def freelancer_send_proposal(request, project_id):
+    user = request.session.get('logged_user')  # Get the logged-in user's session
+    freelancer = FreelancerRegisterLogin.objects.get(username=user)  # Get the freelancer object
+    client = ClientRegisterLogin.objects.get(username=user)
+    project = ClientPostProject.objects.get(client=client, id=project_id)
+
+    context = {
+        'project': project,
+    }
+
+    if request.method == "POST":
+        title = request.POST.get("title")
+        description = request.POST.get("description")
+        duration = request.POST.get("duration")
+        bid = request.POST.get("bid")
+        if bid:
+            bid = float(bid)
+            service_fee = round(bid * 0.10, 2)  # 10% service fee calculation
+            you_receive = round(bid - service_fee, 2)  # Amount freelancer will receive
+        else:
+            service_fee = 0.00
+            you_receive = 0.00 # Amount freelancer will receive
+        cover_letter = request.POST.get("cover_letter")
+        attachment = request.FILES.get("attachment")
+
+        # Create a FreelancerProposal object and associate it with the logged-in freelancer
+        proposal = FreelancerProposal(
+            freelancer=freelancer,  # Set freelancer as the logged-in freelancer
+            project=project,  # Set project as the selected project
+            title=title,
+            description=description,
+            duration=duration,
+            bid=bid,
+            cover_letter=cover_letter,
+            attachment=attachment,
+        )
+
+        proposal.save()
+
+        return redirect('freelancer_proposal')
+
+    return render(request, 'freelancer_send_proposal.html', context)
+
 
 def freelancer_header_1(request):
     return render(request, 'freelancer_header_1.html')
