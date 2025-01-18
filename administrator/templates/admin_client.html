@@ -1,7 +1,6 @@
 {% extends 'admin_header_2.html' %}
 
 {% block content %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +20,7 @@
     /* Client Container */
     .client-container {
       width: 85%;
-      max-width: 1000px;
+      max-width: 1200px;
       background: #fff;
       margin: 40px auto;
       border-radius: 15px;
@@ -149,18 +148,6 @@
       width: 80%;
       max-width: 700px;
       text-align: left;
-      animation: slideIn 0.5s ease;
-    }
-
-    @keyframes slideIn {
-      from {
-        transform: translateY(-50px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
     }
 
     .modal-content .close {
@@ -175,115 +162,6 @@
       color: black;
       text-decoration: none;
       cursor: pointer;
-    }
-
-    .modal-description {
-      font-size: 1.1em;
-      line-height: 1.6;
-      color: #555;
-      margin-bottom: 20px;
-    }
-
-    .modal-description img {
-      border-radius: 50%;
-      margin-bottom: 20px;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .modal-description .row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-
-    .modal-description .row p {
-      flex: 1;
-      margin: 0 10px;
-    }
-
-    .modal-description .row p strong {
-      color: #333;
-    }
-
-    .modal-description .full-width {
-      margin-bottom: 10px;
-    }
-
-    .modal-description .full-width p {
-      margin: 0;
-    }
-
-    .modal-description .full-width p strong {
-      color: #333;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .client-container {
-        width: 90%;
-        padding: 15px;
-      }
-
-      .client-header h2 {
-        font-size: 24px;
-      }
-
-      .client-table th, .client-table td {
-        padding: 10px;
-        font-size: 14px;
-      }
-
-      .view-button, .delete-button {
-        padding: 6px 10px;
-        font-size: 12px;
-      }
-
-      .modal-content {
-        width: 90%;
-      }
-
-      .modal-description .row {
-        flex-direction: column;
-      }
-
-      .modal-description .row p {
-        margin: 5px 0;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .client-container {
-        width: 100%;
-        padding: 10px;
-      }
-
-      .client-header h2 {
-        font-size: 20px;
-      }
-
-      .client-table th, .client-table td {
-        padding: 8px;
-        font-size: 12px;
-      }
-
-      .view-button, .delete-button {
-        padding: 4px 8px;
-        font-size: 10px;
-      }
-
-      .modal-content {
-        width: 95%;
-      }
-
-      .modal-description .row {
-        flex-direction: column;
-      }
-
-      .modal-description .row p {
-        margin: 5px 0;
-      }
     }
   </style>
 </head>
@@ -305,118 +183,71 @@
         </tr>
       </thead>
       <tbody>
+        {% for client in clients %}
         <tr>
-          {% for client in client %}
-          <td>{{client.profile_photo}}</td>
-          <td>{{client.first_name}} {{client.last_name}}</td>
-          <td>{{client.username}}</td>
-          <td>{{client.email}}</td>
-          <td>{{client.phone}}</td>
+          <td><img src="{{ client.profile_photo.url }}" alt="Client Photo" width="50"></td>
+          <td>{{ client.first_name }} {{ client.last_name }}</td>
+          <td>{{ client.username }}</td>
+          <td>{{ client.email }}</td>
+          <td>{{ client.phone_no }}</td>
           <td>
             <div class="action-buttons">
-              <button class="view-button" onclick="viewClient(1)">View</button>
+              <button class="view-button" onclick="viewClient({{ client.id }}, '{{ client.profile_photo.url }}', '{{ client.first_name }} {{ client.last_name }}', '{{ client.username }}', '{{ client.email }}', '{{ client.phone_no }}', '{{ client.company }}', '{{ client.location }}', '{{ client.bio }}')">View</button>
+              <form method="post" action="{% url 'admin_delete_client' client.id %}">
+                {% csrf_token %}
+                <button type="submit" class="delete-button">Delete</button>
+              </form>
             </div>
-            <form method="post" action="{% url 'admin_delete_client' client.id %}">
-              {% csrf_token %}
-              <button type="submit" class="delete-button">Delete</button>
-          </form>
           </td>
         </tr>
         {% endfor %}
-        
       </tbody>
     </table>
   </div>
 
-  <!-- Popup Modal -->
   <div id="clientModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeModal()">&times;</span>
-      <div class="modal-description" id="clientDetails">
-        <!-- Client details will be displayed here -->
-      </div>
+      <div id="clientDetails"></div>
     </div>
   </div>
 
   <script>
-    function viewClient(clientId) {
-      // Dummy data for client details
-      const clientDetails = {
-        1: {
-          profile_photo: "https://via.placeholder.com/150",
-          name: "John Doe",
-          username: "johndoe",
-          email: "john.doe@example.com",
-          phone: "+1234567890",
-          company: "Example Company",
-          address: "123 Street, City, Country",
-          bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-          registration_date: "Jan 20, 2025"
-        },
-        2: {
-          profile_photo: "https://via.placeholder.com/150",
-          name: "Jane Smith",
-          username: "janesmith",
-          email: "jane.smith@example.com",
-          phone: "+0987654321",
-          company: "Another Company",
-          address: "456 Avenue, City, Country",
-          bio: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-          registration_date: "Dec 15, 2024"
-        }
-      };
+    function viewClient(clientId, photo, name, username, email, phone, company, location, bio) {
+      const modalDetails = `
+      <div style="text-align: center; margin-bottom: 20px;">
+        <img src="${photo}" alt="Profile Photo" width="150" height="150" style="border-radius: 50%; border: 2px solid #ddd;">
+      </div>
 
-      const client = clientDetails[clientId];
-      const clientDetailsDiv = document.getElementById("clientDetails");
-      clientDetailsDiv.innerHTML = `
-        <div style="text-align: center;">
-          <img src="${client.profile_photo}" alt="Profile Photo" width="150" height="150">
-        </div>
-        <div class="row">
-          <p><strong>Name:</strong> ${client.name}</p>
-          <p><strong>Username:</strong> ${client.username}</p>
-        </div>
-        <div class="row">
-          <p><strong>Email:</strong> ${client.email}</p>
-          <p><strong>Phone:</strong> ${client.phone}</p>
-        </div>
-        <div class="row">
-          <p><strong>Company:</strong> ${client.company}</p>
-          <p><strong>Registration Date:</strong> ${client.registration_date}</p>
-        </div>
-        <div class="full-width">
-          <p><strong>Address:</strong> ${client.address}</p>
-        </div>
-        <div class="full-width">
-          <p><strong>Bio:</strong> ${client.bio}</p>
-        </div>
+      <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
+        <p style="margin: 0; flex-basis: 45%;"><strong>Name:</strong> ${name}</p>
+        <p style="margin: 0; flex-basis: 45%;"><strong>Username:</strong> ${username}</p>
+      </div>
+
+      <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
+        <p style="margin: 0; flex-basis: 45%;"><strong>Email:</strong> ${email}</p>
+        <p style="margin: 0; flex-basis: 45%;"><strong>Phone:</strong> ${phone}</p>
+      </div>
+
+      <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
+        <p style="margin: 0; flex-basis: 45%;"><strong>Company:</strong> ${company}</p>
+        <p style="margin: 0; flex-basis: 45%;"><strong>Location:</strong> ${location}</p>
+      </div>
+
+      <div class="full-width" style="margin-bottom: 10px;">
+        <p><strong>Bio:</strong> ${bio}</p>
+      </div>
+
       `;
-
-      // Show the modal
-      const modal = document.getElementById("clientModal");
-      modal.style.display = "block";
+      document.getElementById('clientDetails').innerHTML = modalDetails;
+      document.getElementById('clientModal').style.display = 'block';
     }
 
     function closeModal() {
-      const modal = document.getElementById("clientModal");
-      modal.style.display = "none";
+      document.getElementById('clientModal').style.display = 'none';
     }
+</script>
 
-    function deleteClient(clientId) {
-      // Implement the delete functionality here
-      // For example, you can make an AJAX request to delete the client from the database
-      console.log('Delete client with ID:', clientId);
-    }
-
-    // Close the modal when the user clicks anywhere outside of it
-    window.onclick = function(event) {
-      const modal = document.getElementById("clientModal");
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    }
-  </script>
 </body>
 </html>
-
 {% endblock %}

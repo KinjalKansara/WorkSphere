@@ -1,4 +1,4 @@
-{% extends 'header_2.html' %}
+{% extends 'freelancer_header_2.html' %}
 
 {% block content %}
 
@@ -262,20 +262,20 @@ body {
     </div>
     
     <ul class="project-list">
-      {% for project in projects %}
+      {% for projects in project %}
       <li class="project-card">
-        <img src="/media/{{ project.photo }}" alt="Project Image">
+        <img src="/media/{{ projects.photo }}" alt="Project Image">
         <div class="project-header">
-          <h3>{{project.title}}</h3>
+          <h3>{{projects.title}}</h3>
           <span class="status-open">Open</span>
         </div>
         <div class="project-body">
-            <p>{{project.description|truncatechars:20 }}</p>
+            <p>{{projects.description|truncatechars:20 }}</p>
         </div>
         <div class="project-footer">
-          <span><i class="fas fa-calendar-alt"></i> Deadline: {{project.deadline}}</span>
+          <span><i class="fas fa-calendar-alt"></i> Deadline: {{projects.deadline}}</span>
         </div>
-        <a class="view-details" href="{% url 'freelancer_job_details' project.id %}">View Details</a>
+        <a class="view-details" href="{% url 'freelancer_job_details' projects.id %}">View Details</a>
       </li>
       {% endfor %}
       <!-- Add more project items as needed -->

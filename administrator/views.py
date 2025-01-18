@@ -99,7 +99,7 @@ def admin_client(request):
     admin_email = request.session.get('admin')
 
     context ={
-        'client' : client,
+        'clients' : client,
         'admin_email' : admin_email,
     }
     return render(request, 'admin_client.html', context)

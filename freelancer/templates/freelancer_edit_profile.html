@@ -1,4 +1,4 @@
-{% extends 'header_2.html' %}
+{% extends 'freelancer_header_2.html' %}
 
 {% block content %}
 
@@ -191,14 +191,15 @@ button:active {
   <div class="profile-container">
     <h1>Freelancer Profile</h1>
     <div class="profile-header">
-      <img src="/media/profile.jpg" alt="Profile Picture">
+      <img src="/media/{{freelancer.profile }}" alt="Profile Picture">
       <h2>{{freelancer.first_name}} {{freelancer.last_name}}</h2>
     </div>
     <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
     <div class="profile-details">
       <div class="detail">
         <label>About Me:</label>
-        <textarea name="about" placeholder="write about me..." value="{{freelancer.about_me}}"></textarea>
+        <textarea name="about" placeholder="write about me...">{{freelancer.about_me}}</textarea>
       </div>
       <div class="detail">
         <label>Username:</label>
@@ -227,7 +228,7 @@ button:active {
       </div>
       <div class="detail">
         <label>Hourly Rate:</label>
-        <input type="number" name="rate" value="{{freelancer.phone_number}}">
+        <input type="number" name="rate" value="{{freelancer.hourly_rate}}">
         <i class="fas fa-phone"></i>
       </div>
       <div class="detail">
@@ -235,12 +236,12 @@ button:active {
         <input type="text" name="location" value="{{freelancer.location}}">
         <i class="fas fa-map-marker-alt"></i>
       </div>
-      
+      <div class="buttons">
+        <button type="submit" class="save-button"><i class="fas fa-save"></i> Save Profile</button>
+      </div>
     </div>
     </form>
-    <div class="buttons">
-      <button type="submit" class="save-button"><i class="fas fa-save"></i> Save Profile</button>
-    </div>
+    
   </div>
 </body>
 </html>

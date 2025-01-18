@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.shortcuts import render, redirect
 from .models import *
 from staticpage.models import *
@@ -248,7 +249,7 @@ def freelancer_dashboard(request):
     return render(request, 'freelancer_dashboard.html')
 
 def freelancer_job_details(request, project_id):
-    username = request.session.get('loggedin_user')
+    username = request.session.get('logged_user')
     client = ClientRegisterLogin.objects.get(username = username)
     details = ClientPostProject.objects.get(id=project_id, client=client)
     skills = details.skills_required.split(',')  # Assuming skills are stored as a comma-separated string
@@ -260,13 +261,15 @@ def freelancer_job_details(request, project_id):
     return render(request, 'freelancer_job_details.html', context)
 
 def freelancer_list_of_project(request):
-    username = request.session.get('loggedin_user')
-    client = ClientRegisterLogin.objects.get(username = username)
-    projects = ClientPostProject.objects.filter(client=client)
+    user = request.session.get('logged_user')
+    client = ClientRegisterLogin.objects.get(username=user)
+    project = ClientPostProject.objects.filter(client=client)
 
-    context={
-        'projects' : projects
+    context ={
+        'project' : project,
+        'details': {'description': 'Your project description <br> with <strong>HTML</strong> formatting here.'}, # Replace with actual project details
     }
+
     return render(request, 'freelancer_list_of_project.html', context)
 
 def freelancer_profile(request):
@@ -292,7 +295,7 @@ def freelancer_edit_profile(request):
         rate = request.POST.get('rate')
 
         if about:
-            freelancer.about_me = about
+            freelancer.about_me = about 
         if password:
             freelancer.password = password
         if phone:
@@ -302,7 +305,7 @@ def freelancer_edit_profile(request):
         if skill:
             freelancer.skills = skill
         if rate:
-            freelancer.hourly_rate = rate
+            freelancer.hourly_rate = Decimal(rate)
 
         freelancer.save()
 
@@ -311,6 +314,7 @@ def freelancer_edit_profile(request):
     context = {
         'freelancer': freelancer,
     }
+
     return render(request, 'freelancer_edit_profile.html', context)
 
 def freelancer_proposal(request):

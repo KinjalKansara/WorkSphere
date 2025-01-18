@@ -239,7 +239,6 @@ def client_post_project(request):
         title = request.POST.get('title')
         description = request.POST.get('description')
         category = request.POST.get('categories')
-        category = category.lower()
         budget = request.POST.get('budget')
         budget_type = request.POST.get('budget_type')
         skills = request.POST.get('skills')
