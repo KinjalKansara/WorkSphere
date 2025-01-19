@@ -338,10 +338,10 @@ def freelancer_send_proposal(request, project_id):
     }
 
     if request.method == "POST":
-        title = request.POST.get("title")
-        description = request.POST.get("description")
-        duration = request.POST.get("duration")
-        bid = request.POST.get("bid")
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        duration = request.POST.get('duration')
+        bid = request.POST.get('bid')
         if bid:
             bid = float(bid)
             service_fee = round(bid * 0.10, 2)  # 10% service fee calculation
@@ -349,8 +349,8 @@ def freelancer_send_proposal(request, project_id):
         else:
             service_fee = 0.00
             you_receive = 0.00 # Amount freelancer will receive
-        cover_letter = request.POST.get("cover_letter")
-        attachment = request.FILES.get("attachment")
+        cover_letter = request.POST.get('cover_letter')
+        attachment = request.FILES.get('attachment')
 
         # Create a FreelancerProposal object and associate it with the logged-in freelancer
         proposal = FreelancerProposal(

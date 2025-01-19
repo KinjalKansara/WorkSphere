@@ -41,11 +41,13 @@ class FreelancerProposal(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(editable=False)
     duration = models.CharField(max_length=20, choices=DURATION_CHOICES)
-    bid = models.DecimalField(max_digits=10, decimal_places=2)
+    bid = models.DecimalField(max_digits=10, decimal_places=2)  # Default bid value
     cover_letter = models.TextField()
     attachment = models.FileField(upload_to='attachments/', blank=True, null=True)
     submitted_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-       return f"Proposal by {self.freelancer.username} for project: {self.project_title}"
+        return f"Proposal by {self.freelancer.username} for project: {self.project.title}"
+
+
 

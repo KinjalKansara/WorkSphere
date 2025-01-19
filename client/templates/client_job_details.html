@@ -111,6 +111,10 @@
     color: #555;
     }
 
+    .formatted-description {
+      white-space: pre-wrap; /* Preserves spaces and line breaks */
+    }  
+
     /* Project Details */
     .project-details {
     display: flex;
@@ -339,10 +343,8 @@
 
     <div class="description-section">
       <h3>Project Description</h3>
-      <p></p>
-        {{details.description}}
-      </p>
-    </div>
+      <p class="formatted-description">{{ details.description|safe }}</p>
+    </div> 
 
     <div class="project-details">
       <div class="detail-card">

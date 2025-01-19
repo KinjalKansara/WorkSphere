@@ -277,7 +277,7 @@ body {
         <div class="proposal-footer">
           <span><i class="fas fa-calendar-alt"></i> Submitted on: Jan 20, 2025</span>
         </div>
-        <button class="view-details" onclick="viewClient({{ proposal.id }}, '{{ proposal.title }}', '{{ proposal.description }} {{ proposal.duration }}', '{{ proposal.bid }}', '{{ proposal.cover_letter }}', '{{ proposal.attachment }}', '{{ proposal.submitted_at }}')">View Details</button>
+        <button class="view-details" onclick="viewClient({{ proposal.id }}, '{{ proposal.title }}', '{{ proposal.description }}' ,'{{ proposal.duration }}', '{{ proposal.bid }}', '{{ proposal.cover_letter }}', '{{ proposal.attachment }}', '{{ proposal.submitted_at }}')">View Details</button>
       </li>
       {% endfor %}
     </ul>
@@ -293,13 +293,28 @@ body {
     function viewClient(proposalId, title, description, duration, bid, coverLetter, attachment, submittedAt) {
       const modalDetails = `
       <div style="text-align: center; margin-bottom: 20px;">
-        <h2>${title}</h2>
-        <p><strong>Description:</strong> ${description}</p>
-        <p><strong>Duration:</strong> ${duration}</p>
-        <p><strong>Bid:</strong> ${bid}</p>
-        <p><strong>Cover Letter:</strong> ${coverLetter}</p>
-        <p><strong>Attachment:</strong> <a href="${attachment}" target="_blank">View Attachment</a></p>
-        <p><strong>Submitted on:</strong> ${submittedAt}</p>
+        <p style="margin: 0; flex-basis: 45%;"> ${title}</p>
+      </div>
+
+      <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
+        <p style="margin: 0; flex-basis: 45%;"><strong>Description:</strong> ${description}</p>
+      </div>
+
+      <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
+        <p style="margin: 0; flex-basis: 45%;"><strong>Duration:</strong> ${duration}</p>
+        <p style="margin: 0; flex-basis: 45%;"><strong>Bid:</strong> ${bid}</p>
+      </div>
+
+      <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
+        <p style="margin: 0; flex-basis: 45%;"><strong>Cover Letter:</strong> ${coverLetter}</p>
+      </div>
+
+      <div class="full-width" style="margin-bottom: 10px;">
+        <p><strong>attachement:</strong> ${attachment}</p>
+      </div>
+
+      <div class="full-width" style="margin-bottom: 10px;">
+        <p><strong>Submitted at:</strong> ${submittedAt}</p>
       </div>
       `;
       document.getElementById('clientDetails').innerHTML = modalDetails;

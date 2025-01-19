@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import *
 from staticpage.models import *
+from freelancer.models import *
 import random
 import re
 from django.core.mail import send_mail
@@ -321,7 +322,8 @@ def client_list_of_project(request):
     projects = ClientPostProject.objects.filter(client=client)
 
     context={
-        'projects' : projects
+        'projects' : projects,
+        'details': {'description': 'Your project description <br> with <strong>HTML</strong> formatting here.'}, # Replace with actual project details
     }
     return render(request, 'client_list_of_project.html', context)
 
@@ -367,7 +369,24 @@ def client_edit_profile(request):
     return render(request, 'client_edit_profile.html', context)
 
 def client_received_proposal(request):
-    return render(request, 'client_received_proposal.html')
+    user = request.session.get('logged_user')
+    client = ClientRegisterLogin.objects.get(username=user)  # Get the logged-in client
+
+    # Get all projects for this client
+    client_projects = ClientPostProject.objects.filter(client=client)
+
+    # Fetch the proposals related to this client's projects
+    proposals = FreelancerProposal.objects.filter(project__in=client_projects)
+
+    # Prepare context data to pass to the template
+    context = {
+        'client': client,
+        'proposals': proposals,
+    }
+
+    return render(request, 'client_received_proposal.html', context)
+
+
 
 def client_dashboard(request):
     return render(request, 'client_dashboard.html')

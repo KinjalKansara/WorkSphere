@@ -361,151 +361,97 @@ body {
       <h2>Received Proposals</h2>
     </div>
     <ul class="proposal-list">
+      {% for proposal in proposals %}
       <li class="proposal-item">
         <div class="proposal-header">
-          <h3>Freelancer Name</h3>
+          <h3>{{ proposal.freelancer.first_name }} {{ proposal.freelancer.last_name }}</h3>
           <span class="status-open">Open</span>
         </div>
         <div class="proposal-body">
-          <p>Proposal description goes here. This is a brief overview of the freelancer's proposal for the project.</p>
+          <p>{{ proposal.description }}</p>
         </div>
         <div class="proposal-footer">
-          <span><i class="fas fa-calendar-alt"></i> Submitted on: Jan 20, 2025</span>
+          <span><i class="fas fa-calendar-alt"></i> Submitted on: {{ proposal.submitted_at|date:"M d, Y" }}</span>
         </div>
         <div class="button-group">
-          <button class="view-details" onclick="openDetailsModal(1)">View Details</button>
-          <button class="view-profile" onclick="openProfileModal(1)">View Profile</button>
-        </div>
+          <button class="view-details" onclick="viewDetails('{{ proposal.title }}', '{{ proposal.description }}', '{{ proposal.duration }}', '{{ proposal.bid }}', '{{ proposal.cover_letter }}', '{{ proposal.attachment}}', '{{ proposal.submitted_at|date:"Y-m-d H:i:s" }}')">View Details</button>
+          <button class="view-profile" onclick="viewProfile('{{ proposal.freelancer.profile.url }}', '{{ proposal.freelancer.first_name }} {{ proposal.freelancer.last_name }}', '{{ proposal.freelancer.hourly_rate }}', '{{ proposal.freelancer.email }}', '{{ proposal.freelancer.phone_number }}', '{{ proposal.freelancer.skills }}', '{{ proposal.freelancer.location }}', '{{ proposal.freelancer.about_me }}')">View Profile</button>
+        </div>        
       </li>
-      <!-- Add more proposal items as needed -->
+      {% endfor %}
     </ul>
   </div>
 
-  <!-- Profile Popup Modal -->
-  <div id="profileModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('profileModal')">&times;</span>
-      <div class="modal-description" id="profileDetails">
-        <!-- Freelancer details will be displayed here -->
-      </div>
+<!-- Profile Modal -->
+<div id="profileModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('profileModal')">&times;</span>
+    <div class="modal-description" id="profileDetails">
+      <!-- Profile details will be dynamically inserted here -->
     </div>
   </div>
+</div>
 
-  <!-- Details Popup Modal -->
-  <div id="detailsModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('detailsModal')">&times;</span>
-      <div class="modal-description" id="detailsContent">
-        <!-- Proposal details will be displayed here -->
-      </div>
-      <button class="approve-button">Approve</button>
+<!-- Details Modal -->
+<div id="detailsModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('detailsModal')">&times;</span>
+    <div class="modal-description" id="detailsContent">
+      <!-- Proposal details will be dynamically inserted here -->
     </div>
+    <button class="approve-button">Approve</button>
   </div>
+</div>
 
-  <script>
-    function openProfileModal(profileId) {
-      // Dummy data for freelancer details
-      const freelancerDetails = {
-        1: {
-          name: "Freelancer Name",
-          title: "Web Developer",
-          email: "freelancer@example.com",
-          phone: "+1234567890",
-          location: "New York, USA",
-          hourly_rate: "$50/hr",
-          skills: ["Web Development", "Graphic Design", "SEO Optimization", "JavaScript", "Python"],
-          reviews: [
-            { reviewer: "John Doe", comment: "Excellent work! Highly recommended." },
-            { reviewer: "Jane Smith", comment: "Very professional and delivered on time." }
-          ]
-        }
-      };
+<script>
+  // Function to show proposal details in the modal
+  function viewDetails(title, description, duration, bid, coverLetter, attachmentUrl, submittedAt) {
+    const modalDetails = `
+     <h3>Proposal Details</h3>
+      <p><strong>Title:</strong> ${title}</p>
+      <p><strong>Description:</strong> ${description}</p>
+      <p><strong>Duration:</strong> ${duration}</p>
+      <p><strong>Bid:</strong> $${bid}</p>
+      <p><strong>Cover Letter:</strong> ${coverLetter}</p>
+      ${attachmentUrl ? `<p><strong>Attachment:</strong> <a href="${attachmentUrl}" target="_blank">Download</a></p>` : ''}
+      <p><strong>Submitted At:</strong> ${submittedAt}</p>
 
-      const freelancer = freelancerDetails[profileId];
-      const profileDetailsDiv = document.getElementById("profileDetails");
-      profileDetailsDiv.innerHTML = `
-        <img src="/media/freelancer.jpg" alt="Freelancer Picture">
-        <h2>${freelancer.name}</h2>
-        <p>${freelancer.title}</p>
-        <div class="contact-details">
-          <span><i class="fas fa-envelope"></i> ${freelancer.email}</span>
-          <span><i class="fas fa-phone"></i> ${freelancer.phone}</span>
-          <span><i class="fas fa-map-marker-alt"></i> ${freelancer.location}</span>
-        </div>
-        <div class="info-section">
-          <div class="info-card">
-            <i class="fas fa-dollar-sign"></i>
-            <h4>Hourly Rate</h4>
-            <p>${freelancer.hourly_rate}</p>
-          </div>
-        </div>
-        <div class="skills-section">
-          <h3>Skills</h3>
-          ${freelancer.skills.map(skill => `<span class="skill-badge">${skill}</span>`).join('')}
-        </div>
-        <div class="reviews-section">
-          <h3>Reviews</h3>
-          ${freelancer.reviews.map(review => `
-            <div class="review">
-              <h4>${review.reviewer}</h4>
-              <p>"${review.comment}"</p>
-            </div>
-          `).join('')}
-        </div>
-      `;
+    `;
+    document.getElementById('detailsContent').innerHTML = modalDetails;
+    document.getElementById('detailsModal').style.display = 'block';
+  }
 
-      // Show the modal
-      const modal = document.getElementById("profileModal");
-      modal.style.display = "block";
-    }
+  // Function to show freelancer profile in the modal
+  function viewProfile(profileUrl, name, rate, email, phone, skills, location, bio) {
+    const modalProfile = `
+      <div style="text-align: center; margin-bottom: 20px;">
+        <img src="${profileUrl}" alt="Profile Photo" width="150" height="150" style="border-radius: 50%; border: 2px solid #ddd;">
+      </div>
+      <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
+        <p style="margin: 0; flex-basis: 45%;"><strong>Name:</strong> ${name}</p>
+        <p style="margin: 0; flex-basis: 45%;"><strong>Hourly Rate:</strong> ${rate}</p>
+      </div>
+      <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
+        <p style="margin: 0; flex-basis: 45%;"><strong>Email:</strong> ${email}</p>
+        <p style="margin: 0; flex-basis: 45%;"><strong>Phone:</strong> ${phone}</p>
+      </div>
+      <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
+        <p style="margin: 0; flex-basis: 45%;"><strong>Skills:</strong> ${skills}</p>
+        <p style="margin: 0; flex-basis: 45%;"><strong>Location:</strong> ${location}</p>
+      </div>
+      <div class="full-width" style="margin-bottom: 10px;">
+        <p><strong>Bio:</strong> ${bio}</p>
+      </div>
+    `;
+    document.getElementById('profileDetails').innerHTML = modalProfile;
+    document.getElementById('profileModal').style.display = 'block';
+  }
 
-    function openDetailsModal(proposalId) {
-      // Dummy data for proposal details
-      const proposalDetails = {
-        1: {
-          title: "Website Redesign",
-          description: "A project focused on redesigning a corporate website to enhance user experience and modernize the look.",
-          submitted_on: "Jan 20, 2025",
-          budget: "$5000",
-          deadline: "Feb 20, 2025",
-          status: "Open"
-        }
-      };
-
-      const proposal = proposalDetails[proposalId];
-      const detailsContentDiv = document.getElementById("detailsContent");
-      detailsContentDiv.innerHTML = `
-        <h2>${proposal.title}</h2>
-        <p><strong>Description:</strong> ${proposal.description}</p>
-        <p><strong>Submitted On:</strong> ${proposal.submitted_on}</p>
-        <p><strong>Budget:</strong> ${proposal.budget}</p>
-        <p><strong>Deadline:</strong> ${proposal.deadline}</p>
-        <p><strong>Status:</strong> ${proposal.status}</p>
-      `;
-
-      // Show the modal
-      const modal = document.getElementById("detailsModal");
-      modal.style.display = "block";
-    }
-
-    function closeModal(modalId) {
-      const modal = document.getElementById(modalId);
-      modal.style.display = "none";
-    }
-
-    // Close the modal when the user clicks anywhere outside of it
-    window.onclick = function(event) {
-      const profileModal = document.getElementById("profileModal");
-      const detailsModal = document.getElementById("detailsModal");
-      if (event.target == profileModal) {
-        profileModal.style.display = "none";
-      }
-      if (event.target == detailsModal) {
-        detailsModal.style.display = "none";
-      }
-    }
-  </script>
+  // Function to close the modal
+  function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+  }
+</script>
 </body>
 </html>
-
 {% endblock %}

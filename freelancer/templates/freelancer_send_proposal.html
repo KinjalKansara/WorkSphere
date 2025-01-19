@@ -83,7 +83,7 @@
         .form-group i {
             position: absolute;
             top: 50%;
-            left: 15px;
+            left: 10px;
             transform: translateY(-50%);
             color: #007bff;
             font-size: 18px;
@@ -170,6 +170,34 @@
             margin: 20px 0;
         }
 
+        .add-attachment {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            color: #007bff;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .add-attachment i {
+            font-size: 20px;
+        }
+        .add-attachment:hover {
+            color: #0056b3;
+        }
+        .attachment-group {
+            margin-top: 10px;
+            position: relative;
+        }
+        .attachment-group i {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: #007bff;
+            font-size: 18px;
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -239,10 +267,12 @@
             </div>
             <div class="form-group">
                 <label for="service_fee">Freelancer Service Fee (10%):</label>
+                <i class="fas fa-percentage" style="top: 65%;"></i>
                 <input type="text" id="service_fee" readonly placeholder="$0.00">
             </div>
             <div class="form-group">
                 <label for="you_receive">You'll Receive:</label>
+                <i class="fas fa-dollar-sign" style="top: 65%;"></i>
                 <input type="text" id="you_receive" readonly placeholder="$0.00">
             </div>
             <div class="form-group">
@@ -270,9 +300,16 @@
                 <i class="fas fa-envelope"></i>
                 <textarea id="cover_letter" name="cover_letter" placeholder="Write your cover letter here" required></textarea>
             </div>
-            <div class="form-group">
-                <i class="fas fa-paperclip"></i>
-                <input type="file" id="attachment" name="attachment" accept=".pdf,.doc,.docx,.zip">
+
+            <!-- Attachments -->
+            <div class="form-group" id="attachmentsContainer">
+                <div class="attachment-group">
+                    <i class="fas fa-paperclip"></i>
+                    <input type="file" id="attachment" name="attachments" multiple>
+                </div>
+            </div>
+            <div class="add-attachment" id="addAttachmentButton">
+                <i class="fas fa-plus"></i> Add Another Attachment
             </div>
 
             <div class="button-group">
@@ -285,31 +322,42 @@
 
 </body>
 <script>
-  // Function to update the service fee and amount freelancer will receive
-  function updateFees() {
-      var bid = parseFloat(document.getElementById('bid').value);
-      if (isNaN(bid) || bid <= 0) {
-          document.getElementById('service_fee').value = "$0.00";
-          document.getElementById('you_receive').value = "$0.00";
-          return;
-      }
+        // Function to update the service fee and amount freelancer will receive
+        function updateFees() {
+            var bid = parseFloat(document.getElementById('bid').value);
+            if (isNaN(bid) || bid <= 0) {
+                document.getElementById('service_fee').value = "$0.00";
+                document.getElementById('you_receive').value = "$0.00";
+                return;
+            }
 
-      // Calculate the service fee (10%) and the amount freelancer will receive
-      var serviceFee = bid * 0.10; // 10% fee
-      var youReceive = bid - serviceFee;
+            // Calculate the service fee (10%) and the amount freelancer will receive
+            var serviceFee = bid * 0.10; // 10% fee
+            var youReceive = bid - serviceFee;
 
-      // Update the fields with dollar formatting
-      document.getElementById('service_fee').value = "$" + serviceFee.toFixed(2);
-      document.getElementById('you_receive').value = "$" + youReceive.toFixed(2);
-  }
+            // Update the fields with dollar formatting
+            document.getElementById('service_fee').value = "$" + serviceFee.toFixed(2);
+            document.getElementById('you_receive').value = "$" + youReceive.toFixed(2);
+        }
 
-  // Add event listener to the 'bid' field to update values on change
-  document.getElementById('bid').addEventListener('input', updateFees);
+        // Add event listener to the 'bid' field to update values on change
+        document.getElementById('bid').addEventListener('input', updateFees);
 
-  // Call the update function on page load if a bid value exists
-  window.onload = function() {
-      updateFees();
-  };
+        // Call the update function on page load if a bid value exists
+        window.onload = function() {
+            updateFees();
+        };
+
+        document.getElementById('addAttachmentButton').addEventListener('click', function() {
+            const attachmentsContainer = document.getElementById('attachmentsContainer');
+            const newAttachmentGroup = document.createElement('div');
+            newAttachmentGroup.classList.add('attachment-group');
+            newAttachmentGroup.innerHTML = `
+                <i class="fas fa-paperclip"></i>
+                <input type="file" name="attachments" multiple>
+            `;
+            attachmentsContainer.appendChild(newAttachmentGroup);
+        });
 </script>
 </html>
 {% endblock %}
