@@ -316,12 +316,13 @@
           <td>{{project.status}}</td>
           <td>
             <div class="action-buttons">
-              <button class="view-button" onclick="viewProject(1)">View</button>
+              <button class="view-button" onclick="viewProject({{ project.id }}, '{{ project.profile_photo.url }}', '{{ project.title }} {{ project.description }}', '{{ project.category }}', '{{ project.budget }}', '{{ project.budget_type }}', '{{ project.deadline }}', '{{ project.skills_required }}', '{{ project.attachments }}', '{{ project.photo }}', '{{ project.experience_level }}', '{{ project.created_at }}')">View</button>
+              <form method="post" action="{% url 'admin_delete_project' project.id %}">
+                {% csrf_token %}
+                <button type="submit" class="delete-button">Delete</button>
+              </form>
             </div>
-            <form method="post" action="{% url 'admin_delete_project' project.id %}">
-              {% csrf_token %}
-              <button type="submit" class="delete-button">Delete</button>
-          </form>
+           
           </td>
         </tr>
         {% endfor %}
@@ -340,73 +341,48 @@
   </div>
 
   <script>
-    function viewProject(projectId) {
-      // Dummy data for project details
-      const projectDetails = {
-        1: {
-          project_id: "12345",
-          client_name: "John Doe",
-          project_title: "Website Redesign",
-          budget: "$5000",
-          deadline: "Jan 20, 2025",
-          status: "Open",
-          description: "A project focused on redesigning a corporate website to enhance user experience and modernize the look."
-        },
-        2: {
-          project_id: "67890",
-          client_name: "Michael Brown",
-          project_title: "Mobile App Development",
-          budget: "$3000",
-          deadline: "Dec 15, 2024",
-          status: "Closed",
-          description: "Developing a mobile application for e-commerce with a focus on user-friendly design and seamless functionality."
-        }
-      };
-
-      const project = projectDetails[projectId];
-      const projectDetailsDiv = document.getElementById("projectDetails");
-      projectDetailsDiv.innerHTML = `
-        <div class="row">
-          <p><strong>Project ID:</strong> ${project.project_id}</p>
-          <p><strong>Client Name:</strong> ${project.client_name}</p>
+    function viewProject(projectId, photo, title, description, category, budget, budgetType, deadline, skillsRequired, attachments, projectPhoto, experienceLevel, createdAt) {
+      const modalDetails = `
+        <div style="text-align: center; margin-bottom: 20px;">
+          <img src="${projectPhoto}" alt="Project Photo" width="150" height="150" style="border-radius: 50%; border: 2px solid #ddd;">
         </div>
-        <div class="row">
-          <p><strong>Project Title:</strong> ${project.project_title}</p>
-          <p><strong>Budget:</strong> ${project.budget}</p>
+  
+        <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
+          <p style="margin: 0; flex-basis: 45%;"><strong>Title:</strong> ${title}</p>
+          <p style="margin: 0; flex-basis: 45%;"><strong>Category:</strong> ${category}</p>
         </div>
-        <div class="row">
-          <p><strong>Deadline:</strong> ${project.deadline}</p>
-          <p><strong>Status:</strong> ${project.status}</p>
+  
+        <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
+          <p style="margin: 0; flex-basis: 45%;"><strong>Budget:</strong> ${budget} ${budgetType}</p>
+          <p style="margin: 0; flex-basis: 45%;"><strong>Deadline:</strong> ${deadline}</p>
         </div>
-        <div class="full-width">
-          <p><strong>Description:</strong> ${project.description}</p>
+  
+        <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
+          <p style="margin: 0; flex-basis: 45%;"><strong>Skills Required:</strong> ${skillsRequired}</p>
+        </div>
+  
+        <div class="full-width" style="margin-bottom: 10px;">
+          <p><strong>Description:</strong> ${description}</p>
+        </div>
+  
+        <div class="full-width" style="margin-bottom: 10px;">
+          <p><strong>Attachments:</strong> ${attachments}</p>
+        </div>
+  
+        <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
+          <p style="margin: 0; flex-basis: 45%;"><strong>Experience Level:</strong> ${experienceLevel}</p>
+          <p style="margin: 0; flex-basis: 45%;"><strong>Posted On:</strong> ${createdAt}</p>
         </div>
       `;
-
-      // Show the modal
-      const modal = document.getElementById("projectModal");
-      modal.style.display = "block";
+      document.getElementById('projectDetails').innerHTML = modalDetails;
+      document.getElementById('projectModal').style.display = 'block';
     }
-
+  
     function closeModal() {
-      const modal = document.getElementById("projectModal");
-      modal.style.display = "none";
-    }
-
-    function deleteProject(projectId) {
-      // Implement the delete functionality here
-      // For example, you can make an AJAX request to delete the project from the database
-      console.log('Delete project with ID:', projectId);
-    }
-
-    // Close the modal when the user clicks anywhere outside of it
-    window.onclick = function(event) {
-      const modal = document.getElementById("projectModal");
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
+      document.getElementById('projectModal').style.display = 'none';
     }
   </script>
+  
 </body>
 </html>
 

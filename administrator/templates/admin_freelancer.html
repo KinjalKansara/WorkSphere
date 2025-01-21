@@ -299,7 +299,6 @@
         <tr>
           <th>Image</th>
           <th>Name</th>
-          <th>Username</th>
           <th>Email</th>
           <th>Phone Number</th>
           <th>Action</th>
@@ -310,17 +309,16 @@
         <tr>
           <td>{{freelancer.profile_image}}</td>
           <td>{{freelancer.first_name}} {{freelancer.last_name}}</td>
-          <td>{{freelancer.username}}</td>
           <td>{{freelancer.email}}</td>
           <td>{{freelancer.phone_number}}</td>
           <td>
             <div class="action-buttons">
-              <button class="view-button" onclick="viewFreelancer(1)">View</button>
-            </div>
-            <form method="post" action="{% url 'freelancer_delete_details' freelancer.id %}">
-              {% csrf_token %}
-              <button type="submit" class="delete-button">Delete</button>
-          </form>
+              <button class="view-button" onclick="viewFreelancer({{ freelancer.id }}, '{{ freelancer.profile_image.url }}', '{{ freelancer.first_name }} {{ freelancer.last_name }}', '{{ freelancer.username }}', '{{ freelancer.email }}', '{{ freelancer.phone_number }}', '{{ freelancer.skills }}', '{{ freelancer.hourly_rate }}', '{{ freelancer.location }}', '{{ freelancer.about_me }}')">View</button>
+              <form method="post" action="{% url 'freelancer_delete_details' freelancer.id %}">
+                {% csrf_token %}
+                <button type="submit" class="delete-button">Delete</button>
+            </form>
+          </div>
           </td>
         </tr>
         {% endfor %}
@@ -340,70 +338,44 @@
   </div>
 
   <script>
-    function viewFreelancer(freelancerId) {
-      // Dummy data for freelancer details
-      const freelancerDetails = {
-        1: {
-          profile_photo: "https://via.placeholder.com/150",
-          name: "John Doe",
-          username: "johndoe",
-          email: "john.doe@example.com",
-          phone: "+1234567890",
-          skills: "Web Development, Graphic Design",
-          address: "123 Street, City, Country",
-          bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-          registration_date: "Jan 20, 2025"
-        },
-      };
-
-      const freelancer = freelancerDetails[freelancerId];
-      const freelancerDetailsDiv = document.getElementById("freelancerDetails");
-      freelancerDetailsDiv.innerHTML = `
-        <div style="text-align: center;">
-          <img src="${freelancer.profile_photo}" alt="Profile Photo" width="150" height="150">
+    // Function to display freelancer details in the modal
+    function viewFreelancer(freelancerId, photo, name, username, email, phone, skill, rate, location, about) {
+      const modalDetails = `
+        <div style="text-align: center; margin-bottom: 20px;">
+          <img src="${photo}" alt="Profile Photo" width="150" height="150" style="border-radius: 50%; border: 2px solid #ddd;">
         </div>
-        <div class="row">
-          <p><strong>Name:</strong> ${freelancer.name}</p>
-          <p><strong>Username:</strong> ${freelancer.username}</p>
+  
+        <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
+          <p style="margin: 0; flex-basis: 45%;"><strong>Name:</strong> ${name}</p>
+          <p style="margin: 0; flex-basis: 45%;"><strong>Username:</strong> ${username}</p>
         </div>
-        <div class="row">
-          <p><strong>Email:</strong> ${freelancer.email}</p>
-          <p><strong>Phone:</strong> ${freelancer.phone}</p>
+  
+        <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
+          <p style="margin: 0; flex-basis: 45%;"><strong>Email:</strong> ${email}</p>
+          <p style="margin: 0; flex-basis: 45%;"><strong>Phone:</strong> ${phone}</p>
         </div>
-        <div class="row">
-          <p><strong>Skills:</strong> ${freelancer.skills}</p>
-          <p><strong>Registration Date:</strong> ${freelancer.registration_date}</p>
+  
+        <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
+          <p style="margin: 0; flex-basis: 45%;"><strong>Hourly Rate:</strong> ${rate}</p>
+          <p style="margin: 0; flex-basis: 45%;"><strong>Location:</strong> ${location}</p>
         </div>
-        <div class="full-width">
-          <p><strong>Address:</strong> ${freelancer.address}</p>
+  
+        <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
+          <p style="margin: 0; flex-basis: 45%;"><strong>Skill:</strong> ${skill}</p>
         </div>
-        <div class="full-width">
-          <p><strong>Bio:</strong> ${freelancer.bio}</p>
+  
+        <div class="full-width" style="margin-bottom: 10px;">
+          <p><strong>About:</strong> ${about}</p>
         </div>
       `;
-
-      // Show the modal
-      const modal = document.getElementById("freelancerModal");
-      modal.style.display = "block";
+  
+      document.getElementById('freelancerDetails').innerHTML = modalDetails;
+      document.getElementById('freelancerModal').style.display = 'block';
     }
-
+  
+    // Function to close the modal
     function closeModal() {
-      const modal = document.getElementById("freelancerModal");
-      modal.style.display = "none";
-    }
-
-    function deleteFreelancer(freelancerId) {
-      // Implement the delete functionality here
-      // For example, you can make an AJAX request to delete the freelancer from the database
-      console.log('Delete freelancer with ID:', freelancerId);
-    }
-
-    // Close the modal when the user clicks anywhere outside of it
-    window.onclick = function(event) {
-      const modal = document.getElementById("freelancerModal");
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
+      document.getElementById('freelancerModal').style.display = 'none';
     }
   </script>
 </body>

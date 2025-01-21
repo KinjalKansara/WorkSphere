@@ -272,7 +272,7 @@ body {
           <span class="status-open">Open</span>
         </div>
         <div class="proposal-body">
-          <p>{{proposal.description}}</p>
+          <p>{{proposal.description| truncatechars:20}}</p>
         </div>
         <div class="proposal-footer">
           <span><i class="fas fa-calendar-alt"></i> Submitted on: Jan 20, 2025</span>
@@ -296,8 +296,8 @@ body {
         <p style="margin: 0; flex-basis: 45%;"> ${title}</p>
       </div>
 
-      <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
-        <p style="margin: 0; flex-basis: 45%;"><strong>Description:</strong> ${description}</p>
+      <div class="row" style=" margin-bottom: 10px; justify-content: space-between;">
+        <p style="margin: 0; flex-basis: 45%;"><strong>Description:</strong> ${description.length > 100 ? description.substring(0, 100) + '...' : description}</p>
       </div>
 
       <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
@@ -305,8 +305,8 @@ body {
         <p style="margin: 0; flex-basis: 45%;"><strong>Bid:</strong> ${bid}</p>
       </div>
 
-      <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
-        <p style="margin: 0; flex-basis: 45%;"><strong>Cover Letter:</strong> ${coverLetter}</p>
+     <div class="row" style=" margin-bottom: 10px; justify-content: space-between;">
+        <p style="margin: 0; flex-basis: 45%;"><strong>Cover Letter:</strong> ${coverLetter.length > 2000 ? coverLetter.substring(0, 2000) + '...' : coverLetter}</p>
       </div>
 
       <div class="full-width" style="margin-bottom: 10px;">

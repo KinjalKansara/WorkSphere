@@ -61,7 +61,7 @@
 
     .project-image {
     flex: 1;
-    width: 100%;
+    width: 10%;
     height: 300px;
     border-radius: 15px;
     object-fit: cover;
@@ -335,7 +335,7 @@
       <div class="client-bio">
         <h3>Client Bio</h3>
         <p>
-          The client is a reputable company with a history of successful projects. They value quality work and timely delivery. They are looking for a skilled freelancer to bring their vision to life.
+          {{details.client.bio| truncatechars:400}}
         </p>
         <span class="read-more" onclick="openModal()">Read More</span>
       </div>
@@ -400,11 +400,11 @@
         <li>
           <div class="attachment-info">
             <i class="fas fa-file-pdf"></i>
-            <span>Project_Specifications.pdf</span>
+            <span>{{ details.attachments }}</span>
           </div>
           <div class="attachment-actions">
-            <a onclick="showAttachment('/media/attachment1.pdf')">View</a>
-            <a href="/media/attachment1.pdf" download>Download</a>
+            
+            <a href="/media/{{ details.attachments }}" download>Download</a>
           </div>
         </li>
       </ul>
@@ -420,7 +420,7 @@
       <span class="close" onclick="closeModal()">&times;</span>
       <h3>Client Bio</h3>
       <p>
-        The client is a reputable company with a history of successful projects. They value quality work and timely delivery. They are looking for a skilled freelancer to bring their vision to life. The client has worked on numerous projects in various industries and has a strong track record of delivering high-quality results. They are committed to clear communication and collaboration throughout the project to ensure that the final deliverables meet their expectations.
+        {{details.client.bio}}
       </p>
     </div>
   </div>

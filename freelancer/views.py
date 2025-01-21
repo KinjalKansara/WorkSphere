@@ -34,6 +34,7 @@ def freelancer_register_login(request):
 
             if user:
                 request.session['logged_user'] = username
+                request.session['role'] = 'FREELANCER'
                 request.session['show_modal'] = True
                 return redirect('freelancer_dashboard')
             else:
@@ -250,26 +251,24 @@ def freelancer_dashboard(request):
 
 def freelancer_job_details(request, project_id):
     username = request.session.get('logged_user')
-    client = ClientRegisterLogin.objects.get(username = username)
-    details = ClientPostProject.objects.get(id=project_id, client=client)
+    freelancer = FreelancerRegisterLogin.objects.get(username = username)
+    details = ClientPostProject.objects.get(id=project_id)
     skills = details.skills_required.split(',')  # Assuming skills are stored as a comma-separated string
     
     context = {
         'details' : details,
         'skills' : skills,
+        'freelancer' : freelancer,
     }
     return render(request, 'freelancer_job_details.html', context)
 
 def freelancer_list_of_project(request):
-    user = request.session.get('logged_user')
-    client = ClientRegisterLogin.objects.get(username=user)
-    project = ClientPostProject.objects.filter(client=client)
+    projects = ClientPostProject.objects.all()
 
-    context ={
-        'project' : project,
+    context={
+        'projects' : projects,
         'details': {'description': 'Your project description <br> with <strong>HTML</strong> formatting here.'}, # Replace with actual project details
     }
-
     return render(request, 'freelancer_list_of_project.html', context)
 
 def freelancer_profile(request):
@@ -330,8 +329,7 @@ def freelancer_proposal(request):
 def freelancer_send_proposal(request, project_id):
     user = request.session.get('logged_user')  # Get the logged-in user's session
     freelancer = FreelancerRegisterLogin.objects.get(username=user)  # Get the freelancer object
-    client = ClientRegisterLogin.objects.get(username=user)
-    project = ClientPostProject.objects.get(client=client, id=project_id)
+    project = ClientPostProject.objects.get(id=project_id)
 
     context = {
         'project': project,
@@ -363,10 +361,11 @@ def freelancer_send_proposal(request, project_id):
             cover_letter=cover_letter,
             attachment=attachment,
         )
-
-        proposal.save()
-
-        return redirect('freelancer_proposal')
+        try:
+            proposal.save()
+            return redirect('freelancer_proposal')
+        except Exception as e:
+            print(e)
 
     return render(request, 'freelancer_send_proposal.html', context)
 

@@ -5,6 +5,7 @@ from freelancer.models import *
 import random
 import re
 from django.core.mail import send_mail
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -28,84 +29,77 @@ def client_register_login(request):
             username = request.POST.get('username')
             password = request.POST.get('password')
 
-            user = ClientRegisterLogin.objects.get(username=username, password=password)
-
-            if user:
+            try:
+                user = ClientRegisterLogin.objects.get(username=username, password=password)
                 request.session['logged_user'] = username
+                request.session['role'] = 'CLIENT'
                 request.session['show_modal'] = True
                 return redirect('client_dashboard')
-            else:
-                return redirect('client_register_login')
+            except ClientRegisterLogin.DoesNotExist:
+                error_message = 'Invalid username or password.'
+                return render(request, 'auth/client_register_login.html', {'error_message': error_message})
         
         else:
-
             # Validation
-            errors = {}
-
             if not profile:
-                errors['profile'] = 'Profile photo is required.'
-
-            if not firstname:
-                errors['firstname'] = 'First name is required.'
-
-            if not lastname:
-                errors['lastname'] = 'Last name is required.'
-
-            if not username:
-                errors['username'] = 'Username is required.'
+                error_message = 'Profile photo is required.'
+            elif not firstname:
+                error_message = 'First name is required.'
+            elif not lastname:
+                error_message = 'Last name is required.'
+            elif not username:
+                error_message = 'Username is required.'
             elif ClientRegisterLogin.objects.filter(username=username).exists():
-                errors['username'] = 'Username already exists.'
+                error_message = 'Username already exists.'
+            else:
+                email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+                if not email:
+                    error_message = 'Email is required.'
+                elif not re.match(email_regex, email):
+                    error_message = 'Enter a valid email address.'
+                elif ClientRegisterLogin.objects.filter(email=email).exists():
+                    error_message = 'Email already exists.'
+                elif not password:
+                    error_message = 'Password is required.'
+                elif len(password) < 8:
+                    error_message = 'The password must be at least 8 characters long.'
+                elif not any(char.isalpha() for char in password):
+                    error_message = 'The password must contain at least one letter.'
+                elif not any(char.isdigit() for char in password):
+                    error_message = 'The password must contain at least one digit.'
+                elif not any(char in "!@#$%^&*(){}[]" for char in password):
+                    error_message = 'The password must contain at least one special character.'
+                else:
+                    phone_regex = r'^\d{10}$'
+                    if not phonenumber:
+                        error_message = 'Phone number is required.'
+                    elif not re.match(phone_regex, phonenumber):
+                        error_message = 'Phone number must be exactly 10 digits.'
+                    else:
+                        register = ClientRegisterLogin(
+                            profile_photo=profile,
+                            first_name=firstname,
+                            last_name=lastname,
+                            username=username,
+                            email=email,
+                            password=password,
+                            phone_no=phonenumber,
+                            company=company,
+                            location=location
+                        )
 
-            email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-            if not email:
-                errors['email'] = 'Email is required.'
-            elif not re.match(email_regex, email):
-                errors['email'] = 'Enter a valid email address.'
-            elif ClientRegisterLogin.objects.filter(email=email).exists():
-                errors['email'] = 'Email already exists.'
+                        try:
+                            register.save()
+                            request.session['done'] = True
+                            return render(request, 'auth/client_register_login.html', {'success': 'Registration successful.', 'done': request.session['done']})
+                        except:
+                            request.session['done'] = False
+                            error_message = 'Registration failed. Please try again.'
 
-            if not password:
-                errors['password'] = "Password is Required"
-            elif len(password) < 8:
-                errors['password'] = "The password must be at least 8 characters long."
-            elif not any(char.isalpha() for char in password):
-                errors['password'] = "The password must contain at least one letter."
-            elif not any(char.isdigit() for char in password):
-                errors['password'] = "The password must contain at least one digit."
-            elif not any(char in "!@#$%^&*(){}[]" for char in password):
-                errors['password'] = "The password must contain at least one special character."
-
-            phone_regex = r'^\d{10}$'
-            if not phonenumber:
-                errors['phonenumber'] = 'Phone number is required.'
-            elif not re.match(phone_regex, phonenumber):
-                errors['phonenumber'] = 'Phone number must be exactly 10 digits.'
-
-            if errors:
-                return render(request, 'auth/client_register_login.html', {'errors': errors})
-
-            register = ClientRegisterLogin(
-                profile_photo=profile,
-                first_name=firstname,
-                last_name=lastname,
-                username=username,
-                email=email,
-                password=password,
-                phone_no=phonenumber,
-                company = company,
-                location=location
-                
-            )
-
-            try:
-                register.save()
-                request.session['done'] = True
-                return render(request, 'auth/client_register_login.html', {'success': 'Registration successful.', 'done': request.session['done']})
-            except:
-                request.session['done'] = False
-                return redirect('client_register_login')
+            return render(request, 'auth/client_register_login.html', {'error_message': error_message})
 
     return render(request, 'auth/client_register_login.html')
+
 
 def client_forgot_password(request):
     if request.method == 'POST':
@@ -154,6 +148,7 @@ def client_reset_password(request):
 
     return render(request, 'auth/client_reset_password.html')
 
+@login_required(login_url='client_register_login')
 def client_contact(request):
     if request.method == 'POST':
         first = request.POST.get('firstname')
@@ -246,7 +241,7 @@ def client_post_project(request):
         experience_level = request.POST.get('experience_level')
         deadline = request.POST.get('deadline')
         image = request.FILES.get('image')
-        attachments = request.FILES.getlist('attachments')
+        attachments = request.FILES.get('attachments')
 
         # Validation
         errors = {}
@@ -288,7 +283,8 @@ def client_post_project(request):
             skills_required=skills,
             experience_level=experience_level,
             deadline=deadline,
-            photo=image
+            photo=image,
+            attachments = attachments
         )
 
         try:

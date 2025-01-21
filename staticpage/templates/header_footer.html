@@ -216,7 +216,7 @@
         }
 
         .footer .col {
-            flex: 1 1 20%;
+            flex: 1 1 15%;
             padding: 5px;
         }
 
@@ -378,7 +378,7 @@
             <i class="fas fa-paint-brush"></i>
             <a href="#design" class="category-title">Design</a>
             <div class="subcategories">
-                <a href=" #">Graphic Design</a>
+                <a href="{% url 'graphic_design' %}">Graphic Design</a>
                 <a href="{% url 'logo_design' %}">Logo Design</a>
             </div>
         </div>
@@ -440,54 +440,91 @@
   </main>
   <!-- end main -->
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <div class="logo">
-                        <img src="/media/2.png" alt="WorkSphere Logo">
-                    </div>
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <!-- First Row: Logo, Company, Support, Services, Contact Us -->
+        <div class="row">
+            <!-- First Column: Logo -->
+            <div class="col">
+                <div class="logo">
+                    <img src="/media/2.png" alt="WorkSphere Logo">
                 </div>
-                <div class="col">
-                    <h4>Products</h4>
-                    <ul>
-                        <li><a href="#about">About Us</a></li>
-                        <li><a href="#team">Our Team</a></li>
-                        <li><a href="#product">Products</a></li>
-                    </ul>
-                </div>
-                <div class="col">
-                    <h4>Support</h4>
-                    <ul>
-                        <li><a href="#how-it-works">How It Works</a></li>
-                        <li><a href="#terms">Terms & Conditions</a></li>
-                        <li><a href="#faq">FAQ</a></li>
-                    </ul>
-                </div>
-                <div class="col">
-                    <h4>Browse</h4>
-                    <ul>
-                        <li><a href="#services">Services</a></li>
-                        <li><a href="#categories">Categories</a></li>
-                        <li><a href="#portfolio">Portfolio</a></li>
-                    </ul>
-                </div>
+            </div>
 
-                <div class="col">
-                    <h4 style="text-decoration:none;">Follow Us on</h4>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>                    
-                    <p class="copy">&copy; 2024 WorkSphere. All rights reserved.</p>
+            <!-- Second Column: Company -->
+            <div class="col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="{% url 'about' %}">About Us</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                    <li><a href="{% url 'help' %}">Help Center</a></li>
+                </ul>
+            </div>
+
+            <!-- Third Column: Support -->
+            <div class="col">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="{% url 'work' %}">How It Works</a></li>
+                    <li><a href="{% url 'terms' %}">Terms & Conditions</a></li>
+                    <li><a href="{% url 'policy' %}">Privacy Policy</a></li>
+                    <li><a href="{% url 'faq' %}">FAQ</a></li>
+                </ul>
+            </div>
+
+            <!-- Fourth Column: Services -->
+            <div class="col">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="{% url 'service' %}">Services</a></li>
+                    <li><a href="#categories">Categories</a></li>
+                    <li><a href="{% url 'work' %}">How It Works</a></li>
+                </ul>
+            </div>
+
+            <!-- Fifth Column: Contact Us -->
+            <div class="col">
+                <h4>Contact Us</h4>
+                <ul>
+                    <li><strong>Email:</strong> support@worksphere.com</li>
+                    <li><strong>Phone:</strong> +1 234 567 890</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Second Row: Quote -->
+        <div class="row">
+            <div class="col">
+                <div class="footer-quote">
+                    <p>"Empowering Freelancers, Connecting Creators, Building Dreams."</p>
                 </div>
             </div>
         </div>
-    </footer>
+
+        <!-- Third Row: Follow Us -->
+        <div class="row">
+            <div class="col">
+                <h4>Follow Us on</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fourth Row: Copyright -->
+        <div class="row">
+            <div class="col">
+                <p class="copy">&copy; 2024 WorkSphere. All rights reserved.</p>
+            </div>
+        </div>
+    </div> 
+</footer>
+
 
     <script>
         const hamburger = document.querySelector('.hamburger1');

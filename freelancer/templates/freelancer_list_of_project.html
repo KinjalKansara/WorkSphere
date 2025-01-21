@@ -257,12 +257,11 @@ body {
 <body>
   <div class="projects-container">
     <div class="projects-header">
-      <h2>My Projects</h2>
-      <button class="add-project-button" onclick="window.location.href='/client/client_post_project/'">Add New Project</button>
+      <h2>List of Projects</h2>
     </div>
     
     <ul class="project-list">
-      {% for projects in project %}
+      {% for projects in projects %}
       <li class="project-card">
         <img src="/media/{{ projects.photo }}" alt="Project Image">
         <div class="project-header">

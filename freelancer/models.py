@@ -1,6 +1,6 @@
 from django.db import models
 
-from client.models import ClientPostProject
+from client.models import ClientPostProject, ClientRegisterLogin
 
 # Create your models here.
 
@@ -10,7 +10,7 @@ class FreelancerRegisterLogin(models.Model):
     last_name = models.CharField(max_length=30)
     username = models.CharField(max_length=30, unique=True)
     email = models.EmailField(unique=True)
-    password = models.CharField(max_length=100)
+    password = models.CharField(max_length=100) 
     phone_number = models.CharField(max_length=15)
     skills = models.CharField(max_length=50)
     hourly_rate = models.DecimalField(max_digits=6, decimal_places=2)
@@ -35,7 +35,7 @@ class FreelancerProposal(models.Model):
         ('2_months', '2 Months'),
         ('3_months', '3 Months'),
     ]
-
+    client = models.ForeignKey(ClientRegisterLogin, on_delete=models.CASCADE, null=True)
     freelancer = models.ForeignKey(FreelancerRegisterLogin, on_delete=models.CASCADE)
     project = models.ForeignKey(ClientPostProject, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
@@ -48,6 +48,11 @@ class FreelancerProposal(models.Model):
 
     def __str__(self):
         return f"Proposal by {self.freelancer.username} for project: {self.project.title}"
+    
+class ProjectPayments(models.Model):
+    proposal = models.ForeignKey(FreelancerProposal, on_delete=models.CASCADE)
+    project_status = models.CharField(max_length=15)
+    payment_status = models.CharField(max_length=15)
 
 
 

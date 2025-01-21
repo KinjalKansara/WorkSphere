@@ -161,6 +161,13 @@
       margin-top: 5px;
     }
 
+    /* Error Container */
+    .error-container {
+      color: red;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
     /* Responsive Design */
     @media (max-width: 768px) {
       .form-container {
@@ -189,167 +196,145 @@
         font-size: 16px; /* Slightly larger font size for better readability */
       }
     }
-  </style>
+  }
+</style>
 </head>
 <body>
-  <div class="form-container">
-    <!-- Registration Form Section -->
-    <div class="form-section registration-form">
-      <h2>Register Now</h2>
-      <p>Sign up for free.</p>
-      <a href="#" class="login-link">Already have an account? <span>Sign in</span></a>
-      <form id="registrationForm" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
+<div class="form-container">
+  <!-- Registration Form Section -->
+  <div class="form-section registration-form">
+    <h2>Register Now</h2>
+    <p>Sign up for free.</p>
+    <a href="#" class="login-link">Already have an account? <span>Sign in</span></a>
+
+    <form id="registrationForm" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="error-container">
+        {% if error_message %}
+          <div>{{ error_message }}</div>
+        {% endif %}
+      </div>
+      <div class="input-container">
+        <i class="fas fa-camera"></i>
+        <input type="file" name="profile" accept="image/*">
+      </div>  
+      <div style="display: flex; justify-content: space-between; align-items: center;">
         <div class="input-container">
-          <i class="fas fa-camera"></i>
-          <input type="file" name="profile" accept="image/*" >
-          {% if errors.profile %}
-            <div class="error-message">{{ errors.profile }}</div>
-          {% endif %}
-        </div>  
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <div class="input-container">
-            <i class="fas fa-user"></i>
-            <input type="text" name="firstname" placeholder="First Name" >
-            {% if errors.firstname %}
-              <div class="error-message">{{ errors.firstname }}</div>
-            {% endif %}
-          </div>
-          <div class="input-container">
-            <i class="fas fa-user"></i>
-            <input type="text" name="lastname" placeholder="Last Name" >
-            {% if errors.lastname %}
-              <div class="error-message">{{ errors.lastname }}</div>
-            {% endif %}
-          </div>
-        </div>
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <div class="input-container">
-            <i class="fas fa-user"></i>
-            <input type="text" name="username" placeholder="Username" class="full-width" >
-            {% if errors.username %}
-              <div class="error-message">{{ errors.username }}</div>
-            {% endif %}
-          </div>
-          <div class="input-container">
-            <i class="fas fa-envelope"></i>
-            <input type="email" name="email" placeholder="Email" class="full-width" >
-            {% if errors.email %}
-              <div class="error-message">{{ errors.email }}</div>
-            {% endif %}
-          </div>
-        </div>
-        <div class="input-container">
-          <i class="fas fa-lock"></i>
-          <input type="password" name="password" placeholder="Password" class="full-width" >
-          {% if errors.password %}
-            <div class="error-message">{{ errors.password }}</div>
-          {% endif %}
-        </div>
-        <div class="input-container">
-          <i class="fas fa-phone"></i>
-          <input type="tel" name="phonenumber" placeholder="Phone Number" class="full-width" >
-          {% if errors.phonenumber %}
-            <div class="error-message">{{ errors.phonenumber }}</div>
-          {% endif %}
+          <i class="fas fa-user"></i>
+          <input type="text" name="firstname" placeholder="First Name">
         </div>
         <div class="input-container">
           <i class="fas fa-user"></i>
-          <input type="text" name="companyname" placeholder="Company " >
-          {% if errors.companyname %}
-            <div class="error-message">{{ errors.companyname }}</div>
-          {% endif %}
+          <input type="text" name="lastname" placeholder="Last Name">
         </div>
-        
-        <div class="input-container">
-          <i class="fas fa-home"></i>
-          <input type="text" name="location" placeholder="Location" class="full-width" >
-          {% if errors.location %}
-            <div class="error-message">{{ errors.location }}</div>
-          {% endif %}
-        </div>
-        <input type="submit" value="Sign Up" name="submit" class="button">
-      </form>
-    </div>
-
-    <!-- Image Slider Section -->
-    <div class="form-section image-slider">
-      <img src="/media/registration.gif" style="height:440px;" alt="Image 1" class="active">
-      <img src="/media/login.gif" alt="Image 2">
-    </div>
-
-    <!-- Login Form Section -->
-    <div class="form-section login-form" style="display: none;">
-      <h2>Start your journey</h2>
-      <p>Sign in to WorksPhare</p>
-      <a href="{% url 'client_register_login' %}?done=False" class="register-link">Don't have an account? <span> Sign Up </span></a>
-      <form id="loginForm" method="post">
-        {% csrf_token %}
-        <input type="hidden" name="login" value="login">
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center;">
         <div class="input-container">
           <i class="fas fa-user"></i>
-          <input type="text" name="username" placeholder="Username or Email" class="full-width" required>
+          <input type="text" name="username" placeholder="Username" class="full-width">
         </div>
         <div class="input-container">
-          <i class="fas fa-lock"></i>
-          <input type="password" name="password" placeholder="Password" class="full-width" required>
+          <i class="fas fa-envelope"></i>
+          <input type="email" name="email" placeholder="Email" class="full-width">
         </div>
-        <input type="submit" value="Login" name="submit" class="button">
-        <div>
-        <a href="{% url 'freelancer_forgot_password' %}" class="forgot-password-link">Forgot Password?</a>
-        </div>
-        <!-- <p id="loginSuccessMessage" class="success-message">Login successful! Redirecting to registration...</p>  -->
-      </form>
-    </div>
-
+      </div>
+      <div class="input-container">
+        <i class="fas fa-lock"></i>
+        <input type="password" name="password" placeholder="Password" class="full-width">
+      </div>
+      <div class="input-container">
+        <i class="fas fa-phone"></i>
+        <input type="tel" name="phonenumber" placeholder="Phone Number" class="full-width">
+      </div>
+      <div class="input-container">
+        <i class="fas fa-user"></i>
+        <input type="text" name="companyname" placeholder="Company">
+      </div>
+      <div class="input-container">
+        <i class="fas fa-home"></i>
+        <input type="text" name="location" placeholder="Location" class="full-width">
+      </div>
+      <input type="submit" value="Sign Up" name="submit" class="button">
+    </form>
   </div>
 
-  {% if request.session.done == True %}
-  <script>
-    document.querySelector('.login-form').style.display = 'block';
-    document.querySelector('.registration-form').style.display = 'none';
-  </script>
-  {% endif %}
-  <script>
-    // Function to change image
-    let currentIndex = 0;
-    const images = document.querySelectorAll('.image-slider img');
-    
-    function showImage(index) {
-      images.forEach((img, i) => img.classList.remove('active'));
-      images[index].classList.add('active');
-    }
-    
-    function changeImage() {
-      currentIndex = (currentIndex + 1) % images.length; // Cycle through images
-      showImage(currentIndex);
-      if (currentIndex === 0) {
-        document.querySelector('.login-form').style.display = 'none';
-        document.querySelector('.registration-form').style.display = 'block';
-      } else {
-        document.querySelector('.login-form').style.display = 'block';
-        document.querySelector('.registration-form').style.display = 'none';
-      }
-    }
-    
-    // Image click event to change image and show login/registration form
-    images.forEach((img, index) => {
-      img.addEventListener('click', changeImage);
-    });
+  <!-- Image Slider Section -->
+  <div class="form-section image-slider">
+    <img src="/media/registration.gif" style="height:440px;" alt="Image 1" class="active">
+    <img src="/media/login.gif" alt="Image 2">
+  </div>
 
-    // Toggle between login and registration forms
-    document.querySelector('.login-link').addEventListener('click', function(event) {
-      event.preventDefault();
-      document.querySelector('.login-form').style.display = 'block';
-      document.querySelector('.registration-form').style.display = 'none';
-    });
+  <!-- Login Form Section -->
+  <div class="form-section login-form" style="display: none;">
+    <h2>Start your journey</h2>
+    <p>Sign in to WorksPhare</p>
+    <a href="{% url 'client_register_login' %}?done=False" class="register-link">Don't have an account? <span>Sign Up</span></a>
+    <form id="loginForm" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="login" value="login">
+      <div class="input-container">
+        <i class="fas fa-user"></i>
+        <input type="text" name="username" placeholder="Username or Email" class="full-width" required>
+      </div>
+      <div class="input-container">
+        <i class="fas fa-lock"></i>
+        <input type="password" name="password" placeholder="Password" class="full-width" required>
+      </div>
+      <input type="submit" value="Login" name="submit" class="button">
+      <div>
+        <a href="{% url 'freelancer_forgot_password' %}" class="forgot-password-link">Forgot Password?</a>
+      </div>
+    </form>
+  </div>
+</div>
 
-    document.querySelector('.register-link').addEventListener('click', function(event) {
-      event.preventDefault();
+{% if request.session.done == True %}
+<script>
+  document.querySelector('.login-form').style.display = 'block';
+  document.querySelector('.registration-form').style.display = 'none';
+</script>
+{% endif %}
+
+<script>
+  // Function to change image
+  let currentIndex = 0;
+  const images = document.querySelectorAll('.image-slider img');
+  
+  function showImage(index) {
+    images.forEach((img, i) => img.classList.remove('active'));
+    images[index].classList.add('active');
+  }
+  
+  function changeImage() {
+    currentIndex = (currentIndex + 1) % images.length; // Cycle through images
+    showImage(currentIndex);
+    if (currentIndex === 0) {
       document.querySelector('.login-form').style.display = 'none';
       document.querySelector('.registration-form').style.display = 'block';
-    });
-  </script>
+    } else {
+      document.querySelector('.login-form').style.display = 'block';
+      document.querySelector('.registration-form').style.display = 'none';
+    }
+  }
+  
+  // Image click event to change image and show login/registration form
+  images.forEach((img, index) => {
+    img.addEventListener('click', changeImage);
+  });
+
+  // Toggle between login and registration forms
+  document.querySelector('.login-link').addEventListener('click', function(event) {
+    event.preventDefault();
+    document.querySelector('.login-form').style.display = 'block';
+    document.querySelector('.registration-form').style.display = 'none';
+  });
+
+  document.querySelector('.register-link').addEventListener('click', function(event) {
+    event.preventDefault();
+    document.querySelector('.login-form').style.display = 'none';
+    document.querySelector('.registration-form').style.display = 'block';
+  });
+</script>
 </body>
 </html>
 

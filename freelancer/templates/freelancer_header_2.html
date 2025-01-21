@@ -1,3 +1,5 @@
+{% if request.session.role == 'freelancer' %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -264,3 +266,8 @@
   </script>
 </body>
 </html>
+{% else %}
+<script>
+  window.location = "{% url 'freelancer_register_login' %}"
+</script>
+{% endif %}

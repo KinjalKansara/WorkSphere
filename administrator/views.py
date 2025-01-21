@@ -18,6 +18,7 @@ def admin_login(request):
         try:
             user = AdminUser.objects.get(email=email, password=password)
             request.session['admin'] = email
+            request.session['role'] = 'ADMIN'
             return redirect('admin_dashboard')
             
         except:
@@ -152,6 +153,15 @@ def admin_delete_project(request, id):
 
 def admin_proposal(request):
     return render(request, 'admin_proposal.html')
+
+def admin_header_1(request):
+    return render(request, 'admin_header_1.html')
+
+def admin_header_2(request):
+    return render(request, 'admin_header_2.html')
+
+def admin_header_3(request):
+    return render(request, 'admin_header_3.html')
 
 def admin_logout(request):
     request.session.flush()

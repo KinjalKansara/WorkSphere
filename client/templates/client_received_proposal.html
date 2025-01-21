@@ -368,15 +368,15 @@ body {
           <span class="status-open">Open</span>
         </div>
         <div class="proposal-body">
-          <p>{{ proposal.description }}</p>
+          <p>{{proposal.description| truncatechars:200}}</p>
         </div>
         <div class="proposal-footer">
           <span><i class="fas fa-calendar-alt"></i> Submitted on: {{ proposal.submitted_at|date:"M d, Y" }}</span>
         </div>
         <div class="button-group">
           <button class="view-details" onclick="viewDetails('{{ proposal.title }}', '{{ proposal.description }}', '{{ proposal.duration }}', '{{ proposal.bid }}', '{{ proposal.cover_letter }}', '{{ proposal.attachment}}', '{{ proposal.submitted_at|date:"Y-m-d H:i:s" }}')">View Details</button>
-          <button class="view-profile" onclick="viewProfile('{{ proposal.freelancer.profile.url }}', '{{ proposal.freelancer.first_name }} {{ proposal.freelancer.last_name }}', '{{ proposal.freelancer.hourly_rate }}', '{{ proposal.freelancer.email }}', '{{ proposal.freelancer.phone_number }}', '{{ proposal.freelancer.skills }}', '{{ proposal.freelancer.location }}', '{{ proposal.freelancer.about_me }}')">View Profile</button>
-        </div>        
+          <button class="view-profile" onclick="viewProfile(  '{{ proposal.freelancer.profile.url|escapejs }}',   '{{ proposal.freelancer.first_name|escapejs }} {{ proposal.freelancer.last_name|escapejs }}',   '{{ proposal.freelancer.hourly_rate|escapejs }}',   '{{ proposal.freelancer.email|escapejs }}',   '{{ proposal.freelancer.phone_number|escapejs }}',   '{{ proposal.freelancer.skills|escapejs }}',   '{{ proposal.freelancer.location|escapejs }}',   '{{ proposal.freelancer.about_me|escapejs }}')">View Profile</button>
+      </div>        
       </li>
       {% endfor %}
     </ul>
@@ -390,7 +390,7 @@ body {
       <!-- Profile details will be dynamically inserted here -->
     </div>
   </div>
-</div>
+</div> 
 
 <!-- Details Modal -->
 <div id="detailsModal" class="modal">
@@ -399,20 +399,119 @@ body {
     <div class="modal-description" id="detailsContent">
       <!-- Proposal details will be dynamically inserted here -->
     </div>
-    <button class="approve-button">Approve</button>
+    <!-- Select Project Button (Triggers Razorpay Payment) -->
+    <a href="javascript:void(0);" class="select-project-button" onclick="startPayment({{proposal_id<-pass baki}})">Pay ₹99 and Select </a>
   </div>
 </div>
 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
+    // Function to open a modal
+    function openModal(modalId) {
+        var modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = "block";
+        }
+    }
+
+    // Function to close a modal
+    function closeModal(modalId) {
+        var modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    // Start Razorpay Payment
+    function startPayment(id) {
+        // Fetch CSRF token
+        const csrfToken = document.getElementById('csrf_token').value;
+
+        // Make a request to create the Razorpay order
+        fetch("{% url 'create_order' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify({ project_title: id })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                //alert('Error creating order: ' + data.error);
+                alert("Internal Server Error, Try again after few moments")
+                return;
+            }
+
+            var options = {
+                key: '{{ RAZORPAY_KEY }}',  // Your Razorpay key
+                amount: data.amount,        // Amount in paise
+                currency: 'INR',
+                name: 'WorkSphere',
+                description: 'Payment for project selection: ' + id,
+                order_id: data.order_id,    // Razorpay order ID
+                handler: function (response) {
+                    // Send payment details for verification
+                    fetch("{% url 'verify_payment' %}", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrfToken
+                        },
+                        body: JSON.stringify({
+                            razorpay_order_id: response.razorpay_order_id,
+                            razorpay_payment_id: response.razorpay_payment_id,
+                            razorpay_signature: response.razorpay_signature
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            alert('Payment Successful!');
+                            window.location.href = "{% url 'client_dashboard' %}"; // Redirect to success page
+                        } else {
+                            alert('Payment verification failed: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error verifying payment:', error);
+                        alert('An error occurred during payment verification.');
+                    });
+                },
+                prefill: {
+                    name: "{{ user.username }}", // Pre-filled name from Django user object
+                    email: "{{ user.email }}",   // Pre-filled email from Django user object
+                    contact: "{{ user.phone_no }}" // Pre-filled contact number (assuming a 'phone_number' field in your user's profile)
+                },
+                theme: {
+                    color: "#F37254" // Customize color
+                }
+            };
+
+            // Open Razorpay payment modal
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+        })
+        .catch(error => {
+            console.error('Error creating order:', error);
+            alert('An error occurred while initiating the payment.');
+        });
+    }
+  
   // Function to show proposal details in the modal
   function viewDetails(title, description, duration, bid, coverLetter, attachmentUrl, submittedAt) {
     const modalDetails = `
      <h3>Proposal Details</h3>
       <p><strong>Title:</strong> ${title}</p>
-      <p><strong>Description:</strong> ${description}</p>
+      <div class="row" style=" margin-bottom: 10px; justify-content: space-between;">
+        <p style="margin: 0; flex-basis: 45%;"><strong>Description:</strong> ${description.length > 100 ? description.substring(0, 100) + '...' : description}</p>
+      </div>
       <p><strong>Duration:</strong> ${duration}</p>
       <p><strong>Bid:</strong> $${bid}</p>
-      <p><strong>Cover Letter:</strong> ${coverLetter}</p>
+           <div class="row" style=" margin-bottom: 10px; justify-content: space-between;">
+        <p style="margin: 0; flex-basis: 45%;"><strong>Cover Letter:</strong> ${coverLetter.length > 2000 ? coverLetter.substring(0, 2000) + '...' : coverLetter}</p>
+      </div>
       ${attachmentUrl ? `<p><strong>Attachment:</strong> <a href="${attachmentUrl}" target="_blank">Download</a></p>` : ''}
       <p><strong>Submitted At:</strong> ${submittedAt}</p>
 
@@ -424,7 +523,7 @@ body {
   // Function to show freelancer profile in the modal
   function viewProfile(profileUrl, name, rate, email, phone, skills, location, bio) {
     const modalProfile = `
-      <div style="text-align: center; margin-bottom: 20px;">
+    <div style="text-align: center; margin-bottom: 20px;">
         <img src="${profileUrl}" alt="Profile Photo" width="150" height="150" style="border-radius: 50%; border: 2px solid #ddd;">
       </div>
       <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
@@ -440,7 +539,7 @@ body {
         <p style="margin: 0; flex-basis: 45%;"><strong>Location:</strong> ${location}</p>
       </div>
       <div class="full-width" style="margin-bottom: 10px;">
-        <p><strong>Bio:</strong> ${bio}</p>
+        <p><strong>Bio:</strong> ${bio.length > 200 ? bio.substring(0, 200) + '...' : bio}</p>
       </div>
     `;
     document.getElementById('profileDetails').innerHTML = modalProfile;
@@ -452,6 +551,8 @@ body {
     document.getElementById(modalId).style.display = 'none';
   }
 </script>
+<!-- CSRF Token -->
+<input type="hidden" id="csrf_token" value="{{ csrf_token }}">
 </body>
 </html>
 {% endblock %}

@@ -27,7 +27,7 @@
             padding: 20px;
             border-radius: 15px;
             height: 400px;
-            width: 400px;
+            width: 450px;
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
             margin-top: 50px;
             margin-bottom: 50px;
@@ -160,8 +160,8 @@
             <h1>Welcome to <span>WorkSphere</span></h1>
             <p>Your gateway to finding work or hiring top talent.</p>
             <div class="buttons">
-                <a href="/register/freelancer" class="button">I'm a Freelancer<br>Looking for Work</a>
-                <a href="/register/client" class="button">I'm a Client<br>Hiring for Projects</a>
+                <a href="{% url 'freelancer_register_login' %}" class="button">I'm a Freelancer<br>Looking for Work</a>
+                <a href="{% url 'client_register_login' %}" class="button">I'm a Client<br>Hiring for Projects</a>
             </div>
         </div>
     </center>
