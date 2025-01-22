@@ -7,6 +7,8 @@ from django.http import JsonResponse
 from django.shortcuts import render
 import razorpay
 from .models import *
+from freelancer.models import *
+from django.core.mail import send_mail
 
 # from payment.models import Payment
 logger = logging.getLogger(__name__)
@@ -21,10 +23,12 @@ def payment(request):
 def create_order(request):
     if request.method == "POST":
         data = json.loads(request.body)
-        project_title = data.get("project_title")
-        amount = 9900  # Amount in paise (9900 paise = 99 INR)
+        proposalId = data.get("proposal_id")
+        amount = data.get("bid")  # Amount in paise (9900 paise = 99 INR)
+        amount = amount * 100
         currency = "INR"
-        project = ClientPostProject.objects.get(title = project_title)
+        proposal = FreelancerProposal.objects.get(id = int(proposalId))
+        request.session['freelancer_email'] = proposal.freelancer.email
         email = str(request.session.get('email'))  # Get email from session
         if not email:
             logger.error("User email not found in session")
@@ -46,10 +50,10 @@ def create_order(request):
 
             # Save payment details to the database
             payment = Payment.objects.create(
-                order_id=order_id, amount=amount / 100, email=email, status='Pending', project = project
+                order_id=order_id, amount=amount / 100, email=email, status='Pending', proposal = proposal
             )
 
-            request.session['project_title'] = project_title
+            request.session['proposalId'] = proposalId
 
             logger.info(f"Payment created successfully: {payment}")
 
@@ -96,7 +100,45 @@ def verify_payment(request):
                 payment.refund_amount = 0
                 payment.save()
 
-                
+                proposal = FreelancerProposal.objects.get(id = payment.proposal.id)
+                proposal.status = 'Selected'
+                proposal.save()
+               
+                # # Define email parameters
+                # subject = 'Payment Confirmation'
+                # message = f'Your payment with Razorpay has been successfully completed. Payment ID: {razorpay_payment_id}'
+                # from_email = settings.DEFAULT_FROM_EMAIL
+                # email = request.session.get('email')
+                # recipient_list = [email]  # Add recipient email(s) here
+
+                # # Send the email
+                # send_mail(subject, message, from_email, recipient_list)
+
+                # freelancer_email = request.session.get('freelancer_email')
+
+                # subject = 'Your Proposal Has Been Approved!'
+                # message = f"""
+                # Dear Freelancer,
+
+                # We are pleased to inform you that your proposal for the project '{payment.proposal.title}' has been approved by the client .
+
+                # Here are the details of the project:
+                # - **Project Title**: {payment.proposal.title}
+               
+
+                # You may now proceed with the next steps as discussed with the client. We wish you all the best in completing the project!
+
+                # If you have any questions, feel free to reach out to us.
+
+                # Best regards,
+                # The WorksPhare Team
+                # """
+                # from_email = settings.DEFAULT_FROM_EMAIL  # Your email address
+                # recipient_list = [freelancer_email]  # The freelancer's email address
+
+                # # Send the email
+                # send_mail(subject, message, from_email, recipient_list)
+
 
             except Payment.DoesNotExist:
                 return JsonResponse({'status': 'Failed', 'message': 'Payment record not found'}, status=404)

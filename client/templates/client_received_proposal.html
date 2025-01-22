@@ -376,7 +376,9 @@ body {
         <div class="button-group">
           <button class="view-details" onclick="viewDetails('{{ proposal.title }}', '{{ proposal.description }}', '{{ proposal.duration }}', '{{ proposal.bid }}', '{{ proposal.cover_letter }}', '{{ proposal.attachment}}', '{{ proposal.submitted_at|date:"Y-m-d H:i:s" }}')">View Details</button>
           <button class="view-profile" onclick="viewProfile(  '{{ proposal.freelancer.profile.url|escapejs }}',   '{{ proposal.freelancer.first_name|escapejs }} {{ proposal.freelancer.last_name|escapejs }}',   '{{ proposal.freelancer.hourly_rate|escapejs }}',   '{{ proposal.freelancer.email|escapejs }}',   '{{ proposal.freelancer.phone_number|escapejs }}',   '{{ proposal.freelancer.skills|escapejs }}',   '{{ proposal.freelancer.location|escapejs }}',   '{{ proposal.freelancer.about_me|escapejs }}')">View Profile</button>
-      </div>        
+          <a href="javascript:void(0);" class="select-project-button" onclick="startPayment({{proposal.id}}, {{proposal.bid}})">Approve and Payment </a>
+          print({{proposal.id}})
+        </div>        
       </li>
       {% endfor %}
     </ul>
@@ -400,7 +402,10 @@ body {
       <!-- Proposal details will be dynamically inserted here -->
     </div>
     <!-- Select Project Button (Triggers Razorpay Payment) -->
-    <a href="javascript:void(0);" class="select-project-button" onclick="startPayment({{proposal_id<-pass baki}})">Pay ₹99 and Select </a>
+      {% if selected_proposal %}
+    <a href="javascript:void(0);" class="select-project-button" onclick="startPayment({{project_id}})">Approve and Payment </a>
+    print({{project_id}})
+    {% endif %}
   </div>
 </div>
 
@@ -423,7 +428,7 @@ body {
     }
 
     // Start Razorpay Payment
-    function startPayment(id) {
+    function startPayment(proposalId, bid) {
         // Fetch CSRF token
         const csrfToken = document.getElementById('csrf_token').value;
 
@@ -434,7 +439,7 @@ body {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrfToken
             },
-            body: JSON.stringify({ project_title: id })
+            body: JSON.stringify({ proposal_id: proposalId, bid: bid})
         })
         .then(response => response.json())
         .then(data => {
@@ -449,7 +454,7 @@ body {
                 amount: data.amount,        // Amount in paise
                 currency: 'INR',
                 name: 'WorkSphere',
-                description: 'Payment for project selection: ' + id,
+                description: 'Payment for project proposal: ' + proposalId,
                 order_id: data.order_id,    // Razorpay order ID
                 handler: function (response) {
                     // Send payment details for verification

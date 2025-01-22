@@ -12,6 +12,7 @@ urlpatterns = [
     path('freelancer_list_of_project/', views.freelancer_list_of_project, name='freelancer_list_of_project'),
     path('freelancer_profile/', views.freelancer_profile, name='freelancer_profile'),
     path('freelancer_edit_profile/', views.freelancer_edit_profile, name='freelancer_edit_profile'),
+    path('confirm_proposal/', views.confirm_proposal, name='confirm_proposal'),
     path('freelancer_proposal/', views.freelancer_proposal, name='freelancer_proposal'),
     path('freelancer_send_proposal/<int:project_id>/', views.freelancer_send_proposal, name='freelancer_send_proposal'),
     path('freelancer_header_1/', views.freelancer_header_1, name='freelancer_header_1'),

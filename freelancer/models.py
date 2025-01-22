@@ -45,14 +45,25 @@ class FreelancerProposal(models.Model):
     cover_letter = models.TextField()
     attachment = models.FileField(upload_to='attachments/', blank=True, null=True)
     submitted_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=10, null=True)
 
     def __str__(self):
         return f"Proposal by {self.freelancer.username} for project: {self.project.title}"
     
 class ProjectPayments(models.Model):
+    STATUS_CHOICES = [
+        ('Pending', 'Pending'),
+        ('Completed', 'Completed'),
+    ]
+    
+    PAYMENT_STATUS_CHOICES = [
+        ('Unpaid', 'Unpaid'),
+        ('Paid', 'Paid'),
+    ]
     proposal = models.ForeignKey(FreelancerProposal, on_delete=models.CASCADE)
-    project_status = models.CharField(max_length=15)
-    payment_status = models.CharField(max_length=15)
+    project_status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
+    payment_status = models.CharField( max_length=20, choices=PAYMENT_STATUS_CHOICES, default='Unpaid')
+
 
 
 

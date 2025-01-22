@@ -1,5 +1,7 @@
 from decimal import Decimal
 from django.shortcuts import render, redirect
+
+from payment.models import Payment
 from .models import *
 from staticpage.models import *
 from client.models import *
@@ -315,6 +317,20 @@ def freelancer_edit_profile(request):
     }
 
     return render(request, 'freelancer_edit_profile.html', context)
+
+def confirm_proposal(request):
+    user = request.session.get('logged_user')  # Get the logged-in user's session
+    freelancer = FreelancerRegisterLogin.objects.get(username=user)
+    
+    # Fetching proposals related to the freelancer
+    proposals = Payment.objects.filter(proposal__freelancer=freelancer)
+
+    context = {
+        'proposals': proposals  # Change variable name for clarity
+    }
+
+    return render(request, 'confirm_proposal.html', context)
+
 
 def freelancer_proposal(request):
     user = request.session.get('logged_user')  # Get the logged-in user's session

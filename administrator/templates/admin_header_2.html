@@ -1,4 +1,4 @@
-{% if request.session.admin %}
+{% if request.session.admin and request.session.role == 'ADMIN' %}
 
 <!DOCTYPE html>
 <html lang="en">

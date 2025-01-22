@@ -374,10 +374,16 @@ def client_received_proposal(request):
     # Fetch the proposals related to this client's projects
     proposals = FreelancerProposal.objects.filter(project__in=client_projects)
 
+    
+
+    # Now filter all proposals for that project ID
+    selected_proposals = proposals.filter(project__in=client_projects)
+    
     # Prepare context data to pass to the template
     context = {
         'client': client,
-        'proposals': proposals,
+        'proposals': proposals,  
+        'selected_proposal': selected_proposals,
     }
 
     return render(request, 'client_received_proposal.html', context)

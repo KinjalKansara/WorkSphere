@@ -1,11 +1,12 @@
 from django.db import models
 
 from client.models import ClientPostProject
+from freelancer.models import *
 
 # Create your models here.
 
 class Payment(models.Model):
-    project = models.ForeignKey(ClientPostProject, on_delete=models.CASCADE, related_name='payments')
+    proposal = models.ForeignKey(FreelancerProposal, on_delete=models.CASCADE, related_name='payments', null=True)
     order_id = models.CharField(max_length=255)
     payment_id = models.CharField(max_length=50)
     signature = models.CharField(max_length=256, null=True, blank=True)

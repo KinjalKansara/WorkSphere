@@ -21,4 +21,6 @@ urlpatterns = [
     path('admin_header_2/', views.admin_header_2, name='admin_header_2'),
     path('admin_header_3/', views.admin_header_3, name='admin_header_3'),
     path('admin_logout/', views.admin_logout, name='admin_logout'),
+    path('admin/payment/update/<int:payment_id>/', views.update_project_status, name='update_project_status'),
+    path('admin/payment/delete/<int:payment_id>/', views.delete_payment, name='delete_payment'),
 ]
