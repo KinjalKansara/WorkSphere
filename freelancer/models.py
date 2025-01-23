@@ -13,7 +13,7 @@ class FreelancerRegisterLogin(models.Model):
     password = models.CharField(max_length=100) 
     phone_number = models.CharField(max_length=15)
     skills = models.CharField(max_length=50)
-    hourly_rate = models.DecimalField(max_digits=6, decimal_places=2)
+    hourly_rate = models.DecimalField(max_digits=20, decimal_places=2)
     location = models.CharField(max_length=100)
     about_me = models.TextField(null=True, max_length=1000)
 

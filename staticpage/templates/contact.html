@@ -188,6 +188,26 @@
       font-family: 'Verdana', Geneva, Tahoma, sans-serif;
     }
 
+    /* Error Message */
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+      background-color: #ffe6e6; /* Light pink background for better visibility */
+      border: 1px solid red;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Error Container */
+    .error-container {
+      color: red;
+      font-size: 20px;
+      margin: 2px 0; /* Add space above and below the error message */
+      padding: 5px;
+      text-align: center;
+      border-radius: 4px;
+    }
+
     @media (max-width: 768px) {
     .contact-container {
       margin: 20px;
@@ -276,49 +296,36 @@
   <div class="contact-container">
     <h2>Contact <span>WorksPhare</span></h2>
     <p>Your feedback and inquiries help us improve. Reach out, and we'll get back to you as soon as possible!</p>
+    <div class="error-container">
+      {% if error_message %}
+        <div>{{ error_message }}</div>
+      {% endif %}
+    </div>
     <form action="{% url 'contact' %}" method="POST">
       {% csrf_token %}
-      <div class="form-group {% if errors.firstname %}error{% endif %}">
+      <div class="form-group">
         <i class="fas fa-user"></i>
         <input type="text" id="firstname" name="firstname" placeholder="First Name">
-        {% if errors.firstname %}
-          <span class="error-message">{{ errors.firstname }}</span>
-        {% endif %}
       </div>
-      <div class="form-group {% if errors.lastname %}error{% endif %}">
+      <div class="form-group">
         <i class="fas fa-user"></i>
         <input type="text" id="lastname" name="lastname" placeholder="Last Name">
-        {% if errors.lastname %}
-          <span class="error-message">{{ errors.lastname }}</span>
-        {% endif %}
       </div>
-      <div class="form-group {% if errors.email %}error{% endif %}">
+      <div class="form-group">
         <i class="fas fa-envelope"></i>
         <input type="text" id="email" name="email" placeholder="Email">
-        {% if errors.email %}
-          <span class="error-message">{{ errors.email }}</span>
-        {% endif %}
       </div>
-      <div class="form-group {% if errors.phonenumber %}error{% endif %}">
+      <div class="form-group">
         <i class="fas fa-phone"></i>
         <input type="tel" id="phonenumber" name="phonenumber" placeholder="Phone Number">
-        {% if errors.phonenumber %}
-          <span class="error-message">{{ errors.phonenumber }}</span>
-        {% endif %}
       </div>
-      <div class="form-group {% if errors.subject %}error{% endif %}">
+      <div class="form-group">
         <i class="fas fa-comment"></i>
         <input type="text" id="subject" name="subject" placeholder="Subject">
-        {% if errors.subject %}
-          <span class="error-message">{{ errors.subject }}</span>
-        {% endif %}
       </div>
-      <div class="form-group {% if errors.message %}error{% endif %}">
+      <div class="form-group">
         <i class="fas fa-comment"></i>
         <textarea id="message" name="message" placeholder="Your Message"></textarea>
-        {% if errors.message %}
-          <span class="error-message">{{ errors.message }}</span>
-        {% endif %}
       </div>
       <button type="submit" class="submit-button"><i class="fas fa-paper-plane"></i> Submit</button>
     </form>

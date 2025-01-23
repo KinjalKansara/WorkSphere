@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('admin_dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path('send-email/', views.send_email, name='send_email'),
     path('admin_contact/', views.admin_contact, name='admin_contact'),
     path('admin_delete_contact/<int:id>', views.admin_delete_contact, name='admin_delete_contact'),
     path('admin_client/', views.admin_client, name='admin_client'),
@@ -23,4 +24,6 @@ urlpatterns = [
     path('admin_logout/', views.admin_logout, name='admin_logout'),
     path('admin/payment/update/<int:payment_id>/', views.update_project_status, name='update_project_status'),
     path('admin/payment/delete/<int:payment_id>/', views.delete_payment, name='delete_payment'),
+    path("generate_report/", views.generate_report, name="generate_report"),
+    path("generate_pdf/", views.generate_pdf, name="generate_pdf"),
 ]

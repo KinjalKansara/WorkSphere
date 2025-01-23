@@ -18,33 +18,29 @@
       color: #333;
     }
 
-    /* Contact Container */
     .contact-container {
       width: 85%;
-      max-width: 1000px;
-      background: #fff;
+      max-width: 1200px;
       margin: 40px auto;
+      background: #fff;
       border-radius: 15px;
       box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
       padding: 30px;
     }
 
-    /* Header Section */
     .contact-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 2px solid #ececec;
-      padding-bottom: 20px;
       margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #ececec;
     }
 
     .contact-header h2 {
       font-size: 28px;
       color: #333;
       font-weight: 600;
-      margin: 0;
     }
 
     .back-button {
@@ -92,10 +88,13 @@
       background-color: #f1f1f1;
     }
 
-    .delete-button {
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .delete-button, .reply-button {
       padding: 8px 12px;
-      background-color: #f44336;
-      color: white;
       border: none;
       border-radius: 8px;
       cursor: pointer;
@@ -103,90 +102,206 @@
       transition: background-color 0.3s ease, transform 0.3s ease;
     }
 
+    .delete-button {
+      background-color: #f44336;
+      color: white;
+    }
+
     .delete-button:hover {
       background-color: #d32f2f;
       transform: scale(1.05);
     }
 
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .contact-container {
-        width: 90%;
-        padding: 15px;
-      }
-
-      .contact-header h2 {
-        font-size: 24px;
-      }
-
-      .contact-table th, .contact-table td {
-        padding: 10px;
-        font-size: 14px;
-      }
-
-      .delete-button {
-        padding: 6px 10px;
-        font-size: 12px;
-      }
+    .reply-button {
+      background-color: #007bff;
+      color: white;
     }
 
-    @media (max-width: 480px) {
-      .contact-container {
-        width: 100%;
-        padding: 10px;
-      }
+    .reply-button:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
 
-      .contact-header h2 {
-        font-size: 20px;
-      }
+    /* Popup Styling */
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 500px;
+      background: #fff;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      padding: 20px;
+      z-index: 1000;
+      opacity: 0;
+      animation: fadeIn 0.3s ease-out forwards;
+    }
 
+    .popup-header {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #333;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .popup input, .popup textarea {
+      width: 90%;
+      margin-bottom: 15px;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .popup input:focus, .popup textarea:focus {
+      border-color: #1565c0;
+      outline: none;
+    }
+
+    .popup button {
+      padding: 10px 20px;
+      background: #1565c0;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .popup button:hover {
+      background: #104a8e;
+    }
+
+    .popup-close {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #999;
+    }
+
+    .popup-close:hover {
+      color: #333;
+    }
+
+    /* Overlay */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+
+    /* Popup fade-in animation */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translate(-50%, -45%);
+        }
+        to {
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    @media (max-width: 768px) {
       .contact-table th, .contact-table td {
-        padding: 8px;
         font-size: 12px;
       }
 
-      .delete-button {
-        padding: 4px 8px;
-        font-size: 10px;
+      .popup {
+        width: 95%;
       }
     }
   </style>
+
 </head>
 <body>
+
 <div class="contact-container">
     <div class="contact-header">
         <h2>Contact Information</h2>
-        <a href="{% url 'admin_dashboard' %}" class="back-button"><i class="fas fa-arrow-left"></i>Back</a>
+        <a href="{% url 'admin_dashboard' %}" class="back-button"><i class="fas fa-arrow-left"></i> Back</a>
     </div>
     <table class="contact-table">
         <thead>
             <tr>
-                <th>First Name</th>
+                <th>Name</th>
                 <th>Email</th>
-                <th>Phone Number</th>
+                <th>Phone</th>
                 <th>Subject</th>
-                <th>Your Message</th>
+                <th>Message</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
             {% for contact in contact %}
             <tr>
-                <td>{{ contact.first }} {{ contact.last }}</td>
+                <td>{{ contact.first }}</td>
                 <td>{{ contact.email }}</td>
                 <td>{{ contact.phone_number }}</td>
                 <td>{{ contact.subject }}</td>
                 <td>{{ contact.message }}</td>
                 <td>
-                    <form method="post" action="{% url 'admin_delete_contact' contact.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="delete-button">Delete</button>
-                    </form>
+                    <div class="action-buttons">
+                        <form method="post" action="{% url 'admin_delete_contact' contact.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-button">Delete</button>
+                        </form>
+                        <button type="button" class="reply-button" data-email="{{ contact.email }}">Reply</button>
+                    </div>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
+
+<div class="overlay"></div>
+<div class="popup">
+    <div class="popup-header">
+        <span>Reply</span>
+        <button class="popup-close">&times;</button>
+    </div>
+    <form method="post" action="{% url 'send_email' %}">
+        {% csrf_token %}
+        <input type="email" name="email" id="reply-email" placeholder="Email" readonly>
+        <textarea name="message" id="reply-message" placeholder="Your Reply" rows="5" required></textarea>
+        <button type="submit">Send</button>
+    </form>
+</div>
+
+<script>
+  document.querySelectorAll('.reply-button').forEach(button => {
+      button.addEventListener('click', function () {
+          document.getElementById('reply-email').value = this.getAttribute('data-email');
+          document.querySelector('.popup').style.display = 'block';
+          document.querySelector('.overlay').style.display = 'block';
+      });
+  });
+
+  document.querySelector('.popup-close').addEventListener('click', function () {
+      document.querySelector('.popup').style.display = 'none';
+      document.querySelector('.overlay').style.display = 'none';
+  });
+
+  document.querySelector('.overlay').addEventListener('click', function () {
+      document.querySelector('.popup').style.display = 'none';
+      document.querySelector('.overlay').style.display = 'none';
+  });
+</script>
+
+</body>
+</html>
 
 {% endblock %}

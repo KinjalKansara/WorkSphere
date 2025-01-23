@@ -159,6 +159,28 @@
       color: red;
       font-size: 14px;
       margin-top: 5px;
+      background-color: #ffe6e6; /* Light pink background for better visibility */
+      border: 1px solid red;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Error Container */
+    .error-container {
+      color: red;
+      font-size: 16px;
+      margin: 2px 0; /* Add space above and below the error message */
+      padding: 5px;
+      text-align: center;
+      border-radius: 4px;
+    }
+
+    .error-containers {
+      color: red;
+      font-size: 16px;
+      margin: 2px 0; /* Add space above and below the error message */
+      padding: 5px;
+      text-align: center;
+      border-radius: 4px;
     }
 
     /* Responsive Design */
@@ -195,6 +217,11 @@
   <div class="form-container">
     <!-- Registration Form Section -->
     <div class="form-section registration-form">
+      <div class="error-container">
+        {% if error_message %}
+          <div>{{ error_message }}</div>
+        {% endif %}
+      </div>
       <h2>Register Now</h2>
       <p>Sign up for free.</p>
       <a href="#" class="login-link">Already have an account? <span>Sign in</span></a>
@@ -203,76 +230,46 @@
         <div class="input-container">
           <i class="fas fa-camera"></i>
           <input type="file" name="profile" accept="image/*" >
-          {% if errors.profile %}
-            <div class="error-message">{{ errors.profile }}</div>
-          {% endif %}
         </div>  
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <div class="input-container">
             <i class="fas fa-user"></i>
             <input type="text" name="firstname" placeholder="First Name" >
-            {% if errors.firstname %}
-              <div class="error-message">{{ errors.firstname }}</div>
-            {% endif %}
           </div>
           <div class="input-container">
             <i class="fas fa-user"></i>
-            <input type="text" name="lastname" placeholder="Last Name" >
-            {% if errors.lastname %}
-              <div class="error-message">{{ errors.lastname }}</div>
-            {% endif %}
+            <input type="text" name="lastname" placeholder="Last Name" > 
           </div>
         </div>
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <div class="input-container">
             <i class="fas fa-user"></i>
             <input type="text" name="username" placeholder="Username" class="full-width" >
-            {% if errors.username %}
-              <div class="error-message">{{ errors.username }}</div>
-            {% endif %}
           </div>
           <div class="input-container">
             <i class="fas fa-envelope"></i>
             <input type="email" name="email" placeholder="Email" class="full-width" >
-            {% if errors.email %}
-              <div class="error-message">{{ errors.email }}</div>
-            {% endif %}
           </div>
         </div>
         <div class="input-container">
           <i class="fas fa-lock"></i>
           <input type="password" name="password" placeholder="Password" class="full-width" >
-          {% if errors.password %}
-            <div class="error-message">{{ errors.password }}</div>
-          {% endif %}
         </div>
         <div class="input-container">
           <i class="fas fa-phone"></i>
           <input type="tel" name="phonenumber" placeholder="Phone Number" class="full-width" >
-          {% if errors.phonenumber %}
-            <div class="error-message">{{ errors.phonenumber }}</div>
-          {% endif %}
         </div>
         <div class="input-container">
           <i class="fas fa-cogs"></i>
           <input type="text" name="skill" placeholder="Skills (e.g., Web Development, Design, etc.)" class="full-width" >
-          {% if errors.skill %}
-            <div class="error-message">{{ errors.skill }}</div>
-          {% endif %}
         </div>
         <div class="input-container">
-          <i class="fas fa-dollar-sign"></i>
+          <i class="fas fa-rupee-sign"></i>
           <input type="number" name="hourlyrate" placeholder="Hourly Rate" class="full-width" >
-          {% if errors.hourlyrate %}
-            <div class="error-message">{{ errors.hourlyrate }}</div>
-          {% endif %}
         </div>
         <div class="input-container">
           <i class="fas fa-home"></i>
           <input type="text" name="location" placeholder="Location" class="full-width" >
-          {% if errors.location %}
-            <div class="error-message">{{ errors.location }}</div>
-          {% endif %}
         </div>
         <input type="submit" value="Sign Up" name="submit" class="button">
       </form>
@@ -280,12 +277,17 @@
 
     <!-- Image Slider Section -->
     <div class="form-section image-slider">
-      <img src="/media/registration.gif" style="height:440px;" alt="Image 1" class="active">
+      <img src="/media/registration.gif" style="height:500px;margin-top:20px" alt="Image 1" class="active">
       <img src="/media/login.gif" alt="Image 2">
     </div>
 
     <!-- Login Form Section -->
     <div class="form-section login-form" style="display: none;">
+      <div class="error-containers">
+        {% if error_messages %}
+          <div>{{ error_messages }}</div>
+        {% endif %}
+      </div>
       <h2>Start your journey</h2>
       <p>Sign in to WorksPhare</p>
       <a href="{% url 'client_register_login' %}?done=False" class="register-link">Don't have an account? <span> Sign Up </span></a>

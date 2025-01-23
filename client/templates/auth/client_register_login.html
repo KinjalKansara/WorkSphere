@@ -159,13 +159,28 @@
       color: red;
       font-size: 14px;
       margin-top: 5px;
+      background-color: #ffe6e6; /* Light pink background for better visibility */
+      border: 1px solid red;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     /* Error Container */
     .error-container {
       color: red;
-      font-size: 14px;
-      margin-bottom: 10px;
+      font-size: 16px;
+      margin: 2px 0; /* Add space above and below the error message */
+      padding: 5px;
+      text-align: center;
+      border-radius: 4px;
+    }
+
+    .error-containers {
+      color: red;
+      font-size: 16px;
+      margin: 2px 0; /* Add space above and below the error message */
+      padding: 5px;
+      text-align: center;
+      border-radius: 4px;
     }
 
     /* Responsive Design */
@@ -196,24 +211,23 @@
         font-size: 16px; /* Slightly larger font size for better readability */
       }
     }
-  }
 </style>
 </head>
 <body>
 <div class="form-container">
   <!-- Registration Form Section -->
   <div class="form-section registration-form">
+    <div class="error-container">
+      {% if error_message %}
+        <div>{{ error_message }}</div>
+      {% endif %}
+    </div>
     <h2>Register Now</h2>
     <p>Sign up for free.</p>
     <a href="#" class="login-link">Already have an account? <span>Sign in</span></a>
 
     <form id="registrationForm" method="POST" enctype="multipart/form-data">
       {% csrf_token %}
-      <div class="error-container">
-        {% if error_message %}
-          <div>{{ error_message }}</div>
-        {% endif %}
-      </div>
       <div class="input-container">
         <i class="fas fa-camera"></i>
         <input type="file" name="profile" accept="image/*">
@@ -260,12 +274,17 @@
 
   <!-- Image Slider Section -->
   <div class="form-section image-slider">
-    <img src="/media/registration.gif" style="height:440px;" alt="Image 1" class="active">
-    <img src="/media/login.gif" alt="Image 2">
+    <img src="/media/registration.gif" style="height:440px;margin-top:20px;" alt="Image 1" class="active">
+    <img src="/media/login.gif" alt="Image 2"> 
   </div>
 
   <!-- Login Form Section -->
   <div class="form-section login-form" style="display: none;">
+    <div class="error-containers">
+      {% if error_messages %}
+        <div>{{ error_messages }}</div>
+      {% endif %}
+    </div>
     <h2>Start your journey</h2>
     <p>Sign in to WorksPhare</p>
     <a href="{% url 'client_register_login' %}?done=False" class="register-link">Don't have an account? <span>Sign Up</span></a>
@@ -274,7 +293,7 @@
       <input type="hidden" name="login" value="login">
       <div class="input-container">
         <i class="fas fa-user"></i>
-        <input type="text" name="username" placeholder="Username or Email" class="full-width" required>
+        <input type="text" name="username" placeholder="Username" class="full-width" required>
       </div>
       <div class="input-container">
         <i class="fas fa-lock"></i>
@@ -282,7 +301,7 @@
       </div>
       <input type="submit" value="Login" name="submit" class="button">
       <div>
-        <a href="{% url 'freelancer_forgot_password' %}" class="forgot-password-link">Forgot Password?</a>
+        <a href="{% url 'client_forgot_password' %}" class="forgot-password-link">Forgot Password?</a>
       </div>
     </form>
   </div>

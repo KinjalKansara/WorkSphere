@@ -9,7 +9,6 @@
   <title>Confirm Proposal</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
-    /* Reuse the styles from the previous page */
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
@@ -91,83 +90,6 @@
       margin: 0;
     }
 
-    .button-group {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .view-details {
-      padding: 12px 24px;
-      background-color: #1565c0;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 12px;
-      text-decoration: none;
-      transition: background-color 0.3s ease, transform 0.3s ease;
-      text-align: center;
-    }
-
-    .view-details:hover {
-      background-color: #104a8e;
-      transform: scale(1.05);
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.5);
-    }
-
-    .modal-content {
-      background-color: #fff;
-      margin: 5% auto;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      width: 80%;
-      max-width: 700px;
-      animation: slideIn 0.5s ease;
-    }
-
-    @keyframes slideIn {
-      from {
-        transform: translateY(-50px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-
-    .modal-content .close {
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-      color: #aaa;
-      cursor: pointer;
-    }
-
-    .modal-content .close:hover {
-      color: black;
-    }
-
-    .modal-description {
-      font-size: 16px;
-      line-height: 1.6;
-      color: #555;
-    }
-
     .submit-button {
       display: block;
       margin: 20px auto 0;
@@ -193,50 +115,28 @@
     </div>
     <ul class="proposal-list">
       <!-- Loop through proposals passed from the view -->
-      {% for payment in proposals %}
+      {% for proposals in proposals %}
       <li class="proposal-item">
         <div class="proposal-header">
-          <h3>{{ payment.proposal.freelancer.username }}</h3>
+          <h3>{{ proposals.proposal.freelancer.first_name }} {{ proposals.proposal.freelancer.last_name }}</h3>
         </div>
         <div class="proposal-client">
-          <p><strong>Client:</strong> {{ payment.proposal.client.username }}</p>
+          <p><strong>Client:</strong> {{ proposals.proposal.client.first_name }}</p>
         </div>
         <div class="proposal-body">
-          <p>{{ payment.proposal.project.description }}</p>
+          <p><strong>Project:</strong>{{proposals.proposal.project.title}}</p>
+          <p><strong>Project Description:</strong> {{ proposals.proposal.project.description | truncatechars:50 }}</p>
+          <p><strong>Bid:</strong> {{ proposals.proposal.bid }}</p>
+          <p><strong>Duration:</strong> {{ proposals.proposal.duration }} days</p>
         </div>
-        <div class="button-group">
-          <button class="view-details" onclick="viewProposalDetails('{{ payment.proposal.client.username }}', '{{ payment.proposal.project.description }}', '{{ payment.proposal.bid }}', '{{ payment.proposal.duration }}')">View</button>
-        </div>
+        <form method="post" action="{% url 'submit_proposal' proposals.id %}">
+          {% csrf_token %}
+          <button type="submit" class="submit-button">Submit</button>
+        </form>
       </li>
       {% endfor %}
     </ul>
   </div>
-
-  <!-- Modal for Proposal Details -->
-  <div id="proposalModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('proposalModal')">&times;</span>
-      <div class="modal-description" id="modalDetails"></div>
-      <button class="submit-button">Submit</button>
-    </div>
-  </div>
-
-  <script>
-    function viewProposalDetails(name, description, bid, duration) {
-      const modalDetails = `
-        <h3>${name}</h3>
-        <p><strong>Description:</strong> ${description}</p>
-        <p><strong>Bid:</strong> ${bid}</p>
-        <p><strong>Duration:</strong> ${duration}</p>
-      `;
-      document.getElementById('modalDetails').innerHTML = modalDetails;
-      document.getElementById('proposalModal').style.display = 'block';
-    }
-
-    function closeModal(modalId) {
-      document.getElementById(modalId).style.display = 'none';
-    }
-  </script>
 </body>
 </html>
 {% endblock %}

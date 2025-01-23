@@ -116,6 +116,25 @@
         button:active {
             transform: translateY(0);
         }
+        /* Error Message */
+        .error-message {
+          color: red;
+          font-size: 14px;
+          margin-top: 5px;
+          background-color: #ffe6e6; /* Light pink background for better visibility */
+          border: 1px solid red;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    
+        /* Error Container */
+        .error-container {
+          color: red;
+          font-size: 20px;
+          margin: 2px 0; /* Add space above and below the error message */
+          padding: 5px;
+          text-align: center;
+          border-radius: 4px;
+        }
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -178,11 +197,6 @@
             color: #007bff;
             font-size: 18px;
         }
-        .error-message {
-            color: red;
-            font-size: 12px;
-            margin-top: 5px;
-        }
     </style>
 </head>
 <body>
@@ -192,6 +206,14 @@
         <div class="about-section">
             <p>Describe your project, share your requirements, and connect with top-tier freelancers who have the expertise to bring your vision to life.</p>
         </div>
+
+        <div class="error-container">
+            {% if error_message %}
+                <div>{{ error_message }}</div>
+            {% endif %}
+        </div>
+        
+        
         <form id="projectForm" method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
@@ -205,18 +227,12 @@
             <div class="form-group">
                 <i class="fas fa-heading"></i>
                 <input type="text" id="title" name="title" placeholder="Project Title">
-                {% if errors.title %}
-                    <div class="error-message">{{ errors.title }}</div>
-                {% endif %}
             </div>
 
             <!-- Description -->
             <div class="form-group">
                 <i class="fas fa-align-left"></i>
                 <textarea id="description" name="description" placeholder="Project Description"></textarea>
-                {% if errors.description %}
-                    <div class="error-message">{{ errors.description }}</div>
-                {% endif %}
             </div>
 
             <!-- Categories -->
@@ -241,18 +257,12 @@
                     <option value="lyric_writting">Lyric Writting</option>
                     <option value="music_composition">Music Composition</option>
                 </select>
-                {% if errors.category %}
-                    <div class="error-message">{{ errors.category }}</div>
-                {% endif %}
             </div>
 
             <!-- Budget -->
             <div class="form-group">
-                <i class="fas fa-dollar-sign"></i>
+                <i class="fas fa-rupee-sign"></i>
                 <input type="number" id="budget" name="budget" placeholder="Budget (e.g., 500)">
-                {% if errors.budget %}
-                    <div class="error-message">{{ errors.budget }}</div>
-                {% endif %}
             </div>
 
             <!-- Budget Type -->
@@ -263,18 +273,12 @@
                     <option value="fixed">Fixed</option>
                     <option value="hourly">Hourly</option>
                 </select>
-                {% if errors.budget_type %}
-                    <div class="error-message">{{ errors.budget_type }}</div>
-                {% endif %}
             </div>
 
             <!-- Skills -->
             <div class="form-group">
                 <i class="fas fa-lightbulb"></i>
                 <input type="text" id="skills" name="skills" placeholder="Required Skills (e.g., Python, Django)">
-                {% if errors.skills %}
-                    <div class="error-message">{{ errors.skills }}</div>
-                {% endif %}
             </div>
 
             <!-- Experience Level -->
@@ -286,9 +290,6 @@
                     <option value="intermediate">Intermediate</option>
                     <option value="expert">Expert</option>
                 </select>
-                {% if errors.experience_level %}
-                    <div class="error-message">{{ errors.experience_level }}</div>
-                {% endif %}
             </div>
 
             <!-- Deadline -->
@@ -296,9 +297,6 @@
                 <i class="fas fa-calendar-alt"></i>
                 <input type="date" id="deadline" name="deadline" placeholder="Deadline">
                 <span class="tooltiptext">Select the deadline for project completion</span>
-                {% if errors.deadline %}
-                    <div class="error-message">{{ errors.deadline }}</div>
-                {% endif %}
             </div>
 
             <!-- Attachments -->
@@ -307,9 +305,6 @@
                     <i class="fas fa-paperclip"></i>
                     <input type="file" id="attachment" name="attachments" multiple>
                 </div>
-            </div>
-            <div class="add-attachment" id="addAttachmentButton">
-                <i class="fas fa-plus"></i> Add Another Attachment
             </div>
 
             <!-- Buttons -->

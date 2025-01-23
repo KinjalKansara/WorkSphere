@@ -28,6 +28,12 @@ def create_order(request):
         amount = amount * 100
         currency = "INR"
         proposal = FreelancerProposal.objects.get(id = int(proposalId))
+        # project = ClientPostProject.objects.get(id = proposal.project.id)
+        # project.status = 'closed'
+        # project.save()
+        
+        # delete_proposals = FreelancerProposal.objects.filter(project=proposal.project).exclude(id = proposalId)
+        # delete_proposals.delete()
         request.session['freelancer_email'] = proposal.freelancer.email
         email = str(request.session.get('email'))  # Get email from session
         if not email:
@@ -103,6 +109,14 @@ def verify_payment(request):
                 proposal = FreelancerProposal.objects.get(id = payment.proposal.id)
                 proposal.status = 'Selected'
                 proposal.save()
+                proposal = FreelancerProposal.objects.get(id = payment.proposal.id)
+                project = ClientPostProject.objects.get(id = proposal.project.id)
+                project.status = 'closed'
+                project.save()
+
+                delete_proposals = FreelancerProposal.objects.filter(project=proposal.project).exclude(id = payment.proposal.id)
+                delete_proposals.delete()
+
                
                 # # Define email parameters
                 # subject = 'Payment Confirmation'

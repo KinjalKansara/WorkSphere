@@ -7,6 +7,7 @@ urlpatterns = [
     path('client_register_login/', views.client_register_login, name='client_register_login'),
     path('client_verify_otp/', views.client_verify_otp, name='client_verify_otp'),
     path('client_contact/', views.client_contact, name='client_contact'),
+    path('client_payment/', views.client_payment, name='client_payment'),
     path('client_dashboard/', views.client_dashboard, name='client_dashboard'),
     path('client_post_project/', views.client_post_project, name='client_post_project'),
     path('client_freelancer_profile/', views.client_freelancer_profile, name='client_freelancer_profile'),

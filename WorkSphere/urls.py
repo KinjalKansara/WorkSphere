@@ -29,5 +29,6 @@ urlpatterns = [
    path('rating/', include('rating.urls')),
    path('search/', include('search.urls')),
    path('payment/', include('payment.urls')),
+   path('notification/', include('notification.urls')),
    
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

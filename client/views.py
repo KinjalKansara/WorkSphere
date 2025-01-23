@@ -1,4 +1,7 @@
 from django.shortcuts import render, redirect
+
+from WorkSphere import settings
+from payment.models import Payment
 from .models import *
 from staticpage.models import *
 from freelancer.models import *
@@ -29,6 +32,12 @@ def client_register_login(request):
             username = request.POST.get('username')
             password = request.POST.get('password')
 
+            if not username:
+                error_messages = "User Name is Require"
+
+            if not password:
+                error_messages = "Password is Required"
+
             try:
                 user = ClientRegisterLogin.objects.get(username=username, password=password)
                 request.session['logged_user'] = username
@@ -36,8 +45,8 @@ def client_register_login(request):
                 request.session['show_modal'] = True
                 return redirect('client_dashboard')
             except ClientRegisterLogin.DoesNotExist:
-                error_message = 'Invalid username or password.'
-                return render(request, 'auth/client_register_login.html', {'error_message': error_message})
+                error_messages = 'Invalid username or password.'
+                return render(request, 'auth/client_register_login.html', {'error_messages': error_messages})
         
         else:
             # Validation
@@ -90,6 +99,24 @@ def client_register_login(request):
 
                         try:
                             register.save()
+                            # Send confirmation email to client
+                            send_mail(
+                                subject="Welcome to WorksPhere!",
+                                message=f"Dear {firstname},\n\nThank you for registering with WorksPhere as a client. Your account is now active, and you can log in to start posting projects and finding freelancers.\n\nBest regards,\nWorksPhere Team",
+                                from_email='worksphere05@gmail.com',
+                                recipient_list=[email],
+                                fail_silently=False,
+                            )
+
+                            # Send notification email to the admin/client management team
+                            # admin_email = 'admin@example.com'  # replace with the actual admin email
+                            # send_mail(
+                            #     subject="New Client Registration on WorksPhere",
+                            #     message=f"A new client has registered on WorksPhere:\n\nName: {firstname} {lastname}\nUsername: {username}\nCompany: {company}\nEmail: {email}\nPhone Number: {phonenumber}\nLocation: {location}",
+                            #     from_email=settings.DEFAULT_FROM_EMAIL,
+                            #     recipient_list=[admin_email],
+                            #     fail_silently=False,
+                            # )
                             request.session['done'] = True
                             return render(request, 'auth/client_register_login.html', {'success': 'Registration successful.', 'done': request.session['done']})
                         except:
@@ -102,53 +129,104 @@ def client_register_login(request):
 
 
 def client_forgot_password(request):
+    # error_message = None
+
     if request.method == 'POST':
         user_email = request.POST.get('email')
-        user = ClientRegisterLogin.objects.get(email=user_email)
 
-        if user:
-            otp = random.randint(100000,999999)
-            request.session['otp']= otp
-            request.session['email']= user.email
+        # Validation: Check if email is provided
+        if not user_email:
+            error_message = "Email is required."
+        # Validation: Check if email is valid
+        elif '@' not in user_email:
+            error_message = "Enter a valid email."
+        else:
+            try:
+                user = ClientRegisterLogin.objects.get(email=user_email)
 
-            send_mail(
-                subject='Password Reset',
-                message=f'Your OTP is {otp}',
-                from_email='worksphere05@gmail.com',  # Replace with your sender email
-                recipient_list=[user.email],
-                fail_silently=False,
-            )
-            return redirect('client_verify_otp')
-    return render(request, 'auth/client_forgot_password.html')
+                # Generate OTP and store it in the session
+                otp = random.randint(100000, 999999)
+                request.session['otp'] = otp
+                request.session['email'] = user.email
+
+                # Send OTP via email
+                send_mail(
+                    subject='Password Reset',
+                    message=f'Your OTP is {otp}',
+                    from_email='worksphere05@gmail.com',  # Replace with your sender email
+                    recipient_list=[user.email],
+                    fail_silently=False,
+                )
+
+                # Redirect to OTP verification page
+                return redirect('client_verify_otp')
+
+            except ClientRegisterLogin.DoesNotExist:
+                error_message = "Email does not exist in our records."
+
+    return render(request, 'auth/client_forgot_password.html', {'error_message': error_message})
+
 
 def client_verify_otp(request):
     if request.method == 'POST':
         otp = request.POST.get('otp')
-        if request.session.get('otp') == int(otp):
-            return redirect('client_reset_password')
+
+        # Check if OTP is provided and is a valid 6-digit number
+        if not otp:
+            error_message = "OTP is required."
+        elif not otp.isdigit() or len(otp) != 6:
+            error_message = "Please enter a valid 6-digit OTP."
+        elif int(otp) != request.session.get('otp'):
+            # Check if the entered OTP matches the one stored in the session
+            error_message = "Invalid OTP. Please try again."
         else:
-            return redirect('client_verify_otp')
+            # OTP is correct, redirect to reset password page
+            return redirect('client_reset_password')
+
+        # If any validation fails, return to the OTP verification page with an error message
+        return render(request, 'auth/client_verify_otp.html', {'error_message': error_message})
+
     return render(request, 'auth/client_verify_otp.html')
 
+
 def client_reset_password(request):
+    error_message = None  # Initialize error message variable
+
     if request.method == "POST":
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
 
-        if password == confirm_password:
+        # Password Validation
+        if not password:
+            error_message = 'Password is required.'
+        elif len(password) < 8:
+            error_message = 'The password must be at least 8 characters long.'
+        elif not any(char.isalpha() for char in password):
+            error_message = 'The password must contain at least one letter.'
+        elif not any(char.isdigit() for char in password):
+            error_message = 'The password must contain at least one digit.'
+        elif not any(char in "!@#$%^&*(){}[]" for char in password):
+            error_message = 'The password must contain at least one special character.'
+        elif password != confirm_password:
+            error_message = 'Password and confirm password do not match.'
+
+        # If there is any validation error, show the error message
+        if error_message:
+            return render(request, 'auth/client_reset_password.html', {'error_message': error_message})
+
+        # If everything is valid, reset the password
+        else:
             user_email = request.session.get('email')
             user = ClientRegisterLogin.objects.get(email=user_email)
-            user.password = password
-            user.save()
-            request.session.flush()
-            request.session['done'] = True
-            return redirect('client_register_login')
-        else:
-            return redirect('client_reset_password')
+            user.password = password  # Set the new password
+            user.save()  # Save the updated user object
+            request.session.flush()  # Clear the session
+            request.session['done'] = True  # Set a flag indicating successful reset
+            return redirect('client_register_login')  # Redirect to login page
 
     return render(request, 'auth/client_reset_password.html')
 
-@login_required(login_url='client_register_login')
+
 def client_contact(request):
     if request.method == 'POST':
         first = request.POST.get('firstname')
@@ -158,45 +236,45 @@ def client_contact(request):
         message = request.POST.get('message')
         phone_number = request.POST.get('phonenumber')
 
-        #validation
+        errors_message = None  # Initialize error message variable
 
-        errors = {}
-
+        # Validate first name
         if not first:
-            errors['firstname'] = 'First name is required.'
+            errors_message = 'First name is required.'
         elif len(first) < 2:
-            errors['firstname'] = 'First name must be at least 2 characters.'
+            errors_message = 'First name must be at least 2 characters.'
 
         # Validate last name
         if not last:
-            errors['lastname'] = 'Last name is required.'
+            errors_message = 'Last name is required.'
         elif len(last) < 2:
-            errors['lastname'] = 'Last name must be at least 2 characters.'
+            errors_message = 'Last name must be at least 2 characters.'
 
         # Validate email using regex
         email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
         if not email:
-            errors['email'] = 'Email is required.'
+            errors_message = 'Email is required.'
         elif not re.match(email_regex, email):
-            errors['email'] = 'Enter a valid email address.'
+            errors_message = 'Enter a valid email address.'
 
         # Validate phone number using regex
         phone_regex = r'^\d{10}$'
         if not phone_number:
-            errors['phonenumber'] = 'Phone number is required.'
+            errors_message = 'Phone number is required.'
         elif not re.match(phone_regex, phone_number):
-            errors['phonenumber'] = 'Phone number must be exactly 10 digits.'
+            errors_message = 'Phone number must be exactly 10 digits.'
 
         # Validate subject
         if not subject:
-            errors['subject'] = 'Subject is required.'
+            errors_message = 'Subject is required.'
 
         # Validate message
         if not message:
-            errors['message'] = 'Message is required.'
+            errors_message = 'Message is required.'
 
-        if errors:
-            return render(request, 'client_contact.html', {'errors': errors})
+        # If there is any error, render the page with the error message
+        if errors_message:
+            return render(request, 'client_contact.html', {'error_message': errors_message})
         
 
         contact = ClientContact(
@@ -229,8 +307,10 @@ def client_contact(request):
 
 def client_post_project(request):
     username = request.session.get('logged_user')
-    client = ClientRegisterLogin.objects.get(username = username)
+    client = ClientRegisterLogin.objects.get(username=username)
 
+    error_message = None  # Initialize error_message as None
+    
     if request.method == 'POST':
         title = request.POST.get('title')
         description = request.POST.get('description')
@@ -241,40 +321,43 @@ def client_post_project(request):
         experience_level = request.POST.get('experience_level')
         deadline = request.POST.get('deadline')
         image = request.FILES.get('image')
-        attachments = request.FILES.get('attachments')
+        attachments = request.FILES.get('attachments')  # Use getlist to handle multiple attachments
 
         # Validation
-        errors = {}
 
+        if not image:
+            error_message = 'Project photo is require'
+            
         if not title:
-            errors['title'] = 'Title is required.'
+            error_message = 'Title is required.'
         
-        if not description:
-            errors['description'] = 'Description is required.'
+        elif not description:
+            error_message = 'Description is required.'
         
-        if not category:
-            errors['category'] = 'Category is required.'
+        elif not category:
+            error_message = 'Category is required.'
         
-        if not budget:
-            errors['budget'] = 'Budget is required.'
+        elif not budget:
+            error_message = 'Budget is required.'
         
-        if not budget_type:
-            errors['budget_type'] = 'Budget type is required.'
+        elif not budget_type:
+            error_message = 'Budget type is required.'
         
-        if not skills:
-            errors['skills'] = 'Skills are required.'
+        elif not skills:
+            error_message = 'Skills are required.'
         
-        if not experience_level:
-            errors['experience_level'] = 'Experience level is required.'
+        elif not experience_level:
+            error_message = 'Experience level is required.'
         
-        if not deadline:
-            errors['deadline'] = 'Deadline is required.'
+        elif not deadline:
+            error_message = 'Deadline is required.'
 
-        if errors:
-            return render(request, 'client_post_project.html', {'errors': errors})
+        if error_message:
+            return render(request, 'client_post_project.html', {'error_message': error_message })
 
+        # Create project
         project = ClientPostProject(
-            client = client,
+            client=client,
             title=title,
             description=description,
             category=category,
@@ -284,16 +367,19 @@ def client_post_project(request):
             experience_level=experience_level,
             deadline=deadline,
             photo=image,
-            attachments = attachments
+            status = 'open'
         )
 
         try:
             project.save()
-            # for attachment in attachments:
-            #     project.attachments.create(file=attachment)
+
+            # Save attachments if present
+            for attachment in attachments:
+                project.attachments.create(file=attachment)
+
             return redirect('client_list_of_project')
         except:
-            return render(request, 'client_post_project.html', {'error': 'Failed to save project information.'})
+            return render(request, 'client_post_project.html', {'error_message': 'Failed to save project information.'})
 
     return render(request, 'client_post_project.html')
 
@@ -367,18 +453,12 @@ def client_edit_profile(request):
 def client_received_proposal(request):
     user = request.session.get('logged_user')
     client = ClientRegisterLogin.objects.get(username=user)  # Get the logged-in client
-
     # Get all projects for this client
     client_projects = ClientPostProject.objects.filter(client=client)
-
     # Fetch the proposals related to this client's projects
     proposals = FreelancerProposal.objects.filter(project__in=client_projects)
-
-    
-
     # Now filter all proposals for that project ID
     selected_proposals = proposals.filter(project__in=client_projects)
-    
     # Prepare context data to pass to the template
     context = {
         'client': client,
@@ -388,7 +468,12 @@ def client_received_proposal(request):
 
     return render(request, 'client_received_proposal.html', context)
 
+def client_payment(request):
+    # Fetch all payments with status 'Completed' from the database
+    payments = Payment.objects.filter(status="Completed")
 
+    # Pass the filtered payments to the template
+    return render(request, 'client_payment.html', {'payments': payments})
 
 def client_dashboard(request):
     return render(request, 'client_dashboard.html')

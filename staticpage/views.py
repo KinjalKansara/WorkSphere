@@ -41,45 +41,45 @@ def contact(request):
         message = request.POST.get('message')
         phone_number = request.POST.get('phonenumber')
 
-        #validation
+        errors_message = None  # Initialize error message variable
 
-        errors = {}
-
+        # Validate first name
         if not first:
-            errors['firstname'] = 'First name is required.'
+            errors_message = 'First name is required.'
         elif len(first) < 2:
-            errors['firstname'] = 'First name must be at least 2 characters.'
+            errors_message = 'First name must be at least 2 characters.'
 
         # Validate last name
         if not last:
-            errors['lastname'] = 'Last name is required.'
+            errors_message = 'Last name is required.'
         elif len(last) < 2:
-            errors['lastname'] = 'Last name must be at least 2 characters.'
+            errors_message = 'Last name must be at least 2 characters.'
 
         # Validate email using regex
         email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
         if not email:
-            errors['email'] = 'Email is required.'
+            errors_message = 'Email is required.'
         elif not re.match(email_regex, email):
-            errors['email'] = 'Enter a valid email address.'
+            errors_message = 'Enter a valid email address.'
 
         # Validate phone number using regex
         phone_regex = r'^\d{10}$'
         if not phone_number:
-            errors['phonenumber'] = 'Phone number is required.'
+            errors_message = 'Phone number is required.'
         elif not re.match(phone_regex, phone_number):
-            errors['phonenumber'] = 'Phone number must be exactly 10 digits.'
+            errors_message = 'Phone number must be exactly 10 digits.'
 
         # Validate subject
         if not subject:
-            errors['subject'] = 'Subject is required.'
+            errors_message = 'Subject is required.'
 
         # Validate message
         if not message:
-            errors['message'] = 'Message is required.'
+            errors_message = 'Message is required.'
 
-        if errors:
-            return render(request, 'contact.html', {'errors': errors})
+        # If there is any error, render the page with the error message
+        if errors_message:
+            return render(request, 'contact.html', {'error_message': errors_message})
         
 
         contact = ClientContact(

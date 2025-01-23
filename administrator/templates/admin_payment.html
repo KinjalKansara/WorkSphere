@@ -92,6 +92,11 @@
       background-color: #f1f1f1;
     }
 
+    .button-container {
+      display: flex;
+      gap: 10px;
+    }
+
     .update-button {
       padding: 8px 12px;
       background-color: #4caf50;
@@ -188,37 +193,35 @@
         <tbody>
           {% for payment in payment %}
             <tr>
-              <td>{{ payment.proposal.client.username }}</td>
-
-              <!-- Access freelancer username from the related proposal -->
-              <td>{{ payment.proposal.freelancer.username }}</td>
-  
-              <!-- Access project title from the related proposal -->
+              <td>{{ payment.proposal.client.first_name }} {{ payment.proposal.client.last_name }}</td>
+              <td>{{ payment.proposal.freelancer.first_name }} {{ payment.proposal.freelancer.last_name }}</td>
               <td>{{ payment.proposal.project.title }}</td>
-                <td>
-                    <form method="post" action="{% url 'update_project_status' payment.id %}">
-                        {% csrf_token %}
-                        <select name="project_us">
-                            <option value="Pending" {% if payment.project_status == 'Pending' %}selected{% endif %}>Pending</option>
-                            <option value="Completed" {% if payment.project_status == 'Completed' %}selected{% endif %}>Completed</option>
-                        </select>
-                </td>
-                <td>
-                        <select name="payment_status">
-                            <option value="Unpaid" {% if payment.payment_status == 'Unpaid' %}selected{% endif %}>Unpaid</option>
-                            <option value="Paid" {% if payment.payment_status == 'Paid' %}selected{% endif %}>Paid</option>
-                        </select>
-                </td>
-                <td>
-                        <button type="submit" class="update-button">Update</button>
-                    </form>
-                    <form method="post" action="{% url 'delete_payment' payment.id %}" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="delete-button">Delete</button>
-                    </form>
-                </td>
+              <td>
+                <form method="post" action="{% url 'update_project_status' payment.id %}">
+                  {% csrf_token %}
+                  <select name="project_us">
+                    <option value="Pending" {% if payment.project_status == 'Pending' %}selected{% endif %}>Pending</option>
+                    <option value="Completed" {% if payment.project_status == 'Completed' %}selected{% endif %}>Completed</option>
+                  </select>
+              </td>
+              <td>
+                  <select name="payment_status">
+                    <option value="Unpaid" {% if payment.payment_status == 'Unpaid' %}selected{% endif %}>Unpaid</option>
+                    <option value="Paid" {% if payment.payment_status == 'Paid' %}selected{% endif %}>Paid</option>
+                  </select>
+              </td>
+              <td>
+                <div class="button-container">
+                  <button type="submit" class="update-button">Update</button>
+                </form>
+                <form method="post" action="{% url 'delete_payment' payment.id %}">
+                  {% csrf_token %}
+                  <button type="submit" class="delete-button">Delete</button>
+                </form>
+                </div>
+              </td>
             </tr>
-            {% endfor %}
+          {% endfor %}
         </tbody>
     </table>
 </div>

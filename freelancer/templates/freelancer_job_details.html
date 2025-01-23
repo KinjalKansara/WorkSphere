@@ -333,11 +333,11 @@
 
       <!-- Project Image and Client Bio -->
       <div class="project-image-bio">
-        <img src="https://via.placeholder.com/600x300" alt="Project Image" class="project-image">
+        <img src="/media/{{details.photo}}" alt="Project Image" class="project-image">
         <div class="client-bio">
           <h3>Client Bio</h3>
           <p>
-            The client is a reputable company with a history of successful projects. They value quality work and timely delivery. They are looking for a skilled freelancer to bring their vision to life.
+            {{freelancer.bio}}
           </p>
           <span class="read-more" onclick="openModal()">Read More</span>
         </div>
@@ -395,29 +395,31 @@
           <li>
             <div class="attachment-info">
               <i class="fas fa-file-pdf"></i>
-              <span>Project_Specifications.pdf</span>
+              <span>{{ details.attachments }}</span>
             </div>
             <div class="attachment-actions">
-              <a onclick="showAttachment('/media/attachment1.pdf')">View</a>
-              <a href="/media/attachment1.pdf" download>Download</a>
-            </div>
-          </li>
-          <li>
-            <div class="attachment-info">
-              <i class="fas fa-file-word"></i>
-              <span>Requirements_Document.docx</span>
-            </div>
-            <div class="attachment-actions">
-              <a onclick="showAttachment('/media/attachment2.docx')">View</a>
-              <a href="/media/attachment2.docx" download>Download</a>
+              <a href="/media/{{ details.attachments }}" download>Download</a>
             </div>
           </li>
         </ul>
       </div>
+      
+      {% if deadline and deadline > today %}
+      {% if payment and payment.status == 'Completed' %}
+          <!-- Disabled Submit Proposal Button if payment is completed -->
+          <button type="button" class="apply-button" disabled><i class="fas fa-paper-plane"></i>Project Submission Closed (Payment Completed)</button>
+      {% else %}
+          <!-- Submit Proposal Button when the deadline has not passed and payment is not completed -->
+          <button type="submit" class="apply-button"><i class="fas fa-paper-plane"></i>Apply for this Project</button>
+      {% endif %}
+  {% else %}
+      <!-- Disabled Button when the deadline has passed -->
+      <button type="button" class="apply-button" disabled><i class="fas fa-paper-plane"></i>Deadline Passed</button>
+  {% endif %}
+  
 
-      <!-- Submit Proposal Button -->
-      <button type="submit"class="apply-button"><i class="fas fa-paper-plane"></i>Apply for this Project</button>
-         </form>
+  
+    </form>
   </div>
 
 

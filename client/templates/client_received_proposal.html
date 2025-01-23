@@ -368,7 +368,9 @@ body {
           <span class="status-open">Open</span>
         </div>
         <div class="proposal-body">
+          <h5>Project Title: {{ proposal.title }}</h5>
           <p>{{proposal.description| truncatechars:200}}</p>
+          
         </div>
         <div class="proposal-footer">
           <span><i class="fas fa-calendar-alt"></i> Submitted on: {{ proposal.submitted_at|date:"M d, Y" }}</span>
@@ -376,8 +378,8 @@ body {
         <div class="button-group">
           <button class="view-details" onclick="viewDetails('{{ proposal.title }}', '{{ proposal.description }}', '{{ proposal.duration }}', '{{ proposal.bid }}', '{{ proposal.cover_letter }}', '{{ proposal.attachment}}', '{{ proposal.submitted_at|date:"Y-m-d H:i:s" }}')">View Details</button>
           <button class="view-profile" onclick="viewProfile(  '{{ proposal.freelancer.profile.url|escapejs }}',   '{{ proposal.freelancer.first_name|escapejs }} {{ proposal.freelancer.last_name|escapejs }}',   '{{ proposal.freelancer.hourly_rate|escapejs }}',   '{{ proposal.freelancer.email|escapejs }}',   '{{ proposal.freelancer.phone_number|escapejs }}',   '{{ proposal.freelancer.skills|escapejs }}',   '{{ proposal.freelancer.location|escapejs }}',   '{{ proposal.freelancer.about_me|escapejs }}')">View Profile</button>
-          <a href="javascript:void(0);" class="select-project-button" onclick="startPayment({{proposal.id}}, {{proposal.bid}})">Approve and Payment </a>
-          print({{proposal.id}})
+          <button><a href="javascript:void(0);" class="view-details" onclick="startPayment({{proposal.id}}, {{proposal.bid}})">Approve and Payment </a></button>
+          
         </div>        
       </li>
       {% endfor %}
@@ -474,7 +476,7 @@ body {
                     .then(data => {
                         if (data.status === 'success') {
                             alert('Payment Successful!');
-                            window.location.href = "{% url 'client_dashboard' %}"; // Redirect to success page
+                            window.location.href = "{% url 'client_payment' %}"; // Redirect to success page
                         } else {
                             alert('Payment verification failed: ' + data.message);
                         }

@@ -51,7 +51,7 @@ class ClientPostProject(models.Model):
     title = models.CharField(max_length=255, help_text="Title of the project")
     description = models.TextField(help_text="Detailed description of the project")
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, help_text="Project category")
-    budget = models.DecimalField(max_digits=10, decimal_places=2, help_text="Project budget (fixed or hourly)")
+    budget = models.DecimalField(max_digits=20, decimal_places=2, help_text="Project budget (fixed or hourly)")
     budget_type = models.CharField(max_length=10, choices=BUDGET_TYPE_CHOICES, help_text="Budget type")
     deadline = models.DateField(help_text="Deadline for project completion")
     skills_required = models.CharField(max_length=255, help_text="Skills required for the project")
@@ -59,6 +59,7 @@ class ClientPostProject(models.Model):
     photo = models.ImageField(upload_to="project_photos/", blank=True, null=True, help_text="Project-related photo")
     experience_level = models.CharField(max_length=15, choices=EXPERIENCE_LEVEL_CHOICES, help_text="Required experience level for freelancers")
     created_at = models.DateTimeField(auto_now_add=True, help_text="Time when the project was posted")
+    status = models.CharField(max_length=10, null=True)
 
     def get_skills_list(self):
         return [skill.strip() for skill in self.skills_required.split(",") if skill.strip()]

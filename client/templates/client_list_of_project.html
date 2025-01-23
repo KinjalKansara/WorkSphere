@@ -266,11 +266,11 @@ body {
       <li class="project-card">
         <img src="/media/{{ project.photo }}" alt="Project Image">
         <div class="project-header">
-          <h3>{{project.title}}</h3>
+          <h3>{{project.title |truncatechars:20 }}</h3>
           <span class="status-open">Open</span>
         </div>
         <div class="project-body">
-            <p>{{project.description|truncatechars:20 }}</p>
+            <p>{{project.description|truncatechars:50 }}</p>
         </div>
         <div class="project-footer">
           <span><i class="fas fa-calendar-alt"></i> Deadline: {{project.deadline}}</span>
