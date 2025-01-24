@@ -1,7 +1,10 @@
 import datetime
 from decimal import Decimal
-from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, render, redirect
 from WorkSphere import settings
+from administrator.models import AdminUser
+from notification.models import Notification
 from payment.models import Payment
 from .models import *
 from staticpage.models import *
@@ -321,16 +324,24 @@ def freelancer_job_details(request, project_id):
     }
     return render(request, 'freelancer_job_details.html', context)
 
-def freelancer_list_of_project(request):
-    # proposal = FreelancerProposal.objects.filter()
-    projects = ClientPostProject.objects.filter(status = 'open')
+import random
 
-    context={
-        'projects' : projects,
-        # 'proposal' : proposal,
-        'details': {'description': 'Your project description <br> with <strong>HTML</strong> formatting here.'}, # Replace with actual project details
+def freelancer_list_of_project(request):
+    # Fetch all open projects
+    projects = list(ClientPostProject.objects.filter(status='open'))  # Convert queryset to a list
+    
+    # Shuffle the list of projects
+    random.shuffle(projects)
+    
+    context = {
+        'projects': projects,
+        # Additional context if needed
+        'details': {
+            'description': 'Your project description <br> with <strong>HTML</strong> formatting here.'
+        },
     }
     return render(request, 'freelancer_list_of_project.html', context)
+
 
 def freelancer_profile(request):
     username = request.session.get('logged_user')
@@ -405,9 +416,12 @@ def freelancer_send_proposal(request, project_id):
     user = request.session.get('logged_user')  # Get the logged-in user's session
     freelancer = FreelancerRegisterLogin.objects.get(username=user)  # Get the freelancer object
     project = ClientPostProject.objects.get(id=project_id)
+    client = project.client.id
+    print(client)
 
     context = {
         'project': project,
+        'client' : client,
     }
 
     if request.method == "POST":
@@ -444,6 +458,55 @@ def freelancer_send_proposal(request, project_id):
 
     return render(request, 'freelancer_send_proposal.html', context)
 
+def freelancer_submitted_project(request):
+    # freelancer = request.user.FreelancerRegisterLogin
+    # completed_proposals = FreelancerProposal.objects.filter(freelancer=freelancer, status='completed')
+    
+    # context ={
+    #     'completed_proposals': completed_proposals
+    # }
+    
+    return render(request, 'freelancer_submitted_project.html')
+
+def freelancer_notification(request):
+    # freelancer = request.user
+    # # Fetch all notifications related to freelancer
+    # notifications = Notification.objects.filter(user=freelancer, notification_type='freelancer').order_by('-created_at')
+
+    # context = {
+    #     'notifications': notifications,
+    # }
+     return render(request, 'freelancer_notification.html')
+
+def complete_project(request):
+    if request.method == "POST":
+        proposal_id = request.POST.get('proposal_id')
+        
+        # Retrieve the proposal
+        proposal = get_object_or_404(FreelancerProposal, id=proposal_id)
+        
+        # Mark project and proposal as completed
+        try:
+            # Update the proposal status (add a `status` field in FreelancerProposal if necessary)
+            proposal.status = 'completed'  # Add this field in your model if it doesn't exist
+            proposal.save()
+
+            # Mark the project as completed (add a `status` field in ClientPostProject if necessary)
+            project = proposal.project
+            project.status = 'completed'  # Add this field in your model if it doesn't exist
+            project.save()
+
+            # Redirect based on user type
+            if request.user.is_freelancer:  # Assume a `is_freelancer` field exists on the user model
+                return redirect('freelancer_completed_projects')  # Freelancer's completed projects page
+            elif request.user.is_client:  # Assume a `is_client` field exists on the user model
+                return redirect('client_completed_projects')  # Client's completed projects page
+
+        except Exception as e:
+            print(f"Error: {e}")
+            return HttpResponse("Something went wrong.", status=500)
+
+    return HttpResponse("Invalid request method.", status=405)
 
 def freelancer_header_1(request):
     return render(request, 'freelancer_header_1.html')

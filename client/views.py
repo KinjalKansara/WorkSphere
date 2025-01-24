@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 
 from WorkSphere import settings
+from administrator.models import AdminUser
+from notification.models import Notification
 from payment.models import Payment
 from .models import *
 from staticpage.models import *
@@ -109,14 +111,14 @@ def client_register_login(request):
                             )
 
                             # Send notification email to the admin/client management team
-                            # admin_email = 'admin@example.com'  # replace with the actual admin email
-                            # send_mail(
-                            #     subject="New Client Registration on WorksPhere",
-                            #     message=f"A new client has registered on WorksPhere:\n\nName: {firstname} {lastname}\nUsername: {username}\nCompany: {company}\nEmail: {email}\nPhone Number: {phonenumber}\nLocation: {location}",
-                            #     from_email=settings.DEFAULT_FROM_EMAIL,
-                            #     recipient_list=[admin_email],
-                            #     fail_silently=False,
-                            # )
+                            admin_email = 'worksphere05@gmail.com'  # replace with the actual admin email
+                            send_mail(
+                                subject="New Client Registration on WorksPhere",
+                                message=f"A new client has registered on WorksPhere:\n\nName: {firstname} {lastname}\nUsername: {username}\nCompany: {company}\nEmail: {email}\nPhone Number: {phonenumber}\nLocation: {location}",
+                                from_email='worksphere05@gmail.com',
+                                recipient_list=[admin_email],
+                                fail_silently=False,
+                            )
                             request.session['done'] = True
                             return render(request, 'auth/client_register_login.html', {'success': 'Registration successful.', 'done': request.session['done']})
                         except:
@@ -324,9 +326,8 @@ def client_post_project(request):
         attachments = request.FILES.get('attachments')  # Use getlist to handle multiple attachments
 
         # Validation
-
         if not image:
-            error_message = 'Project photo is require'
+            error_message = 'Project photo is required'
             
         if not title:
             error_message = 'Title is required.'
@@ -367,24 +368,34 @@ def client_post_project(request):
             experience_level=experience_level,
             deadline=deadline,
             photo=image,
-            status = 'open'
+            status='open'
         )
 
         try:
             project.save()
+            # Send email notification to the client who posted the project
+            subject = f"New Project Posted: {title}"
+            message = f"Hello {client.first_name} {client.last_name},\n\nYour project titled '{title}' has been successfully posted on WorksPhare.\n\nDetails:\nDescription: {description}\nCategory: {category}\nBudget: {budget}\nDeadline: {deadline}\n\nBest regards,\nWorksPhere Team"
+            from_email = 'worksphere05@gmail.com'
+            recipient_list = [client.email]
+            send_mail(subject, message, from_email, recipient_list)
 
-            # Save attachments if present
-            for attachment in attachments:
-                project.attachments.create(file=attachment)
+            # Send email to all registered freelancers
+            freelancers = FreelancerRegisterLogin.objects.all()
+            freelancer_emails = [freelancer.email for freelancer in freelancers]
+
+            if freelancer_emails:
+                for freelancer in freelancers:
+                    subject_for_freelancers = f"New Project Posted: {title} - Check it out!"
+                    message_for_freelancers = f"Hello {freelancer.first_name} {freelancer.last_name},\n\nA new project titled '{title}' has been posted by {client.first_name} {client.last_name}. You may be interested in submitting a proposal.\n\nDetails:\nDescription: {description}\nCategory: {category}\nBudget: {budget}\nDeadline: {deadline}\n\nBest regards,\nWorksPhere Team"
+                    
+                    send_mail(subject_for_freelancers, message_for_freelancers, from_email, [freelancer.email])
 
             return redirect('client_list_of_project')
-        except:
-            return render(request, 'client_post_project.html', {'error_message': 'Failed to save project information.'})
+        except Exception as e:
+            return render(request, 'client_post_project.html', {'error_message': f'Failed to save project information: {str(e)}'})
 
     return render(request, 'client_post_project.html')
-
-def client_freelancer_profile(request):
-    return render(request, 'client_freelancer_profile.html')
 
 def client_job_details(request, project_id):
     username = request.session.get('logged_user')
@@ -400,14 +411,17 @@ def client_job_details(request, project_id):
 
 def client_list_of_project(request):
     username = request.session.get('logged_user')
-    client = ClientRegisterLogin.objects.get(username = username)
-    projects = ClientPostProject.objects.filter(client=client)
+    client = ClientRegisterLogin.objects.get(username=username)
 
-    context={
-        'projects' : projects,
-        'details': {'description': 'Your project description <br> with <strong>HTML</strong> formatting here.'}, # Replace with actual project details
+    # Fetch projects associated with the client and order by date (descending)
+    projects = ClientPostProject.objects.filter(client=client).order_by('-created_at')
+
+    context = {
+        'projects': projects,
+        'details': {'description': 'Your project description <br> with <strong>HTML</strong> formatting here.'},
     }
     return render(request, 'client_list_of_project.html', context)
+
 
 def client_profile(request):
     username = request.session.get('logged_user')
@@ -478,10 +492,35 @@ def client_payment(request):
 def client_dashboard(request):
     return render(request, 'client_dashboard.html')
 
+def client_submitted_project(request):
+    # client = request.user.client
+    # completed_projects = ClientPostProject.objects.filter(client=client, status='completed')
+    
+    # context = {
+    #     'completed_projects': completed_projects
+    # }
+    
+    return render(request, 'client_submitted_project.html')
+
+def client_notification(request):
+    # client = request.user
+    # # Fetch all notifications related to the client
+    # notifications = Notification.objects.filter(user=client, notification_type='client').order_by('-created_at')
+
+    # context = {
+    #     'notifications': notifications,
+    # }
+    return render(request, 'client_notification.html')
+
+def client_services(request):
+    return render(request, 'client_services.html')
+
 def header_1(request):
     return render(request, 'header_1.html')
 
 def header_2(request):
+    if request.session.get('role') != 'CLIENT':
+        return redirect('client_register_login')  # Redirect to login if not a client
     return render(request, 'header_2.html')
 
 def header_3(request):

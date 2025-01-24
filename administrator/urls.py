@@ -18,6 +18,7 @@ urlpatterns = [
     path('admin_forgot_password/', views.admin_forgot_password, name='admin_forgot_password'),
     path('admin_verify_otp/', views.admin_verify_otp, name='admin_verify_otp'),
     path('admin_reset_password/', views.admin_reset_password, name='admin_reset_password'),
+    path('admin_notification/', views.admin_notification, name='admin_notification'),
     path('admin_header_1/', views.admin_header_1, name='admin_header_1'),
     path('admin_header_2/', views.admin_header_2, name='admin_header_2'),
     path('admin_header_3/', views.admin_header_3, name='admin_header_3'),

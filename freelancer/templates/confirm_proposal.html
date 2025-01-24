@@ -129,10 +129,12 @@
           <p><strong>Bid:</strong> {{ proposals.proposal.bid }}</p>
           <p><strong>Duration:</strong> {{ proposals.proposal.duration }} days</p>
         </div>
-        <form method="post" action="{% url 'submit_proposal' proposals.id %}">
+        <form method="post" action="">
           {% csrf_token %}
+          <input type="hidden" name="proposal_id" value="{{ proposals.id }}">
+          {{proposals.id}}
           <button type="submit" class="submit-button">Submit</button>
-        </form>
+      </form>
       </li>
       {% endfor %}
     </ul>

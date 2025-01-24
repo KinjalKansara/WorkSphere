@@ -1,6 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 
+from notification.models import Notification
 from payment.models import Payment
 from .models import *
 from staticpage.models import *
@@ -297,6 +298,15 @@ def admin_delete_project(request, id):
 
     # Redirect back to the project list page
     return redirect('admin_project')
+
+def admin_notification(request):
+    # Fetch all notifications related to admin
+    notifications = Notification.objects.filter(notification_type='admin').order_by('-created_at')
+
+    context = {
+        'notifications': notifications,
+    }
+    return render(request, 'admin_notification.html', context)
 
 
 def admin_proposal(request):
