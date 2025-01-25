@@ -1,5 +1,6 @@
 import datetime
 from decimal import Decimal
+from pyexpat.errors import messages
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from WorkSphere import settings
@@ -388,6 +389,8 @@ def freelancer_edit_profile(request):
 
     return render(request, 'freelancer_edit_profile.html', context)
 
+# Confirm proposal for freelancer (removes proposal after confirmation)
+
 def confirm_proposal(request):
     user = request.session.get('logged_user')  # Get the logged-in user's session
     freelancer = FreelancerRegisterLogin.objects.get(username=user)
@@ -395,11 +398,68 @@ def confirm_proposal(request):
     # Fetching proposals related to the freelancer
     proposals = Payment.objects.filter(proposal__freelancer=freelancer)
 
+    if request.method == 'POST':
+        proposal_id = request.POST.get('proposal_id')
+
+        try:
+            proposal = FreelancerProposal.objects.get(id=proposal_id)
+            proposal.status = 'Completed'
+
+            # Remove the payment (confirming the proposal)
+            proposal.save()
+
+            return redirect('freelancer_submitted_project')
+
+        except FreelancerProposal.DoesNotExist:
+            
+            return redirect('error_page')
+        except Payment.DoesNotExist:
+            
+            return redirect('error_page')
+
     context = {
         'proposals': proposals  # Change variable name for clarity
     }
 
     return render(request, 'confirm_proposal.html', context)
+
+
+
+# def confirm_proposal(request):
+#     user = request.session.get('logged_user')
+#     try:
+#         freelancer = FreelancerRegisterLogin.objects.get(username=user)
+#     except FreelancerRegisterLogin.DoesNotExist:
+#         messages.error(request, 'Freelancer not found!')
+#         return redirect('error_page')
+
+#     # Fetching proposals related to the freelancer (including payment status)
+#     proposals = ProjectPayments.objects.filter(proposal__freelancer=freelancer)
+
+#     if request.method == 'POST':
+#         proposal_id = request.POST.get('proposal_id')
+
+#         try:
+#             proposal = FreelancerProposal.objects.get(id=proposal_id)
+#             payment = ProjectPayments.objects.get(proposal=proposal)
+
+#             # Remove proposal from Payment (effectively confirming it)
+#             payment.delete()
+
+#             messages.success(request, 'Your proposal has been successfully confirmed!')
+#             return redirect('freelancer_submitted_project')
+
+#         except FreelancerProposal.DoesNotExist:
+#             messages.error(request, 'Proposal not found!')
+#             return redirect('error_page')
+#         except ProjectPayments.DoesNotExist:
+#             messages.error(request, 'Payment details not found!')
+#             return redirect('error_page')
+
+#     context = {
+#         'proposals': proposals
+#     }
+#     return render(request, 'confirm_proposal.html', context)
 
 
 def freelancer_proposal(request):
@@ -416,12 +476,10 @@ def freelancer_send_proposal(request, project_id):
     user = request.session.get('logged_user')  # Get the logged-in user's session
     freelancer = FreelancerRegisterLogin.objects.get(username=user)  # Get the freelancer object
     project = ClientPostProject.objects.get(id=project_id)
-    client = project.client.id
-    print(client)
+    client = project.client
 
     context = {
         'project': project,
-        'client' : client,
     }
 
     if request.method == "POST":
@@ -442,7 +500,8 @@ def freelancer_send_proposal(request, project_id):
         # Create a FreelancerProposal object and associate it with the logged-in freelancer
         proposal = FreelancerProposal(
             freelancer=freelancer,  # Set freelancer as the logged-in freelancer
-            project=project,  # Set project as the selected project
+            project=project, 
+            client=client, # Set project as the selected project
             title=title,
             description=description,
             duration=duration,
@@ -458,15 +517,23 @@ def freelancer_send_proposal(request, project_id):
 
     return render(request, 'freelancer_send_proposal.html', context)
 
+# Freelancer's completed proposals (those marked as completed)
 def freelancer_submitted_project(request):
-    # freelancer = request.user.FreelancerRegisterLogin
-    # completed_proposals = FreelancerProposal.objects.filter(freelancer=freelancer, status='completed')
+    user = request.session.get('logged_user')
+    try:
+        freelancer = FreelancerRegisterLogin.objects.get(username=user)
+    except FreelancerRegisterLogin.DoesNotExist:
+        messages.error(request, 'Freelancer not found!')
+        return redirect('error_page')
     
-    # context ={
-    #     'completed_proposals': completed_proposals
-    # }
-    
-    return render(request, 'freelancer_submitted_project.html')
+    # Get the freelancer's completed proposals (those marked as completed)
+    submitted_proposals = FreelancerProposal.objects.filter(freelancer=freelancer, status='Completed')
+    context = {
+        'completed_proposals': submitted_proposals
+    }
+
+    return render(request, 'freelancer_submitted_project.html', context)
+
 
 def freelancer_notification(request):
     # freelancer = request.user
@@ -478,35 +545,35 @@ def freelancer_notification(request):
     # }
      return render(request, 'freelancer_notification.html')
 
-def complete_project(request):
-    if request.method == "POST":
-        proposal_id = request.POST.get('proposal_id')
+# def complete_project(request):
+#     if request.method == "POST":
+#         proposal_id = request.POST.get('proposal_id')
         
-        # Retrieve the proposal
-        proposal = get_object_or_404(FreelancerProposal, id=proposal_id)
+#         # Retrieve the proposal
+#         proposal = get_object_or_404(FreelancerProposal, id=proposal_id)
         
-        # Mark project and proposal as completed
-        try:
-            # Update the proposal status (add a `status` field in FreelancerProposal if necessary)
-            proposal.status = 'completed'  # Add this field in your model if it doesn't exist
-            proposal.save()
+#         # Mark project and proposal as completed
+#         try:
+#             # Update the proposal status (add a `status` field in FreelancerProposal if necessary)
+#             proposal.status = 'completed'  # Add this field in your model if it doesn't exist
+#             proposal.save()
 
-            # Mark the project as completed (add a `status` field in ClientPostProject if necessary)
-            project = proposal.project
-            project.status = 'completed'  # Add this field in your model if it doesn't exist
-            project.save()
+#             # Mark the project as completed (add a `status` field in ClientPostProject if necessary)
+#             project = proposal.project
+#             project.status = 'completed'  # Add this field in your model if it doesn't exist
+#             project.save()
 
-            # Redirect based on user type
-            if request.user.is_freelancer:  # Assume a `is_freelancer` field exists on the user model
-                return redirect('freelancer_completed_projects')  # Freelancer's completed projects page
-            elif request.user.is_client:  # Assume a `is_client` field exists on the user model
-                return redirect('client_completed_projects')  # Client's completed projects page
+#             # Redirect based on user type
+#             if request.user.is_freelancer:  # Assume a `is_freelancer` field exists on the user model
+#                 return redirect('freelancer_completed_projects')  # Freelancer's completed projects page
+#             elif request.user.is_client:  # Assume a `is_client` field exists on the user model
+#                 return redirect('client_completed_projects')  # Client's completed projects page
 
-        except Exception as e:
-            print(f"Error: {e}")
-            return HttpResponse("Something went wrong.", status=500)
+#         except Exception as e:
+#             print(f"Error: {e}")
+#             return HttpResponse("Something went wrong.", status=500)
 
-    return HttpResponse("Invalid request method.", status=405)
+#     return HttpResponse("Invalid request method.", status=405)
 
 def freelancer_header_1(request):
     return render(request, 'freelancer_header_1.html')

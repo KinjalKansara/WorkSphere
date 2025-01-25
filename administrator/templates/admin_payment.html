@@ -1,7 +1,6 @@
 {% extends 'admin_header_2.html' %}
 
 {% block content %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -92,41 +91,25 @@
       background-color: #f1f1f1;
     }
 
-    .button-container {
-      display: flex;
-      gap: 10px;
+    /* Color Styling */
+    .status-pending {
+      color: orange;
+      font-weight: bold;
     }
 
-    .update-button {
-      padding: 8px 12px;
-      background-color: #4caf50;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background-color 0.3s ease, transform 0.3s ease;
+    .status-completed {
+      color: green;
+      font-weight: bold;
     }
 
-    .update-button:hover {
-      background-color: #388e3c;
-      transform: scale(1.05);
+    .status-unpaid {
+      color: red;
+      font-weight: bold;
     }
 
-    .delete-button {
-      padding: 8px 12px;
-      background-color: #f44336;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background-color 0.3s ease, transform 0.3s ease;
-    }
-
-    .delete-button:hover {
-      background-color: #d32f2f;
-      transform: scale(1.05);
+    .status-paid {
+      color: green;
+      font-weight: bold;
     }
 
     /* Responsive Design */
@@ -144,11 +127,6 @@
         padding: 10px;
         font-size: 14px;
       }
-
-      .update-button, .delete-button {
-        padding: 6px 10px;
-        font-size: 12px;
-      }
     }
 
     @media (max-width: 480px) {
@@ -165,20 +143,17 @@
         padding: 8px;
         font-size: 12px;
       }
-
-      .update-button, .delete-button {
-        padding: 4px 8px;
-        font-size: 10px;
-      }
     }
   </style>
 </head>
 <body>
+
 <div class="contact-container">
     <div class="contact-header">
         <h2>Admin Payment</h2>
         <a href="{% url 'admin_dashboard' %}" class="back-button"><i class="fas fa-arrow-left"></i>Back</a>
     </div>
+    
     <table class="contact-table">
         <thead>
             <tr>
@@ -187,7 +162,6 @@
                 <th>Project Name</th>
                 <th>Project Status</th>
                 <th>Payment Status</th>
-                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -197,28 +171,18 @@
               <td>{{ payment.proposal.freelancer.first_name }} {{ payment.proposal.freelancer.last_name }}</td>
               <td>{{ payment.proposal.project.title }}</td>
               <td>
-                <form method="post" action="{% url 'update_project_status' payment.id %}">
-                  {% csrf_token %}
-                  <select name="project_us">
-                    <option value="Pending" {% if payment.project_status == 'Pending' %}selected{% endif %}>Pending</option>
-                    <option value="Completed" {% if payment.project_status == 'Completed' %}selected{% endif %}>Completed</option>
-                  </select>
+                {% if payment.proposal.status == 'Completed' %}
+                  <span class="status-completed">Completed</span>
+                {% else %}
+                  <span class="status-pending">Pending</span>
+                {% endif %}
               </td>
               <td>
-                  <select name="payment_status">
-                    <option value="Unpaid" {% if payment.payment_status == 'Unpaid' %}selected{% endif %}>Unpaid</option>
-                    <option value="Paid" {% if payment.payment_status == 'Paid' %}selected{% endif %}>Paid</option>
-                  </select>
-              </td>
-              <td>
-                <div class="button-container">
-                  <button type="submit" class="update-button">Update</button>
-                </form>
-                <form method="post" action="{% url 'delete_payment' payment.id %}">
-                  {% csrf_token %}
-                  <button type="submit" class="delete-button">Delete</button>
-                </form>
-                </div>
+                {% if payment.status == 'Completed' %}
+                  <span class="status-paid">Paid</span>
+                {% else %}
+                <span class="status-unpaid">Unpaid</span>
+                {% endif %}
               </td>
             </tr>
           {% endfor %}
@@ -227,3 +191,6 @@
 </div>
 
 {% endblock %}
+
+</body>
+</html>

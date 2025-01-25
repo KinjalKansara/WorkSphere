@@ -1,3 +1,5 @@
+import datetime
+from pyexpat.errors import messages
 from django.shortcuts import render, redirect
 
 from WorkSphere import settings
@@ -119,15 +121,28 @@ def client_register_login(request):
                                 recipient_list=[admin_email],
                                 fail_silently=False,
                             )
+
+                            # Corrected notification creation
+                            notification = Notification(
+                                title="New client registered",
+                                message=f"{firstname} {lastname} has registered as a client.",  # Provide a complete message string
+                                notification_type='admin',  # Type of notification
+                            )
+
+                            # Save the notification to the database
+                            notification.save()
+
                             request.session['done'] = True
                             return render(request, 'auth/client_register_login.html', {'success': 'Registration successful.', 'done': request.session['done']})
-                        except:
+                        except Exception as e:
+                            print(e)  # Log the error for debugging
                             request.session['done'] = False
                             error_message = 'Registration failed. Please try again.'
 
             return render(request, 'auth/client_register_login.html', {'error_message': error_message})
 
     return render(request, 'auth/client_register_login.html')
+
 
 
 def client_forgot_password(request):
@@ -492,15 +507,23 @@ def client_payment(request):
 def client_dashboard(request):
     return render(request, 'client_dashboard.html')
 
+# Client's received proposals
 def client_submitted_project(request):
-    # client = request.user.client
-    # completed_projects = ClientPostProject.objects.filter(client=client, status='completed')
-    
-    # context = {
-    #     'completed_projects': completed_projects
-    # }
-    
-    return render(request, 'client_submitted_project.html')
+    user = request.session.get('logged_user')
+    try:
+        client = ClientRegisterLogin.objects.get(username=user)
+    except ClientRegisterLogin.DoesNotExist:
+        return redirect('error_page')
+
+    # Get the client's received proposals (proposals from freelancers)
+    received_proposals = FreelancerProposal.objects.filter(client=client, status = 'Completed')
+    print(received_proposals)
+
+    context = {
+        'completed_projects': received_proposals
+    }
+    return render(request, 'client_submitted_project.html', context)
+
 
 def client_notification(request):
     # client = request.user

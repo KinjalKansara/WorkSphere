@@ -119,17 +119,40 @@
       white-space: nowrap;
     }
 
+    /* Style for 'a' tags inside .icon class */
+    .icon a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      color: inherit;          /* Inherit color from parent .icon */
+      text-decoration: none;   /* Remove underline from links */
+    }
+
+    .icon a i {
+      font-size: inherit;      /* Inherit font size from parent .icon */
+    }
+
+    /* Optional: Hover effect on icons */
+    .icon a:hover {
+      opacity: 0.9;            /* Slightly dim icon on hover */
+    }
+
+
+
     /* Icon Colors */
-    .icon-post { background-color: #ff6f61; } /* Red */
-    .icon-list { background-color: #ffbf47; } /* Orange */
-    .icon-proposal { background-color: #00bfa5; } /* Green */
-    .icon-received { background-color: #1e88e5; } /* Blue */
-    .icon-client { background-color: #ab47bc; } /* Purple */
-    .icon-contact { background-color: #ffca28; } /* Yellow */
-    .icon-payment { background-color: #4caf50; } /* Green */
-    .icon-submitted { background-color: #5c6bc0; } /* Indigo */
-    .icon-services { background-color: #ff7043; } /* Deep Orange */
-    .icon-notification { background-color: #29b6f6; } /* Light Blue */
+    .icon-post { background-color: #e57373; color: white; } /* Light Red */
+    .icon-list { background-color: #ffb74d; color: white; } /* Lighter Orange */
+    .icon-proposal { background-color: #4db6ac; color: white; } /* Teal */
+    .icon-received { background-color: #64b5f6; color: white; } /* Light Blue */
+    .icon-client { background-color: #ba68c8; color: white; } /* Light Purple */
+    .icon-contact { background-color: #ffd54f; color: white; } /* Light Yellow */
+    .icon-payment { background-color: #81c784; color: white; } /* Light Green */
+    .icon-logout { background-color: #ef5350; color: white; } /* Lighter Red */
+    .icon-submitted { background-color: #7986cb; color: white; } /* Periwinkle */
+    .icon-services { background-color: #ff8a65; color: white; } /* Salmon Orange */
+    .icon-notification { background-color: #4fc3f7; color: white; } /* Sky Blue */
 
     /* Laptop View (Screens Larger than 1024px) */
     @media (min-width: 1024px) {
@@ -203,23 +226,21 @@
       <img src="your-logo-url.png" alt="Logo">
     </div>
     <div class="welcome-text">Welcome to {{ request.session.username }}</div>
-    <div class="nav-links">
-      <a href="{% url 'client_logout' %}">Logout</a>
-    </div>
+    
   </header>
 
   <!-- Second Header -->
   <div class="icon-header">
-    <div class="icon icon-post" data-tooltip="Post Project"><i class="fas fa-pen"></i></div>
-    <div class="icon icon-list" data-tooltip="Project List"><i class="fas fa-list"></i></div>
-    <div class="icon icon-proposal" data-tooltip="Proposals"><i class="fas fa-file-alt"></i></div>
-    <div class="icon icon-received" data-tooltip="Received Projects"><i class="fas fa-inbox"></i></div>
-    <div class="icon icon-client" data-tooltip="Clients"><i class="fas fa-user"></i></div>
-    <div class="icon icon-contact" data-tooltip="Contact"><i class="fas fa-envelope"></i></div>
-    <div class="icon icon-payment" data-tooltip="Payments"><i class="fas fa-wallet"></i></div>
-    <div class="icon icon-submitted" data-tooltip="Submitted Work"><i class="fas fa-clipboard-check"></i></div>
-    <div class="icon icon-services" data-tooltip="Services"><i class="fas fa-concierge-bell"></i></div>
-    <div class="icon icon-notification" data-tooltip="Notifications"><i class="fas fa-bell"></i></div>
+    <div class="icon icon-client" data-tooltip="Clients"><a href="{% url 'client_profile' %}"><i class="fas fa-user"></i></a></div>
+    <div class="icon icon-post" data-tooltip="Post Project"><a href="{% url 'client_post_project' %}"><i class="fas fa-pen"></i></a></div>
+    <div class="icon icon-list" data-tooltip="Project List"><a href="{% url 'client_list_of_project' %}"><i class="fas fa-list"></i></a></div>
+    <div class="icon icon-received" data-tooltip="Received Projects"><a href="{% url 'client_received_proposal' %}"><i class="fas fa-inbox"></i></a></div>
+    <div class="icon icon-payment" data-tooltip="Payments"><a href="{% url 'client_payment' %}"><i class="fas fa-wallet"></i></a></div>
+    <div class="icon icon-submitted" data-tooltip="Submitted Work"><a href="{% url 'client_submitted_project' %}"><i class="fas fa-clipboard-check"></i></a></div>
+    <div class="icon icon-contact" data-tooltip="Contact"><a href="{% url 'client_contact' %}"><i class="fas fa-envelope"></i></a></div>
+    <div class="icon icon-notification" data-tooltip="Notifications"><a href="{% url 'client_notification' %}"><i class="fas fa-bell"></i></a></div>
+    <div class="icon icon-services" data-tooltip="Services"><a href="{% url 'client_services' %}"><i class="fas fa-concierge-bell"></i></a></div>
+    <div class="icon icon-logout" data-tooltip="Logout"><a href="{% url 'client_logout' %}"><i class="fas fa-file-alt"></i></a></div>
   </div>
 
    <!-- main -->

@@ -115,27 +115,30 @@
     </div>
     <ul class="proposal-list">
       <!-- Loop through proposals passed from the view -->
-      {% for proposals in proposals %}
+      {% for payment in proposals %}
+      {% if payment.proposal.status == 'Selected' %}
       <li class="proposal-item">
         <div class="proposal-header">
-          <h3>{{ proposals.proposal.freelancer.first_name }} {{ proposals.proposal.freelancer.last_name }}</h3>
+          <h3>{{ payment.proposal.freelancer.first_name }} {{ payment.proposal.freelancer.last_name }}</h3>
         </div>
         <div class="proposal-client">
-          <p><strong>Client:</strong> {{ proposals.proposal.client.first_name }}</p>
+          <p><strong>Client:</strong> {{ payment.proposal.client.first_name|default:"No client assigned" }}</p>
         </div>
         <div class="proposal-body">
-          <p><strong>Project:</strong>{{proposals.proposal.project.title}}</p>
-          <p><strong>Project Description:</strong> {{ proposals.proposal.project.description | truncatechars:50 }}</p>
-          <p><strong>Bid:</strong> {{ proposals.proposal.bid }}</p>
-          <p><strong>Duration:</strong> {{ proposals.proposal.duration }} days</p>
+          <p><strong>Project:</strong> {{ payment.proposal.project.title }}</p>
+          <p><strong>Project Description:</strong> {{ payment.proposal.project.description | truncatechars:50 }}</p>
+          <p><strong>Bid:</strong> {{ payment.proposal.bid }}</p>
+          <p><strong>Duration:</strong> {{ payment.proposal.duration }} days</p>
         </div>
         <form method="post" action="">
           {% csrf_token %}
-          <input type="hidden" name="proposal_id" value="{{ proposals.id }}">
-          {{proposals.id}}
-          <button type="submit" class="submit-button">Submit</button>
-      </form>
+          <input type="hidden" name="proposal_id" value="{{ payment.proposal.id }}">
+          <button type="submit" class="submit-button">Confirm Proposal</button>
+        </form>
       </li>
+      {% endif %}
+      {% empty %}
+      <p>No proposals found.</p>
       {% endfor %}
     </ul>
   </div>
