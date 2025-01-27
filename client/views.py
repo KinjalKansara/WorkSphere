@@ -122,11 +122,21 @@ def client_register_login(request):
                                 fail_silently=False,
                             )
 
-                            # Corrected notification creation
+                             # Corrected notification creation
                             notification = Notification(
                                 title="New client registered",
-                                message=f"{firstname} {lastname} has registered as a client.",  # Provide a complete message string
-                                notification_type='admin',  # Type of notification
+                                message=f"{firstname} {lastname} has registered as a client.",
+                                notification_type='admin',
+                                username=username,  # Provide the username of the new client
+                            )
+
+                            # Create a notification for the registered client
+                            Notification.objects.create(
+                                title="Welcome to WorksPhere!",
+                                message=f"Dear {firstname},\n\nThank you for registering with WorksPhere as a client. You can now start posting projects and finding freelancers who match your needs. We look forward to seeing you create and collaborate!\n\nBest regards,\nWorksPhere Team",
+                                notification_type='client',
+                                username=username,
+                                is_read=False
                             )
 
                             # Save the notification to the database
@@ -383,6 +393,7 @@ def client_post_project(request):
             experience_level=experience_level,
             deadline=deadline,
             photo=image,
+            attachments=attachments,
             status='open'
         )
 
@@ -406,11 +417,45 @@ def client_post_project(request):
                     
                     send_mail(subject_for_freelancers, message_for_freelancers, from_email, [freelancer.email])
 
+            # Create notifications for the client, freelancer, and admin
+            Notification.objects.create(
+                title="Your Project is Posted Successfully",
+                message=f"Your project titled '{title}' has been successfully posted on WorksPhere!",
+                notification_type='client',
+                username=client.username,
+                is_read=False
+            )
+
+            # Get freelancers who match any of the emails in the list
+            freelancers = FreelancerRegisterLogin.objects.filter(email=freelancers.email)
+
+            for freelancer in freelancers:
+                # Create a notification for each freelancer who matches the skills
+                Notification.objects.create(
+                    title="New Project Posted",
+                    message=f"New project titled '{title}' posted by {client.first_name} {client.last_name}. You may be interested in submitting a proposal.",
+                    notification_type='freelancer',
+                    username=freelancer.username,
+                    is_read=False
+                )
+
+
+            # Notification for admin
+            Notification.objects.create(
+                title="New Project Posted by Client",
+                message=f"A new project titled '{title}' has been posted by {client.first_name} {client.last_name}. Please review the project details.",
+                notification_type='admin',
+                username='ADMIN',  # Assuming you have an 'ADMIN' user
+                is_read=False
+            )
+
             return redirect('client_list_of_project')
         except Exception as e:
             return render(request, 'client_post_project.html', {'error_message': f'Failed to save project information: {str(e)}'})
 
     return render(request, 'client_post_project.html')
+
+
 
 def client_job_details(request, project_id):
     username = request.session.get('logged_user')
@@ -526,14 +571,29 @@ def client_submitted_project(request):
 
 
 def client_notification(request):
-    # client = request.user
-    # # Fetch all notifications related to the client
-    # notifications = Notification.objects.filter(user=client, notification_type='client').order_by('-created_at')
+# Determine the role of the logged-in user
+    username = request.session.get('logged_user')
+    role = request.session.get('role')  # e.g., 'ADMIN', 'CLIENT', 'FREELANCER'
 
-    # context = {
-    #     'notifications': notifications,
-    # }
-    return render(request, 'client_notification.html')
+    # Query notifications based on role
+    if role == 'ADMIN':
+        # Admin gets all notifications of type 'admin'
+        notifications = Notification.objects.filter(notification_type='admin').order_by('-created_at')
+    elif role == 'CLIENT':
+        # Clients see notifications sent to 'ALL_CLIENTS' or their specific username
+        notifications = Notification.objects.filter(notification_type='client',).order_by('-created_at')
+    elif role == 'FREELANCER':
+        # Freelancers see notifications sent to their specific username
+        notifications = Notification.objects.filter(notification_type='freelancer').order_by('-created_at')
+    else:
+        # Invalid role, redirect to login or handle accordingly
+        return redirect('client_register_login')
+
+    context = {
+        'notifications': notifications,
+    }
+    
+    return render(request, 'client_notification.html', context)
 
 def client_services(request):
     return render(request, 'client_services.html')

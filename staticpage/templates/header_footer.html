@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> <!-- Font Awesome -->
     <style>
         body {
-            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
@@ -32,7 +31,7 @@
             background-color: #1565c0; /* Dark blue background */
             color: white; /* White text */
             padding: 10px 20px;
-            font-family: serif;
+            font-family: Candara;
         }
 
         .header .logo {
@@ -50,7 +49,7 @@
             text-decoration: none;
             padding: 10px 15px;
             border-radius: 5px;
-            font-family: verdana;
+            font-family: Candara;
         }
 
         .header nav a:hover {
@@ -173,7 +172,7 @@
             padding: 10px;
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            font-family: verdana;
+            font-family: Candara;
         }
 
         .category-icon:hover .subcategories {
@@ -246,7 +245,7 @@
         .footer ul li a {
             color: white; /* White links */
             text-decoration: none;
-            font-family: verdana;
+            font-family: Candara;
         }
 
         .footer ul li a:hover {
@@ -478,7 +477,7 @@
                 <h4>Services</h4>
                 <ul>
                     <li><a href="{% url 'service' %}">Services</a></li>
-                    <li><a href="#categories">Categories</a></li>
+                    <li><a href="{% url 'categories' %}">Categories</a></li>
                     <li><a href="{% url 'work' %}">How It Works</a></li>
                 </ul>
             </div>
@@ -487,8 +486,8 @@
             <div class="col">
                 <h4>Contact Us</h4>
                 <ul>
-                    <li><strong>Email:</strong> support@worksphere.com</li>
-                    <li><strong>Phone:</strong> +1 234 567 890</li>
+                    <li><strong>Email:</strong> worksphere05.gmail.com</li>
+                    <li><strong>Phone:</strong> 1234567890</li>
                 </ul>
             </div>
         </div>

@@ -16,29 +16,45 @@
       padding: 0;
     }
 
-    .about-1 {
+    .general-section {
       padding: 20px;
-      background-color: #1565c0;
+      background-color: #1565c0; /* Blue background color */
       text-align: center;
       width: 100%;
-      height: 150px;
+      height: 300px;
       box-sizing: border-box;
       color: white;
-    }
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      }
 
-    .about-1 .heading {
-      font-size: 28px;
-      font-weight: bold;
-      margin-bottom: 10px;
-      font-family: 'Georgia', serif;
+    .general-section .logo-container {
+        margin-bottom: 20px; /* Space between logo and heading */
     }
-
-    .about-1 .description {
-      font-size: 16px;
-      margin: 0;
-      font-family: 'Verdana', Geneva, Tahoma, sans-serif;
+    
+    .general-section .logo {
+        width: 100px; /* Adjust logo size */
+        height: auto;
+        display: block;
+        margin: 0 auto;
     }
-
+    
+    .general-section .heading {
+        font-size: 50px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        font-family: Candara;
+    }
+    
+    .general-section .description {
+        font-size: 16px;
+        margin: 0;
+        font-family: Candara;
+        line-height: 1.5;
+    }
+  
     .about-container {
       max-width: 1000px;
       margin: 20px auto;
@@ -53,17 +69,18 @@
       margin-bottom: 40px;
     }
 
-    .about-header h2 {
+    .about-header h3 {
       color: #1565c0;
-      font-size: 2.5rem;
+      font-size: 32px;
       margin-bottom: 10px;
-      font-family: 'Times New Roman', Times, serif;
+      font-family: Verdana;
     }
 
     .about-header p {
-      color: #666;
-      font-size: 1.2rem;
-      font-family: 'Verdana', Geneva, Tahoma, sans-serif;
+      color: #333;
+      font-size: 18px;
+      line-height: 1.6;
+      font-family: Candara;
     }
 
     .about-section {
@@ -74,8 +91,8 @@
     }
 
     .about-section img {
-      height:200px;
-      width: 200px;
+      height:250px;
+      width: 250px;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
@@ -87,16 +104,16 @@
 
     .about-text h3 {
       color: #1565c0;
-      font-size: 2rem;
+      font-size: 32px;
       margin-bottom: 10px;
-      font-family: 'Georgia', serif;
+      font-family: Verdana;
     }
 
     .about-text p {
       color: #333;
-      font-size: 1rem;
+      font-size: 18px;
       line-height: 1.6;
-      font-family: 'Verdana', Geneva, Tahoma, sans-serif;
+      font-family: Candara;
     }
 
     .team-section {
@@ -105,9 +122,9 @@
 
     .team-section h3 {
       color: #1565c0;
-      font-size: 2rem;
-      margin-bottom: 20px;
-      font-family: 'Georgia', serif;
+      font-size: 32px;
+      margin-bottom: 10px;
+      font-family: Verdana;
     }
 
     .team-members {
@@ -133,8 +150,8 @@
     }
 
     .team-member img {
-      width: 100px;
-      height: 100px;
+      width: 200px;
+      height: 200px;
       border-radius: 50%;
       margin-bottom: 10px;
     }
@@ -143,7 +160,7 @@
       color: #333;
       font-size: 1.2rem;
       margin-bottom: 5px;
-      font-family: 'Georgia', serif;
+      font-family: Candara;
     }
 
     .team-member p {
@@ -187,19 +204,25 @@
   </style>
 </head>
 <body>
-  <section class="about-1">
+  <section class="general-section">
+    <!-- Logo -->
+    <div class="logo-container">
+        <img src="path/to/your-logo.png" alt="WorkSphere Logo" class="logo">
+    </div>
+    <!-- Heading and Description -->
     <h2 class="heading">About Us</h2>
-    <p class="description">Learn more about WorkSphere and our mission to connect freelancers with clients worldwide.</p>
+    <p class="description"> At WorkSphere, we believe in the power of connection. Whether you're a skilled freelancer or a client seeking the perfect professional for your project, we’re here to simplify and elevate the experience for you.</p>
   </section>
+
 
   <div class="about-container">
     <div class="about-header">
-      <h2>Our Mission</h2>
+      <h3>Our Mission</h3>
       <p>At WorkSphere, our mission is to create a seamless platform that connects talented freelancers with clients seeking high-quality services. We strive to empower freelancers by providing them with opportunities to showcase their skills and grow their careers. Our platform is designed to be user-friendly, efficient, and secure, ensuring a positive experience for both freelancers and clients.</p>
     </div>
 
     <div class="about-section">
-      <img src="https://via.placeholder.com/600x400" alt="About Us Image">
+      <img src="/media/vision.png" alt="About Us Image">
       <div class="about-text">
         <h3>Our Vision</h3>
         <p>We envision a world where freelancers and clients can collaborate effortlessly, breaking down geographical barriers and fostering innovation. Our goal is to become the leading platform for freelance services, known for our commitment to quality, transparency, and customer satisfaction.</p>
@@ -212,35 +235,19 @@
         <h3>Our Values</h3>
         <p>Integrity, excellence, and collaboration are at the core of everything we do. We believe in building long-lasting relationships based on trust and mutual respect. Our team is dedicated to providing exceptional service and continuously improving our platform to meet the evolving needs of our users.</p>
       </div>
-      <img src="https://via.placeholder.com/600x400" alt="Our Values Image">
+      <img src="/media/value.jpg" alt="Our Values Image">
     </div>
 
     <div class="team-section">
       <h3>Meet Our Team</h3>
       <div class="team-members">
         <div class="team-member">
-          <img src="https://via.placeholder.com/100" alt="Team Member 1">
-          <h4>John Doe</h4>
-          <p>CEO & Founder</p>
-        </div>
-        <div class="team-member">
-          <img src="https://via.placeholder.com/100" alt="Team Member 2">
-          <h4>Jane Smith</h4>
-          <p>Chief Technology Officer</p>
-        </div>
-        <div class="team-member">
-          <img src="https://via.placeholder.com/100" alt="Team Member 3">
-          <h4>Emily Johnson</h4>
-          <p>Head of Marketing</p>
-        </div>
-        <div class="team-member">
-          <img src="https://via.placeholder.com/100" alt="Team Member 4">
-          <h4>Michael Brown</h4>
-          <p>Lead Developer</p>
+          <img src="/media/developer.jpg" alt="Team Member">
+          <h4>Kinjal Kansara</h4> <!-- Single team member -->
+          <p>Developer & Founder</p>
         </div>
       </div>
     </div>
-  </div>
 </body>
 </html>
 

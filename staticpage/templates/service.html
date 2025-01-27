@@ -16,28 +16,43 @@
       padding: 0;
     }
 
-    .service-1 {
+    .general-section {
       padding: 20px;
       background-color: #1565c0;
       text-align: center;
       width: 100%;
-      height: 130px;
+      height: 300px;
       box-sizing: border-box;
       color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
-    .service-1 .heading {
-      font-size: 30px;
+    .general-section .logo-container {
+      margin-bottom: 20px;
+    }
+
+    .general-section .logo {
+      width: 100px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .general-section .heading {
+      font-size: 50px;
       font-weight: bold;
       margin-bottom: 10px;
-      margin-top: 10px;
-      font-family: verdana;
+      font-family: Candara;
     }
 
-    .service-1 .description {
+    .general-section .description {
       font-size: 16px;
       margin: 0;
-      font-family: Verdana;
+      font-family: Candara;
+      line-height: 1.5;
     }
 
     .service-container {
@@ -101,16 +116,16 @@
 
     .service-card-content h3 {
       color: #1565c0;
-      font-size: 24px;
+      font-size: 20px;
       margin-bottom: 10px;
-      font-family: verdana;
+      font-family: Verdana;
     }
 
     .service-card-content p {
       color: #333;
-      font-size: 15px;
+      font-size: 16px;
       line-height: 1.6;
-      font-family: verdana;
+      font-family: Candara;
     }
 
     @media (max-width: 768px) {
@@ -133,20 +148,21 @@
   </style>
 </head>
 <body>
-  <section class="service-1">
+  <section class="general-section">
+    <div class="logo-container">
+        <img src="path/to/your-logo.png" alt="WorksPhare Logo" class="logo">
+    </div>
     <h2 class="heading">Our Services</h2>
-    <!-- <p class="description">Discover the wide range of services we offer to help you achieve your goals.</p> -->
-  </section>
+    <p class="description">
+        WorkSpere connects clients and freelancers worldwide, providing a seamless platform for collaboration, project management, and professional growth.
+    </p>
+</section>
+
 
   <div class="service-container">
-    <div class="service-header">
-      <h2>What We Offer</h2>
-      <p>At WorkSphere, we provide a variety of services to meet your needs. Whether you're looking for freelance talent or seeking to offer your skills, we have something for everyone.</p>
-    </div>
-
     <div class="service-grid">
       <div class="service-card">
-        <img src="/media/s1.png" alt="Service Image 1">
+        <img src="/media/s1.jpg" alt="Service Image 1">
         <div class="service-card-content">
           <h3>Freelance Talent</h3>
           <p>We connect you with top freelance talent from around the world. Our platform allows you to find skilled professionals in various fields, including graphic design, writing, programming, and more.</p>
@@ -154,7 +170,7 @@
       </div>
 
       <div class="service-card">
-        <img src="/media/s2.png" alt="Service Image 2">
+        <img src="/media/s2.jpg" alt="Service Image 2">
         <div class="service-card-content">
           <h3>Project Management</h3>
           <p>Our project management tools help you keep track of your projects, communicate with freelancers, and ensure timely delivery. We provide a seamless experience from start to finish.</p>
@@ -162,7 +178,7 @@
       </div>
 
       <div class="service-card">
-        <img src="/media/s3.png" alt="Service Image 3">
+        <img src="/media/h7.jpg" alt="Service Image 3">
         <div class="service-card-content">
           <h3>Secure Payments</h3>
           <p>We offer secure payment options to ensure that your transactions are safe and reliable. Our platform supports various payment methods, making it easy for you to pay and get paid.</p>
@@ -170,7 +186,7 @@
       </div>
 
       <div class="service-card">
-        <img src="/media/s4.png" alt="Service Image 4">
+        <img src="/media/s4.jpg" alt="Service Image 4">
         <div class="service-card-content">
           <h3>Customer Support</h3>
           <p>Our dedicated customer support team is here to assist you with any questions or issues you may have. We are committed to providing excellent service and ensuring your satisfaction.</p>
@@ -178,14 +194,14 @@
       </div>
 
       <div class="service-card">
-        <img src="/media/s5.png" alt="Service Image 5">
+        <img src="/media/s5.jpg" alt="Service Image 5">
         <div class="service-card-content">
           <h3>Marketing Services</h3>
           <p>Our marketing experts can help you promote your business, increase your online presence, and reach your target audience effectively.</p>
         </div>
       </div>
       <div class="service-card">
-        <img src="/media/s6.png" alt="Service Image 7">
+        <img src="/media/s6.jpg" alt="Service Image 7">
         <div class="service-card-content">
           <h3>Legal Services</h3>
           <p>Our legal experts can assist you with contract drafting, legal consulting, and other legal matters to ensure your business operates smoothly.</p>

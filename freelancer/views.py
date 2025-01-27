@@ -129,6 +129,34 @@ def freelancer_register_login(request):
                     recipient_list=[email],
                     fail_silently=False,
                 )
+
+                # Create a notification for the admin
+                Notification.objects.create(
+                    title="New Freelancer Registered",
+                    message=f"{firstname} {lastname} has registered as a freelancer.",
+                    notification_type='admin',
+                    username=username,
+                    is_read=False
+                )
+
+                # Create a notification for the client
+                Notification.objects.create(
+                    title="New Freelancer Registered",
+                    message=f"{firstname} {lastname} has registered as a freelancer.",
+                    notification_type='client',
+                    username=username,
+                    is_read=False
+                )
+
+                # Create a notification for the registered freelancer
+                Notification.objects.create(
+                    title="Welcome to WorksPhere!",
+                    message="Thank you for registering as a freelancer. Start exploring projects and showcasing your skills!",
+                    notification_type='freelancer',
+                    username=username,
+                    is_read=False
+                )
+
                 request.session['done'] = True
                 return render(request, 'auth/freelancer_register_login.html', {'success': 'Registration successful.', 'done': request.session['done']})
             except Exception as e:
@@ -389,7 +417,6 @@ def freelancer_edit_profile(request):
 
     return render(request, 'freelancer_edit_profile.html', context)
 
-# Confirm proposal for freelancer (removes proposal after confirmation)
 
 def confirm_proposal(request):
     user = request.session.get('logged_user')  # Get the logged-in user's session
@@ -403,26 +430,58 @@ def confirm_proposal(request):
 
         try:
             proposal = FreelancerProposal.objects.get(id=proposal_id)
-            proposal.status = 'Completed'
+            proposal.status = 'Completed'  # Change proposal status to 'Completed'
 
-            # Remove the payment (confirming the proposal)
+            # Save the proposal status change
             proposal.save()
+
+            # Send email to freelancer notifying them about the proposal completion
+            subject = f"Proposal for '{proposal.project.title}' has been Confirmed"
+            message = f"Hello {freelancer.first_name},\n\nCongratulations! Your proposal for the project '{proposal.project.title}' has been confirmed and completed by the client.\n\nDetails:\nTitle: {proposal.project.title}\nBid: ${proposal.bid}\n\nBest regards,\nWorksPhere Team"
+            from_email = 'worksphere05@gmail.com'
+            recipient_list = [freelancer.email]
+            send_mail(subject, message, from_email, recipient_list)
+
+            # Send a notification to the freelancer about the proposal confirmation
+            Notification.objects.create(
+                title="Proposal Confirmed",
+                message=f"Your proposal for the project '{proposal.project.title}' has been confirmed and marked as completed.",
+                notification_type='freelancer',
+                username=freelancer.username,
+                is_read=False
+            )
+
+            # Send a notification to the client about the proposal completion
+            client = proposal.client  # Fetch the client related to the proposal's project
+            Notification.objects.create(
+                title="Proposal Completed",
+                message=f"Your proposal for the project '{proposal.project.title}' has been completed by {freelancer.first_name} {freelancer.last_name}.",
+                notification_type='client',
+                username=client.username,  # Use the client's username
+                is_read=False
+            )
+
+            # Send a notification to the admin about the proposal confirmation
+            Notification.objects.create(
+                title="Proposal Completed",
+                message=f"Freelancer {freelancer.first_name} {freelancer.last_name} has completed the proposal for the project '{proposal.project.title}' posted by {client.first_name} {client.last_name}.",
+                notification_type='admin',
+                username='ADMIN',
+                is_read=False
+            )
 
             return redirect('freelancer_submitted_project')
 
         except FreelancerProposal.DoesNotExist:
-            
-            return redirect('error_page')
+            error_message = 'Freelancer proposal does not exist.'
         except Payment.DoesNotExist:
-            
-            return redirect('error_page')
+            error_message = 'Payment is not done.'
 
     context = {
         'proposals': proposals  # Change variable name for clarity
     }
 
     return render(request, 'confirm_proposal.html', context)
-
 
 
 # def confirm_proposal(request):
@@ -472,6 +531,7 @@ def freelancer_proposal(request):
     }
     return render(request, 'freelancer_proposal.html', context)
 
+
 def freelancer_send_proposal(request, project_id):
     user = request.session.get('logged_user')  # Get the logged-in user's session
     freelancer = FreelancerRegisterLogin.objects.get(username=user)  # Get the freelancer object
@@ -480,6 +540,8 @@ def freelancer_send_proposal(request, project_id):
 
     context = {
         'project': project,
+        'freelancer': freelancer,
+        'client': client,
     }
 
     if request.method == "POST":
@@ -487,13 +549,15 @@ def freelancer_send_proposal(request, project_id):
         description = request.POST.get('description')
         duration = request.POST.get('duration')
         bid = request.POST.get('bid')
+        
         if bid:
             bid = float(bid)
             service_fee = round(bid * 0.10, 2)  # 10% service fee calculation
             you_receive = round(bid - service_fee, 2)  # Amount freelancer will receive
         else:
             service_fee = 0.00
-            you_receive = 0.00 # Amount freelancer will receive
+            you_receive = 0.00  # Amount freelancer will receive
+        
         cover_letter = request.POST.get('cover_letter')
         attachment = request.FILES.get('attachment')
 
@@ -501,7 +565,7 @@ def freelancer_send_proposal(request, project_id):
         proposal = FreelancerProposal(
             freelancer=freelancer,  # Set freelancer as the logged-in freelancer
             project=project, 
-            client=client, # Set project as the selected project
+            client=client,  # Set project as the selected project
             title=title,
             description=description,
             duration=duration,
@@ -511,11 +575,43 @@ def freelancer_send_proposal(request, project_id):
         )
         try:
             proposal.save()
-            return redirect('freelancer_proposal')
+
+            # Email to freelancer confirming proposal submission
+            subject = f"Proposal Submitted for '{title}'"
+            message = f"Hello {freelancer.first_name},\n\nYou have successfully submitted your proposal for the project titled '{title}'.\n\nDetails:\nDescription: {description}\nBid: ${bid}\nDuration: {duration} days\n\nYou will be notified if the client accepts your proposal.\n\nBest regards,\nWorksPhere Team"
+            from_email = 'worksphere05@gmail.com'
+            recipient_list = [freelancer.email]
+            send_mail(subject, message, from_email, recipient_list)
+
+            # Email to client notifying them of the new proposal
+            subject_for_client = f"New Proposal Submitted for '{title}'"
+            message_for_client = f"Hello {client.first_name},\n\nA freelancer has submitted a proposal for your project titled '{title}'.\n\nDetails:\nFreelancer: {freelancer.first_name} {freelancer.last_name}\nBid: ${bid}\nDuration: {duration} days\n\nYou can review the proposal and decide whether to accept it.\n\nBest regards,\nWorksPhere Team"
+            send_mail(subject_for_client, message_for_client, from_email, [client.email])
+
+            # Create notifications for freelancer and client
+            Notification.objects.create(
+                title="Proposal Submitted",
+                message=f"You have successfully submitted your proposal for the project '{title}'.",
+                notification_type='freelancer',
+                username=freelancer.username,
+                is_read=False
+            )
+
+            Notification.objects.create(
+                title="New Proposal for Your Project",
+                message=f"A freelancer has submitted a proposal for your project titled '{title}'. Please review it.",
+                notification_type='client',
+                username=client.username,
+                is_read=False
+            )
+
+            return redirect('freelancer_proposal')  # Redirect to the freelancer's proposal list page
         except Exception as e:
             print(e)
+            return render(request, 'freelancer_send_proposal.html', {'error_message': 'Error submitting proposal. Please try again.'})
 
     return render(request, 'freelancer_send_proposal.html', context)
+
 
 # Freelancer's completed proposals (those marked as completed)
 def freelancer_submitted_project(request):
@@ -536,14 +632,30 @@ def freelancer_submitted_project(request):
 
 
 def freelancer_notification(request):
-    # freelancer = request.user
-    # # Fetch all notifications related to freelancer
-    # notifications = Notification.objects.filter(user=freelancer, notification_type='freelancer').order_by('-created_at')
+    # Determine the role of the logged-in user
+    username = request.session.get('logged_user')
+    role = request.session.get('role')  # e.g., 'ADMIN', 'CLIENT', 'FREELANCER'
 
-    # context = {
-    #     'notifications': notifications,
-    # }
-     return render(request, 'freelancer_notification.html')
+
+    # Query notifications based on role
+    if role == 'ADMIN':
+        # Admin gets all notifications of type 'admin'
+        notifications = Notification.objects.filter(notification_type='admin').order_by('-created_at')
+    elif role == 'CLIENT':
+        # Clients see notifications sent to 'ALL_CLIENTS' or their specific username
+        notifications = Notification.objects.filter(notification_type='client',).order_by('-created_at')
+    elif role == 'FREELANCER':
+        # Freelancers see notifications sent to their specific username
+        notifications = Notification.objects.filter(notification_type='freelancer').order_by('-created_at')
+    else:
+        # Invalid role, redirect to login or handle accordingly
+        return redirect('login')
+
+    context = {
+        'notifications': notifications,
+    }
+    
+    return render(request, 'freelancer_notification.html',context)
 
 # def complete_project(request):
 #     if request.method == "POST":
@@ -574,6 +686,9 @@ def freelancer_notification(request):
 #             return HttpResponse("Something went wrong.", status=500)
 
 #     return HttpResponse("Invalid request method.", status=405)
+
+def freelancer_services(request):
+    return render(request, 'freelancer_services.html')
 
 def freelancer_header_1(request):
     return render(request, 'freelancer_header_1.html')

@@ -300,8 +300,23 @@ def admin_delete_project(request, id):
     return redirect('admin_project')
 
 def admin_notification(request):
-    # Fetch all notifications related to admin
-    notifications = Notification.objects.filter(notification_type='admin').order_by('-created_at')
+    # Determine the role of the logged-in user
+    username = request.session.get('logged_user')
+    role = request.session.get('role')  # e.g., 'ADMIN', 'CLIENT', 'FREELANCER'
+
+    # Query notifications based on role
+    if role == 'ADMIN':
+        # Admin gets all notifications of type 'admin'
+        notifications = Notification.objects.filter(notification_type='admin').order_by('-created_at')
+    elif role == 'CLIENT':
+        # Clients see notifications sent to 'ALL_CLIENTS' or their specific username
+        notifications = Notification.objects.filter(notification_type='client',).order_by('-created_at')
+    elif role == 'FREELANCER':
+        # Freelancers see notifications sent to their specific username
+        notifications = Notification.objects.filter(notification_type='freelancer').order_by('-created_at')
+    else:
+        # Invalid role, redirect to login or handle accordingly
+        return redirect('login')
 
     context = {
         'notifications': notifications,

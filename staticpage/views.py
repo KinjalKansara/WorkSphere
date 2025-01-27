@@ -110,6 +110,9 @@ def contact(request):
             return render(request, 'contact.html', {'error': 'Failed to save contact information.'})
     return render(request, 'contact.html')  
 
+def categories(request):
+    return render(request, 'categories.html')
+
 def select_register(request):
     return render(request, 'select_register.html')
 

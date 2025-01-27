@@ -10,34 +10,49 @@
   <title>User Agreement - WorkSphere</title>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Arial', sans-serif;
       background-color: #f4f4f4;
       margin: 0;
       padding: 0;
     }
 
-    .terms-1 {
+    .general-section {
       padding: 20px;
       background-color: #1565c0;
       text-align: center;
       width: 100%;
-      height: 130px;
+      height: 300px;
       box-sizing: border-box;
       color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
 
-    .terms-1 .heading {
-      font-size: 30px;
+    .general-section .logo-container {
+      margin-bottom: 20px;
+    }
+
+    .general-section .logo {
+      width: 100px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .general-section .heading {
+      font-size: 50px;
       font-weight: bold;
       margin-bottom: 10px;
-      margin-top: 10px;
-      font-family: verdana;
+      font-family: Candara;
     }
 
-    .terms-1 .description {
+    .general-section .description {
       font-size: 16px;
       margin: 0;
-      font-family: Verdana;
+      font-family: Candara;
+      line-height: 1.5;
     }
 
     .terms-container {
@@ -47,8 +62,6 @@
       background-color: #fff;
       border-radius: 10px;
       box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
-      z-index: 1;
-      margin-top: -20px;
     }
 
     .terms-header {
@@ -60,7 +73,7 @@
       color: #1565c0;
       font-size: 35px;
       margin-bottom: 10px;
-      font-family: verdana;
+      font-family: Verdana;
     }
 
     .terms-header p {
@@ -74,17 +87,18 @@
     }
 
     .terms-section h3 {
-      color: black;
-      font-size: 26px;
-      margin-bottom: 10px;
-      text-decoration: underline;
-      font-family: sans-serif;
+      color: white;
+      background-color: #1565c0;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 20px;
+      font-family: Verdana;
     }
 
     .terms-section p {
       color: #333;
       font-size: 16px;
-      font-family: verdana;
+      font-family: Candara;
       line-height: 1.6;
     }
 
@@ -97,6 +111,7 @@
       margin-bottom: 10px;
       padding-left: 20px;
       position: relative;
+      font-family: Candara;
     }
 
     .terms-section ul li::before {
@@ -127,18 +142,17 @@
   </style>
 </head>
 <body>
-  <section class="terms-1">
+  <section class="general-section">
+    <div class="logo-container">
+      <img src="path/to/your-logo.png" alt="WorksPhare Logo" class="logo">
+    </div>
     <h2 class="heading">User Agreement</h2>
-    <!-- <p class="description">The "Terms" explain the rules for using WorkSphere. They help everyone understand their rights and responsibilities to keep the platform safe and fair.</p> -->
+    <p class="description">
+      Welcome to WorksPhare! By using our platform, you agree to the terms and conditions that ensure fair and professional conduct.
+    </p>
   </section>
 
   <div class="terms-container">
-    <div class="terms-header">
-      <h2>Terms and Conditions</h2>
-      <p>Effective Date: [Insert Date]</p>
-      <p>Welcome to WorkSphere! By accessing or using our platform, you agree to comply with the terms and conditions outlined below. These Terms govern your use of WorkSphere’s website, services, and any related interactions. If you disagree with any part of these Terms, you must not use the platform.</p>
-    </div>
-
     <div class="terms-section">
       <h3>1. Key Definitions</h3>
       <p><span>i. Platform: </span>Refers to the WorkSphere website and associated tools and services.</p>

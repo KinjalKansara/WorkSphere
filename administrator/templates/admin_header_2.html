@@ -5,170 +5,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Responsive Layout</title>
+  <title>Responsive Layout with Icons</title>
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
       background-color: #f4f4f4;
-    
-      
     }
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #1565c0; 
-      padding: 15px 30px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      position: relative;
-      z-index: 1000;
-    }
-    .logo img {
-      height: 50px;
-      transition: transform 0.3s ease;
-    }
-    .logo img:hover {
-      transform: scale(1.1);
-    }
-    .nav-links {
-      display: flex;
-      gap: 25px;
-      align-items: center;
-    }
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      font-size: 18px;
-      position: relative;
-      padding: 5px 0;
-    }
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 2px;
-      background-color: #82b1ff;
-      left: 50%;
-      bottom: -5px;
-      transition: all 0.3s ease;
-    }
-    .nav-links a:hover::after {
-      width: 100%;
-      left: 0;
-    }
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      justify-content: space-around;
-      height: 24px;
-      width: 30px;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-    .hamburger div {
-      width: 30px;
-      height: 3px;
-      background-color: #fff;
-      border-radius: 2px;
-      transition: all 0.3s ease;
-    }
-    .hamburger:hover {
-      transform: rotate(90deg);
-    }
-    @media (max-width: 768px) {
-      .header {
-        background-color: #1565c0;
-        transition: background-color 0.3s ease;
-        color: white;
-      }
-      .nav-links {
-        position: absolute;
-        top: 60px;
-        left: 0;
-        right: 0;
-        background-color: rgba(255, 255, 255, 0.9); /* Transparent white background */
-        flex-direction: column;
-        align-items: center;
-        display: none;
-        gap: 15px;
-        padding: 15px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      }
-      .nav-links.active {
-        display: flex;
-      }
-      .nav-links a {
-        color: #000;
-      }
-      .hamburger {
-        display: flex;
-      }
-      .hamburger div {
-        background-color: #fff;
-      }
-    }
-    /* .main {
-      flex: 1;
-      padding: 20px;
-      background-color: #fff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      margin: 20px;
-      border-radius: 8px;
-      opacity: 0;
-      animation: fadeIn 1s ease-in-out 0.5s forwards;
-      margin-bottom:10px;
-    }
-
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
-    } */
-
-    .footer {
-      background-color: #1565c0;
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-      position: relative;
-      box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .footer p {
-      margin: 0;
-      font-size: 16px;
-    }
-    .footer a {
-      color: #82b1ff;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-    .footer a:hover {
-      color: #fff;
-    }
-    /* Social Icons */
-    .social-icons {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    .social-icons a {
-      color: white;
-      font-size: 20px;
-      transition: transform 0.3s ease-in-out;
-    }
-    .social-icons a:hover {
-      color: #82b1ff;
-      transform: scale(1.1);
-    }
-
-    /* loader */
+    /* Loader */
     .loader-wrapper {
       position: fixed;
       top: 0;
@@ -181,6 +26,7 @@
       align-items: center;
       z-index: 2000;
     }
+
     .loader img {
       width: 150px;
       height: 150px;
@@ -192,79 +38,195 @@
       50% { opacity: 0.5; }
     }
 
+    .logo img {
+      height: 50px;
+      transition: transform 0.3s ease;
+    }
+
+    .logo img:hover {
+      transform: scale(1.1);
+    }
+
+    /* First Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #1565c0;
+      color: white;
+      padding: 15px 30px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .header .welcome-text {
+      font-size: 18px;
+    }
+
+    /* Second Header */
+    .icon-header {
+      background-color: #e3f2fd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      gap: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      overflow-x: auto;
+    }
+
+    .icon-header::-webkit-scrollbar {
+      display: none;
+    }
+
+    .icon-header .icon {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    /* Tooltip */
+    .icon-header .icon:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: -30px; /* Adjusted tooltip position */
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      white-space: nowrap;
+      z-index: 9999; /* Ensure tooltip is above other content */
+    }
+
+    /* Style for 'a' tags inside .icon */
+    .icon a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .icon a i {
+      font-size: inherit;
+    }
+
+    /* Hover effect on icons */
+    .icon a:hover {
+      opacity: 0.9;
+    }
+
+    /* Icon Colors */
+    .icon-post { background-color: #e57373; color: white; }
+    .icon-list { background-color: #ffb74d; color: white; }
+    .icon-proposal { background-color: #4db6ac; color: white; }
+    .icon-received { background-color: #64b5f6; color: white; }
+    .icon-client { background-color: #ba68c8; color: white; }
+    .icon-contact { background-color: #ffd54f; color: white; }
+    .icon-payment { background-color: #81c784; color: white; }
+    .icon-logout { background-color: #ef5350; color: white; }
+    .icon-submitted { background-color: #7986cb; color: white; }
+    .icon-services { background-color: #ff8a65; color: white; }
+    .icon-notification { background-color: #4fc3f7; color: white; }
+
+    /* Laptop View (Screens Larger than 1024px) */
+    @media (min-width: 1024px) {
+      .icon-header {
+        justify-content: space-evenly;
+        padding: 15px;
+        gap: 30px;
+      }
+
+      .icon-header .icon {
+        width: 60px;
+        height: 60px;
+        font-size: 22px;
+      }
+    }
+
+    /* Mobile View */
+    @media (max-width: 768px) {
+      .icon-header {
+        gap: 10px;
+        height: 85px;
+      }
+
+      .icon-header .icon {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+      }
+
+      .icon-header .icon:hover::after {
+        bottom: -35px;
+        font-size: 12px;
+        max-width: 100px;
+        text-align: center;
+      }
+    }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+
   <!-- Loader -->
   <div class="loader-wrapper" id="loader-wrapper">
     <div class="loader">
       <img src="/media/address.png" alt="Loader Image">
     </div>
   </div>
-  <!-- header -->
+
+  <!-- First Header -->
   <header class="header">
     <div class="logo">
       <img src="your-logo-url.png" alt="Logo">
     </div>
-    <nav class="nav-links">
-      <a href="{% url 'admin_dashboard' %}">Home</a>
-      <a href="{% url 'admin_client' %}">Client</a>
-      <a href="{% url 'admin_freelancer' %}">Freelancer</a>
-      <a href="{% url 'admin_contact' %}">Contact</a>
-      <a href="#">Payment</a>
-      <a href="{% url 'admin_project' %}">Project</a>
-      <a href="{% url 'admin_logout' %}">logout</a>
-    </nav>
-    <div class="hamburger">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
+    <div class="welcome-text">Welcome to {{ request.session.username }}</div>
   </header>
-  <!-- end header -->
 
-  <!-- main -->
+  <!-- Second Header (Icons and Tooltips) -->
+  <div class="icon-header">
+    <div class="icon icon-client" data-tooltip="Dashboard"><a href="{% url 'admin_dashboard' %}"><i class="fas fa-home"></i></a></div>
+    <div class="icon icon-post" data-tooltip="Client Information"><a href="{% url 'admin_client' %}"><i class="fas fa-pen"></i></a></div>
+    <div class="icon icon-list" data-tooltip="Freelancer Information"><a href="{% url 'admin_freelancer' %}"><i class="fas fa-list"></i></a></div>
+    <div class="icon icon-received" data-tooltip="Payment Information"><a href="{% url 'admin_payment' %}"><i class="fas fa-inbox"></i></a></div>
+    <div class="icon icon-payment" data-tooltip="Manage Payments"><a href="{% url 'client_payment' %}"><i class="fas fa-wallet"></i></a></div>
+    <div class="icon icon-submitted" data-tooltip="Project Information"><a href="{% url 'admin_project' %}"><i class="fas fa-clipboard-check"></i></a></div>
+    <div class="icon icon-contact" data-tooltip="Proposal Information"><a href="{% url 'admin_proposal' %}"><i class="fas fa-envelope"></i></a></div>
+    <div class="icon icon-notification" data-tooltip="View Notifications"><a href="{% url 'admin_notification' %}"><i class="fas fa-bell"></i></a></div>
+    <div class="icon icon-services" data-tooltip="Generate Service Reports"><a href="{% url 'generate_report' %}"><i class="fas fa-concierge-bell"></i></a></div>
+    <div class="icon icon-logout" data-tooltip="Logout"><a href="{% url 'client_logout' %}"><i class="fas fa-sign-out-alt"></i></a></div>
+  </div>
+
+  <!-- Main Content -->
   <main class="main">
     {% block content %}
     <!-- Main content goes here -->
     {% endblock %}
   </main>
-  <!-- end main -->
-
-  <!-- footer -->
-  <footer class="footer">
-    <p>&copy; 2025 WorkSphere. All rights reserved.</p>
-    <p>Follow us on
-      <div class="social-icons">
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-        <a href="#"><i class="fab fa-youtube"></i></a>
-      </div>
-    </p>
-  </footer>
-  <!-- end footer -->
 
   <script>
-    document.querySelector('.hamburger').addEventListener('click', () => {
-      const nav = document.querySelector('.nav-links');
-      nav.classList.toggle('active');
-    });
-
     // Loader Timeout
     const loaderWrapper = document.getElementById('loader-wrapper');
-    const content = document.getElementById('content');
-
     window.addEventListener('load', () => {
       setTimeout(() => {
         loaderWrapper.style.display = 'none';
-        content.style.display = 'block';
-      }, 2000); // Show content after 5 seconds
+      }, 2000); // Show content after 2 seconds
     });
-
   </script>
+
 </body>
 </html>
 
@@ -272,5 +234,4 @@
 <script>
   window.location = "{% url 'admin_login' %}"
 </script>
-
 {% endif %}

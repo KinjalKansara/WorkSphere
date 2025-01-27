@@ -1,11 +1,10 @@
-# import json
 import logging
-# from django.http import JsonResponse
 import json
 from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import render
 import razorpay
+from notification.models import Notification
 from .models import *
 from freelancer.models import *
 from django.core.mail import send_mail
@@ -106,56 +105,64 @@ def verify_payment(request):
                 payment.refund_amount = 0
                 payment.save()
 
-                proposal = FreelancerProposal.objects.get(id = payment.proposal.id)
+                # Update proposal status to 'Selected'
+                proposal = FreelancerProposal.objects.get(id=payment.proposal.id)
                 proposal.status = 'Selected'
                 proposal.save()
-                proposal = FreelancerProposal.objects.get(id = payment.proposal.id)
-                project = ClientPostProject.objects.get(id = proposal.project.id)
-                project.status = 'closed'
+
+                # Update project status to 'closed'
+                project = ClientPostProject.objects.get(id=proposal.project.id)
+                project.status = 'Closed'
                 project.save()
 
-                delete_proposals = FreelancerProposal.objects.filter(project=proposal.project).exclude(id = payment.proposal.id)
+                # Delete other proposals for the same project
+                delete_proposals = FreelancerProposal.objects.filter(project=proposal.project).exclude(id=payment.proposal.id)
                 delete_proposals.delete()
 
-               
-                # # Define email parameters
-                # subject = 'Payment Confirmation'
-                # message = f'Your payment with Razorpay has been successfully completed. Payment ID: {razorpay_payment_id}'
-                # from_email = settings.DEFAULT_FROM_EMAIL
-                # email = request.session.get('email')
-                # recipient_list = [email]  # Add recipient email(s) here
+                # Send email notification to the client
+                client = proposal.client
+                subject = f"Proposal Selected for '{proposal.project.title}'"
+                message = f"Hello {client.first_name},\n\nYour project '{proposal.project.title}' has successfully selected a freelancer. Payment for the proposal has been successfully completed.\n\nBest regards,\nWorksPhere Team"
+                from_email = 'worksphere05@gmail.com'
+                recipient_list = [client.email]
+                send_mail(subject, message, from_email, recipient_list)
 
-                # # Send the email
-                # send_mail(subject, message, from_email, recipient_list)
+                # Send email notification to the freelancer
+                freelancer = proposal.freelancer
+                subject_for_freelancer = f"Congratulations! Proposal for '{proposal.project.title}' Selected"
+                message_for_freelancer = f"Hello {freelancer.first_name},\n\nCongratulations! Your proposal for the project '{proposal.project.title}' has been selected by the client, and the payment has been successfully completed.\n\nBest regards,\nWorksPhere Team"
+                send_mail(subject_for_freelancer, message_for_freelancer, from_email, [freelancer.email])
 
-                # freelancer_email = request.session.get('freelancer_email')
+                # Send notification to the freelancer
+                Notification.objects.create(
+                    title="Proposal Selected",
+                    message=f"Your proposal for the project '{proposal.project.title}' has been selected, and payment has been completed.",
+                    notification_type='freelancer',
+                    username=freelancer.username,
+                    is_read=False
+                )
 
-                # subject = 'Your Proposal Has Been Approved!'
-                # message = f"""
-                # Dear Freelancer,
+                # Send notification to the client
+                Notification.objects.create(
+                    title="Proposal Selected",
+                    message=f"Your project '{proposal.project.title}' has successfully selected a freelancer.",
+                    notification_type='client',
+                    username=client.username,
+                    is_read=False
+                )
 
-                # We are pleased to inform you that your proposal for the project '{payment.proposal.title}' has been approved by the client .
-
-                # Here are the details of the project:
-                # - **Project Title**: {payment.proposal.title}
-               
-
-                # You may now proceed with the next steps as discussed with the client. We wish you all the best in completing the project!
-
-                # If you have any questions, feel free to reach out to us.
-
-                # Best regards,
-                # The WorksPhare Team
-                # """
-                # from_email = settings.DEFAULT_FROM_EMAIL  # Your email address
-                # recipient_list = [freelancer_email]  # The freelancer's email address
-
-                # # Send the email
-                # send_mail(subject, message, from_email, recipient_list)
-
+                # Send notification to the admin
+                Notification.objects.create(
+                    title="Proposal Selected",
+                    message=f"Freelancer {freelancer.first_name} {freelancer.last_name} has been selected for the project '{proposal.project.title}' posted by {client.first_name} {client.last_name}. Payment has been successfully completed.",
+                    notification_type='admin',
+                    username='ADMIN',
+                    is_read=False
+                )
 
             except Payment.DoesNotExist:
                 return JsonResponse({'status': 'Failed', 'message': 'Payment record not found'}, status=404)
+
             try:
                 payment = Payment.objects.get(order_id=razorpay_order_id)
 

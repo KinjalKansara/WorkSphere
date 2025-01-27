@@ -13,6 +13,7 @@ urlpatterns = [
     path('select_login/', views.select_login, name='select_login'),
     path('terms/', views.terms, name='terms'),
     path('policy/', views.policy, name='policy'),
+    path('categories/', views.categories, name='categories'),
     path('header_footer/', views.header_footer, name='header_footer'),
     path('header_footer_select/', views.header_footer_select, name='header_footer_select'),
 ]

@@ -19,29 +19,44 @@
       text-align: center;
     }
 
-    .faq-1 {
+    .general-section {
         padding: 20px;
-        background-color: #1565c0;
+        background-color: #1565c0; /* Blue background color */
         text-align: center;
         width: 100%;
-        height: 150px;
+        height: 300px;
         box-sizing: border-box;
         color: white;
-    }
-
-    .faq-1 .heading {
-        font-size: 30px;
-        font-weight: bold;
-        margin-bottom: 10px;
-        margin-top: 10px;
-        font-family: verdana;
-    }
-
-    .faq-1 .description {
-        font-size: 16px;
-        margin: 0;
-        font-family: Verdana;
-    }
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        }
+  
+      .general-section .logo-container {
+          margin-bottom: 20px; /* Space between logo and heading */
+      }
+      
+      .general-section .logo {
+          width: 100px; /* Adjust logo size */
+          height: auto;
+          display: block;
+          margin: 0 auto;
+      }
+      
+      .general-section .heading {
+          font-size: 50px;
+          font-weight: bold;
+          margin-bottom: 10px;
+          font-family: Candara;
+      }
+      
+      .general-section .description {
+          font-size: 16px;
+          margin: 0;
+          font-family: Candara;
+          line-height: 1.5;
+      }
 
     .toggle-container {
         margin: 20px auto;
@@ -52,8 +67,8 @@
     }
 
     .toggle-label {
-        font-size: 18px;
-        font-weight: bold;
+        font-size: 16px;
+        font-family: Verdana;
         color: #333;
     }
 
@@ -75,6 +90,7 @@
         transition: background-color 0.3s;
         font-size: 16px;
         font-weight: bold;
+        font-family: Verdana;
     }
 
     .tab:last-child {
@@ -132,7 +148,7 @@
         display: none;
         font-size: 16px;
         color: #555;
-        font-family:verdana;
+        font-family:Candara;
     }
 
 
@@ -236,11 +252,16 @@
 <body>
 <section class="faq">
 
-    <section class="faq-1">
+    <section class="general-section">
+        <!-- Logo -->
+        <div class="logo-container">
+            <img src="path/to/your-logo.png" alt="WorkSphere Logo" class="logo">
+        </div>
+        <!-- Heading and Description -->
         <h2 class="heading">FAQ</h2>
         <p class="description">The FAQ section provides quick answers to common questions about WorksPhere. It helps users find solutions and understand how to navigate the platform more effectively</p>
       </section>
-  
+       
 
   <!-- Toggle between Client and Freelancer -->
   <div class="toggle-container">
@@ -313,6 +334,9 @@
             <p>There may be a service fee for using the platform, which will be detailed in the payment section.</p>
         </div>
     </div>
+    <p style="font-family: Verdana; font-size: 14px; line-height: 1.5;">
+        If you have any questions, feel free to <a href="{% url 'contact' %}" style="color: #1565c0; text-decoration: none;">contact us</a>.
+      </p>  
 </div>
 
 
@@ -368,6 +392,9 @@
             <p>Most platforms offer a dispute resolution service to help freelancers and clients resolve any issues that arise during the project. Refer to the platform's policies for more details.</p>
         </div>
     </div>
+    <p style="font-family: Verdana; font-size: 14px; line-height: 1.5;">
+        If you have any questions, feel free to <a href="{% url 'contact' %}" style="color: #1565c0; text-decoration: none;">contact us</a>.
+      </p>
   </div>
 </section>
 

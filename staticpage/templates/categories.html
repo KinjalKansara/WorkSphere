@@ -1,0 +1,316 @@
+{% extends "header_footer.html" %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Services - WorkSphere</title>
+  <style>
+    body {
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .general-section {
+      padding: 20px;
+      background-color: #1565c0;
+      text-align: center;
+      width: 100%;
+      height: 300px;
+      box-sizing: border-box;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .general-section .logo-container {
+      margin-bottom: 20px;
+    }
+
+    .general-section .logo {
+      width: 100px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .general-section .heading {
+      font-size: 50px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-family: Candara;
+    }
+
+    .general-section .description {
+      font-size: 16px;
+      margin: 0;
+      font-family: Candara;
+      line-height: 1.5;
+    }
+
+    .categories-container {
+      max-width: 1000px;
+      margin: 20px auto;
+      padding: 40px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .category-section {
+      margin-bottom: 40px;
+    }
+
+    /* Header Style for Category Sections */
+    .category-section h3 {
+        color: white;
+        font-size: 30px;
+        margin-bottom: 20px;
+        font-family: Candara;
+        text-align: center;
+        background-color: #1565c0; /* Background color */
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-transform: uppercase; /* Adds a more professional look */
+        letter-spacing: 1px; /* Adds spacing between letters for clarity */
+        font-weight: bold;
+    }
+
+
+    .subcategories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .subcategory-card {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .subcategory-card img {
+        width: 100%;
+        height: 200px; /* Fixed height */
+        object-fit: contain; /* Ensures the image fits in the container without distortion and maintains its aspect ratio */
+        object-position: center; /* Centers the image in the container if it's smaller than the container */
+    }
+
+    .subcategory-card h4 {
+      color: #1565c0;
+      font-size: 20px;
+      margin-top: 10px;
+      font-family: Candara;
+    }
+
+    .subcategory-card p {
+      font-size: 14px;
+      color: #333;
+      margin: 10px 0;
+      font-family: Verdana
+    }
+
+    /* Button Styles */
+    .explore-button {
+      display: inline-block;
+      background-color: #1565c0;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      text-decoration: none;
+      margin-top: 10px;
+      transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      font-family: Candara
+    }
+
+    .explore-button:hover {
+      background-color: #0d47a1;
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+  </style>
+</head>
+<body>
+  <section class="general-section">
+    <div class="logo-container">
+        <img src="path/to/your-logo.png" alt="WorksPhare Logo" class="logo">
+    </div>
+    <h2 class="heading">Explore Our Service Categories</h2>
+    <p class="description">
+        At WorkSphere, we offer a wide range of service categories to help you connect with top freelancers worldwide. Whether you're looking for expertise in AI, design, web development, business strategy, or more, we have the right professionals to bring your ideas to life.
+    </p>
+  </section>
+
+  <!-- Categories Section -->
+  <div class="categories-container">
+    <!-- AI Category -->
+    <div class="category-section">
+      <h3>AI</h3>
+      <div class="subcategories-grid">
+        <div class="subcategory-card">
+          <img src="/media/c1.jpg" alt="AI Development">
+          <h4>AI Development</h4>
+          <p>Explore advanced AI solutions with top professionals.</p>
+          <a href="{% url 'ai_developement' %}" class="explore-button">Explore More</a>
+        </div>
+        <div class="subcategory-card">
+          <img src="/media/c2.jpg" alt="Machine Learning">
+          <h4>Machine Learning</h4>
+          <p>Find experts in Machine Learning to build smart systems.</p>
+          <a href="{% url 'machine_learning' %}" class="explore-button">Explore More</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tech Category -->
+    <div class="category-section">
+      <h3>Tech</h3>
+      <div class="subcategories-grid">
+        <div class="subcategory-card">
+          <img src="/media/c3.jpg" alt="Software Development">
+          <h4>Software Development</h4>
+          <p>Hire skilled software developers for your next project.</p>
+          <a href="{% url 'software_development' %}" class="explore-button">Explore More</a>
+        </div>
+        <div class="subcategory-card">
+          <img src="/media/c4.jpg" alt="Web Development">
+          <h4>Web Development</h4>
+          <p>Get top-notch websites and web applications developed.</p>
+          <a href="{% url 'web_development' %}" class="explore-button">Explore More</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Design Category -->
+    <div class="category-section">
+      <h3>Design</h3>
+      <div class="subcategories-grid">
+        <div class="subcategory-card">
+          <img src="/media/c5.jpg" alt="Graphic Design">
+          <h4>Graphic Design</h4>
+          <p>Transform your brand with professional graphic designers.</p>
+          <a href="{% url 'graphic_design' %}" class="explore-button">Explore More</a>
+        </div>
+        <div class="subcategory-card">
+          <img src="/media/c6.jpg" alt="Logo Design">
+          <h4>Logo Design</h4>
+          <p>Get a unique and creative logo designed for your brand.</p>
+          <a href="{% url 'logo_design' %}" class="explore-button">Explore More</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Video Category -->
+    <div class="category-section">
+      <h3>Video</h3>
+      <div class="subcategories-grid">
+        <div class="subcategory-card">
+          <img src="/media/c7.jpg" alt="Video Editing">
+          <h4>Video Editing</h4>
+          <p>Enhance your video content with expert video editing.</p>
+          <a href="{% url 'video_editing' %}" class="explore-button">Explore More</a>
+        </div>
+        <div class="subcategory-card">
+          <img src="/media/c8.jpg" alt="Animation">
+          <h4>Animation</h4>
+          <p>Bring your ideas to life with animated visuals.</p>
+          <a href="{% url 'animation' %}" class="explore-button">Explore More</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Business Category -->
+    <div class="category-section">
+      <h3>Business</h3>
+      <div class="subcategories-grid">
+        <div class="subcategory-card">
+          <img src="/media/c9.jpg" alt="Business Strategy">
+          <h4>Business Strategy</h4>
+          <p>Strategize your business for growth and expansion.</p>
+          <a href="{% url 'business_strategy' %}" class="explore-button">Explore More</a>
+        </div>
+        <div class="subcategory-card">
+          <img src="/media/c10.jpg" alt="Market Research">
+          <h4>Market Research</h4>
+          <p>Get accurate and actionable market research insights.</p>
+          <a href="{% url 'market_research' %}" class="explore-button">Explore More</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Music & Audio Category -->
+    <div class="category-section">
+      <h3>Music & Audio</h3>
+      <div class="subcategories-grid">
+        <div class="subcategory-card">
+          <img src="/media/c11.jpg" alt="Music Composition">
+          <h4>Music Composition</h4>
+          <p>Create original music compositions for your projects.</p>
+          <a href="{% url 'music_composition' %}" class="explore-button">Explore More</a>
+        </div>
+        <div class="subcategory-card">
+          <img src="/media/c12.jpg" alt="Lyric Writing">
+          <h4>Lyric Writing</h4>
+          <p>Get professional lyricists for your music production.</p>
+          <a href="{% url 'lyric_writting' %}" class="explore-button">Explore More</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Social Media Category -->
+    <div class="category-section">
+      <h3>Social Media</h3>
+      <div class="subcategories-grid">
+        <div class="subcategory-card">
+          <img src="/media/c13.jpg" alt="Content Creation">
+          <h4>Content Creation</h4>
+          <p>Get expert content creators for engaging social media posts.</p>
+          <a href="{% url 'content_creation' %}" class="explore-button">Explore More</a>
+        </div>
+        <div class="subcategory-card">
+          <img src="/media/c14.jpg" alt="Social Media Marketing">
+          <h4>Social Media Marketing</h4>
+          <p>Grow your online presence with expert social media strategies.</p>
+          <a href="{% url 'social_media_marketing' %}" class="explore-button">Explore More</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Legal Category -->
+    <div class="category-section">
+      <h3>Legal</h3>
+      <div class="subcategories-grid">
+        <div class="subcategory-card">
+          <img src="/media/c15.jpg" alt="Contract Drafting">
+          <h4>Contract Drafting</h4>
+          <p>Get professional contract drafting services for your business.</p>
+          <a href="{% url 'contract_drafting' %}" class="explore-button">Explore More</a>
+        </div>
+        <div class="subcategory-card">
+          <img src="/media/c16.jpg" alt="Legal Consulting">
+          <h4>Legal Consulting</h4>
+          <p>Consult with legal experts to protect your business.</p>
+          <a href="{% url 'legal_consulting' %}" class="explore-button">Explore More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
+
+{% endblock %}

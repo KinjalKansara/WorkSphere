@@ -17,6 +17,7 @@ urlpatterns = [
     path('freelancer_send_proposal/<int:project_id>/', views.freelancer_send_proposal, name='freelancer_send_proposal'),
     path('freelancer_submitted_project/', views.freelancer_submitted_project, name='freelancer_submitted_project'),
     path('freelancer_notification/', views.freelancer_notification, name='freelancer_notification'),
+    path('freelancer_services/', views.freelancer_services, name='freelancer_services'),
     path('freelancer_header_1/', views.freelancer_header_1, name='freelancer_header_1'),
     path('freelancer_header_2/', views.freelancer_header_2, name='freelancer_header_2'),
     path('freelancer_header_3/', views.freelancer_header_3, name='freelancer_header_3'),
