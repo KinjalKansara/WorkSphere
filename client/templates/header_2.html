@@ -8,7 +8,6 @@
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #f4f4f4;
     }
 
@@ -45,7 +44,6 @@
     }
 
 
-
     /* First Header */
     .header {
       display: flex;
@@ -58,22 +56,8 @@
     }
 
     .header .welcome-text {
-      font-size: 18px;
-    }
-
-    .header .nav-links {
-      display: flex;
-      gap: 25px;
-    }
-
-    .header .nav-links a {
-      color: white;
-      text-decoration: none;
-      font-size: 18px;
-    }
-
-    .header .nav-links a:hover {
-      text-decoration: underline;
+      font-size: 20px;
+      font-family: Candara;
     }
 
     /* Second Header */
@@ -101,6 +85,7 @@
       border-radius: 50%;
       color: white;
       font-size: 20px; /* Larger font size for laptop */
+      font-family: verdana;
       cursor: pointer;
       position: relative;
     }
@@ -138,8 +123,6 @@
     .icon a:hover {
       opacity: 0.9;            /* Slightly dim icon on hover */
     }
-
-
 
     /* Icon Colors */
     .icon-post { background-color: #e57373; color: white; } /* Light Red */
@@ -241,7 +224,7 @@
     <div class="icon icon-contact" data-tooltip="Contact"><a href="{% url 'client_contact' %}"><i class="fas fa-envelope"></i></a></div>
     <div class="icon icon-notification" data-tooltip="Notifications"><a href="{% url 'client_notification' %}"><i class="fas fa-bell"></i></a></div>
     <div class="icon icon-services" data-tooltip="Services"><a href="{% url 'client_services' %}"><i class="fas fa-concierge-bell"></i></a></div>
-    <div class="icon icon-logout" data-tooltip="Logout"><a href="{% url 'client_logout' %}"><i class="fas fa-file-alt"></i></a></div>
+    <div class="icon icon-logout" data-tooltip="Logout"><a href="{% url 'client_logout' %}"><i class="fas fa-sign-out-alt"></i></a></div>
   </div>
 
    <!-- main -->

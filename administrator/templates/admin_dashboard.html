@@ -49,12 +49,12 @@
             justify-content: center;
         }
 
-        {% comment %} .icon-users { background-color: #ff6f61; color: white; } /* Red */ {% endcomment %}
+        .icon-users { background-color: #ff6f61; color: white; } /* Red */
         .icon-projects { background-color: #ffbf47; color: white; } /* Orange */
         .icon-notification { background-color: #00bfa5; color: white; } /* Green */
         .icon-payments { background-color: #1e88e5; color: white; } /* Blue */
-        {% comment %} .icon-notification { background-color: #ab47bc; color: white; } /* Purple */ {% endcomment %}
-        {% comment %} .icon-support { background-color: #ffca28; color: white; } /* Yellow */ {% endcomment %}
+        .icon-notification { background-color: #ab47bc; color: white; } /* Purple */
+        .icon-support { background-color: #ffca28; color: white; } /* Yellow */
         .icon-client { background-color: #4caf50; color: white; } /* Green */
         .icon-freelancer { background-color: #f44336; color: white; } /* Red */
         .icon-contact { background-color: #ff9800; color: white; } /* Orange */
@@ -103,42 +103,71 @@
 </head>
 <body>
     <div class="container">
+        <!-- Client Information -->
         <div class="box">
             <div class="icon icon-client"><i class="fas fa-user-tie"></i></div>
             <h3>Client Information</h3>
             <p>View and manage client information.</p>
             <a href="{% url 'admin_client' %}">Client Information</a>
         </div>
+
+        <!-- Freelancer Information -->
         <div class="box">
             <div class="icon icon-freelancer"><i class="fas fa-user"></i></div>
             <h3>Freelancer Information</h3>
             <p>View and manage freelancer information.</p>
             <a href="{% url 'admin_freelancer' %}">Freelancer Information</a>
         </div>
-        <div class="box">
-            <div class="icon icon-contact"><i class="fas fa-envelope"></i></div>
-            <h3>Contact Information</h3>
-            <p>View and manage contact information.</p>
-            <a href="{% url 'admin_contact' %}">Contact Information</a>
-        </div>
-        <div class="box">
-            <div class="icon icon-payments"><i class="fas fa-credit-card"></i></div>
-            <h3>Payment Information</h3>
-            <p>View and manage payment information.</p>
-            <a href="{% url 'admin_payment' %}">Payment Information</a>
-        </div>
+
+        <!-- Project Information -->
         <div class="box">
             <div class="icon icon-projects"><i class="fas fa-briefcase"></i></div>
             <h3>Project Information</h3>
             <p>View and manage project information.</p>
             <a href="{% url 'admin_project' %}">Project Information</a>
         </div>
+
+        <!-- Payment Information -->
         <div class="box">
-            <div class="icon icon-notification"><i class="fas fa-file-contract"></i></div>
-            <h3>Notification</h3>
-            <p>View and manage Notification.</p>
+            <div class="icon icon-payments"><i class="fas fa-credit-card"></i></div>
+            <h3>Payment Information</h3>
+            <p>View and manage payment information.</p>
+            <a href="{% url 'admin_payment' %}">Payment Information</a>
+        </div>
+
+        <!-- Proposal Information -->
+        <div class="box">
+            <div class="icon icon-proposal"><i class="fas fa-file-contract"></i></div>
+            <h3>Proposal Information</h3>
+            <p>View and manage proposals information.</p>
             <a href="#">Proposal Information</a>
         </div>
+
+        <!-- Notification -->
+        <div class="box">
+            <div class="icon icon-notification"><i class="fas fa-bell"></i></div>
+            <h3>Notification</h3>
+            <p>View and manage notifications.</p>
+            <a href="#">Notification</a>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="box">
+            <div class="icon icon-contact"><i class="fas fa-envelope"></i></div>
+            <h3>Contact Information</h3>
+            <p>View and manage contact information.</p>
+            <a href="{% url 'admin_contact' %}">Contact Information</a>
+        </div>
+
+        <!-- Generate Report -->
+        <div class="box">
+            <div class="icon icon-support"><i class="fas fa-chart-line"></i></div>
+            <h3>Generate Report</h3>
+            <p>View and manage generated reports.</p>
+            <a href="#">Generate Report</a>
+        </div>
+
+        <!-- Logout -->
         <div class="box">
             <div class="icon icon-logout"><i class="fas fa-sign-out-alt"></i></div>
             <h3>Logout</h3>
@@ -147,7 +176,6 @@
         </div>
     </div>
 </body>
-
 
 </html>
 

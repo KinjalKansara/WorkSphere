@@ -59,23 +59,24 @@
     }
 
     .header .welcome-text {
-      font-size: 18px;
+      font-size: 20px;
+      font-family: Candara;
     }
+
 
     /* Second Header */
     .icon-header {
       background-color: #e3f2fd;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: center; /* Center icons in larger screens */
       padding: 10px;
-      gap: 20px;
+      gap: 20px; /* Default gap */
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      overflow-x: auto;
     }
 
     .icon-header::-webkit-scrollbar {
-      display: none;
+      display: none; /* Hide scrollbar */
     }
 
     .icon-header .icon {
@@ -83,20 +84,20 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      width: 50px;
-      height: 50px;
+      width: 50px; /* Larger icon size for laptop */
+      height: 50px; /* Larger icon size for laptop */
       border-radius: 50%;
       color: white;
-      font-size: 20px;
+      font-size: 20px; /* Larger font size for laptop */
+      font-family: verdana;
       cursor: pointer;
       position: relative;
     }
 
-    /* Tooltip */
     .icon-header .icon:hover::after {
       content: attr(data-tooltip);
       position: absolute;
-      bottom: -30px; /* Adjusted tooltip position */
+      bottom: -25px;
       left: 50%;
       transform: translateX(-50%);
       background-color: rgba(0, 0, 0, 0.8);
@@ -105,7 +106,6 @@
       border-radius: 4px;
       font-size: 12px;
       white-space: nowrap;
-      z-index: 9999; /* Ensure tooltip is above other content */
     }
 
     /* Style for 'a' tags inside .icon */
@@ -115,17 +115,17 @@
       justify-content: center;
       width: 100%;
       height: 100%;
-      color: inherit;
-      text-decoration: none;
+      color: inherit;          /* Inherit color from parent .icon */
+      text-decoration: none;   /* Remove underline from links */
     }
 
     .icon a i {
-      font-size: inherit;
+      font-size: inherit;      /* Inherit font size from parent .icon */
     }
 
-    /* Hover effect on icons */
+    /* Optional: Hover effect on icons */
     .icon a:hover {
-      opacity: 0.9;
+      opacity: 0.9;            /* Slightly dim icon on hover */
     }
 
     /* Icon Colors */
@@ -144,36 +144,38 @@
     /* Laptop View (Screens Larger than 1024px) */
     @media (min-width: 1024px) {
       .icon-header {
-        justify-content: space-evenly;
-        padding: 15px;
-        gap: 30px;
+        justify-content: space-evenly; /* Spread icons evenly */
+        padding: 15px; /* Add more padding */
+        gap: 30px; /* Increase gap between icons */
       }
 
       .icon-header .icon {
-        width: 60px;
+        width: 60px; /* Slightly larger icons */
         height: 60px;
-        font-size: 22px;
+        font-size: 22px; /* Larger font size */
       }
     }
 
-    /* Mobile View */
+    /* Responsive Design for Smaller Screens */
     @media (max-width: 768px) {
       .icon-header {
-        gap: 10px;
-        height: 85px;
+        gap: 10px; /* Reduce gap for smaller screens */
+        overflow-x: auto; /* Allow horizontal scrolling */
+        height: 85px; /* Increased height for proper tooltip display */
+        padding-top: 0px;
       }
-
+    
       .icon-header .icon {
-        width: 40px;
+        width: 40px; /* Smaller icon size for mobile */
         height: 40px;
         font-size: 16px;
       }
-
+    
       .icon-header .icon:hover::after {
-        bottom: -35px;
-        font-size: 12px;
-        max-width: 100px;
-        text-align: center;
+        bottom: -30px; /* Adjusted tooltip position */
+        font-size: 12px; /* Maintain readability for smaller screens */
+        max-width: 100px; /* Prevent tooltip overflow */
+        text-align: center; /* Center-align tooltip text */
       }
     }
   </style>
@@ -198,16 +200,56 @@
 
   <!-- Second Header (Icons and Tooltips) -->
   <div class="icon-header">
-    <div class="icon icon-client" data-tooltip="Dashboard"><a href="{% url 'admin_dashboard' %}"><i class="fas fa-home"></i></a></div>
-    <div class="icon icon-post" data-tooltip="Client Information"><a href="{% url 'admin_client' %}"><i class="fas fa-pen"></i></a></div>
-    <div class="icon icon-list" data-tooltip="Freelancer Information"><a href="{% url 'admin_freelancer' %}"><i class="fas fa-list"></i></a></div>
-    <div class="icon icon-received" data-tooltip="Payment Information"><a href="{% url 'admin_payment' %}"><i class="fas fa-inbox"></i></a></div>
-    <div class="icon icon-payment" data-tooltip="Manage Payments"><a href="{% url 'client_payment' %}"><i class="fas fa-wallet"></i></a></div>
-    <div class="icon icon-submitted" data-tooltip="Project Information"><a href="{% url 'admin_project' %}"><i class="fas fa-clipboard-check"></i></a></div>
-    <div class="icon icon-contact" data-tooltip="Proposal Information"><a href="{% url 'admin_proposal' %}"><i class="fas fa-envelope"></i></a></div>
-    <div class="icon icon-notification" data-tooltip="View Notifications"><a href="{% url 'admin_notification' %}"><i class="fas fa-bell"></i></a></div>
-    <div class="icon icon-services" data-tooltip="Generate Service Reports"><a href="{% url 'generate_report' %}"><i class="fas fa-concierge-bell"></i></a></div>
-    <div class="icon icon-logout" data-tooltip="Logout"><a href="{% url 'client_logout' %}"><i class="fas fa-sign-out-alt"></i></a></div>
+    <div class="icon icon-client" data-tooltip="Dashboard">
+      <a href="{% url 'admin_dashboard' %}">
+        <i class="fas fa-tachometer-alt"></i>
+      </a>
+    </div>
+    <div class="icon icon-post" data-tooltip="Client Info">
+      <a href="{% url 'admin_client' %}">
+        <i class="fas fa-user-tie"></i>
+      </a>
+    </div>
+    <div class="icon icon-list" data-tooltip="Freelancer Info">
+      <a href="{% url 'admin_freelancer' %}">
+        <i class="fas fa-user"></i>
+      </a>
+    </div>
+    <div class="icon icon-received" data-tooltip="Payment Info">
+      <a href="{% url 'admin_payment' %}">
+        <i class="fas fa-credit-card"></i>
+      </a>
+    </div>
+    <div class="icon icon-contact" data-tooltip="Contact Info">
+      <a href="{% url 'admin_contact' %}">
+        <i class="fas fa-address-book"></i>
+      </a>
+    </div>
+    <div class="icon icon-submitted" data-tooltip="Project Info">
+      <a href="{% url 'admin_project' %}">
+        <i class="fas fa-clipboard-check"></i>
+      </a>
+    </div>
+    <div class="icon icon-proposal" data-tooltip="Proposal Info">
+      <a href="{% url 'admin_proposal' %}">
+        <i class="fas fa-paperclip"></i>
+      </a>
+    </div>
+    <div class="icon icon-notification" data-tooltip="Notifications">
+      <a href="{% url 'admin_notification' %}">
+        <i class="fas fa-bell"></i>
+      </a>
+    </div>
+    <div class="icon icon-services" data-tooltip="Reports">
+      <a href="{% url 'generate_report' %}">
+        <i class="fas fa-chart-line"></i>
+      </a>
+    </div>
+    <div class="icon icon-logout" data-tooltip="Logout">
+      <a href="{% url 'client_logout' %}">
+        <i class="fas fa-sign-out-alt"></i>
+      </a>
+    </div>
   </div>
 
   <!-- Main Content -->

@@ -10,7 +10,6 @@
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
@@ -37,7 +36,8 @@
     .nav-links a {
       color: white;
       text-decoration: none;
-      font-size: 18px;
+      font-size: 20px;
+      font-family: Candara;
       position: relative;
       padding: 5px 0;
     }
@@ -67,6 +67,8 @@
       animation: fadeIn 1s ease-in-out 0.5s forwards;
     }
 
+   
+
     @keyframes fadeIn {
       to {
         opacity: 1;
@@ -82,32 +84,8 @@
     }
     .footer p {
       margin: 0;
-      font-size: 16px;
-    }
-    .footer a {
-      color: #82b1ff;
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-    .footer a:hover {
-      color: #fff;
-    }
-
-    .social-icons {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
       margin-top: 10px;
-    }
-    .social-icons a {
-      color: white;
-      font-size: 20px;
-      transition: transform 0.3s ease-in-out;
-    }
-    .social-icons a:hover {
-      color: #82b1ff;
-      transform: scale(1.1);
+      font-family: verdana;
     }
 
     .loader-wrapper {
@@ -168,7 +146,8 @@
   <!-- Footer -->
   <footer class="footer">
     <p>&copy; 2025 WorkSphere. All rights reserved.</p>
-    <p>Develope by kinjal kansara</p>
+    <p>Develop by kinjal kansara</p>
+    
   </footer>
 
   <!-- JavaScript -->
@@ -186,8 +165,9 @@
   </script>
 </body>
 </html>
+
 {% else %}
 <script>
-  window.location = "{% url 'client_register_login' %}"
+  window.location = "{% url 'client_register_login' %}";
 </script>
 {% endif %}

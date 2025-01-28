@@ -393,7 +393,31 @@ def freelancer_edit_profile(request):
         location = request.POST.get('location')
         skill = request.POST.get('skill')
         rate = request.POST.get('rate')
+        bank_name = request.POST.get('bank_name')
+        bank_ifsc = request.POST.get('ifsc_code')
+        account_number = request.POST.get('account_number')
 
+        errors_message = None
+
+        # Validate bank details
+        if bank_name and len(bank_name.strip()) == 0:
+            errors_message = "Bank name cannot be empty."
+        
+        if bank_ifsc and (len(bank_ifsc.strip()) != 11 or not bank_ifsc.isalnum()):
+            errors_message = "IFSC Code must be 11 alphanumeric characters."
+
+        if account_number and not account_number.isdigit():
+            errors_message = "Account number must contain only digits."
+
+        # If there is an error, return the template with the error message and existing data
+        if errors_message:
+            context = {
+                'freelancer': freelancer,
+                'error_message': errors_message,
+            }
+            return render(request, 'freelancer_edit_profile.html', context)
+
+        # Update freelancer details
         if about:
             freelancer.about_me = about 
         if password:
@@ -406,16 +430,24 @@ def freelancer_edit_profile(request):
             freelancer.skills = skill
         if rate:
             freelancer.hourly_rate = Decimal(rate)
+        if bank_name:
+            freelancer.bank_name = bank_name
+        if bank_ifsc:
+            freelancer.ifsc_code = bank_ifsc
+        if account_number:
+            freelancer.account_number = account_number
 
+        # Save the updated data
         freelancer.save()
 
         return redirect('freelancer_profile')
 
+    # Render the initial page with the freelancer's data
     context = {
         'freelancer': freelancer,
     }
-
     return render(request, 'freelancer_edit_profile.html', context)
+
 
 
 def confirm_proposal(request):
@@ -534,83 +566,87 @@ def freelancer_proposal(request):
 
 def freelancer_send_proposal(request, project_id):
     user = request.session.get('logged_user')  # Get the logged-in user's session
-    freelancer = FreelancerRegisterLogin.objects.get(username=user)  # Get the freelancer object
-    project = ClientPostProject.objects.get(id=project_id)
-    client = project.client
+    try:
+        freelancer = FreelancerRegisterLogin.objects.get(username=user)  # Get the freelancer object
+        project = ClientPostProject.objects.get(id=project_id)
+        client = project.client
 
-    context = {
-        'project': project,
-        'freelancer': freelancer,
-        'client': client,
-    }
+        context = {
+            'project': project,
+            'freelancer': freelancer,
+            'client': client,
+        }
 
-    if request.method == "POST":
-        title = request.POST.get('title')
-        description = request.POST.get('description')
-        duration = request.POST.get('duration')
-        bid = request.POST.get('bid')
-        
-        if bid:
-            bid = float(bid)
-            service_fee = round(bid * 0.10, 2)  # 10% service fee calculation
-            you_receive = round(bid - service_fee, 2)  # Amount freelancer will receive
-        else:
-            service_fee = 0.00
-            you_receive = 0.00  # Amount freelancer will receive
-        
-        cover_letter = request.POST.get('cover_letter')
-        attachment = request.FILES.get('attachment')
+        if request.method == "POST":
+            title = request.POST.get('title')
+            description = request.POST.get('description')
+            duration = request.POST.get('duration')
+            bid = request.POST.get('bid')
+            
+            if bid:
+                bid = float(bid)
+                service_fee = round(bid * 0.10, 2)  # 10% service fee calculation
+                you_receive = round(bid - service_fee, 2)  # Amount freelancer will receive
+            else:
+                service_fee = 0.00
+                you_receive = 0.00  # Amount freelancer will receive
+            
+            cover_letter = request.POST.get('cover_letter')
+            attachment = request.FILES.get('attachment')
 
-        # Create a FreelancerProposal object and associate it with the logged-in freelancer
-        proposal = FreelancerProposal(
-            freelancer=freelancer,  # Set freelancer as the logged-in freelancer
-            project=project, 
-            client=client,  # Set project as the selected project
-            title=title,
-            description=description,
-            duration=duration,
-            bid=bid,
-            cover_letter=cover_letter,
-            attachment=attachment,
-        )
-        try:
-            proposal.save()
-
-            # Email to freelancer confirming proposal submission
-            subject = f"Proposal Submitted for '{title}'"
-            message = f"Hello {freelancer.first_name},\n\nYou have successfully submitted your proposal for the project titled '{title}'.\n\nDetails:\nDescription: {description}\nBid: ${bid}\nDuration: {duration} days\n\nYou will be notified if the client accepts your proposal.\n\nBest regards,\nWorksPhere Team"
-            from_email = 'worksphere05@gmail.com'
-            recipient_list = [freelancer.email]
-            send_mail(subject, message, from_email, recipient_list)
-
-            # Email to client notifying them of the new proposal
-            subject_for_client = f"New Proposal Submitted for '{title}'"
-            message_for_client = f"Hello {client.first_name},\n\nA freelancer has submitted a proposal for your project titled '{title}'.\n\nDetails:\nFreelancer: {freelancer.first_name} {freelancer.last_name}\nBid: ${bid}\nDuration: {duration} days\n\nYou can review the proposal and decide whether to accept it.\n\nBest regards,\nWorksPhere Team"
-            send_mail(subject_for_client, message_for_client, from_email, [client.email])
-
-            # Create notifications for freelancer and client
-            Notification.objects.create(
-                title="Proposal Submitted",
-                message=f"You have successfully submitted your proposal for the project '{title}'.",
-                notification_type='freelancer',
-                username=freelancer.username,
-                is_read=False
+            # Create a FreelancerProposal object and associate it with the logged-in freelancer
+            proposal = FreelancerProposal(
+                freelancer=freelancer,
+                project=project,
+                client=client,
+                title=title,
+                description=description,
+                duration=duration,
+                bid=bid,
+                cover_letter=cover_letter,
+                attachment=attachment,
             )
+            try:
+                proposal.save()
 
-            Notification.objects.create(
-                title="New Proposal for Your Project",
-                message=f"A freelancer has submitted a proposal for your project titled '{title}'. Please review it.",
-                notification_type='client',
-                username=client.username,
-                is_read=False
-            )
+                # Email to freelancer confirming proposal submission
+                subject = f"Proposal Submitted for '{title}'"
+                message = f"Hello {freelancer.first_name},\n\nYou have successfully submitted your proposal for the project titled '{title}'.\n\nDetails:\nDescription: {description}\nBid: ${bid}\nDuration: {duration} days\n\nYou will be notified if the client accepts your proposal.\n\nBest regards,\nWorksPhere Team"
+                from_email = 'worksphere05@gmail.com'
+                recipient_list = [freelancer.email]
+                send_mail(subject, message, from_email, recipient_list)
 
-            return redirect('freelancer_proposal')  # Redirect to the freelancer's proposal list page
-        except Exception as e:
-            print(e)
-            return render(request, 'freelancer_send_proposal.html', {'error_message': 'Error submitting proposal. Please try again.'})
+                # Email to client notifying them of the new proposal
+                subject_for_client = f"New Proposal Submitted for '{title}'"
+                message_for_client = f"Hello {client.first_name},\n\nA freelancer has submitted a proposal for your project titled '{title}'.\n\nDetails:\nFreelancer: {freelancer.first_name} {freelancer.last_name}\nBid: ${bid}\nDuration: {duration} days\n\nYou can review the proposal and decide whether to accept it.\n\nBest regards,\nWorksPhere Team"
+                send_mail(subject_for_client, message_for_client, from_email, [client.email])
+
+                # Create notifications for freelancer and client
+                Notification.objects.create(
+                    title="Proposal Submitted",
+                    message=f"You have successfully submitted your proposal for the project '{title}'.",
+                    notification_type='freelancer',
+                    username=freelancer.username,
+                    is_read=False
+                )
+
+                Notification.objects.create(
+                    title="New Proposal for Your Project",
+                    message=f"A freelancer has submitted a proposal for your project titled '{title}'. Please review it.",
+                    notification_type='client',
+                    username=client.username,
+                    is_read=False
+                )
+
+                return redirect('freelancer_proposal')  # Redirect to the freelancer's proposal list page
+            except Exception as e:
+                print(e)
+                context['error_message'] = 'Error submitting proposal. Please try again.'
+    except (FreelancerRegisterLogin.DoesNotExist, ClientPostProject.DoesNotExist):
+        return render(request, '404.html', {'error_message': 'Project or freelancer not found.'})
 
     return render(request, 'freelancer_send_proposal.html', context)
+
 
 
 # Freelancer's completed proposals (those marked as completed)

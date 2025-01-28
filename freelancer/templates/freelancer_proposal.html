@@ -10,144 +10,153 @@
   <title>My Proposals</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
-/* General Styling */
-body {
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-  background-color: #f0f2f5;
-  color: #333;
-}
+    /* General Styling */
+    body {
+      margin: 0;
+      background-color: #f0f2f5;
+      color: #333;
+    }
 
-/* Proposals Container */
-.proposals-container {
-  width: 85%;
-  max-width: 1000px;
-  background: #fff;
-  margin: 40px auto;
-  border-radius: 15px;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  padding: 30px;
-}
+    /* Proposals Container */
+    .proposals-container {
+      max-width: 1000px;
+      background: #fff;
+      margin: 40px auto;
+      border-radius: 15px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      padding: 30px;
+    }
 
-/* Header Section */
-.proposals-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 2px solid #ececec;
-  padding-bottom: 20px;
-  margin-bottom: 20px;
-}
+    /* Header Section */
+    .proposals-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #ececec;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
 
-.proposals-header h2 {
-  font-size: 28px;
-  color: #333;
-  font-weight: 600;
-  margin: 0;
-}
+    .proposals-header h2 {
+      font-size: 40px;
+      font-family: Candara;
+      color: #007bff;
+      font-weight: 700;
+      margin: 0;
+      text-align: center; /* This centers the text */
+      width: 100%; /* Ensures the text takes up the full width of the container */
+    }
 
-/* Proposal List */
-.proposal-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
+    /* Proposal List */
+    .proposal-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
 
-.proposal-card {
-  background: #f9f9f9;
-  padding: 20px;
-  border-radius: 15px;
-  width: calc(33.333% - 20px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+    .proposal-card {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 15px;
+      width: calc(33.333% - 70px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-.proposal-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-}
+    .proposal-card:hover {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
 
-.proposal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
+    .proposal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
 
-.proposal-header h3 {
-  font-size: 22px;
-  color: #333;
-  margin: 0;
-}
+    .proposal-header h3 {
+      font-size: 20px;
+      font-family: Candara;
+      color: #333;
+      margin: 0;
+    }
 
-.proposal-header span {
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: white;
-  font-size: 12px;
-}
+    .proposal-header span {
+      padding: 5px 10px;
+      border-radius: 5px;
+      color: white;
+      font-size: 12px;
+    }
 
-.proposal-header .status-open {
-  background-color: #4caf50;
-}
+    .proposal-header .status-open {
+      background-color: #4caf50;
+    }
 
-.proposal-header .status-closed {
-  background-color: #f44336;
-}
+    .proposal-header .status-closed {
+      background-color: #f44336;
+    }
 
-.proposal-body {
-  margin-bottom: 10px;
-}
+    .proposal-body {
+      margin-bottom: 10px;
+    }
 
-.proposal-body p {
-  font-size: 16px;
-  color: #555;
-  margin: 0;
-}
+    .proposal-body p {
+      font-size: 14px;
+      font-family: verdana;
+      color: #555;
+      margin: 0;
+    }
 
-.proposal-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 14px;
-  color: #666;
-}
+    .proposal-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #666;
+    }
 
-.proposal-footer span {
-  display: flex;
-  align-items: center;
-}
+    .proposal-footer span {
+      display: flex;
+      align-items: center;
+      font-family: Candara;
+      font-size:14px;
+    }
 
-.proposal-footer i {
-  margin-right: 5px;
-  color: #1565c0;
-}
+    .proposal-footer i {
+      margin-right: 5px;
+      color: #1565c0;
+    }
 
-.view-details {
-  display: block;
-  margin: 10px auto 0;
-  padding: 12px 24px;
-  background-color: #1565c0;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 12px;
-  text-decoration: none;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  text-align: center;
-}
+    .view-details {
+      display: block;
+      margin: 10px auto 0;
+      padding: 12px 24px;
+      background-color: #1565c0;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-family: verdana;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      text-align: center;
+    }
 
-.view-details:hover {
-  background-color: #104a8e;
-  transform: scale(1.05);
-}
+    .view-details:hover {
+      background-color: #104a8e;
+      transform: scale(1.05); /* Slightly enlarge the button */
+    }
 
-/* Popup Modal */
+    .view-details:active {
+      transform: scale(0.95); /* Slightly shrink the button on click */
+    }
+
+    /* Popup Modal */
     .modal {
       display: none;
       position: fixed;
@@ -186,77 +195,76 @@ body {
       cursor: pointer;
     }
 
-/* Responsive Design */
+    /* Responsive Design */
+    /* Responsive Design for Mobile */
+    @media (max-width: 768px) {
+      .proposals-container {
+        width: 90%;
+        padding: 15px;
+      }
 
-/* Responsive Design for Mobile */
-@media (max-width: 768px) {
-  .proposals-container {
-    width: 90%;
-    padding: 15px;
-  }
+      .proposals-header h2 {
+        font-size: 24px;
+      }
 
-  .proposals-header h2 {
-    font-size: 24px;
-  }
+      .proposal-card {
+        padding: 15px;
+        width: 100%;
+      }
 
-  .proposal-card {
-    padding: 15px;
-    width: 100%;
-  }
+      .proposal-header h3 {
+        font-size: 20px;
+      }
 
-  .proposal-header h3 {
-    font-size: 20px;
-  }
+      .proposal-body p {
+        font-size: 14px;
+      }
 
-  .proposal-body p {
-    font-size: 14px;
-  }
+      .proposal-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
 
-  .proposal-footer {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+      .view-details {
+        padding: 10px 20px;
+        font-size: 14px;
+      }
+    }
 
-  .view-details {
-    padding: 10px 20px;
-    font-size: 14px;
-  }
-}
+    /* Responsive Design for Small Mobile Devices */
+    @media (max-width: 480px) {
+      .proposals-container {
+        width: 100%;
+        padding: 10px;
+      }
 
-/* Responsive Design for Small Mobile Devices */
-@media (max-width: 480px) {
-  .proposals-container {
-    width: 100%;
-    padding: 10px;
-  }
+      .proposals-header h2 {
+        font-size: 20px;
+      }
 
-  .proposals-header h2 {
-    font-size: 20px;
-  }
+      .proposal-card {
+        padding: 10px;
+      }
 
-  .proposal-card {
-    padding: 10px;
-  }
+      .proposal-header h3 {
+        font-size: 18px;
+      }
 
-  .proposal-header h3 {
-    font-size: 18px;
-  }
+      .proposal-body p {
+        font-size: 12px;
+      }
 
-  .proposal-body p {
-    font-size: 12px;
-  }
+      .proposal-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 12px;
+      }
 
-  .proposal-footer {
-    flex-direction: column;
-    align-items: flex-start;
-    font-size: 12px;
-  }
-
-  .view-details {
-    padding: 8px 16px;
-    font-size: 12px;
-  }
-}
+      .view-details {
+        padding: 8px 16px;
+        font-size: 12px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -264,6 +272,8 @@ body {
     <div class="proposals-header">
       <h2>My Proposals</h2>
     </div>
+
+    {% if proposal %}
     <ul class="proposal-list">
       {% for proposal in proposal %}
       <li class="proposal-card">
@@ -275,12 +285,15 @@ body {
           <p>{{proposal.description| truncatechars:20}}</p>
         </div>
         <div class="proposal-footer">
-          <span><i class="fas fa-calendar-alt"></i> Submitted on: Jan 20, 2025</span>
+          <span><i class="fas fa-calendar-alt"></i> Submitted on: {{proposal.duration}}</span>
         </div>
-        <button class="view-details" onclick="viewClient({{ proposal.id }}, '{{ proposal.title }}', '{{ proposal.description }}' ,'{{ proposal.duration }}', '{{ proposal.bid }}', '{{ proposal.cover_letter }}', '{{ proposal.attachment }}', '{{ proposal.submitted_at }}')">View Details</button>
+        <button class="view-details" onclick="viewClient({{ proposal.id }}, '{{ proposal.client.first_name }} {{ proposal.client.last_name }}', '{{ proposal.title }}', '{{ proposal.description }}', '{{ proposal.duration }}', '{{ proposal.bid }}', '{{ proposal.cover_letter }}', '{{ proposal.attachment }}', '{{ proposal.submitted_at }}')">View Details</button>
       </li>
       {% endfor %}
     </ul>
+    {% else %}
+      <p>No proposals available.</p>
+    {% endif %}
   </div>
   <div id="clientModal" class="modal">
     <div class="modal-content">
@@ -290,41 +303,39 @@ body {
   </div>
 
   <script>
-    function viewClient(proposalId, title, description, duration, bid, coverLetter, attachment, submittedAt) {
+    function viewClient(proposalId, clientName, title, description, duration, bid, coverLetter, attachment, submittedAt) {
       const modalDetails = `
       <div style="text-align: center; margin-bottom: 20px;">
-        <p style="margin: 0; flex-basis: 45%;"> ${title}</p>
+        <p style="margin: 0; font-size: 20px; font-family: Verdana; flex-basis: 45%;"><strong>Client Name:</strong> ${clientName}</p>
+        <p style="margin: 0; font-size: 20px; font-family: Verdana; flex-basis: 45%;"><strong>Title:</strong> ${title}</p>
       </div>
 
-      <div class="row" style=" margin-bottom: 10px; justify-content: space-between;">
-        <p style="margin: 0; flex-basis: 45%;"><strong>Description:</strong> ${description.length > 100 ? description.substring(0, 100) + '...' : description}</p>
+      <div class="row" style="margin-bottom: 10px; justify-content: space-between;">
+        <p style="margin: 0; font-size: 16px; font-family: Candara; flex-basis: 45%;"><strong>Description:</strong> ${description.length > 100 ? description.substring(0, 100) + '...' : description}</p>
       </div>
 
       <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
-        <p style="margin: 0; flex-basis: 45%;"><strong>Duration:</strong> ${duration}</p>
-        <p style="margin: 0; flex-basis: 45%;"><strong>Bid:</strong> ${bid}</p>
+        <p style="margin: 0; font-size: 16px; font-family: Candara; flex-basis: 45%;"><strong>Duration:</strong> ${duration}</p>
+        <p style="margin: 0; font-size: 16px; font-family: Candara; flex-basis: 45%;"><strong>Bid:</strong> ${bid}</p>
       </div>
 
-     <div class="row" style=" margin-bottom: 10px; justify-content: space-between;">
-        <p style="margin: 0; flex-basis: 45%;"><strong>Cover Letter:</strong> ${coverLetter.length > 2000 ? coverLetter.substring(0, 2000) + '...' : coverLetter}</p>
-      </div>
-
-      <div class="full-width" style="margin-bottom: 10px;">
-        <p><strong>attachement:</strong> ${attachment}</p>
-      </div>
-
-      <div class="full-width" style="margin-bottom: 10px;">
-        <p><strong>Submitted at:</strong> ${submittedAt}</p>
+      <div class="row" style="margin-bottom: 10px; justify-content: space-between;">
+        <p style="margin: 0; font-size: 16px; font-family: Candara; flex-basis: 45%;"><strong>Cover Letter:</strong> ${coverLetter.length > 2000 ? coverLetter.substring(0, 200) + '...' : coverLetter}</p>
       </div>
       `;
+      
       document.getElementById('clientDetails').innerHTML = modalDetails;
-      document.getElementById('clientModal').style.display = 'block';
+      const modal = document.getElementById('clientModal');
+      modal.style.display = "block";
     }
+    
 
     function closeModal() {
-      document.getElementById('clientModal').style.display = 'none';
+      const modal = document.getElementById('clientModal');
+      modal.style.display = "none";
     }
   </script>
+
 </body>
 </html>
 

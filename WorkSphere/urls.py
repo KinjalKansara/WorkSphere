@@ -25,7 +25,6 @@ urlpatterns = [
    path('administrator/', include('administrator.urls')),
    path('freelancer/', include('freelancer.urls')),
    path('categories/', include('categories.urls')),
-   path('chat/', include('chat.urls')),
    path('rating/', include('rating.urls')),
    path('search/', include('search.urls')),
    path('payment/', include('payment.urls')),

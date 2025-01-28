@@ -13,73 +13,80 @@
   
   /* Profile Container */
   .profile-container {
-      max-width: 900px;
-      margin: 60px auto;
-      background: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-      padding: 30px;
-      overflow: hidden;
+    max-width: 900px;
+    margin: 60px auto;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    overflow: hidden;
   }
   
   /* Header Section */
   h1 {
-      text-align: center;
-      color: #1565c0;
-      margin-bottom: 30px;
-      font-weight: 700;
-      font-size: 2.5rem;
+    text-align: center;
+    color: #1565c0;
+    margin-bottom: 30px;
+    font-weight: 700;
+    font-size: 40px;
+    font-family: Candara;
   }
   
   .profile-header {
-      display: flex;
-      align-items: center;
-      border-bottom: 2px solid #e0e0e0;
-      padding-bottom: 20px;
-      margin-bottom: 30px;
+    display: flex;
+    align-items: flex-start; /* Align items at the top */
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
   }
   
   .profile-header img {
-      width: 800px;
-      height: 150px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-right: 20px;
-      border: 4px solid #1565c0;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+    border: 4px solid #1565c0;
+    flex-shrink: 0; /* Prevent image from shrinking */
   }
   
   .profile-info {
-      color: #333;
+    color: #333;
+    flex-grow: 1; /* Allow bio to take up remaining space */
   }
   
   .profile-info h2 {
-      font-size: 1.8rem;
-      margin: 0;
-      font-weight: 600;
+    font-size: 25px;
+    margin: 0;
+    font-family: verdana;
+    font-weight: 600;
   }
   
   .profile-info .bio {
-      margin: 5px 0 0;
-      font-size: 1rem;
-      color: #555;
+    margin: 5px 0 0;
+    font-size: 16px;
+    font-family: Candara;
+    color: #555;
+    word-wrap: break-word; /* Make sure long words don't overflow */
+    white-space: normal; /* Allow text to wrap within the container */
   }
   
   /* Profile Details */
   .profile-details {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr); /* Two columns */
-      gap: 20px; /* Space between fields */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    gap: 20px; /* Space between fields */
   }
   
   .detail {
-      background: #f0f4f8;
-      padding: 20px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-      transition: box-shadow 0.3s ease-in-out;
+    background: #f0f4f8;
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease-in-out;
   }
   
   .detail i {
@@ -88,14 +95,17 @@
   }
   
   .detail span {
-      font-weight: bold;
-      color: #555;
+    font-weight: 550;
+    color: #555;
+    font-family: verdana;
+    font-size: 16px;
   }
   
   .detail p {
-      margin: 0;
-      font-size: 1rem;
-      color: #333;
+    margin: 0;
+    font-size: 16px;
+    font-family: Candara;
+    color: #333;
   }
   
   .detail:hover {
@@ -109,18 +119,18 @@
   }
   
   .edit-button {
-      background-color: #1565c0;
-      color: #ffffff;
-      font-size: 1rem;
-      font-weight: 600;
-      padding: 12px 20px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      transition: background-color 0.3s ease, transform 0.2s ease;
+    background-color: #1565c0;
+    color: #ffffff;
+    font-size: 16px;
+    font-family: verdana;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
   }
   
   .edit-button i {
@@ -188,6 +198,22 @@
             <i class="fas fa-map-marker-alt"></i>
             <span>Location:</span>
             <p>{{freelancer.location}}</p>
+        </div>
+                <!-- Bank Details -->
+        <div class="detail">
+            <i class="fas fa-university"></i>
+            <span>Bank Name:</span>
+            <p>{{freelancer.bank_name}}</p>
+        </div>
+        <div class="detail">
+            <i class="fas fa-hashtag"></i>
+            <span>Account Number:</span>
+            <p>{{freelancer.account_number}}</p>
+        </div>
+        <div class="detail">
+            <i class="fas fa-code"></i>
+            <span>IFSC Code:</span>
+            <p>{{freelancer.ifsc_code}}</p>
         </div>
     </div>
     <div class="buttons">

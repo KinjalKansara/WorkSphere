@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Freelancer Website</title>
+    <title>Freelancer Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         body {
@@ -28,15 +28,9 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
             flex: 1 1 calc(33.333% - 40px);
             box-sizing: border-box;
             text-align: center;
-        }
-
-        .box:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
 
         .icon {
@@ -57,16 +51,22 @@
         .icon-contact { background-color: #ffca28; color: white; } /* Yellow */
         .icon-payment { background-color: #4caf50; color: white; } /* Green */
         .icon-logout { background-color: #f44336; color: white; } /* Red */
+        .icon-notification { background-color: #29b6f6; color: white; }/* Light Blue */
+        .icon-services { background-color: #ff7043; color: white; } /* Deep Orange */
+        .icon-received { background-color: #1e88e5; color: white; } /* Blue */
+        .icon-submit { background-color: #1565c0; color: white; } /* Dark Blue */
 
         .box h3 {
             font-size: 20px;
             margin-bottom: 10px;
             color: #1565c0; /* Dark blue */
+            font-family: Candara
         }
 
         .box p {
             font-size: 14px;
             margin-bottom: 20px;
+            font-family: Candara;
         }
 
         .box a {
@@ -76,11 +76,13 @@
             background-color: #1565c0; /* Dark blue */
             color: white;
             text-decoration: none;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-family: Candara;
         }
 
         .box a:hover {
             background-color: #82b1ff; /* Light blue */
+            transform: translateY(-2px);
         }
 
         /* Popup Modal */
@@ -90,7 +92,7 @@
             z-index: 1;
             left: 50%;
             top: 50%;
-            transform: translate(-50%, -50%); /* Center both horizontally and vertically */
+            transform: translate(-50%, -50%);
             width: 100%;
             max-width: 600px;
             background-color: rgba(0, 0, 0, 0.5);
@@ -103,20 +105,20 @@
             border: 1px solid #888;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            text-align: center; /* Center align the content */
-        }
-        .modal-content .close {
-            display: none; /* Hide the close icon */
+            text-align: center;
+            font-family: Candara;
         }
         .modal-description {
             font-size: 1.1em;
             line-height: 1.6;
             color: #555;
-            margin-bottom: 20px; /* Space between content and button */
+            margin-bottom: 20px;
+            font-family: verdana;
+            font-size: 14px;
         }
         .modal-button {
-            display: block; /* Make the button block to center it */
-            margin: 0 auto; /* Center the button horizontally */
+            display: block;
+            margin: 0 auto;
             padding: 10px 20px;
             background-color: #007bff;
             color: #fff;
@@ -150,78 +152,108 @@
     <div id="myModal" class="modal">
         <div class="modal-content">
             <div class="modal-description">
-                <h2>Welcome to the Project Posting Page!</h2>
-                <p>In this form, you can provide all the necessary details about your project, including the title, description, budget, and required skills. This information will help connect you with top-tier freelancers who can bring your vision to life.</p>
-                <p>If you have any questions or need assistance, please <a href="/contact" style="color: #007bff; text-decoration: none;">contact us</a>.</p>
+                <h2>Welcome to Your Dashboard!</h2>
+                <p>We're excited to have you here. This dashboard will help you navigate through our platform and make the most out of your experience.</p>
+                <p>Here, you can post new projects, browse through available projects, manage your profile, and much more.</p>
             </div>
             <button class="modal-button">OK</button>
         </div>
     </div>
-
     <div class="container">
-        <div class="box">
-            <div class="icon icon-list"><i class="fas fa-list"></i></div>
-            <h3>List of Projects</h3>
-            <p>Browse through the list of available projects.</p>
-            <a href="{% url 'freelancer_list_of_project' %}">Browse Projects</a>
-        </div>
+        <!-- Freelancer Profile -->
         <div class="box">
             <div class="icon icon-freelancer"><i class="fas fa-user"></i></div>
             <h3>Freelancer Profile</h3>
-            <p>Build your freelancer profile to attract clients.</p>
+            <p>Create or update your profile to showcase your skills and experience to attract clients.</p>
             <a href="{% url 'freelancer_profile' %}">View Profile</a>
         </div>
+        
+        <!-- List of Projects -->
         <div class="box">
-            <div class="icon icon-contact"><i class="fas fa-envelope"></i></div>
-            <h3>Contact</h3>
-            <p>Get in touch with us for any assistance or queries.</p>
-            <a href="{% url 'freelancer_contact' %}">Contact Us</a>
+            <div class="icon icon-list"><i class="fas fa-list"></i></div>
+            <h3>List of Projects</h3>
+            <p>Browse through available projects posted by clients and find exciting opportunities.</p>
+            <a href="{% url 'freelancer_list_of_project' %}">Browse Projects</a>
         </div>
-        <div class="box">
-            <div class="icon icon-payment"><i class="fas fa-credit-card"></i></div>
-            <h3>Payment</h3>
-            <p>Manage your payments and transactions.</p>
-            <a href="#payment">Manage Payments</a>
-        </div>
+
+        <!-- Submit Proposal -->
         <div class="box">
             <div class="icon icon-proposal"><i class="fas fa-file-alt"></i></div>
-            <h3>Proposal</h3>
-            <p>Submit your proposal and win exciting projects.</p>
+            <h3>Submit Proposal</h3>
+            <p>Find the right projects and submit your proposal to start winning jobs.</p>
             <a href="{% url 'freelancer_proposal' %}">Submit Proposal</a>
         </div>
+
+        <!-- Received Projects -->
+        <div class="box">
+            <div class="icon icon-received"><i class="fas fa-inbox"></i></div>
+            <h3>Received Projects</h3>
+            <p>Review the projects you have been awarded and keep track of your ongoing tasks.</p>
+            <a href="{% url 'confirm_proposal' %}">View Received Projects</a>
+        </div>
+
+        <!-- Submit Project -->
+        <div class="box">
+            <div class="icon icon-submit"><i class="fas fa-upload"></i></div>
+            <h3>Submit Work</h3>
+            <p>Submit completed work for client approval and get paid for your hard work.</p>
+            <a href="{% url 'freelancer_submitted_project' %}">Submit Work</a>
+        </div>
+
+        <!-- Contact Support -->
+        <div class="box">
+            <div class="icon icon-contact"><i class="fas fa-envelope"></i></div>
+            <h3>Contact Support</h3>
+            <p>If you need help or have any questions, reach out to our support team.</p>
+            <a href="{% url 'freelancer_contact' %}">Contact Us</a>
+        </div>
+
+        <!-- Notifications -->
+        <div class="box">
+            <div class="icon icon-notification"><i class="fas fa-bell"></i></div>
+            <h3>Notifications</h3>
+            <p>Stay updated on your proposals, received projects, payments, and more!</p>
+            <a href="{% url 'freelancer_notification' %}">View Notifications</a>
+        </div>
+
+        <!-- Services -->
+        <div class="box">
+            <div class="icon icon-services"><i class="fas fa-concierge-bell"></i></div>
+            <h3>Services</h3>
+            <p>Explore various services offered to help you enhance your freelancing experience.</p>
+            <a href="{% url 'freelancer_services' %}">Explore Services</a>
+        </div>
+
+        <!-- Logout -->
         <div class="box">
             <div class="icon icon-logout"><i class="fas fa-sign-out-alt"></i></div>
             <h3>Logout</h3>
-            <p>Logout from your account securely.</p>
+            <p>Log out of your account securely when you're done working.</p>
             <a href="{% url 'logout' %}">Logout</a>
         </div>
     </div>
 </body>
 
 <script>
-    // Get the modal
     var modal = document.getElementById("myModal");
-
-    // Get the button that opens the modal
     var btn = document.getElementsByClassName("modal-button")[0];
 
-    // When the page loads, open the modal
     window.onload = function() {
         modal.style.display = "block";
     }
 
-    // When the user clicks on the button, close the modal
     btn.onclick = function() {
         modal.style.display = "none";
     }
 
-    // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }
     }
 </script>
+
+
 </html>
 
 {% endblock %}

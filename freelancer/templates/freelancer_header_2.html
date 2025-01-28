@@ -9,7 +9,6 @@
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #f4f4f4;
     }
 
@@ -46,7 +45,6 @@
     }
 
 
-
     /* First Header */
     .header {
       display: flex;
@@ -59,22 +57,8 @@
     }
 
     .header .welcome-text {
-      font-size: 18px;
-    }
-
-    .header .nav-links {
-      display: flex;
-      gap: 25px;
-    }
-
-    .header .nav-links a {
-      color: white;
-      text-decoration: none;
-      font-size: 18px;
-    }
-
-    .header .nav-links a:hover {
-      text-decoration: underline;
+      font-size: 20px;
+      font-family: Candara;
     }
 
     /* Second Header */
@@ -102,6 +86,7 @@
       border-radius: 50%;
       color: white;
       font-size: 20px; /* Larger font size for laptop */
+      font-family: verdana;
       cursor: pointer;
       position: relative;
     }
@@ -139,8 +124,6 @@
     .icon a:hover {
       opacity: 0.9;            /* Slightly dim icon on hover */
     }
-
-
 
     /* Icon Colors */
     .icon-home { background-color: #4fc3f7; color: white; } /* Sky Blue */
@@ -238,12 +221,11 @@
     <div class="icon icon-list" data-tooltip="Project List"><a href="{% url 'freelancer_list_of_project' %}"><i class="fas fa-list"></i></a></div>
     <div class="icon icon-post" data-tooltip="Freelancer Proposal"><a href="{% url 'freelancer_proposal' %}"><i class="fas fa-pen"></i></a></div>
     <div class="icon icon-received" data-tooltip="Received Projects"><a href="{% url 'confirm_proposal' %}"><i class="fas fa-inbox"></i></a></div>
-    {% comment %} <div class="icon icon-payment" data-tooltip="Payments"><a href="{% url 'client_payment' %}"><i class="fas fa-wallet"></i></a></div> {% endcomment %}
     <div class="icon icon-submitted" data-tooltip="Submitted Work"><a href="{% url 'freelancer_submitted_project' %}"><i class="fas fa-clipboard-check"></i></a></div>
     <div class="icon icon-contact" data-tooltip="Contact"><a href="{% url 'freelancer_contact' %}"><i class="fas fa-envelope"></i></a></div>
     <div class="icon icon-notification" data-tooltip="Notifications"><a href="{% url 'freelancer_notification' %}"><i class="fas fa-bell"></i></a></div>
     <div class="icon icon-services" data-tooltip="Services"><a href="{% url 'freelancer_services' %}"><i class="fas fa-concierge-bell"></i></a></div>
-    <div class="icon icon-logout" data-tooltip="Logout"><a href="{% url 'logout' %}"><i class="fas fa-file-alt"></i></a></div>
+    <div class="icon icon-logout" data-tooltip="Logout"><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a></div>
   </div>
 
    <!-- main -->

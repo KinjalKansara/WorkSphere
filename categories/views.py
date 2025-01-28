@@ -3,17 +3,12 @@ from client.models import *
 # Create your views here.
 
 def project_view(request, project_id):
-    project = get_object_or_404(ClientPostProject, id=project_id)
-    skills = project.skills_required.split(',')
-    # Get the client from the project
-    client = project.client
-    location = client.location
-
+    details = get_object_or_404(ClientPostProject, id=project_id)
+    skills = details.skills_required.split(',')  # Assuming skills are stored as a comma-separated string
+    
     context = {
-        'project': project,
-        'client': client, 
-        'skill' : skills, 
-        'location' : location, 
+        'details' : details,
+        'skills' : skills,
     }
     return render(request, 'project_view.html', context)
 

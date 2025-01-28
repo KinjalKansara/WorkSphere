@@ -17,6 +17,10 @@ class FreelancerRegisterLogin(models.Model):
     location = models.CharField(max_length=100)
     about_me = models.TextField(null=True, max_length=1000)
 
+    bank_name = models.CharField(max_length=50, null=True, blank=True)  # Bank name
+    ifsc_code = models.CharField(max_length=20, null=True, blank=True)  # IFSC code
+    account_number = models.CharField(max_length=20, null=True, blank=True)  # Account number
+
     def __str__(self):
         return f'{self.first_name} {self.last_name} ({self.username})'
     

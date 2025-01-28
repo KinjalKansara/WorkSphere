@@ -12,7 +12,6 @@
   <style>
 /* General Styling */
 body {
-  font-family: 'Poppins', sans-serif;
   margin: 0;
   background-color: #f0f2f5;
   color: #333;
@@ -20,14 +19,13 @@ body {
 
 /* Projects Container */
 .projects-container {
-  width: 85%;
-  max-width: 1000px;
-  background: #fff;
-  margin: 40px auto;
-  border-radius: 15px;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  padding: 30px;
+    max-width: 1000px;
+      background: #fff;
+      margin: 40px auto;
+      border-radius: 15px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      padding: 30px;
 }
 
 /* Header Section */
@@ -41,11 +39,15 @@ body {
 }
 
 .projects-header h2 {
-  font-size: 28px;
-  color: #333;
-  font-weight: 600;
+  font-size: 40px;
+  font-family: Candara;
+  color: #007bff;
+  font-weight: 700;
   margin: 0;
+  text-align: center; /* This centers the text */
+  width: 100%; /* Ensures the text takes up the full width of the container */
 }
+
 
 .projects-header .add-project-button {
   padding: 10px 20px;
@@ -55,12 +57,8 @@ body {
   border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
+  font-family: verdana;
   transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.projects-header .add-project-button:hover {
-  background-color: #104a8e;
-  transform: scale(1.05);
 }
 
 /* Project List */
@@ -70,20 +68,20 @@ body {
   margin: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 40px;
 }
 
 .project-card {
   background: #f9f9f9;
   padding: 20px;
   border-radius: 15px;
-  width: calc(33.333% - 20px);
+  width: calc(33.333% - 70px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .project-card:hover {
-  transform: scale(1.02);
+  
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
@@ -152,18 +150,19 @@ body {
 }
 
 .view-details {
-  display: block;
-  margin: 10px auto 0;
-  padding: 12px 24px;
-  background-color: #1565c0;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 12px;
-  text-decoration: none;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  text-align: center;
+ display: block;
+      margin: 10px auto 0;
+      padding: 12px 24px;
+      background-color: #1565c0;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-family: verdana;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      text-align: center;
 }
 
 .view-details:hover {
@@ -173,7 +172,7 @@ body {
 
 /* Responsive Design */
 
-/* Responsive Design for Mobile */
+/* Responsive Design */
 @media (max-width: 768px) {
   .projects-container {
     width: 90%;
@@ -260,16 +259,21 @@ body {
       <h2>List of Projects</h2>
     </div>
     
+    {% if projects %}
     <ul class="project-list">
       {% for projects in projects %}
       <li class="project-card">
         <img src="/media/{{ projects.photo }}" alt="Project Image">
         <div class="project-header">
-          <h3>{{projects.title}}</h3>
+          <h3>{{projects.title | truncatechars:20}}</h3>
+          {% if projects.status == "open" %}
           <span class="status-open">Open</span>
+          {% else %}
+          <span class="status-closed">Closed</span>
+          {% endif %}
         </div>
         <div class="project-body">
-            <p>{{projects.description|truncatechars:20 }}</p>
+            <p>{{projects.description|truncatechars:50 }}</p>
         </div>
         <div class="project-footer">
           <span><i class="fas fa-calendar-alt"></i> Deadline: {{projects.deadline}}</span>
@@ -277,8 +281,10 @@ body {
         <a class="view-details" href="{% url 'freelancer_job_details' projects.id %}">View Details</a>
       </li>
       {% endfor %}
-      <!-- Add more project items as needed -->
     </ul>
+    {% else %}
+    <p>No projects available at the moment. Please check back later.</p>
+    {% endif %}
   </div>
 </body>
 </html>

@@ -12,7 +12,6 @@
   <style>
   /* General Styling */
   body {
-      font-family: 'Poppins', sans-serif;
       min-height: 100vh;
       margin: 0;
       background-color: #f0f2f5;
@@ -20,78 +19,84 @@
   
   /* Profile Container */
   .profile-container {
-      max-width: 800px;
-      margin: 50px auto;
-      padding: 25px;
-      background: #fff;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      animation: fadeIn 1s ease-in-out;
-      transition: all 0.3s ease;
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 25px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    animation: fadeIn 1s ease-in-out;
+    transition: all 0.3s ease;
   }
   
   h1 {
-      text-align: center;
-      color: #007bff;
-      margin-bottom: 20px;
-      font-weight: 700;
-      font-size: 2.5em;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
+    text-align: center;
+    color: #007bff;
+    margin-bottom: 20px;
+    font-weight: 700;
+    font-size: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-family: Candara;
   }
   
   .profile-header {
-      display: flex;
-      align-items: center;
-      border-bottom: 2px solid #ececec;
-      padding-bottom: 20px;
-      margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #ececec;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
   }
   
   .profile-header img {
-      border-radius: 50%;
-      width: 120px;
-      height: 120px;
-      margin-right: 25px;
-      border: 4px solid #1565c0;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    margin-right: 25px;
+    border: 4px solid #1565c0;
   }
   
   .profile-header h2 {
-      font-size: 28px;
-      color: #333;
-      font-weight: 600;
-      margin: 0;
+    font-size: 25px;
+    color: #333;
+    font-weight: 600;
+    margin: 0;
+    font-family: verdana;;
   }
   
   /* Profile Details */
   .profile-details {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
   
   .profile-details .detail {
-      position: relative;
-      width: 100%;
+    position: relative;
+    width: 100%;
   }
   
   .profile-details .detail label {
-      font-weight: bold;
-      color: #555;
-      margin-bottom: 5px;
+    font-weight: 550;
+    color: #1e88e5;
+    margin-bottom: 5px;
+    font-family: verdana;
+    font-size: 14px;
   }
   
   .profile-details .detail input,
   .profile-details .detail textarea {
-      width: 100%;
-      padding: 15px 50px 15px 40px; /* Adjusted for icon */
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-      box-sizing: border-box;
-      transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-      background-color: #f8f8f8;
+    width: 100%;
+    padding: 15px;
+    padding-left: 45px; /* Adjust padding for proper icon spacing */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    background-color: #f8f8f8;
+    font-family: Candara;
   }
   
   .profile-details .detail textarea {
@@ -101,8 +106,8 @@
   
   .profile-details .detail i {
     position: absolute;
-    top: 65%;
-    left: 10px;
+    top: 60%;
+    left: 15px; /* Adjust icon position for alignment */
     transform: translateY(-50%);
     color: #007bff;
     font-size: 18px;
@@ -110,47 +115,110 @@
   
   .profile-details .detail input:focus,
   .profile-details .detail textarea:focus {
-      border-color: #007bff;
-      box-shadow: 0 0 10px rgba(0, 123, 255, 0.4);
-      outline: none;
-      background-color: #fff;
+    border: 2px solid #007bff;
+    outline: none;
+    background-color: #fff;
   }
+
+  /* Bank Details Section Styling */
+.detail {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px; /* Adds spacing between fields */
+}
+
+.detail label {
+  font-weight: 550;
+  color: #1e88e5;
+  margin-bottom: 5px;
+  font-family: verdana;
+  font-size: 14px;
+}
+
+.detail input {
+  width: 100%;
+  padding: 15px;
+  padding-left: 45px; /* Adjust padding for proper icon spacing */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  background-color: #f8f8f8;
+  font-family: Candara;
+}
+
+.detail i {
+  position: absolute;
+  top: 60%;
+  left: 15px; /* Adjust icon position for alignment */
+  transform: translateY(-50%);
+  color: #007bff;
+  font-size: 18px;
+}
+
+.detail input:focus {
+  border: 2px solid #007bff;
+  outline: none;
+  background-color: #fff;
+}
+
+
+/* Error Message */
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+      background-color: #ffe6e6; /* Light pink background for better visibility */
+      border: 1px solid red;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Error Container */
+    .error-container {
+      color: red;
+      font-size: 20px;
+      margin: 2px 0; /* Add space above and below the error message */
+      padding: 5px;
+      text-align: center;
+      border-radius: 4px;
+    }
   
   /* Buttons */
   .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 20px; /* Adjusted for spacing */
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
   }
-  
-  .save-button {
-      padding: 12px 20px; /* Adjusted padding */
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+
+  button {
+    padding: 15px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-family: verdana;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  
-  .save-button i {
-      margin-right: 8px; /* Adjusted margin */
-      font-size: 18px;
+
+  button i {
+    margin-right: 10px;
+    font-size: 18px;
   }
-  
-  .save-button:hover {
-      background-color: #0056b3;
-      transform: translateY(-2px);
+
+  button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
   }
-  
-  .save-button:active {
-      transform: translateY(0);
+
+  button:active {
+    transform: translateY(0);
   }
   
   @keyframes fadeIn {
@@ -200,7 +268,9 @@
       <div class="detail">
         <label>About Me:</label>
         <i class="fas fa-info-circle"></i>
-        <textarea name="about" placeholder="write about me...">{{freelancer.about_me}}</textarea>
+        <textarea name="about" id="bio" oninput="countWords()">{{freelancer.about_me}}</textarea>
+        <p id="wordCount">Word Count: 0/100</p>
+        <p id="errorMessage" style="color: red; display: none;">You cannot insert more than 100 words.</p>
       </div>
       <div class="detail">
         <label>Username:</label>
@@ -238,12 +308,60 @@
         <i class="fas fa-map-marker-alt"></i>
       </div>
     </div>
+    <div class="detail">
+      <label>Bank Name:</label>
+      <input type="text" name="bank_name" value="{{freelancer.bank_name}}">
+      <i class="fas fa-university"></i>
+    </div>
+    <div class="detail">
+      <label>IFSC Code:</label>
+      <input type="text" name="ifsc_code" value="{{freelancer.ifsc_code}}">
+      <i class="fas fa-code"></i>
+    </div>
+    <div class="detail">
+      <label>Account Number:</label>
+      <input type="text" name="account_number" value="{{freelancer.account_number}}">
+      <i class="fas fa-credit-card"></i>
+    </div>
+    <div class="error-container">
+      {% if error_message %}
+        <div>{{ error_message }}</div>
+      {% endif %}
+    </div>
     <div class="buttons">
       <button type="submit" class="save-button"><i class="fas fa-save"></i> Save Profile</button>
     </div>
+    
     </form>
   </div>
 </body>
 </html>
 
+<script>
+  function countWords() {
+    const bio = document.getElementById("bio").value;
+    const words = bio.trim().split(/\s+/);  // Split input text into words
+
+    const wordCount = words.length;  // Count the number of words
+
+    // Update the word count display
+    document.getElementById("wordCount").textContent = `Word Count: ${wordCount}/100`;
+
+    // If the word count exceeds 100, prevent further input
+    if (wordCount > 100) {
+      // Show error message
+      document.getElementById("errorMessage").style.display = "block";
+
+      // Trim the content to 100 words
+      document.getElementById("bio").value = words.slice(0, 100).join(" ");
+    } else {
+      // Hide error message if under the word limit
+      document.getElementById("errorMessage").style.display = "none";
+    }
+  }
+
+  // Initialize the word count on page load
+  document.addEventListener("DOMContentLoaded", countWords);
+</script>
 {% endblock %}
+

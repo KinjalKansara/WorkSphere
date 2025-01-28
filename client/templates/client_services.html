@@ -1,0 +1,182 @@
+{% extends 'header_2.html' %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Services</title>
+  <style>
+    /* Page Styling */
+    body {
+      margin: 0;
+      font-family: Verdana, sans-serif;
+      background-color: #f0f2f5;
+      color: #333;
+    }
+
+    /* Container for Static Pages */
+    .static-pages-container {
+      max-width: 1000px;
+      background: #fff;
+      margin: 40px auto;
+      border-radius: 15px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+    }
+
+    /* Title Section */
+    .static-pages-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .static-pages-header h1 {
+        text-align: center;
+        color: #007bff;
+        margin-bottom: 20px;
+        font-weight: 700;
+        font-size: 40px;
+        font-family: Candara;
+        letter-spacing: 1.5px;
+    }
+
+    .static-pages-header p {
+      font-size: 16px;
+      color: #555;
+      font-family: Verdana;
+    }
+
+    /* Static Pages List */
+    .static-pages-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    .static-page-card {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 15px;
+      width: calc(33.333% - 70px); /* Ensures 3 cards per row */
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .static-page-card:hover {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .static-page-card h3 {
+      font-size: 18px;
+      font-family: Verdana;
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    .static-page-card p {
+      font-size: 16px;
+      color: #777;
+      font-family: Candara
+    }
+
+    .static-page-card a {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+
+    .static-page-card a:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .static-page-card {
+        width: calc(50% - 20px); /* 2 cards per row on medium screens */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .static-page-card {
+        width: 100%; /* 1 card per row on small screens */
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="static-pages-container">
+    <div class="static-pages-header">
+      <h1>Explore Our Static Pages</h1>
+      <p>If you need more information, feel free to visit any of the following pages:</p>
+    </div>
+
+    <div class="static-pages-list">
+      <div class="static-page-card">
+        <h3>About Us</h3>
+        <p>Learn more about our company, our vision, and our team.</p>
+        <a href="{% url 'about' %}">View Page</a>
+      </div>
+
+      <div class="static-page-card">
+        <h3>Contact Us</h3>
+        <p>Get in touch with us for any inquiries or support.</p>
+        <a href="{% url 'contact' %}">View Page</a>
+      </div>
+
+      <div class="static-page-card">
+        <h3>FAQ</h3>
+        <p>Find answers to frequently asked questions.</p>
+        <a href="{% url 'faq' %}">View Page</a>
+      </div>
+
+      <div class="static-page-card">
+        <h3>Privacy Policy</h3>
+        <p>Read about how we handle your privacy and data.</p>
+        <a href="{% url 'policy' %}">View Page</a>
+      </div>
+
+      <div class="static-page-card">
+        <h3>Terms & Conditions</h3>
+        <p>Understand the terms of use of our services.</p>
+        <a href="{% url 'terms' %}">View Page</a>
+      </div>
+
+      <!-- Add your additional pages here -->
+      <div class="static-page-card">
+        <h3>Our Services</h3>
+        <p>Discover the range of services we offer to clients and freelancers.</p>
+        <a href="{% url 'service' %}">View Page</a>
+      </div>
+
+      <div class="static-page-card">
+        <h3>How It Works</h3>
+        <p>Learn how our platform helps freelancers and clients connect.</p>
+        <a href="{% url 'work' %}">View Page</a>
+      </div>
+
+      <div class="static-page-card">
+        <h3>Categories</h3>
+        <p>Explore the various categories of services available on our platform.</p>
+        <a href="{% url 'categories' %}">View Page</a>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
+
+{% endblock %}

@@ -562,7 +562,6 @@ def client_submitted_project(request):
 
     # Get the client's received proposals (proposals from freelancers)
     received_proposals = FreelancerProposal.objects.filter(client=client, status = 'Completed')
-    print(received_proposals)
 
     context = {
         'completed_projects': received_proposals

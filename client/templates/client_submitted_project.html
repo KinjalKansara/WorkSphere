@@ -4,7 +4,7 @@
 <style>
     /* Styling Code as Shared Above */
     .container {
-        max-width: 900px;
+        max-width: 1000px;
         margin: 30px auto;
         padding: 20px;
         background-color: #fff;
@@ -12,10 +12,13 @@
         border-radius: 8px;
     }
     h2 {
-        text-align: center;
-        color: #333;
-        font-size: 28px;
-        margin-bottom: 20px;
+        font-size: 40px;
+        font-family: Candara;
+        color: #007bff;
+        font-weight: 700;
+        margin: 0;
+        text-align: center; /* This centers the text */
+        width: 100%; /* Ensures the text takes up the full width of the container */
     }
     table {
         width: 100%;
@@ -31,13 +34,19 @@
     table th {
         background-color: #1565c0;
         color: white;
+        font-family: verdana;
+        font-size:18px;
     }
     table tbody tr:nth-child(even) {
         background-color: #f9f9f9;
+        font-family: Candara;
+        font-size:14px;
     }
     table td {
         border-bottom: 1px solid #e0e0e0;
-    }
+        font-family: Candara;
+          font-size:14px;
+      }
     .badge {
         padding: 5px 10px;
         border-radius: 5px;
@@ -47,14 +56,20 @@
     .badge-warning {
         background-color: #ffc107;
         color: #fff;
+        font-family: Candara;
+        font-size:14px;
     }
     .badge-success {
         background-color: #28a745;
         color: #fff;
+        font-family: Candara;
+        font-size:14px;
     }
     .badge-danger {
         background-color: #dc3545;
         color: #fff;
+        font-family: Candara;
+        font-size:14px;
     }
     .btn {
         text-decoration: none;
@@ -95,7 +110,7 @@
 </style>
 
 <div class="container">
-    <h2>Proposals Submitted to Your Projects</h2>
+    <h2>Completed Project Submissions</h2>
     <table>
         <thead>
             <tr>
@@ -103,22 +118,21 @@
                 <th>Freelancer Name</th>
                 <th>Status</th>
                 <th>Submission Date</th>
-                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             {% for proposal in completed_projects %}
             <tr>
                 <td>{{ proposal.project.title }}</td>
-                <td>{{ proposal.freelancer.username }}</td>
+                <td>{{ proposal.project.freelancer.first_name }} {{ proposal.project.freelancer.last_name }}</td>
                 <td>
-                    {% if proposal.status == 'Completed' %}
-                    <span class="badge badge-success">Approved</span>
-                    {% else %}
+                    {% if proposal.status == 'pending' %}
                     <span class="badge badge-warning">Pending</span>
+                    {% else %}
+                    <span class="badge badge-success">Approved</span>
                     {% endif %}
                 </td>
-                <td>{{ proposal.submission_date }}</td>
+                <td>{{ proposal.submission_at }}</td>
                 <td>
                     {% comment %} <a href="{% url 'proposal_detail' proposal.id %}" class="btn">View Proposal</a> {% endcomment %}
                 </td>

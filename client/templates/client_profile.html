@@ -5,7 +5,6 @@
 <style>
   /* General Styling */
   body {
-      font-family: 'Poppins', sans-serif;
       background-color: #f7f9fc;
       margin: 0;
       padding: 0;
@@ -28,12 +27,13 @@
       color: #1565c0;
       margin-bottom: 30px;
       font-weight: 700;
-      font-size: 2.5rem;
+      font-size: 40px;
+      font-family: Candara;
   }
   
   .profile-header {
       display: flex;
-      align-items: center;
+      align-items: flex-start; /* Align items at the top */
       border-bottom: 2px solid #e0e0e0;
       padding-bottom: 20px;
       margin-bottom: 30px;
@@ -46,22 +46,28 @@
       object-fit: cover;
       margin-right: 20px;
       border: 4px solid #1565c0;
+      flex-shrink: 0; /* Prevent image from shrinking */
   }
   
   .profile-info {
       color: #333;
+      flex-grow: 1; /* Allow bio to take up remaining space */
   }
   
   .profile-info h2 {
-      font-size: 1.8rem;
+      font-size: 25px;
       margin: 0;
+      font-family: verdana;
       font-weight: 600;
   }
   
   .profile-info .bio {
       margin: 5px 0 0;
-      font-size: 1rem;
+      font-size: 16px;
+      font-family: Candara;
       color: #555;
+      word-wrap: break-word; /* Make sure long words don't overflow */
+      white-space: normal; /* Allow text to wrap within the container */
   }
   
   /* Profile Details */
@@ -88,13 +94,16 @@
   }
   
   .detail span {
-      font-weight: bold;
+      font-weight: 550;
       color: #555;
+      font-family: verdana;
+      font-size: 16px;
   }
   
   .detail p {
       margin: 0;
-      font-size: 1rem;
+      font-size: 16px;
+      font-family: Candara;
       color: #333;
   }
   
@@ -111,8 +120,8 @@
   .edit-button {
       background-color: #1565c0;
       color: #ffffff;
-      font-size: 1rem;
-      font-weight: 600;
+      font-size: 16px;
+      font-family: verdana;
       padding: 12px 20px;
       border-radius: 8px;
       border: none;
@@ -142,7 +151,7 @@
           grid-template-columns: 1fr; /* Single column for small screens */
       }
   }
-  </style>
+</style>
 
 <div class="profile-container">
     <h1>Client Profile</h1>
@@ -191,8 +200,6 @@
         </button>
     </div>
 </div>
-
-
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
