@@ -11,7 +11,6 @@
   <style>
     /* General Styling */
     body {
-      font-family: 'Poppins', sans-serif;
       margin: 0;
       background-color: #f0f2f5;
       color: #333;
@@ -19,8 +18,7 @@
 
     /* Client Container */
     .client-container {
-      width: 85%;
-      max-width: 1200px;
+      max-width: 1000px;
       background: #fff;
       margin: 40px auto;
       border-radius: 15px;
@@ -40,8 +38,9 @@
     }
 
     .client-header h2 {
-      font-size: 28px;
-      color: #333;
+      font-size: 40px;
+      font-family: Candara;
+      color: #1565c0;
       font-weight: 600;
       margin: 0;
     }
@@ -80,11 +79,16 @@
       padding: 15px;
       text-align: left;
       border-bottom: 1px solid #ddd;
+      font-family: Verdana;
+      font-size: 14px;
     }
 
     .client-table th {
-      background-color: #f4f4f4;
-      font-weight: 600;
+      background-color: #1565c0;
+      font-weight: 500;
+      color: white;
+      font-family: Candara;
+      font-size: 18px;
     }
 
     .client-table tr:hover {
@@ -102,6 +106,7 @@
       border-radius: 8px;
       cursor: pointer;
       font-size: 14px;
+      font-family: verdana;
       transition: background-color 0.3s ease, transform 0.3s ease;
     }
 
@@ -214,27 +219,27 @@
     function viewClient(clientId, photo, name, username, email, phone, company, location, bio) {
       const modalDetails = `
       <div style="text-align: center; margin-bottom: 20px;">
-        <img src="${photo}" alt="Profile Photo" width="150" height="150" style="border-radius: 50%; border: 2px solid #ddd;">
-      </div>
+</div>
 
-      <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
-        <p style="margin: 0; flex-basis: 45%;"><strong>Name:</strong> ${name}</p>
-        <p style="margin: 0; flex-basis: 45%;"><strong>Username:</strong> ${username}</p>
-      </div>
+<div class="row" style="display: flex; flex-wrap: wrap; margin-bottom: 20px; justify-content: space-between; gap: 15px;">
+  <p style="margin: 0; flex-basis: 45%; font-size: 18px; font-family: 'Candara', sans-serif; color: #333;"><strong>Name:</strong> ${name}</p>
+  <p style="margin: 0; flex-basis: 45%; font-size: 18px; font-family: 'Candara', sans-serif; color: #333;"><strong>Username:</strong> ${username}</p>
+</div>
 
-      <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
-        <p style="margin: 0; flex-basis: 45%;"><strong>Email:</strong> ${email}</p>
-        <p style="margin: 0; flex-basis: 45%;"><strong>Phone:</strong> ${phone}</p>
-      </div>
+<div class="row" style="display: flex; flex-wrap: wrap; margin-bottom: 20px; justify-content: space-between; gap: 15px;">
+  <p style="margin: 0; flex-basis: 45%; font-size: 18px; font-family: 'Candara', sans-serif; color: #333;"><strong>Email:</strong> ${email}</p>
+  <p style="margin: 0; flex-basis: 45%; font-size: 18px; font-family: 'Candara', sans-serif; color: #333;"><strong>Phone:</strong> ${phone}</p>
+</div>
 
-      <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
-        <p style="margin: 0; flex-basis: 45%;"><strong>Company:</strong> ${company}</p>
-        <p style="margin: 0; flex-basis: 45%;"><strong>Location:</strong> ${location}</p>
-      </div>
+<div class="row" style="display: flex; flex-wrap: wrap; margin-bottom: 20px; justify-content: space-between; gap: 15px;">
+  <p style="margin: 0; flex-basis: 45%; font-size: 18px; font-family: 'Candara', sans-serif; color: #333;"><strong>Company:</strong> ${company}</p>
+  <p style="margin: 0; flex-basis: 45%; font-size: 18px; font-family: 'Candara', sans-serif; color: #333;"><strong>Location:</strong> ${location}</p>
+</div>
 
-      <div class="full-width" style="margin-bottom: 10px;">
-        <p><strong>Bio:</strong> ${bio}</p>
-      </div>
+<div class="full-width" style="margin-bottom: 20px;">
+  <p style="font-size: 18px; font-family: 'Candara', sans-serif; color: #333;"><strong>Bio:</strong> ${bio}</p>
+</div>
+
 
       `;
       document.getElementById('clientDetails').innerHTML = modalDetails;

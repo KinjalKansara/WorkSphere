@@ -28,14 +28,12 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
             flex: 1 1 calc(33.333% - 40px);
             box-sizing: border-box;
             text-align: center;
         }
 
         .box:hover {
-            transform: translateY(-10px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
 
@@ -65,11 +63,13 @@
             font-size: 20px;
             margin-bottom: 10px;
             color: #1565c0; /* Dark blue */
+            font-family: Candara
         }
 
         .box p {
             font-size: 14px;
             margin-bottom: 20px;
+            font-family: Candara;
         }
 
         .box a {
@@ -79,11 +79,13 @@
             background-color: #1565c0; /* Dark blue */
             color: white;
             text-decoration: none;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-family: Candara;
         }
 
         .box a:hover {
             background-color: #82b1ff; /* Light blue */
+            transform: translateY(-2px);
         }
 
         @media (max-width: 768px) {

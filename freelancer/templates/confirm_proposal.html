@@ -1,242 +1,239 @@
 {% extends 'freelancer_header_2.html' %}
 
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Confirm Proposal</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <style>
-    body {
-      margin: 0;
-      background-color: #f0f2f5;
-      color: #333;
-    }
 
+<style>
+  body {
+    margin: 0;
+    background-color: #f0f2f5;
+    color: #333;
+  }
+
+  .proposals-container {
+    max-width: 1000px;
+    background: #fff;
+    margin: 40px auto;
+    border-radius: 15px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 30px;
+  }
+
+  .proposals-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #ececec;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+  }
+
+  .proposals-header h2 {
+    font-size: 40px;
+    font-family: Candara;
+    color: #007bff;
+    font-weight: 700;
+    margin: 0;
+    text-align: center;
+    width: 100%;
+  }
+
+  .proposal-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .proposal-item {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .proposal-item:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  .proposal-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 20px;
+  }
+
+  .proposal-header h3 {
+    font-size: 20px;
+    font-family: Candara;
+    color: #333;
+    margin: 0;
+  }
+
+  .proposal-header p {
+    font-size: 20px;
+    color: #666;
+    font-family: Candara;
+  }
+
+  .details-section {
+    margin-bottom: 40px;
+  }
+
+  .details-section .info-group {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+  }
+
+  .details-section label {
+    font-weight: bold;
+    color: #333;
+    font-family: Candara;
+    font-size: 16px;
+    width: 150px;
+    flex-shrink: 0;
+    text-align: left;
+  }
+
+  .details-section span {
+    color: #555;
+    flex: 1;
+    word-break: break-word;
+    font-family: Candara;
+    font-size: 16px;
+  }
+
+  .submit-button {
+    padding: 12px 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-family: Verdana;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 250px;
+    margin: 0 auto;
+  }
+
+  .submit-button i {
+    margin-right: 10px;
+    font-size: 18px;
+  }
+
+  .submit-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+  }
+
+  /* Media Queries for responsiveness */
+  @media (max-width: 768px) {
     .proposals-container {
-      max-width: 1000px;
-      background: #fff;
-      margin: 40px auto;
-      border-radius: 15px;
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      padding: 30px;
-    }
-
-    .proposals-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 2px solid #ececec;
-      padding-bottom: 20px;
-      margin-bottom: 20px;
+      padding: 20px;
+      margin: 20px;
     }
 
     .proposals-header h2 {
-      font-size: 40px;
-      font-family: Candara;
-      color: #007bff;
-      font-weight: 700;
-      margin: 0;
-      text-align: center;
-      width: 100%;
-    }
-
-    .proposal-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
+      font-size: 32px;
     }
 
     .proposal-item {
-      background: #f9f9f9;
-      padding: 20px;
-      border-radius: 15px;
-      margin-bottom: 20px;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .proposal-item:hover {
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-    }
-
-    .proposal-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      gap: 20px;
-    }
-
-    .proposal-header h3 {
-      font-size: 20px;
-      font-family: Candara;
-      color: #333;
-      margin: 0;
-    }
-
-    .proposal-client {
-      font-size: 16px;
-      color: #666;
-      margin-top: 5px;
-      font-family: Candara;
-    }
-
-    .details-section {
-      margin-bottom: 40px;
+      padding: 15px;
     }
 
     .details-section .info-group {
-      display: flex;
-      align-items: center;
-      margin: 10px 0;
+      flex-direction: column;
+      align-items: flex-start;
     }
 
     .details-section label {
-      font-weight: bold;
-      color: #333;
-      font-family: Candara;
-      font-size: 16px;
-      width: 150px;
-      flex-shrink: 0;
-      text-align: left;
+      width: 100%; /* Full width on small screens */
+      margin-bottom: 5px;
     }
 
     .details-section span {
-      color: #555;
-      flex: 1;
-      word-break: break-word;
-      font-family: Candara;
-      font-size: 16px;
+      width: 100%; /* Full width on small screens */
     }
 
     .submit-button {
-      padding: 12px 12px;
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      font-size: 18px;
-      font-family: Verdana;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 250px;
-      margin: 0 auto;
+      width: 100%; /* Make button full-width on smaller screens */
+    }
+  }
+
+  @media (max-width: 480px) {
+    .proposals-header h2 {
+      font-size: 28px;
     }
 
-    .submit-button i {
-      margin-right: 10px;
-      font-size: 18px;
+    .submit-button {
+      font-size: 16px;
+      padding: 12px;
     }
+  }
 
-    .submit-button:hover {
-      background-color: #0056b3;
-      transform: translateY(-2px);
-    }
+</style>
 
-    /* Media Queries for responsiveness */
-    @media (max-width: 768px) {
-      .proposals-container {
-        padding: 20px;
-        margin: 20px;
-      }
 
-      .proposals-header h2 {
-        font-size: 32px;
-      }
-
-      .proposal-item {
-        padding: 15px;
-      }
-
-      .details-section .info-group {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .details-section label {
-        width: 100%; /* Full width on small screens */
-        margin-bottom: 5px;
-      }
-
-      .details-section span {
-        width: 100%; /* Full width on small screens */
-      }
-
-      .submit-button {
-        width: 100%; /* Make button full-width on smaller screens */
-      }
-    }
-
-    @media (max-width: 480px) {
-      .proposals-header h2 {
-        font-size: 28px;
-      }
-
-      .submit-button {
-        font-size: 16px;
-        padding: 12px;
-      }
-    }
-
-  </style>
-</head>
-<body>
   <div class="proposals-container">
     <div class="proposals-header">
       <h2>Confirm Project</h2>
     </div>
+    
     <ul class="proposal-list">
-      {% for payment in proposals %}
-      {% if payment.proposal.status == 'Selected' %}
-      <li class="proposal-item">
-        <div class="proposal-header">
-          <h3>Client:</h3>
-          <p>{{ payment.proposal.client.first_name|default:"No client assigned" }} {{ payment.proposal.client.last_name|default:"" }}</p>
-        </div>
+      {% if proposals %}
+        {% for payment in proposals %}
+          {% if payment.proposal.status == 'Selected' %}
+            <li class="proposal-item">
+              <div class="proposal-header">
+                <h3>Client:</h3>
+                <p>{{ payment.proposal.client.first_name|default:"No client assigned" }} {{ payment.proposal.client.last_name|default:"" }}</p>
+              </div>
 
-        <div class="details-section">
-          <div class="info-group">
-            <label for="project-title"><strong>Project:</strong></label>
-            <span>{{ payment.proposal.project.title }}</span>
-          </div>
+              <div class="details-section">
+                <div class="info-group">
+                  <label for="project-title"><strong>Project:</strong></label>
+                  <span>{{ payment.proposal.project.title }}</span>
+                </div>
 
-          <div class="info-group">
-            <label for="project-description"><strong>Project Description:</strong></label>
-            <span>{{ payment.proposal.project.description | truncatechars:50 }}</span>
-          </div>
+                <div class="info-group">
+                  <label for="project-description"><strong>Project Description:</strong></label>
+                  <span>{{ payment.proposal.project.description | truncatechars:50 }}</span>
+                </div>
 
-          <div class="info-group">
-            <label for="project-bid"><strong>Bid:</strong></label>
-            <span>{{ payment.proposal.bid }}</span>
-          </div>
+                <div class="info-group">
+                  <label for="project-bid"><strong>Bid:</strong></label>
+                  <span>{{ payment.proposal.bid }}</span>
+                </div>
 
-          <div class="info-group">
-            <label for="project-duration"><strong>Duration:</strong></label>
-            <span>{{ payment.proposal.duration }} days</span>
-          </div>
-        </div>
+                <div class="info-group">
+                  <label for="project-duration"><strong>Duration:</strong></label>
+                  <span>{{ payment.proposal.duration }} days</span>
+                </div>
+              </div>
 
-        <!-- Form to confirm the proposal -->
-        <form method="post" action="">
-          {% csrf_token %}
-          <input type="hidden" name="proposal_id" value="{{ payment.proposal.id }}">
-          <button type="submit" class="submit-button">
-            <i class="fas fa-check-circle"></i> Confirm Project
-          </button>
-        </form>
-      </li>
+              <!-- Form to confirm the proposal -->
+              <form method="post" action="">
+                {% csrf_token %}
+                <input type="hidden" name="proposal_id" value="{{ payment.proposal.id }}">
+                <button type="submit" class="submit-button">
+                  <i class="fas fa-check-circle"></i> Confirm Project
+                </button>
+              </form>
+            </li>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <p>No proposals found.</p>
       {% endif %}
-      {% empty %}
-      <p>No proposals found.</p>
-      {% endfor %}
     </ul>
   </div>
-</body>
-</html>
+
 {% endblock %}
+
+

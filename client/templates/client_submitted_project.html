@@ -124,7 +124,7 @@
             {% for proposal in completed_projects %}
             <tr>
                 <td>{{ proposal.project.title }}</td>
-                <td>{{ proposal.project.freelancer.first_name }} {{ proposal.project.freelancer.last_name }}</td>
+                <td>{{ proposal.freelancer.first_name }} {{ proposal.freelancer.last_name }}</td>
                 <td>
                     {% if proposal.status == 'pending' %}
                     <span class="badge badge-warning">Pending</span>
@@ -132,8 +132,9 @@
                     <span class="badge badge-success">Approved</span>
                     {% endif %}
                 </td>
-                <td>{{ proposal.submission_at }}</td>
+                <td>{{ proposal.submitted_at }}</td>
                 <td>
+                    <!-- Option to view proposal details or add more actions if needed -->
                     {% comment %} <a href="{% url 'proposal_detail' proposal.id %}" class="btn">View Proposal</a> {% endcomment %}
                 </td>
             </tr>

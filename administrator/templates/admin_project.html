@@ -12,7 +12,6 @@
   <style>
     /* General Styling */
     body {
-      font-family: 'Poppins', sans-serif;
       margin: 0;
       background-color: #f0f2f5;
       color: #333;
@@ -20,7 +19,6 @@
 
     /* Project Container */
     .project-container {
-      width: 85%;
       max-width: 1000px;
       background: #fff;
       margin: 40px auto;
@@ -41,8 +39,9 @@
     }
 
     .project-header h2 {
-      font-size: 28px;
-      color: #333;
+      font-size: 40px;
+      font-family: Candara;
+      color: #1565c0;
       font-weight: 600;
       margin: 0;
     }
@@ -81,11 +80,16 @@
       padding: 15px;
       text-align: left;
       border-bottom: 1px solid #ddd;
+      font-family: Verdana;
+      font-size: 14px;
     }
 
     .project-table th {
-      background-color: #f4f4f4;
-      font-weight: 600;
+      background-color: #1565c0;
+      font-weight: 500;
+      color: white;
+      font-family: Candara;
+      font-size: 18px;
     }
 
     .project-table tr:hover {
@@ -103,6 +107,7 @@
       border-radius: 8px;
       cursor: pointer;
       font-size: 14px;
+      font-family: verdana;
       transition: background-color 0.3s ease, transform 0.3s ease;
     }
 
@@ -296,11 +301,9 @@
     <table class="project-table">
       <thead>
         <tr>
-          <th>Project ID</th>
           <th>Client Name</th>
           <th>Project Title</th>
           <th>Budget</th>
-          <th>Deadline</th>
           <th>Status</th>
           <th>Action</th>
         </tr>
@@ -308,21 +311,18 @@
       <tbody>
         <tr>
           {% for project in project%}
-          <td>{{project.id}}</td>
           <td>{{project.client.first_name}} {{project.client.last_name}}</td>
           <td>{{project.title}}</td>
           <td>{{project.budget}}</td>
-          <td>{{project.deadline}}</td>
           <td>{{project.status}}</td>
           <td>
             <div class="action-buttons">
-              <button class="view-button" onclick="viewProject({{ project.id }}, '{{ project.profile_photo.url }}', '{{ project.title }} {{ project.description }}', '{{ project.category }}', '{{ project.budget }}', '{{ project.budget_type }}', '{{ project.deadline }}', '{{ project.skills_required }}', '{{ project.attachments }}', '{{ project.photo }}', '{{ project.experience_level }}', '{{ project.created_at }}')">View</button>
+              <button class="view-button" onclick="viewProject({{ project.id }}, '{{ project.title }} {{ project.description }}', '{{ project.category }}', '{{ project.budget }}', '{{ project.budget_type }}', '{{ project.deadline }}', '{{ project.skills_required }}', '{{ project.attachments }}', '{{ project.photo }}', '{{ project.experience_level }}', '{{ project.created_at }}')">View</button>
               <form method="post" action="{% url 'admin_delete_project' project.id %}">
                 {% csrf_token %}
                 <button type="submit" class="delete-button">Delete</button>
               </form>
             </div>
-           
           </td>
         </tr>
         {% endfor %}
@@ -341,47 +341,58 @@
   </div>
 
   <script>
-    function viewProject(projectId, photo, title, description, category, budget, budgetType, deadline, skillsRequired, attachments, projectPhoto, experienceLevel, createdAt) {
+    function viewProject(projectId, title, description, category, budget, deadline, skillsRequired, attachments, projectPhoto, experienceLevel, createdAt) {
+      // Format project details for the modal
       const modalDetails = `
-        <div style="text-align: center; margin-bottom: 20px;">
-          <img src="${projectPhoto}" alt="Project Photo" width="150" height="150" style="border-radius: 50%; border: 2px solid #ddd;">
+        <div style="margin-bottom: 15px; font-size: 14px; font-family: Verdana; color: #333;">
+          <p><strong>Title:</strong> ${title}</p>
         </div>
   
-        <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
-          <p style="margin: 0; flex-basis: 45%;"><strong>Title:</strong> ${title}</p>
-          <p style="margin: 0; flex-basis: 45%;"><strong>Category:</strong> ${category}</p>
+        <div style="margin-bottom: 15px; font-size: 14px; font-family: Verdana; color: #333;">
+          <p><strong>Category:</strong> ${category}</p>
         </div>
   
-        <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
-          <p style="margin: 0; flex-basis: 45%;"><strong>Budget:</strong> ${budget} ${budgetType}</p>
-          <p style="margin: 0; flex-basis: 45%;"><strong>Deadline:</strong> ${deadline}</p>
+        <div style="margin-bottom: 15px; font-size: 14px; font-family: Verdana; color: #333;">
+          <p><strong>Budget:</strong> ${budget}</p>
         </div>
   
-        <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
-          <p style="margin: 0; flex-basis: 45%;"><strong>Skills Required:</strong> ${skillsRequired}</p>
+        <div style="margin-bottom: 15px; font-size: 14px; font-family: Verdana; color: #333;">
+          <p><strong>Deadline:</strong> ${deadline}</p>
         </div>
   
-        <div class="full-width" style="margin-bottom: 10px;">
+        <div style="margin-bottom: 15px; font-size: 14px; font-family: Verdana; color: #333;">
+          <p><strong>Skills Required:</strong> ${skillsRequired}</p>
+        </div>
+  
+        <div style="margin-bottom: 15px; font-size: 14px; font-family: Verdana; color: #333;">
           <p><strong>Description:</strong> ${description}</p>
         </div>
   
-        <div class="full-width" style="margin-bottom: 10px;">
-          <p><strong>Attachments:</strong> ${attachments}</p>
+        <div style="margin-bottom: 15px; font-size: 14px; font-family: Verdana; color: #333;">
+          <p><strong>Experience Level:</strong> ${experienceLevel}</p>
         </div>
   
-        <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
-          <p style="margin: 0; flex-basis: 45%;"><strong>Experience Level:</strong> ${experienceLevel}</p>
-          <p style="margin: 0; flex-basis: 45%;"><strong>Posted On:</strong> ${createdAt}</p>
+        <div style="margin-bottom: 15px; font-size: 14px; font-family: Verdana; color: #333;">
+          <p><strong>Posted On:</strong> ${createdAt}</p>
         </div>
       `;
+      
+      // Insert project details into the modal content
       document.getElementById('projectDetails').innerHTML = modalDetails;
+      
+      // Show the modal by changing display to block
       document.getElementById('projectModal').style.display = 'block';
     }
   
     function closeModal() {
+      // Hide the modal by changing display to none
       document.getElementById('projectModal').style.display = 'none';
     }
+  
+    // Ensure the modal close button works on click
+    document.querySelector('.close').addEventListener('click', closeModal);
   </script>
+  
   
 </body>
 </html>

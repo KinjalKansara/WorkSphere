@@ -124,7 +124,7 @@ def freelancer_register_login(request):
                 register.save()
                 send_mail(
                     subject="Welcome to WorksPhere!",
-                    message=f"Dear {firstname},\n\nThank you for registering with WorksPhere as a client. Your account is now active, and you can log in to start posting projects and finding freelancers.\n\nBest regards,\nWorksPhere Team",
+                    message=f"Dear {firstname},\n\nThank you for registering with WorksPhere as a Freelancer. Your account is now active, and you can log in to start posting projects and finding freelancers.\n\nBest regards,\nWorksPhere Team",
                     from_email='worksphere05@gmail.com',
                     recipient_list=[email],
                     fail_silently=False,

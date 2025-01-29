@@ -332,6 +332,7 @@ def client_contact(request):
             return render(request, 'client_contact.html', {'error': 'Failed to save contact information.'})
     return render(request, 'client_contact.html') 
 
+
 def client_post_project(request):
     username = request.session.get('logged_user')
     client = ClientRegisterLogin.objects.get(username=username)
@@ -353,28 +354,20 @@ def client_post_project(request):
         # Validation
         if not image:
             error_message = 'Project photo is required'
-            
-        if not title:
+        elif not title:
             error_message = 'Title is required.'
-        
         elif not description:
             error_message = 'Description is required.'
-        
         elif not category:
             error_message = 'Category is required.'
-        
         elif not budget:
             error_message = 'Budget is required.'
-        
         elif not budget_type:
             error_message = 'Budget type is required.'
-        
         elif not skills:
             error_message = 'Skills are required.'
-        
         elif not experience_level:
             error_message = 'Experience level is required.'
-        
         elif not deadline:
             error_message = 'Deadline is required.'
 
@@ -410,12 +403,13 @@ def client_post_project(request):
             freelancers = FreelancerRegisterLogin.objects.all()
             freelancer_emails = [freelancer.email for freelancer in freelancers]
 
-            if freelancer_emails:
-                for freelancer in freelancers:
-                    subject_for_freelancers = f"New Project Posted: {title} - Check it out!"
-                    message_for_freelancers = f"Hello {freelancer.first_name} {freelancer.last_name},\n\nA new project titled '{title}' has been posted by {client.first_name} {client.last_name}. You may be interested in submitting a proposal.\n\nDetails:\nDescription: {description}\nCategory: {category}\nBudget: {budget}\nDeadline: {deadline}\n\nBest regards,\nWorksPhere Team"
-                    
-                    send_mail(subject_for_freelancers, message_for_freelancers, from_email, [freelancer.email])
+            # Email to freelancers
+            for freelancer in freelancers:
+                subject_for_freelancers = f"New Project Posted: {title} - Check it out!"
+                message_for_freelancers = f"Hello {freelancer.first_name} {freelancer.last_name},\n\nA new project titled '{title}' has been posted by {client.first_name} {client.last_name}. You may be interested in submitting a proposal.\n\nDetails:\nDescription: {description}\nCategory: {category}\nBudget: {budget}\nDeadline: {deadline}\n\nBest regards,\nWorksPhere Team"
+                
+                # Send email only to freelancers whose email exists
+                send_mail(subject_for_freelancers, message_for_freelancers, from_email, [freelancer.email])
 
             # Create notifications for the client, freelancer, and admin
             Notification.objects.create(
@@ -426,10 +420,10 @@ def client_post_project(request):
                 is_read=False
             )
 
-            # Get freelancers who match any of the emails in the list
-            freelancers = FreelancerRegisterLogin.objects.filter(email=freelancers.email)
+            # Get freelancers who match the skills (assuming skills match logic should be implemented here)
+            freelancers_with_matching_skills = FreelancerRegisterLogin.objects.filter(skills__contains=skills)
 
-            for freelancer in freelancers:
+            for freelancer in freelancers_with_matching_skills:
                 # Create a notification for each freelancer who matches the skills
                 Notification.objects.create(
                     title="New Project Posted",
@@ -438,7 +432,6 @@ def client_post_project(request):
                     username=freelancer.username,
                     is_read=False
                 )
-
 
             # Notification for admin
             Notification.objects.create(
@@ -454,6 +447,7 @@ def client_post_project(request):
             return render(request, 'client_post_project.html', {'error_message': f'Failed to save project information: {str(e)}'})
 
     return render(request, 'client_post_project.html')
+
 
 
 
@@ -562,9 +556,11 @@ def client_submitted_project(request):
 
     # Get the client's received proposals (proposals from freelancers)
     received_proposals = FreelancerProposal.objects.filter(client=client, status = 'Completed')
+    freelancer = FreelancerRegisterLogin.objects.all()
 
     context = {
-        'completed_projects': received_proposals
+        'completed_projects': received_proposals,
+        'freelancer' : freelancer
     }
     return render(request, 'client_submitted_project.html', context)
 

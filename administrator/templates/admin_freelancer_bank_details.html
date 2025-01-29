@@ -7,7 +7,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Information</title>
+  <title>Freelancer Bank Details</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
     /* General Styling */
@@ -17,7 +17,7 @@
       color: #333;
     }
 
-    .contact-container {
+    .bank-container {
       max-width: 1000px;
       background: #fff;
       margin: 40px auto;
@@ -27,7 +27,7 @@
       padding: 30px;
     }
 
-    .contact-header {
+    .bank-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -36,7 +36,7 @@
       margin-bottom: 20px;
     }
 
-    .contact-header h2 {
+    .bank-header h2 {
       font-size: 40px;
       font-family: Candara;
       color: #1565c0;
@@ -67,14 +67,14 @@
       transform: scale(1.05);
     }
 
-    /* Contact Table */
-    .contact-table {
+    /* Bank Table */
+    .bank-table {
       width: 100%;
       border-collapse: collapse;
       margin-top: 20px;
     }
 
-    .contact-table th, .contact-table td {
+    .bank-table th, .bank-table td {
       padding: 15px;
       text-align: left;
       border-bottom: 1px solid #ddd;
@@ -82,7 +82,7 @@
       font-size: 14px;
     }
 
-    .contact-table th {
+    .bank-table th {
       background-color: #1565c0;
       font-weight: 500;
       color: white;
@@ -90,7 +90,7 @@
       font-size: 18px;
     }
 
-    .contact-table tr:hover {
+    .bank-table tr:hover {
       background-color: #f1f1f1;
     }
 
@@ -99,7 +99,7 @@
       gap: 10px;
     }
 
-    .delete-button, .reply-button {
+    .payment-button {
       padding: 8px 12px;
       border: none;
       border-radius: 8px;
@@ -107,25 +107,12 @@
       font-size: 14px;
       font-family: verdana;
       transition: background-color 0.3s ease, transform 0.3s ease;
-    }
-
-    .delete-button {
-      background-color: #f44336;
+      background-color: #4caf50;
       color: white;
     }
 
-    .delete-button:hover {
-      background-color: #d32f2f;
-      transform: scale(1.05);
-    }
-
-    .reply-button {
-      background-color: #007bff;
-      color: white;
-    }
-
-    .reply-button:hover {
-      background-color: #0056b3;
+    .payment-button:hover {
+      background-color: #45a049;
       transform: scale(1.05);
     }
 
@@ -226,7 +213,7 @@
     }
 
     @media (max-width: 768px) {
-      .contact-table th, .contact-table td {
+      .bank-table th, .bank-table td {
         font-size: 12px;
       }
 
@@ -239,37 +226,31 @@
 </head>
 <body>
 
-<div class="contact-container">
-    <div class="contact-header">
-        <h2>Contact Information</h2>
+<div class="bank-container">
+    <div class="bank-header">
+        <h2>Freelancer Bank Details</h2>
         <a href="{% url 'admin_dashboard' %}" class="back-button"><i class="fas fa-arrow-left"></i> Back</a>
     </div>
-    <table class="contact-table">
+    <table class="bank-table">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Subject</th>
-                <th>Message</th>
+                <th>Freelancer Name</th>
+                <th>Bank Name</th>
+                <th>Account Number</th>
+                <th>IFSC Code</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            {% for contact in contact %}
+            {% for bank_detail in bank_details %}
             <tr>
-                <td>{{ contact.first }}</td>
-                <td>{{ contact.email }}</td>
-                <td>{{ contact.phone_number }}</td>
-                <td>{{ contact.subject }}</td>
-                <td>{{ contact.message }}</td>
+                <td>{{ bank_detail.first_name }} {{ bank_detail.last_name }}</td>
+                <td>{{ bank_detail.bank_name }}</td>
+                <td>{{ bank_detail.account_number }}</td>
+                <td>{{ bank_detail.ifsc_code }}</td>
                 <td>
                     <div class="action-buttons">
-                        <form method="post" action="{% url 'admin_delete_contact' contact.id %}">
-                            {% csrf_token %}
-                            <button type="submit" class="delete-button">Delete</button>
-                        </form>
-                        <button type="button" class="reply-button" data-email="{{ contact.email }}">Reply</button>
+                        <button type="button" class="payment-button">Payment</button>
                     </div>
                 </td>
             </tr>
@@ -278,24 +259,13 @@
     </table>
 </div>
 
-<div class="overlay"></div>
-<div class="popup">
-    <div class="popup-header">
-        <span>Reply</span>
-        <button class="popup-close">&times;</button>
-    </div>
-    <form method="post" action="{% url 'send_email' %}">
-        {% csrf_token %}
-        <input type="email" name="email" id="reply-email" placeholder="Email" readonly>
-        <textarea name="message" id="reply-message" placeholder="Your Reply" rows="5" required></textarea>
-        <button type="submit">Send</button>
-    </form>
-</div>
-
 <script>
-  document.querySelectorAll('.reply-button').forEach(button => {
+  // Handling popup logic if needed (optional)
+  document.querySelectorAll('.edit-button').forEach(button => {
       button.addEventListener('click', function () {
-          document.getElementById('reply-email').value = this.getAttribute('data-email');
+          const bankId = this.getAttribute('data-id');
+          // Fetch bank details (example) and populate the form (replace with actual AJAX or similar logic)
+          document.getElementById('bank-detail-id').value = bankId;
           document.querySelector('.popup').style.display = 'block';
           document.querySelector('.overlay').style.display = 'block';
       });

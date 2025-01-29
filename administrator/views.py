@@ -185,18 +185,25 @@ def admin_delete_client(request, id):
     return redirect('admin_client')
 
 def admin_freelancer(request):
+    # Check if the admin session exists; if not, redirect to login
     if not request.session.get('admin'): 
         return redirect('admin_login') 
     
+    # Fetch all freelancers
     freelancer = FreelancerRegisterLogin.objects.all()
+    
+    # Get admin's email from the session
     admin_email = request.session.get('admin') 
 
+    # Pass the freelancer data and admin email to the template context
     context = {
-        'freelancer' : freelancer,
-        'admin_email' : admin_email,
+        'freelancer': freelancer,
+        'admin_email': admin_email,
     }
 
+    # Render the template with the context data
     return render(request, 'admin_freelancer.html', context)
+
 
 def freelancer_delete_details(request, id):
     try:
@@ -236,31 +243,6 @@ def admin_payment(request):
     return render(request, 'admin_payment.html', context)
 
 
-def update_project_status(request, payment_id):
-    # Fetch payment object
-    payment = get_object_or_404(Payment, id=payment_id)
-
-    if request.method == 'POST':
-        # Fetch the selected project and payment status
-        project_status = request.POST.get('project_status')
-        payment_status = request.POST.get('payment_status')
-        
-        # Update project and payment status
-        # payment.proposal.status = project_status
-        # payment.status = payment_status
-        # payment.proposal.save()
-        # payment.save()
-        
-        return redirect('admin_payment')  # Redirect back to the payment listing page
-    
-    return HttpResponse("Invalid request", status=400)
-
-def delete_payment(request, payment_id):
-    # Fetch payment object and delete it
-    payment = get_object_or_404(Payment, id=payment_id)
-    payment.delete()
-    
-    return redirect('admin_payment')  # Redirect back to the payment listing page
 
 def admin_project(request):
     if not request.session.get('admin'):
@@ -316,7 +298,7 @@ def admin_notification(request):
         notifications = Notification.objects.filter(notification_type='freelancer').order_by('-created_at')
     else:
         # Invalid role, redirect to login or handle accordingly
-        return redirect('login')
+        return redirect('admin_login')
 
     context = {
         'notifications': notifications,
@@ -338,6 +320,16 @@ def admin_header_3(request):
 
 def generate_report(request):
     return render(request, 'generate_report.html')  # Render the report selection page
+
+def admin_freelancer_bank_details(request):
+        # Retrieve all freelancer bank details
+    bank_details = FreelancerRegisterLogin.objects.all()
+
+    context = {
+        'bank_details': bank_details,
+    }
+    return render(request, 'admin_freelancer_bank_details.html', context)
+
 
 def generate_pdf(request):
     if request.method == "POST":

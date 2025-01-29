@@ -1,7 +1,6 @@
 {% extends 'admin_header_2.html' %}
 
 {% block content %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,17 +9,13 @@
   <title>Freelancer Information</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
-    /* General Styling */
     body {
-      font-family: 'Poppins', sans-serif;
       margin: 0;
       background-color: #f0f2f5;
       color: #333;
     }
 
-    /* Freelancer Container */
     .freelancer-container {
-      width: 85%;
       max-width: 1000px;
       background: #fff;
       margin: 40px auto;
@@ -30,7 +25,6 @@
       padding: 30px;
     }
 
-    /* Header Section */
     .freelancer-header {
       display: flex;
       justify-content: space-between;
@@ -41,8 +35,9 @@
     }
 
     .freelancer-header h2 {
-      font-size: 28px;
-      color: #333;
+      font-size: 40px;
+      font-family: Candara;
+      color: #1565c0;
       font-weight: 600;
       margin: 0;
     }
@@ -70,7 +65,6 @@
       transform: scale(1.05);
     }
 
-    /* Freelancer Table */
     .freelancer-table {
       width: 100%;
       border-collapse: collapse;
@@ -81,11 +75,16 @@
       padding: 15px;
       text-align: left;
       border-bottom: 1px solid #ddd;
+      font-family: Verdana;
+      font-size: 14px;
     }
 
     .freelancer-table th {
-      background-color: #f4f4f4;
-      font-weight: 600;
+      background-color: #1565c0;
+      font-weight: 500;
+      color: white;
+      font-family: Candara;
+      font-size: 18px;
     }
 
     .freelancer-table tr:hover {
@@ -103,6 +102,7 @@
       border-radius: 8px;
       cursor: pointer;
       font-size: 14px;
+      font-family: verdana;
       transition: background-color 0.3s ease, transform 0.3s ease;
     }
 
@@ -203,20 +203,12 @@
       margin: 0 10px;
     }
 
-    .modal-description .row p strong {
-      color: #333;
-    }
-
     .modal-description .full-width {
       margin-bottom: 10px;
     }
 
     .modal-description .full-width p {
       margin: 0;
-    }
-
-    .modal-description .full-width p strong {
-      color: #333;
     }
 
     /* Responsive Design */
@@ -294,7 +286,6 @@
       <a href="{% url 'admin_dashboard' %}" class="back-button"><i class="fas fa-arrow-left"></i>Back</a>
     </div>
     <table class="freelancer-table">
-      
       <thead>
         <tr>
           <th>Image</th>
@@ -307,23 +298,22 @@
       <tbody>
         {% for freelancer in freelancer %}
         <tr>
-          <td>{{freelancer.profile_image}}</td>
-          <td>{{freelancer.first_name}} {{freelancer.last_name}}</td>
-          <td>{{freelancer.email}}</td>
-          <td>{{freelancer.phone_number}}</td>
+          <td><img src="{{ freelancer.profile.url }}" alt="Client Photo" width="50"></td>
+          <td>{{ freelancer.first_name }} {{ freelancer.last_name }}</td>
+          <td>{{ freelancer.email }}</td>
+          <td>{{ freelancer.phone_number }}</td>
           <td>
             <div class="action-buttons">
-              <button class="view-button" onclick="viewFreelancer({{ freelancer.id }}, '{{ freelancer.profile_image.url }}', '{{ freelancer.first_name }} {{ freelancer.last_name }}', '{{ freelancer.username }}', '{{ freelancer.email }}', '{{ freelancer.phone_number }}', '{{ freelancer.skills }}', '{{ freelancer.hourly_rate }}', '{{ freelancer.location }}', '{{ freelancer.about_me }}')">View</button>
+              <button class="view-button" onclick="viewFreelancer({{ freelancer.id }}, '{{ freelancer.first_name }} {{ freelancer.last_name }}', '{{ freelancer.username }}', '{{ freelancer.email }}', '{{ freelancer.phone_number }}', '{{ freelancer.skills }}', '{{ freelancer.hourly_rate }}', '{{ freelancer.location }}', '{{ freelancer.about_me }}')">View</button>
               <form method="post" action="{% url 'freelancer_delete_details' freelancer.id %}">
                 {% csrf_token %}
                 <button type="submit" class="delete-button">Delete</button>
-            </form>
-          </div>
+              </form>
+            </div>
           </td>
         </tr>
         {% endfor %}
       </tbody>
-      
     </table>
   </div>
 
@@ -331,54 +321,40 @@
   <div id="freelancerModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeModal()">&times;</span>
-      <div class="modal-description" id="freelancerDetails">
-        <!-- Freelancer details will be displayed here -->
-      </div>
+      <div class="modal-description" id="freelancerDetails"></div>
     </div>
   </div>
 
   <script>
-    // Function to display freelancer details in the modal
-    function viewFreelancer(freelancerId, photo, name, username, email, phone, skill, rate, location, about) {
+    function viewFreelancer(id, name, username, email, phone, skills, rate, location, about) {
       const modalDetails = `
-        <div style="text-align: center; margin-bottom: 20px;">
-          <img src="${photo}" alt="Profile Photo" width="150" height="150" style="border-radius: 50%; border: 2px solid #ddd;">
+        <div class="row">
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Username:</strong> ${username}</p>
         </div>
-  
-        <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
-          <p style="margin: 0; flex-basis: 45%;"><strong>Name:</strong> ${name}</p>
-          <p style="margin: 0; flex-basis: 45%;"><strong>Username:</strong> ${username}</p>
+        <div class="row">
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Phone:</strong> ${phone}</p>
         </div>
-  
-        <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
-          <p style="margin: 0; flex-basis: 45%;"><strong>Email:</strong> ${email}</p>
-          <p style="margin: 0; flex-basis: 45%;"><strong>Phone:</strong> ${phone}</p>
+        <div class="row">
+          <p><strong>Hourly Rate:</strong> ${rate}</p>
+          <p><strong>Location:</strong> ${location}</p>
         </div>
-  
-        <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
-          <p style="margin: 0; flex-basis: 45%;"><strong>Hourly Rate:</strong> ${rate}</p>
-          <p style="margin: 0; flex-basis: 45%;"><strong>Location:</strong> ${location}</p>
+        <div class="row">
+          <p><strong>Skills:</strong> ${skills}</p>
         </div>
-  
-        <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
-          <p style="margin: 0; flex-basis: 45%;"><strong>Skill:</strong> ${skill}</p>
-        </div>
-  
-        <div class="full-width" style="margin-bottom: 10px;">
+        <div>
           <p><strong>About:</strong> ${about}</p>
         </div>
       `;
-  
       document.getElementById('freelancerDetails').innerHTML = modalDetails;
       document.getElementById('freelancerModal').style.display = 'block';
     }
-  
-    // Function to close the modal
+
     function closeModal() {
       document.getElementById('freelancerModal').style.display = 'none';
     }
   </script>
 </body>
 </html>
-
 {% endblock %}

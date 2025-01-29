@@ -7,129 +7,119 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Received Proposals</title>
+  <title>Confirm Proposal</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
-/* General Styling */
-body {
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-  background-color: #f0f2f5;
-  color: #333;
-}
+    body {
+      margin: 0;
+      background-color: #f0f2f5;
+      color: #333;
+    }
 
-/* Proposals Container */
-.proposals-container {
-  width: 85%;
-  max-width: 1000px;
-  background: #fff;
-  margin: 40px auto;
-  border-radius: 15px;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  padding: 30px;
-}
+    .proposals-container {
+      max-width: 1000px;
+      background: #fff;
+      margin: 40px auto;
+      border-radius: 15px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      padding: 30px;
+    }
 
-/* Header Section */
-.proposals-header {
-  text-align: center;
-  border-bottom: 2px solid #ececec;
-  padding-bottom: 20px;
-  margin-bottom: 20px;
-}
+    .proposals-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #ececec;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
 
-.proposals-header h2 {
-  font-size: 28px;
-  color: #333;
-  font-weight: 600;
-  margin: 0;
-}
+    .proposals-header h2 {
+      font-size: 40px;
+      font-family: Candara;
+      color: #007bff;
+      font-weight: 700;
+      margin: 0;
+      text-align: center;
+      width: 100%;
+    }
 
-/* Proposal List */
-.proposal-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+    .proposal-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
 
-.proposal-item {
-  background: #f9f9f9;
-  padding: 20px;
-  border-radius: 15px;
-  margin-bottom: 20px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+    .proposal-item {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-.proposal-item:hover {
-  transform: scale(1.02);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-}
+    .proposal-item:hover {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
 
-.proposal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
+    .proposal-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 20px;
+    }
 
-.proposal-header h3 {
-  font-size: 22px;
-  color: #333;
-  margin: 0;
-}
+    .proposal-header h3 {
+      font-size: 20px;
+      font-family: Candara;
+      color: #333;
+      margin: 0;
+    }
 
-.proposal-header span {
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: white;
-  font-size: 12px;
-}
+    .proposal-header p {
+      font-size: 20px;
+      color: #666;
+      font-family: Candara;
+    }
 
-.proposal-header .status-open {
-  background-color: #4caf50;
-}
+    .details-section {
+      margin-bottom: 40px;
+    }
 
-.proposal-header .status-closed {
-  background-color: #f44336;
-}
+    .details-section .info-group {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+    }
 
-.proposal-body {
-  margin-bottom: 10px;
-}
+    .details-section label {
+      font-weight: bold;
+      color: #333;
+      font-family: Candara;
+      font-size: 16px;
+      width: 150px;
+      flex-shrink: 0;
+      text-align: left;
+    }
 
-.proposal-body p {
-  font-size: 16px;
-  color: #555;
-  margin: 0;
-}
+    .details-section span {
+      color: #555;
+      flex: 1;
+      word-break: break-word;
+      font-family: Candara;
+      font-size: 16px;
+    }
 
-.proposal-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 14px;
-  color: #666;
-}
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
 
-.proposal-footer span {
-  display: flex;
-  align-items: center;
-}
-
-.proposal-footer i {
-  margin-right: 5px;
-  color: #1565c0;
-}
-
-.button-group {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.view-details, .view-profile {
+.view-details {
   padding: 12px 24px;
   background-color: #1565c0;
   color: white;
@@ -137,12 +127,13 @@ body {
   border-radius: 8px;
   cursor: pointer;
   font-size: 12px;
+  font-family: Verdana;
   text-decoration: none;
   transition: background-color 0.3s ease, transform 0.3s ease;
   text-align: center;
 }
 
-.view-details:hover, .view-profile:hover {
+.view-details:hover {
   background-color: #104a8e;
   transform: scale(1.05);
 }
@@ -240,24 +231,6 @@ body {
   color: #333;
 }
 
-.approve-button {
-  display: block;
-  margin: 20px auto 0;
-  padding: 12px 24px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  text-align: center;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.approve-button:hover {
-  background-color: #388e3c;
-  transform: scale(1.05);
-}
 
 /* Responsive Design */
 
@@ -364,37 +337,34 @@ body {
       {% for proposal in proposals %}
       <li class="proposal-item">
         <div class="proposal-header">
-          <h3>{{ proposal.freelancer.first_name }} {{ proposal.freelancer.last_name }}</h3>
-          <span class="status-open">Open</span>
+          <h3>Freelancer Name:</h3>
+          <p> {{ proposal.freelancer.first_name }} {{ proposal.freelancer.last_name }}</p>
         </div>
-        <div class="proposal-body">
-          <h5>Project Title: {{ proposal.title }}</h5>
-          <p>{{proposal.description| truncatechars:200}}</p>
-          
+        <div class="details-section">
+          <div class="info-group">
+            <label for="project-title"><strong>Project Title:</strong></label>
+            <span>{{ proposal.title }}</span>
+          </div>
+
+          <div class="info-group">
+            <label for="project-description"><strong>Project Description:</strong></label>
+            <span>{{proposal.description| truncatechars:200}}</span>
+          </div>
+
+          <div class="info-group">
+            <span style="margin-top:10px;"><i class="fas fa-calendar-alt" style="color: #104a8e;"></i> Submitted on: {{ proposal.duration }}</span>
+          </div> 
         </div>
-        <div class="proposal-footer">
-          <span><i class="fas fa-calendar-alt"></i> Submitted on: {{ proposal.submitted_at|date:"M d, Y" }}</span>
-        </div>
+
         <div class="button-group">
           <button class="view-details" onclick="viewDetails('{{ proposal.title }}', '{{ proposal.description }}', '{{ proposal.duration }}', '{{ proposal.bid }}', '{{ proposal.cover_letter }}', '{{ proposal.attachment}}', '{{ proposal.submitted_at|date:"Y-m-d H:i:s" }}')">View Details</button>
-          <button class="view-profile" onclick="viewProfile(  '{{ proposal.freelancer.profile.url|escapejs }}',   '{{ proposal.freelancer.first_name|escapejs }} {{ proposal.freelancer.last_name|escapejs }}',   '{{ proposal.freelancer.hourly_rate|escapejs }}',   '{{ proposal.freelancer.email|escapejs }}',   '{{ proposal.freelancer.phone_number|escapejs }}',   '{{ proposal.freelancer.skills|escapejs }}',   '{{ proposal.freelancer.location|escapejs }}',   '{{ proposal.freelancer.about_me|escapejs }}')">View Profile</button>
-          <button><a href="javascript:void(0);" class="view-details" onclick="startPayment({{proposal.id}}, {{proposal.bid}})">Approve and Payment </a></button>
-          
+          <a href="javascript:void(0);" class="view-details" onclick="startPayment({{proposal.id}}, {{proposal.bid}})">Approve and Payment</a>
         </div>        
       </li>
       {% endfor %}
     </ul>
   </div>
 
-<!-- Profile Modal -->
-<div id="profileModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal('profileModal')">&times;</span>
-    <div class="modal-description" id="profileDetails">
-      <!-- Profile details will be dynamically inserted here -->
-    </div>
-  </div>
-</div> 
 
 <!-- Details Modal -->
 <div id="detailsModal" class="modal">
@@ -404,9 +374,6 @@ body {
       <!-- Proposal details will be dynamically inserted here -->
     </div>
     <!-- Select Project Button (Triggers Razorpay Payment) -->
-      {% if selected_proposal %}
-    <a href="javascript:void(0);" class="select-project-button" onclick="startPayment({{project_id}})">Approve and Payment </a>
-    {% endif %}
   </div>
 </div>
 
@@ -508,48 +475,20 @@ body {
   // Function to show proposal details in the modal
   function viewDetails(title, description, duration, bid, coverLetter, attachmentUrl, submittedAt) {
     const modalDetails = `
-     <h3>Proposal Details</h3>
-      <p><strong>Title:</strong> ${title}</p>
-      <div class="row" style=" margin-bottom: 10px; justify-content: space-between;">
-        <p style="margin: 0; flex-basis: 45%;"><strong>Description:</strong> ${description.length > 100 ? description.substring(0, 100) + '...' : description}</p>
+      <h3 style="font-size: 20px; font-family: Verdana; text-align: center">Proposal Details</h3>
+      <p style="font-size: 20px; font-family: Candara;"><strong>Title:</strong> ${title}</p>
+      <div class="row" style="margin-bottom: 10px; justify-content: space-between;">
+        <p style="margin: 0; flex-basis: 45%; font-size: 20px; font-family: Candara;"><strong>Description:</strong> ${description.length > 100 ? description.substring(0, 100) + '...' : description}</p>
       </div>
-      <p><strong>Duration:</strong> ${duration}</p>
-      <p><strong>Bid:</strong> $${bid}</p>
-           <div class="row" style=" margin-bottom: 10px; justify-content: space-between;">
-        <p style="margin: 0; flex-basis: 45%;"><strong>Cover Letter:</strong> ${coverLetter.length > 2000 ? coverLetter.substring(0, 2000) + '...' : coverLetter}</p>
+      <p style="font-size: 20px; font-family: Candara;"><strong>Duration:</strong> ${duration}</p>
+      <p style="font-size: 20px; font-family: Candara;"><strong>Bid:</strong> Rs.  ${bid}</p>
+      <div class="row" style="margin-bottom: 10px; justify-content: space-between;">
+        <p style="margin: 0; flex-basis: 45%; font-size: 20px; font-family: Candara;"><strong>Cover Letter:</strong> ${coverLetter.length > 2000 ? coverLetter.substring(0, 2000) + '...' : coverLetter}</p>
       </div>
-      ${attachmentUrl ? `<p><strong>Attachment:</strong> <a href="${attachmentUrl}" target="_blank">Download</a></p>` : ''}
-      <p><strong>Submitted At:</strong> ${submittedAt}</p>
-
+      <p style="font-size: 20px; font-family: Candara;"><strong>Submitted At:</strong> ${submittedAt}</p>
     `;
     document.getElementById('detailsContent').innerHTML = modalDetails;
     document.getElementById('detailsModal').style.display = 'block';
-  }
-
-  // Function to show freelancer profile in the modal
-  function viewProfile(profileUrl, name, rate, email, phone, skills, location, bio) {
-    const modalProfile = `
-    <div style="text-align: center; margin-bottom: 20px;">
-        <img src="${profileUrl}" alt="Profile Photo" width="150" height="150" style="border-radius: 50%; border: 2px solid #ddd;">
-      </div>
-      <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
-        <p style="margin: 0; flex-basis: 45%;"><strong>Name:</strong> ${name}</p>
-        <p style="margin: 0; flex-basis: 45%;"><strong>Hourly Rate:</strong> ${rate}</p>
-      </div>
-      <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
-        <p style="margin: 0; flex-basis: 45%;"><strong>Email:</strong> ${email}</p>
-        <p style="margin: 0; flex-basis: 45%;"><strong>Phone:</strong> ${phone}</p>
-      </div>
-      <div class="row" style="display: flex; margin-bottom: 10px; justify-content: space-between;">
-        <p style="margin: 0; flex-basis: 45%;"><strong>Skills:</strong> ${skills}</p>
-        <p style="margin: 0; flex-basis: 45%;"><strong>Location:</strong> ${location}</p>
-      </div>
-      <div class="full-width" style="margin-bottom: 10px;">
-        <p><strong>Bio:</strong> ${bio.length > 200 ? bio.substring(0, 200) + '...' : bio}</p>
-      </div>
-    `;
-    document.getElementById('profileDetails').innerHTML = modalProfile;
-    document.getElementById('profileModal').style.display = 'block';
   }
 
   // Function to close the modal

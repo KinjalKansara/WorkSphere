@@ -202,7 +202,7 @@
   <div class="icon-header">
     <div class="icon icon-client" data-tooltip="Dashboard">
       <a href="{% url 'admin_dashboard' %}">
-        <i class="fas fa-tachometer-alt"></i>
+        <i class="fas fa-home"></i>
       </a>
     </div>
     <div class="icon icon-post" data-tooltip="Client Info">
@@ -213,6 +213,11 @@
     <div class="icon icon-list" data-tooltip="Freelancer Info">
       <a href="{% url 'admin_freelancer' %}">
         <i class="fas fa-user"></i>
+      </a>
+    </div>
+    <div class="icon icon-services" data-tooltip="Freelancer Bank Info">
+      <a href="{% url 'admin_freelancer_bank_details' %}">
+        <i class="fas fa-bank"></i>
       </a>
     </div>
     <div class="icon icon-received" data-tooltip="Payment Info">
@@ -230,11 +235,6 @@
         <i class="fas fa-clipboard-check"></i>
       </a>
     </div>
-    <div class="icon icon-proposal" data-tooltip="Proposal Info">
-      <a href="{% url 'admin_proposal' %}">
-        <i class="fas fa-paperclip"></i>
-      </a>
-    </div>
     <div class="icon icon-notification" data-tooltip="Notifications">
       <a href="{% url 'admin_notification' %}">
         <i class="fas fa-bell"></i>
@@ -246,7 +246,7 @@
       </a>
     </div>
     <div class="icon icon-logout" data-tooltip="Logout">
-      <a href="{% url 'client_logout' %}">
+      <a href="{% url 'admin_logout' %}">
         <i class="fas fa-sign-out-alt"></i>
       </a>
     </div>
