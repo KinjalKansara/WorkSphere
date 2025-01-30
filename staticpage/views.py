@@ -131,5 +131,6 @@ def select_login(request):
 def header_footer_select(request):
     return render(request, 'header_footer_select.html')
 
+
 def error_404_view(request, exception=None):
     return render(request, '404.html', status=404)

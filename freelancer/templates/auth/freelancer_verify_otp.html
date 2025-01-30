@@ -1,8 +1,6 @@
 
 {% extends 'freelancer_header_3.html' %}
 
-{% if request.session.email %}
-
 {% block content %}
 
 <!DOCTYPE html>
@@ -10,12 +8,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Verify Password - WorkSphere</title>
+  <title>Verify Password-client</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
     /* General Styling */
     body {
-      font-family: Arial, sans-serif;
       min-height: 100vh;
       margin: 0;
       background-color: #f4f4f4;
@@ -37,7 +34,7 @@
     /* Left Section */
     .left-section {
       width: 50%;
-      background-color: #1565c0; /* Match header color */
+      {% comment %} background-color: #1565c0; /* Match header color */ {% endcomment %}
       display: flex;
       justify-content: center;
       align-items: center;
@@ -45,8 +42,11 @@
     
     .left-section img {
       width: 80%;
-      height: auto;
+      height: 250px;
       border-radius: 8px;
+      cursor: pointer;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
     }
     
     /* Right Section */
@@ -60,8 +60,8 @@
     }
     
     .right-section h3 {
-      font-size: 28px;
-      font-family: "Segoe Print", sans-serif;
+      font-size: 30px;
+      font-family: Candara;
       color: #1565c0; /* Match header color */
       font-weight: bold;
       margin-top: 0;
@@ -70,8 +70,8 @@
     }
     
     .right-section p {
-      font-size: 16px;
-      font-family: "Bookman Old Style", serif;
+      font-size: 14px;
+      font-family: verdana;
       color: #555;
       text-align: center;
       margin-bottom: 30px;
@@ -186,18 +186,18 @@
     <div class="right-section">
       <div class="error-container">
         {% if error_message %}
-          <div class="error-message">{{ error_message }}</div>
+          <div>{{ error_message }}</div>
         {% endif %}
       </div>
-      <h3>Verify Your Password</h3>
+      <h3>Verify  Password</h3>
       <p>
         Enter the OTP from your email to verify your account and unlock access to top freelancers.
       </p>
-      <form method="post">
+      <form method="POST">
         {% csrf_token %}
         <div class="input-container">
           <i class="fas fa-key"></i>
-          <input type="text" name="otp" placeholder="Enter OTP" required>
+          <input type="text" name="otp" placeholder="Enter otp" required>
         </div>
         <input type="submit" name="submit" value="Reset Password" class="btn">
       </form>
@@ -208,8 +208,3 @@
 
 {% endblock %}
 
-{% else %}
-<script>
-  window.location = "{% url 'freelancer_register_login' %}"
-</script>
-{% endif %}

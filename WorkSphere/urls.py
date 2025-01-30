@@ -18,7 +18,6 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from staticpage.views import error_404_view
 
 urlpatterns = [
    path('staticpage/', include('staticpage.urls')),
@@ -29,9 +28,6 @@ urlpatterns = [
    path('payment/', include('payment.urls')),
    path('notification/', include('notification.urls')),
    
-]
-handler404 = error_404_view
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-urlpatterns += static(settings.STATIC_URL,
-                      document_root=settings.STATICFILES_DIRS[0])
+handler404 = 'staticpage.views.error_404_view'

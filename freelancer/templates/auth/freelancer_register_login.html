@@ -13,7 +13,6 @@
   <style>
     /* General Body Style */
     body {
-      font-family: Arial, sans-serif;
       min-height: 100vh;
       margin: 0;
       background-color: #f4f4f4;
@@ -44,9 +43,8 @@
       width: 50%;
       overflow: hidden;
       position: relative;
-      background-color: #1565c0; /* Match header color */
+      {% comment %} background-color: #1565c0; /* Match header color */ {% endcomment %}
       border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       transition: all 0.3s ease-in-out;
     }
 
@@ -55,6 +53,7 @@
       display: none;
       cursor: pointer;
       border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
     }
 
     .image-slider img.active {
@@ -296,7 +295,7 @@
         <input type="hidden" name="login" value="login">
         <div class="input-container">
           <i class="fas fa-user"></i>
-          <input type="text" name="username" placeholder="Username or Email" class="full-width" required>
+          <input type="text" name="username" placeholder="Username" class="full-width" required>
         </div>
         <div class="input-container">
           <i class="fas fa-lock"></i>
