@@ -134,7 +134,7 @@ def admin_delete_contact(request, id):
 
     # Send email notification before deleting
     subject = "Your Contact Information Has Been Deleted"
-    message = f"Dear {contact.first},\n\nYour contact information has been deleted from our system.\n\nBest regards,\nYour Company"
+    message = f"Dear {contact.first},\n\nYour contact information has been deleted from our system.\n\nBest regards,\nWorkSphere"
     from_email = 'worksphere05@gmail.com'
     recipient_list = [contact.email]
 
@@ -171,7 +171,7 @@ def admin_delete_client(request, id):
 
     # Send email notification before deleting
     subject = "Your Account Has Been Deleted"
-    message = f"Dear {client.first_name},\n\nWe regret to inform you that your account has been deleted from our system. If you have any questions, please contact support.\n\nBest regards,\nYour Company"
+    message = f"Dear {client.first_name},\n\nWe regret to inform you that your account has been deleted from our system. If you have any questions, please contact support.\n\nBest regards,\nWorkSphere"
     from_email = 'worksphere05@gmail.com'  # Replace with your email address
     recipient_list = [client.email]
 
@@ -215,7 +215,7 @@ def freelancer_delete_details(request, id):
 
     # Send email notification before deleting
     subject = "Your Freelancer Account Has Been Deleted"
-    message = f"Dear {freelancer.first_name},\n\nWe regret to inform you that your freelancer account has been deleted from our system. If you have any questions, please contact support.\n\nBest regards,\nYour Company"
+    message = f"Dear {freelancer.first_name},\n\nWe regret to inform you that your freelancer account has been deleted from our system. If you have any questions, please contact support.\n\nBest regards,\nWorkSphere"
     from_email = 'worksphere05@gmail.com'  # Replace with your email address
     recipient_list = [freelancer.email]
 
@@ -268,7 +268,7 @@ def admin_delete_project(request, id):
 
     # Send email notification to the client before deleting the project
     subject = "Your Project Has Been Deleted"
-    message = f"Dear {project.client.first_name},\n\nWe regret to inform you that your project titled '{project.title}' has been deleted from our system. If you have any questions or concerns, please contact support.\n\nBest regards,\nYour Company"
+    message = f"Dear {project.client.first_name},\n\nWe regret to inform you that your project titled '{project.title}' has been deleted from our system. If you have any questions or concerns, please contact support.\n\nBest regards,\nWorkSphere"
     from_email = 'worksphere05@gmail.com'  # Replace with your email address
     recipient_list = [project.client.email]
 

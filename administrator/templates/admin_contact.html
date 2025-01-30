@@ -256,25 +256,33 @@
             </tr>
         </thead>
         <tbody>
-            {% for contact in contact %}
-            <tr>
-                <td>{{ contact.first }}</td>
-                <td>{{ contact.email }}</td>
-                <td>{{ contact.phone_number }}</td>
-                <td>{{ contact.subject }}</td>
-                <td>{{ contact.message }}</td>
-                <td>
-                    <div class="action-buttons">
-                        <form method="post" action="{% url 'admin_delete_contact' contact.id %}">
-                            {% csrf_token %}
-                            <button type="submit" class="delete-button">Delete</button>
-                        </form>
-                        <button type="button" class="reply-button" data-email="{{ contact.email }}">Reply</button>
-                    </div>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
+          {% if contact %}
+              {% for contact in contact %}
+              <tr>
+                  <td>{{ contact.first }}</td>
+                  <td>{{ contact.email }}</td>
+                  <td>{{ contact.phone_number }}</td>
+                  <td>{{ contact.subject }}</td>
+                  <td>{{ contact.message }}</td>
+                  <td>
+                      <div class="action-buttons">
+                          <form method="post" action="{% url 'admin_delete_contact' contact.id %}">
+                              {% csrf_token %}
+                              <button type="submit" class="delete-button">Delete</button>
+                          </form>
+                          <button type="button" class="reply-button" data-email="{{ contact.email }}">Reply</button>
+                      </div>
+                  </td>
+              </tr>
+              {% endfor %}
+          {% else %}
+              <tr>
+                  <td colspan="6" style="text-align: center; font-size: 18px; font-family: Verdana; color: #666; padding: 20px;">
+                      No contact information available.
+                  </td>
+              </tr>
+          {% endif %}
+      </tbody>      
     </table>
 </div>
 

@@ -169,28 +169,36 @@
             </tr>
         </thead>
         <tbody>
-          {% for payment in payment %}
-            <tr>
-              <td>{{ payment.proposal.client.first_name }} {{ payment.proposal.client.last_name }}</td>
-              <td>{{ payment.proposal.freelancer.first_name }} {{ payment.proposal.freelancer.last_name }}</td>
-              <td>{{ payment.proposal.project.title }}</td>
-              <td>
-                {% if payment.proposal.status == 'Completed' %}
-                  <span class="status-completed">Completed</span>
-                {% else %}
-                  <span class="status-pending">Pending</span>
-                {% endif %}
-              </td>
-              <td>
-                {% if payment.status == 'Completed' %}
-                  <span class="status-paid">Paid</span>
-                {% else %}
-                <span class="status-unpaid">Unpaid</span>
-                {% endif %}
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
+          {% if payment %}
+              {% for payment in payment %}
+                  <tr>
+                    <td>{{ payment.proposal.client.first_name }} {{ payment.proposal.client.last_name }}</td>
+                    <td>{{ payment.proposal.freelancer.first_name }} {{ payment.proposal.freelancer.last_name }}</td>
+                    <td>{{ payment.proposal.project.title }}</td>
+                    <td>
+                      {% if payment.proposal.status == 'Completed' %}
+                        <span class="status-completed">Completed</span>
+                      {% else %}
+                        <span class="status-pending">Pending</span>
+                      {% endif %}
+                    </td>
+                    <td>
+                      {% if payment.status == 'Completed' %}
+                        <span class="status-paid">Paid</span>
+                      {% else %}
+                        <span class="status-unpaid">Unpaid</span>
+                      {% endif %}
+                    </td>
+                  </tr>
+              {% endfor %}
+          {% else %}
+              <tr>
+                  <td colspan="5" style="text-align: center; font-size: 18px; font-family: Verdana; color: #666; padding: 20px;">
+                      No payment records available.
+                  </td>
+              </tr>
+          {% endif %}
+      </tbody>      
     </table>
 </div>
 

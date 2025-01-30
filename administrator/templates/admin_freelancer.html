@@ -296,24 +296,32 @@
         </tr>
       </thead>
       <tbody>
-        {% for freelancer in freelancer %}
-        <tr>
-          <td><img src="{{ freelancer.profile.url }}" alt="Client Photo" width="50"></td>
-          <td>{{ freelancer.first_name }} {{ freelancer.last_name }}</td>
-          <td>{{ freelancer.email }}</td>
-          <td>{{ freelancer.phone_number }}</td>
-          <td>
-            <div class="action-buttons">
-              <button class="view-button" onclick="viewFreelancer({{ freelancer.id }}, '{{ freelancer.first_name }} {{ freelancer.last_name }}', '{{ freelancer.username }}', '{{ freelancer.email }}', '{{ freelancer.phone_number }}', '{{ freelancer.skills }}', '{{ freelancer.hourly_rate }}', '{{ freelancer.location }}', '{{ freelancer.about_me }}')">View</button>
-              <form method="post" action="{% url 'freelancer_delete_details' freelancer.id %}">
-                {% csrf_token %}
-                <button type="submit" class="delete-button">Delete</button>
-              </form>
-            </div>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
+        {% if freelancer %}
+            {% for freelancer in freelancer %}
+            <tr>
+              <td><img src="{{ freelancer.profile.url }}" alt="Freelancer Photo" width="50"></td>
+              <td>{{ freelancer.first_name }} {{ freelancer.last_name }}</td>
+              <td>{{ freelancer.email }}</td>
+              <td>{{ freelancer.phone_number }}</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="view-button" onclick="viewFreelancer({{ freelancer.id }}, '{{ freelancer.first_name }} {{ freelancer.last_name }}', '{{ freelancer.username }}', '{{ freelancer.email }}', '{{ freelancer.phone_number }}', '{{ freelancer.skills }}', '{{ freelancer.hourly_rate }}', '{{ freelancer.location }}', '{{ freelancer.about_me }}')">View</button>
+                  <form method="post" action="{% url 'freelancer_delete_details' freelancer.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-button">Delete</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="5" style="text-align: center; font-size: 18px; font-family: Verdana; color: #666; padding: 20px;">
+                    No freelancer information available.
+                </td>
+            </tr>
+        {% endif %}
+    </tbody>    
     </table>
   </div>
 

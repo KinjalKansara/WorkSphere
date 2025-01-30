@@ -309,24 +309,32 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          {% for project in project%}
-          <td>{{project.client.first_name}} {{project.client.last_name}}</td>
-          <td>{{project.title}}</td>
-          <td>{{project.budget}}</td>
-          <td>{{project.status}}</td>
-          <td>
-            <div class="action-buttons">
-              <button class="view-button" onclick="viewProject({{ project.id }}, '{{ project.title }} {{ project.description }}', '{{ project.category }}', '{{ project.budget }}', '{{ project.budget_type }}', '{{ project.deadline }}', '{{ project.skills_required }}', '{{ project.attachments }}', '{{ project.photo }}', '{{ project.experience_level }}', '{{ project.created_at }}')">View</button>
-              <form method="post" action="{% url 'admin_delete_project' project.id %}">
-                {% csrf_token %}
-                <button type="submit" class="delete-button">Delete</button>
-              </form>
-            </div>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
+        {% if project %}
+            {% for project in project %}
+            <tr>
+              <td>{{ project.client.first_name }} {{ project.client.last_name }}</td>
+              <td>{{ project.title }}</td>
+              <td>{{ project.budget }}</td>
+              <td>{{ project.status }}</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="view-button" onclick="viewProject({{ project.id }}, '{{ project.title }}', '{{ project.description }}', '{{ project.category }}', '{{ project.budget }}', '{{ project.deadline }}', '{{ project.skills_required }}', '{{ project.experience_level }}', '{{ project.created_at }}')">View</button>
+                  <form method="post" action="{% url 'admin_delete_project' project.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-button">Delete</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="5" style="text-align: center; font-size: 18px; font-family: Verdana; color: #666; padding: 20px;">
+                    No project information available.
+                </td>
+            </tr>
+        {% endif %}
+    </tbody>    
     </table>
   </div>
 
@@ -341,7 +349,7 @@
   </div>
 
   <script>
-    function viewProject(projectId, title, description, category, budget, deadline, skillsRequired, attachments, projectPhoto, experienceLevel, createdAt) {
+    function viewProject(projectId, title, description, category, budget, deadline, skillsRequired, experienceLevel, createdAt) {
       // Format project details for the modal
       const modalDetails = `
         <div style="margin-bottom: 15px; font-size: 14px; font-family: Verdana; color: #333;">

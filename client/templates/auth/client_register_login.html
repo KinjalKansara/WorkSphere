@@ -221,35 +221,35 @@
       {% csrf_token %}
       <div class="input-container">
         <i class="fas fa-camera"></i>
-        <input type="file" name="profile" accept="image/*">
+        <input type="file" name="profile" accept="image/*" required>
       </div>  
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <div class="input-container">
           <i class="fas fa-user"></i>
-          <input type="text" name="firstname" placeholder="First Name">
+          <input type="text" name="firstname" placeholder="First Name" required>
         </div>
         <div class="input-container">
           <i class="fas fa-user"></i>
-          <input type="text" name="lastname" placeholder="Last Name">
+          <input type="text" name="lastname" placeholder="Last Name" required>
         </div>
       </div>
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <div class="input-container">
           <i class="fas fa-user"></i>
-          <input type="text" name="username" placeholder="Username" class="full-width">
+          <input type="text" name="username" placeholder="Username" class="full-width" required>
         </div>
         <div class="input-container">
           <i class="fas fa-envelope"></i>
-          <input type="email" name="email" placeholder="Email" class="full-width">
+          <input type="email" name="email" placeholder="Email" class="full-width" required>
         </div>
       </div>
       <div class="input-container">
         <i class="fas fa-lock"></i>
-        <input type="password" name="password" placeholder="Password" class="full-width">
+        <input type="password" name="password" placeholder="Password" class="full-width" required>
       </div>
       <div class="input-container">
         <i class="fas fa-phone"></i>
-        <input type="tel" name="phonenumber" placeholder="Phone Number" class="full-width">
+        <input type="tel" name="phonenumber" placeholder="Phone Number" class="full-width" required>
       </div>
       <div class="input-container">
         <i class="fas fa-user"></i>

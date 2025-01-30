@@ -123,8 +123,8 @@ def freelancer_register_login(request):
             try:
                 register.save()
                 send_mail(
-                    subject="Welcome to WorksPhere!",
-                    message=f"Dear {firstname},\n\nThank you for registering with WorksPhere as a Freelancer. Your account is now active, and you can log in to start posting projects and finding freelancers.\n\nBest regards,\nWorksPhere Team",
+                    subject="Welcome to WorkSphere!",
+                    message=f"Dear {firstname},\n\nThank you for registering with WorkSphere as a Freelancer. Your account is now active, and you can log in to start posting projects and finding freelancers.\n\nBest regards,\nWorkSphere Team",
                     from_email='worksphere05@gmail.com',
                     recipient_list=[email],
                     fail_silently=False,
@@ -150,7 +150,7 @@ def freelancer_register_login(request):
 
                 # Create a notification for the registered freelancer
                 Notification.objects.create(
-                    title="Welcome to WorksPhere!",
+                    title="Welcome to WorkSphere!",
                     message="Thank you for registering as a freelancer. Start exploring projects and showcasing your skills!",
                     notification_type='freelancer',
                     username=username,
@@ -472,19 +472,25 @@ def confirm_proposal(request):
             # Save the proposal status change
             proposal.save()
 
+            
+
+            
             # Send email to freelancer notifying them about the proposal completion
             subject = f"Project for '{proposal.project.title}' has been Confirmed"
-            message = f"Hello {freelancer.first_name},\n\nCongratulations! Your proposal for the project '{proposal.project.title}' has been confirmed and completed by the client {proposal.client.first_name} {proposal.client.last_name}.\n\nDetails:\nTitle: {proposal.project.title}\nBid: ${proposal.bid}\n\nBest regards,\nWorksPhere Team"
+            message = f"Hello {freelancer.first_name},\n\nCongratulations! Your proposal for the project '{proposal.project.title}' has been confirmed and completed by the client {proposal.client.first_name} {proposal.client.last_name}.\n\nDetails:\nTitle: {proposal.project.title}\nBid: ${proposal.bid}\n\nBest regards,\nWorkSphere Team"
             from_email = 'worksphere05@gmail.com'
             recipient_list = [freelancer.email]
             send_mail(subject, message, from_email, recipient_list)
 
+
+            client = ClientRegisterLogin.objects.all()
+
             # Send email to client notifying them about the proposal completion
-            subject = f"Project for '{proposal.project.title}' has been Confirmed"
-            message = f"Hello {client.first_name},\n\nYour project '{proposal.project.title}' has been successfully completed by the freelancer '{freelancer.first_name} {freelancer.last_name}'.\n\nDetails:\nTitle: {proposal.project.title}\nFreelancer: {freelancer.first_name} {freelancer.last_name}\nBid: ${proposal.bid}\n\nThank you for using WorksPhere!\n\nBest regards,\nWorksPhere Team"
-            from_email = 'worksphere05@gmail.com'
-            recipient_list = [client.email]
-            send_mail(subject, message, from_email, recipient_list)
+            # subject = f"Project for '{proposal.project.title}' has been Confirmed"
+            # message = f"Hello client,\n\nYour project '{proposal.project.title}' has been successfully completed by the freelancer '{freelancer.first_name} {freelancer.last_name}'.\n\nDetails:\nTitle: {proposal.project.title}\nFreelancer: {freelancer.first_name} {freelancer.last_name}\nBid: ${proposal.bid}\n\nThank you for using WorkSphere!\n\nBest regards,\nWorkSphere Team"
+            # from_email = 'worksphere05@gmail.com'
+            # recipient_list = [client.email]
+            # send_mail(subject, message, from_email, recipient_list)
 
 
             # Send a notification to the freelancer about the proposal confirmation
@@ -624,14 +630,14 @@ def freelancer_send_proposal(request, project_id):
 
                 # Email to freelancer confirming proposal submission
                 subject = f"Proposal Submitted for '{title}'"
-                message = f"Hello {freelancer.first_name},\n\nYou have successfully submitted your proposal for the project titled '{title}'.\n\nDetails:\nClient: {client.first_name} {client.last_name}\nBid: ${bid}\nDuration: {duration} days\n\nYou will be notified if the client accepts your proposal.\n\nBest regards,\nWorksPhere Team"
+                message = f"Hello {freelancer.first_name},\n\nYou have successfully submitted your proposal for the project titled '{title}'.\n\nDetails:\nClient: {client.first_name} {client.last_name}\nBid: ${bid}\nDuration: {duration} days\n\nYou will be notified if the client accepts your proposal.\n\nBest regards,\nWorkSphere Team"
                 from_email = 'worksphere05@gmail.com'
                 recipient_list = [freelancer.email]
                 send_mail(subject, message, from_email, recipient_list)
 
                 # Email to client notifying them of the new proposal
                 subject_for_client = f"New Proposal Submitted for '{title}'"
-                message_for_client = f"Hello {client.first_name},\n\nA freelancer has submitted a proposal for your project titled '{title}'.\n\nDetails:\nFreelancer: {freelancer.first_name} {freelancer.last_name}\nBid: ${bid}\nDuration: {duration} days\n\nYou can review the proposal and decide whether to accept it.\n\nBest regards,\nWorksPhere Team"
+                message_for_client = f"Hello {client.first_name},\n\nA freelancer has submitted a proposal for your project titled '{title}'.\n\nDetails:\nFreelancer: {freelancer.first_name} {freelancer.last_name}\nBid: ${bid}\nDuration: {duration} days\n\nYou can review the proposal and decide whether to accept it.\n\nBest regards,\nWorkSphere Team"
                 send_mail(subject_for_client, message_for_client, from_email, [client.email])
 
                 # Create notifications for freelancer and client

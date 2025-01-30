@@ -187,24 +187,32 @@
         </tr>
       </thead>
       <tbody>
-        {% for client in clients %}
-        <tr>
-          <td><img src="{{ client.profile_photo.url }}" alt="Client Photo" width="50"></td>
-          <td>{{ client.first_name }} {{ client.last_name }}</td>
-          <td>{{ client.email }}</td>
-          <td>{{ client.phone_no }}</td>
-          <td>
-            <div class="action-buttons">
-              <button class="view-button" onclick="viewClient({{ client.id }}, '{{ client.profile_photo.url }}', '{{ client.first_name }} {{ client.last_name }}', '{{ client.username }}', '{{ client.email }}', '{{ client.phone_no }}', '{{ client.company }}', '{{ client.location }}', '{{ client.bio }}')">View</button>
-              <form method="post" action="{% url 'admin_delete_client' client.id %}">
-                {% csrf_token %}
-                <button type="submit" class="delete-button">Delete</button>
-              </form>
-            </div>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
+        {% if clients %}
+            {% for client in clients %}
+            <tr>
+              <td><img src="{{ client.profile_photo.url }}" alt="Client Photo" width="50"></td>
+              <td>{{ client.first_name }} {{ client.last_name }}</td>
+              <td>{{ client.email }}</td>
+              <td>{{ client.phone_no }}</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="view-button" onclick="viewClient({{ client.id }}, '{{ client.profile_photo.url }}', '{{ client.first_name }} {{ client.last_name }}', '{{ client.username }}', '{{ client.email }}', '{{ client.phone_no }}', '{{ client.company }}', '{{ client.location }}', '{{ client.bio }}')">View</button>
+                  <form method="post" action="{% url 'admin_delete_client' client.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-button">Delete</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="5" style="text-align: center; font-size: 18px; font-family: Verdana; color: #666; padding: 20px;">
+                    No client information available.
+                </td>
+            </tr>
+        {% endif %}
+    </tbody>    
     </table>
   </div>
 

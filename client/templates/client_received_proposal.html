@@ -65,25 +65,30 @@
     }
 
     .proposal-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-      gap: 20px;
+      display: grid;
+      grid-template-columns: auto auto; /* Two columns */
+      column-gap: 10px; /* Space between columns */
+      row-gap: 10px; /* Space between rows */
+      align-items: center; /* Align text in the middle */
+      width: fit-content;
     }
-
+    
     .proposal-header h3 {
-      font-size: 20px;
+      font-size: 18px;
       font-family: Candara;
-      color: #333;
+      color: #007bff;
       margin: 0;
+      font-weight: bold;
     }
-
+    
     .proposal-header p {
-      font-size: 20px;
+      font-size: 18px;
       color: #666;
       font-family: Candara;
+      margin: 0;
+      text-align: left; /* Align values to the left */
     }
-
+    
     .details-section {
       margin-bottom: 40px;
     }
@@ -338,8 +343,13 @@
       <li class="proposal-item">
         <div class="proposal-header">
           <h3>Freelancer Name:</h3>
-          <p> {{ proposal.freelancer.first_name }} {{ proposal.freelancer.last_name }}</p>
+          <p>{{ proposal.freelancer.first_name }} {{ proposal.freelancer.last_name }}</p>
+          <h3>Skills:</h3>
+          <p>{{ proposal.freelancer.skills }}</p>
+          <h3>Hourly Rate:</h3>
+          <p>{{ proposal.freelancer.hourly_rate }}</p> <!-- Fixed missing closing `p` tag -->
         </div>
+        
         <div class="details-section">
           <div class="info-group">
             <label for="project-title"><strong>Project Title:</strong></label>
@@ -458,7 +468,7 @@
                     contact: "{{ user.phone_no }}" // Pre-filled contact number (assuming a 'phone_number' field in your user's profile)
                 },
                 theme: {
-                    color: "#F37254" // Customize color
+                    color: " #007bff;" // Customize color
                 }
             };
 

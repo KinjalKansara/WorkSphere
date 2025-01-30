@@ -242,20 +242,28 @@
             </tr>
         </thead>
         <tbody>
-            {% for bank_detail in bank_details %}
-            <tr>
-                <td>{{ bank_detail.first_name }} {{ bank_detail.last_name }}</td>
-                <td>{{ bank_detail.bank_name }}</td>
-                <td>{{ bank_detail.account_number }}</td>
-                <td>{{ bank_detail.ifsc_code }}</td>
-                <td>
-                    <div class="action-buttons">
-                        <button type="button" class="payment-button">Payment</button>
-                    </div>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
+          {% if bank_details %}
+              {% for bank_detail in bank_details %}
+              <tr>
+                  <td>{{ bank_detail.first_name }} {{ bank_detail.last_name }}</td>
+                  <td>{{ bank_detail.bank_name }}</td>
+                  <td>{{ bank_detail.account_number }}</td>
+                  <td>{{ bank_detail.ifsc_code }}</td>
+                  <td>
+                      <div class="action-buttons">
+                          <button type="button" class="payment-button">Payment</button>
+                      </div>
+                  </td>
+              </tr>
+              {% endfor %}
+          {% else %}
+              <tr>
+                  <td colspan="5" style="text-align: center; font-size: 18px; font-family: Verdana; color: #666; padding: 20px;">
+                      No freelancer bank details available.
+                  </td>
+              </tr>
+          {% endif %}
+      </tbody>      
     </table>
 </div>
 

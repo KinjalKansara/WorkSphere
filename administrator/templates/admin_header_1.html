@@ -131,7 +131,7 @@
       <img src="/media/Logo.png" alt="WorkSphere Logo" width="50" height="50">
     </div>
     <nav class="nav-links">
-      <a href="{% url 'client_logout' %}">Logout</a>
+      <a href="{% url 'admin_logout' %}">Logout</a>
     </nav>
   </header>
 
@@ -161,7 +161,7 @@
       setTimeout(() => {
         loaderWrapper.style.display = 'none';
         content.style.display = 'block';
-      }, 500); // Show content after 5 seconds
+      }, 1000); // Show content after 5 seconds
     });
   </script>
 </body>

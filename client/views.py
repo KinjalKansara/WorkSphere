@@ -105,8 +105,8 @@ def client_register_login(request):
                             register.save()
                             # Send confirmation email to client
                             send_mail(
-                                subject="Welcome to WorksPhere!",
-                                message=f"Dear {firstname},\n\nThank you for registering with WorksPhere as a client. Your account is now active, and you can log in to start posting projects and finding freelancers.\n\nBest regards,\nWorksPhere Team",
+                                subject="Welcome to WorkSphere!",
+                                message=f"Dear {firstname},\n\nThank you for registering with WorkSphere as a client. Your account is now active, and you can log in to start posting projects and finding freelancers.\n\nBest regards,\nWorkSphere Team",
                                 from_email='worksphere05@gmail.com',
                                 recipient_list=[email],
                                 fail_silently=False,
@@ -115,8 +115,8 @@ def client_register_login(request):
                             # Send notification email to the admin/client management team
                             admin_email = 'worksphere05@gmail.com'  # replace with the actual admin email
                             send_mail(
-                                subject="New Client Registration on WorksPhere",
-                                message=f"A new client has registered on WorksPhere:\n\nName: {firstname} {lastname}\nUsername: {username}\nCompany: {company}\nEmail: {email}\nPhone Number: {phonenumber}\nLocation: {location}",
+                                subject="New Client Registration on WorkSphere",
+                                message=f"A new client has registered on WorkSphere:\n\nName: {firstname} {lastname}\nUsername: {username}\nCompany: {company}\nEmail: {email}\nPhone Number: {phonenumber}\nLocation: {location}",
                                 from_email='worksphere05@gmail.com',
                                 recipient_list=[admin_email],
                                 fail_silently=False,
@@ -132,8 +132,8 @@ def client_register_login(request):
 
                             # Create a notification for the registered client
                             Notification.objects.create(
-                                title="Welcome to WorksPhere!",
-                                message=f"Dear {firstname},\n\nThank you for registering with WorksPhere as a client. You can now start posting projects and finding freelancers who match your needs. We look forward to seeing you create and collaborate!\n\nBest regards,\nWorksPhere Team",
+                                title="Welcome to WorkSphere!",
+                                message=f"Dear {firstname},\n\nThank you for registering with WorkSphere as a client. You can now start posting projects and finding freelancers who match your needs. We look forward to seeing you create and collaborate!\n\nBest regards,\nWorkSphere Team",
                                 notification_type='client',
                                 username=username,
                                 is_read=False
@@ -396,7 +396,7 @@ def client_post_project(request):
             project.save()
             # Send email notification to the client who posted the project
             subject = f"New Project Posted: {title}"
-            message = f"Hello {client.first_name} {client.last_name},\n\nYour project titled '{title}' has been successfully posted on WorksPhare.\n\nDetails:\nDescription: {description}\nCategory: {category}\nBudget: {budget}\nDeadline: {deadline}\n\nBest regards,\nWorksPhere Team"
+            message = f"Hello {client.first_name} {client.last_name},\n\nYour project titled '{title}' has been successfully posted on WorksPhare.\n\nDetails:\nDescription: {description}\n\nCategory: {category}\n\nBudget: {budget}\n\nDeadline: {deadline}\n\nBest regards,\nWorkPshere Team"
             from_email = 'worksphere05@gmail.com'
             recipient_list = [client.email]
             send_mail(subject, message, from_email, recipient_list)
@@ -408,7 +408,7 @@ def client_post_project(request):
             # Email to freelancers
             for freelancer in freelancers:
                 subject_for_freelancers = f"New Project Posted: {title} - Check it out!"
-                message_for_freelancers = f"Hello {freelancer.first_name} {freelancer.last_name},\n\nA new project titled '{title}' has been posted by {client.first_name} {client.last_name}. You may be interested in submitting a proposal.\n\nDetails:\nDescription: {description}\nCategory: {category}\nBudget: {budget}\nDeadline: {deadline}\n\nBest regards,\nWorksPhere Team"
+                message_for_freelancers = f"Hello {freelancer.first_name} {freelancer.last_name},\n\nA new project titled '{title}' has been posted by {client.first_name} {client.last_name}. You may be interested in submitting a proposal.\n\nDetails:\nDescription: {description}\nCategory: {category}\nBudget: {budget}\nDeadline: {deadline}\n\nBest regards,\nWorkSphere Team"
                 
                 # Send email only to freelancers whose email exists
                 send_mail(subject_for_freelancers, message_for_freelancers, from_email, [freelancer.email])
@@ -416,7 +416,7 @@ def client_post_project(request):
             # Create notifications for the client, freelancer, and admin
             Notification.objects.create(
                 title="Your Project is Posted Successfully",
-                message=f"Your project titled '{title}' has been successfully posted on WorksPhere!",
+                message=f"Your project titled '{title}' has been successfully posted on WorkSphere!",
                 notification_type='client',
                 username=client.username,
                 is_read=False

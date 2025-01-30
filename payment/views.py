@@ -122,7 +122,7 @@ def verify_payment(request):
                 # Send email notification to the client
                 client = proposal.client
                 subject = f"Proposal Selected for '{proposal.project.title}'"
-                message = f"Hello {client.first_name},\n\nYour project '{proposal.project.title}' has successfully selected a {proposal.freelancer.first_name} {proposal.freelancer.last_name}. Payment for the proposal has been successfully completed.\n\nBest regards,\nWorksPhere Team"
+                message = f"Hello {client.first_name},\n\nYour project '{proposal.project.title}' has successfully selected a {proposal.freelancer.first_name} {proposal.freelancer.last_name}. Payment for the proposal has been successfully completed.\n\nBest regards,\nWorkSphere Team"
                 from_email = 'worksphere05@gmail.com'
                 recipient_list = [client.email]
                 send_mail(subject, message, from_email, recipient_list)
@@ -130,7 +130,7 @@ def verify_payment(request):
                 # Send email notification to the freelancer
                 freelancer = proposal.freelancer
                 subject_for_freelancer = f"Congratulations! Proposal for '{proposal.project.title}' Selected"
-                message_for_freelancer = f"Hello {freelancer.first_name},\n\nCongratulations! Your proposal for the project '{proposal.project.title}' has been selected by the {proposal.client.first_name} {proposal.client.last_name}, and the payment has been successfully completed.\n\nBest regards,\nWorksPhere Team"
+                message_for_freelancer = f"Hello {freelancer.first_name},\n\nCongratulations! Your proposal for the project '{proposal.project.title}' has been selected by the {proposal.client.first_name} {proposal.client.last_name}, and the payment has been successfully completed.\n\nBest regards,\nWorkSphere Team"
                 send_mail(subject_for_freelancer, message_for_freelancer, from_email, [freelancer.email])
 
                 # Send notification to the freelancer

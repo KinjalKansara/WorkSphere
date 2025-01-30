@@ -276,7 +276,6 @@
             margin-top: 50px;
             padding: 1rem 20px;
             text-align: center;
-            {% comment %} background: rgb(217, 229, 240); {% endcomment %}
             border-radius: 10px;
             width: 90%;
             max-width: 1500px;
@@ -288,12 +287,12 @@
         .countdown-container h2 {
             margin-bottom: 20px;
             font-size: 30px;
-            font-family: verdana;
+            font-family: Verdana;
             color: #007BFF;
             font-weight: 600;
         }
         
-        /* Counter Wrapper - Keeps All Boxes in One Row */
+        /* Counter Wrapper */
         .counter-wrapper {
             display: flex;
             justify-content: space-between;
@@ -323,7 +322,7 @@
         .counter-box h3 {
             margin-bottom: 10px;
             font-size: 18px;
-            font-family: verdana;
+            font-family: Verdana;
             font-weight: 600;
             color: #333;
         }
@@ -331,7 +330,7 @@
         /* Counter Number */
         .counter-box p {
             font-size: 26px;
-            font-familt:Candara;
+            font-family: Candara;
             font-weight: bold;
             color: #007bff;
         }
@@ -669,11 +668,11 @@
     <section class="left-right-content">
         <h2>Why WorkSphere is Perfect for You</h2>
         <div class="left-right-content-text">
-            <p>Our platform is designed to foster collaboration, streamline workflows, and ensure seamless communication between project owners and skilled professionals. Whether you’re a client looking for top talent or a freelancer seeking exciting opportunities, WorkSphere is the perfect bridge to achieve your goals.
+            <p style="text-align:left">Our platform is designed to foster collaboration, streamline workflows, and ensure seamless communication between project owners and skilled professionals. Whether you’re a client looking for top talent or a freelancer seeking exciting opportunities, WorkSphere is the perfect bridge to achieve your goals.
                At WorkSphere, we believe in connecting clients and freelancers to bring their visions to life. Our platform is designed to foster collaboration, streamline workflows, and ensure seamless communication between project owners and skilled professionals. 
                Whether you’re a client looking for top talent or a freelancer seeking exciting opportunities, WorkSphere is the perfect bridge to achieve your goals.We aim to empower businesses and individuals to unlock their full potential, one project at a time. Our commitment to transparency, security, and quality ensures that every project, no matter how big or small, is handled with care and precision.
             </p>
-            <img src="/media/Logo.png" alt="Collaboration Illustration" />
+            <img src="/media/think.gif" alt="Collaboration Illustration" />
         </div>
     </section>
 
@@ -683,19 +682,19 @@
         <div class="counter-wrapper">
             <div class="counter-box">
                 <h3>Clients</h3>
-                <p>{{ stats.total_clients }}</p>
+                <p class="counter-number" data-value="{{ stats.total_clients }}">+0</p>
             </div>
             <div class="counter-box">
                 <h3>Freelancers</h3>
-                <p>{{ stats.total_freelancers }}</p>
+                <p class="counter-number" data-value="{{ stats.total_freelancers }}">+0</p>
             </div>
             <div class="counter-box">
                 <h3>Proposals</h3>
-                <p>{{ stats.total_proposals }}</p>
+                <p class="counter-number" data-value="{{ stats.total_proposals }}">+0</p>
             </div>
             <div class="counter-box">
                 <h3>Posted Projects</h3>
-                <p>{{ stats.total_projects }}</p>
+                <p class="counter-number" data-value="{{ stats.total_projects }}">+0</p>
             </div>
         </div>
     </section>
@@ -798,5 +797,34 @@
             parent.classList.toggle('active');
         });
     });
+
+    function animateCounter(element, start, end, duration) {
+        let range = end - start;
+        let stepTime = Math.abs(Math.floor(duration / range));
+        let current = start;
+        let increment = end > start ? 1 : -1;
+        let timer = setInterval(() => {
+            current += increment;
+            element.innerText = "+" + current;
+            if (current === end) {
+                clearInterval(timer);
+            }
+        }, stepTime);
+    }
+  
+    function startCounters() {
+        document.querySelectorAll(".counter-number").forEach(counter => {
+            let endValue = parseInt(counter.getAttribute("data-value"));
+            animateCounter(counter, 0, endValue, 2000); // 2-second animation
+        });
+    }
+  
+    // Run counters on page load
+    document.addEventListener("DOMContentLoaded", startCounters);
+  
+    // Restart counters every 10 seconds for a continuous effect
+    setInterval(startCounters, 5000);
+
+    
 </script>
 {% endblock %}

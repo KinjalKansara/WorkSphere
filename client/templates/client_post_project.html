@@ -222,25 +222,25 @@
             <!-- Image -->
             <div class="form-group">
                 <i class="fas fa-image"></i>
-                <input type="file" id="image" name="image" accept="image/*">
+                <input type="file" id="image" name="image" accept="image/*" required>
             </div>
             
             <!-- Title -->
             <div class="form-group">
                 <i class="fas fa-heading"></i>
-                <input type="text" id="title" name="title" placeholder="Project Title">
+                <input type="text" id="title" name="title" placeholder="Project Title" required>
             </div>
 
             <!-- Description -->
             <div class="form-group">
                 <i class="fas fa-align-left"></i>
-                <textarea id="description" name="description" placeholder="Project Description"></textarea>
+                <textarea id="description" name="description" placeholder="Project Description" required></textarea>
             </div>
 
             <!-- Categories -->
             <div class="form-group">
                 <i class="fas fa-list"></i>
-                <select id="categories" name="categories">
+                <select id="categories" name="categories" required>
                     <option value="" disabled selected>Choose a Category</option>
                     <option value="machine_learning">Machine Learning</option>
                     <option value="ai_development">AI Development</option>
@@ -264,13 +264,13 @@
             <!-- Budget -->
             <div class="form-group">
                 <i class="fas fa-rupee-sign"></i>
-                <input type="number" id="budget" name="budget" placeholder="Budget (e.g., 500)">
+                <input type="number" id="budget" name="budget" placeholder="Budget (e.g., 500)" required>
             </div>
 
             <!-- Budget Type -->
             <div class="form-group">
                 <i class="fas fa-coins"></i>
-                <select id="budget_type" name="budget_type">
+                <select id="budget_type" name="budget_type" required>
                     <option value="" disabled selected>Budget Type</option>
                     <option value="fixed">Fixed</option>
                     <option value="hourly">Hourly</option>
@@ -280,13 +280,13 @@
             <!-- Skills -->
             <div class="form-group">
                 <i class="fas fa-lightbulb"></i>
-                <input type="text" id="skills" name="skills" placeholder="Required Skills (e.g., Python, Django)">
+                <input type="text" id="skills" name="skills" placeholder="Required Skills (e.g., Python, Django)" required>
             </div>
 
             <!-- Experience Level -->
             <div class="form-group">
                 <i class="fas fa-user-tie"></i>
-                <select id="experience_level" name="experience_level">
+                <select id="experience_level" name="experience_level" required>
                     <option value="" disabled selected>Experience Level</option>
                     <option value="entry">Entry Level</option>
                     <option value="intermediate">Intermediate</option>
@@ -297,7 +297,7 @@
             <!-- Deadline -->
             <div class="form-group tooltip">
                 <i class="fas fa-calendar-alt"></i>
-                <input type="date" id="deadline" name="deadline" placeholder="Deadline">
+                <input type="date" id="deadline" name="deadline" placeholder="Deadline" required>
                 <span class="tooltiptext">Select the deadline for project completion</span>
             </div>
 
@@ -305,7 +305,7 @@
             <div class="form-group" id="attachmentsContainer">
                 <div class="attachment-group">
                     <i class="fas fa-paperclip"></i>
-                    <input type="file" id="attachment" name="attachments" multiple>
+                    <input type="file" id="attachment" name="attachments" required>
                 </div>
             </div>
 
