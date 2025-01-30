@@ -1,4 +1,7 @@
+
 {% extends 'freelancer_header_3.html' %}
+
+{% if request.session.email %}
 
 {% block content %}
 
@@ -7,7 +10,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Verify Password-client</title>
+  <title>Verify Password - WorkSphere</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
     /* General Styling */
@@ -183,10 +186,10 @@
     <div class="right-section">
       <div class="error-container">
         {% if error_message %}
-          <div>{{ error_message }}</div>
+          <div class="error-message">{{ error_message }}</div>
         {% endif %}
       </div>
-      <h3>Verify  Password</h3>
+      <h3>Verify Your Password</h3>
       <p>
         Enter the OTP from your email to verify your account and unlock access to top freelancers.
       </p>
@@ -194,7 +197,7 @@
         {% csrf_token %}
         <div class="input-container">
           <i class="fas fa-key"></i>
-          <input type="text" name="otp" placeholder="Enter otp" required>
+          <input type="text" name="otp" placeholder="Enter OTP" required>
         </div>
         <input type="submit" name="submit" value="Reset Password" class="btn">
       </form>
@@ -204,3 +207,9 @@
 </html>
 
 {% endblock %}
+
+{% else %}
+<script>
+  window.location = "{% url 'freelancer_register_login' %}"
+</script>
+{% endif %}

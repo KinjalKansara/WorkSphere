@@ -4,32 +4,56 @@
   <meta charset="UTF-8">
   <style>
     body {
-      font-family: Arial, sans-serif;
       margin: 20px;
       padding: 0;
+      background-color: #f9f9f9;
+      font-family: Arial, sans-serif;
     }
-
+    
     h2 {
       text-align: center;
       margin-bottom: 30px;
+      font-family: Candara;
+      font-size: 40px;
+      background-color: transparent; /* Ensure no background color */
     }
-
+    
     table {
       width: 100%;
       border-collapse: collapse;
       margin-bottom: 30px;
+      background: white;
     }
-
+    
     table th, table td {
       border: 1px solid #ddd;
-      padding: 10px;
+      padding: 12px;
       text-align: left;
+      vertical-align: middle;
+      word-wrap: break-word; /* Ensures long text wraps inside table cells */
     }
-
+    
     table th {
-      background-color: #f4f4f4;
+      background-color: #1565c0;
+      color: white;
+    }
+    
+    table tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+  
+    table td, table th {
+      width: 20%; /* Adjust width as needed */
+    }
+  
+    h3 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #333;
+      background-color: transparent; /* Ensure no background color */
     }
   </style>
+    
 </head>
 <body>
   <h2>Generated Report</h2>
@@ -40,18 +64,22 @@
       <thead>
         <tr>
           <th>ID</th>
-          <th>First Name</th>
-          <th>Last Name</th>
+          <th>Name</th>
           <th>Email</th>
+          <th>Phone Number</th>
+          <th>Company</th>
+          <th>Location</th>
         </tr>
       </thead>
       <tbody>
         {% for client in data.clients %}
         <tr>
           <td>{{ client.id }}</td>
-          <td>{{ client.first_name }}</td>
-          <td>{{ client.last_name }}</td>
-          <td>{{ client.email }}</td>
+          <td>{{ client.first_name }} {{ client.last_name }}</td>
+          <td style="margin-left:-28px;">{{ client.email }}</td>
+          <td>{{ client.phone_no }}</td>
+          <td>{{ client.company }}</td>
+          <td>{{ client.location }}</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -64,23 +92,55 @@
       <thead>
         <tr>
           <th>ID</th>
-          <th>First Name</th>
-          <th>Last Name</th>
+          <th>Name</th>
           <th>Email</th>
+          <th>Phone Number</th>
+          <th>Skills</th>
+          <th>Location</th>
         </tr>
       </thead>
       <tbody>
         {% for freelancer in data.freelancers %}
         <tr>
           <td>{{ freelancer.id }}</td>
-          <td>{{ freelancer.first_name }}</td>
-          <td>{{ freelancer.last_name }}</td>
-          <td>{{ freelancer.email }}</td>
+          <td>{{ freelancer.first_name }} {{ freelancer.last_name }}</td>
+          <td style="margin-left:-28px;">{{ freelancer.email }}</td>
+          <td>{{ freelancer.phone_number }}</td>
+          <td>{{ freelancer.skills }}</td>
+          <td>{{ freelancer.location }}</td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
   {% endif %}
+
+
+  {% if data.freelancer_bank %}
+  <h3>Freelancer Bank Information</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Freelancer Name</th>
+        <th>Bank Name</th>
+        <th>Account Number</th>
+        <th>IFSC Code</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for bank in data.freelancer_bank %}
+      <tr>
+        <td>{{ bank.id }}</td>
+        <td>{{ bank.freelancer.first_name }} {{ bank.freelancer.last_name }}</td>
+        <td>{{ bank.freelancer.bank_name }}</td>
+        <td>{{ bank.freelancer.account_number }}</td>
+        <td>{{ bank.freelancer.ifsc_code }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+
 
   {% if data.contacts %}
     <h3>Contacts</h3>
@@ -89,14 +149,18 @@
         <tr>
           <th>ID</th>
           <th>Name</th>
+          <th>Email</th>
+          <th>Phone Number</th>
           <th>Message</th>
         </tr>
       </thead>
       <tbody>
-        {% for contact in data.contacts %}
+        {% for contact in data.contactus %}
         <tr>
           <td>{{ contact.id }}</td>
-          <td>{{ contact.name }}</td>
+          <td>{{ contact.first }} {{ contact.last }}</td>
+          <td>{{ contact.email }}</td>
+          <td>{{ contact.phone_number }}</td>
           <td>{{ contact.message }}</td>
         </tr>
         {% endfor %}
@@ -121,7 +185,7 @@
           <td>{{ payment.id }}</td>
           <td>{{ payment.proposal.client.first_name }} {{ payment.proposal.client.last_name }}</td>
           <td>{{ payment.proposal.freelancer.first_name }} {{ payment.proposal.freelancer.last_name }}</td>
-          <td>{{ payment.payment_status }}</td>
+          <td>{{ payment.status }}</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -135,9 +199,8 @@
       <tr>
         <th>ID</th>
         <th>Client</th>
-        <th>Freelancer</th>
         <th>Title</th>
-        <th>Description</th>
+        <th>Budget</th>
         <th>Created At</th>
       </tr>
     </thead>
@@ -146,15 +209,14 @@
       <tr>
         <td>{{ project.id }}</td>
         <td>{{ project.client.first_name }} {{ project.client.last_name }}</td>
-        <td>{{ project.freelancer.first_name }} {{ project.freelancer.last_name }}</td>
-        <td>{{ project.project_title }}</td>
-        <td>{{ project.project_description }}</td>
+        <td>{{ project.title }}</td>
+        <td>{{ project.budget }}</td>
         <td>{{ project.created_at }}</td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
-{% endif %}
+  {% endif %}
 
 </body>
 </html>

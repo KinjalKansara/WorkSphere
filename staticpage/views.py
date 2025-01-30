@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.core.mail import send_mail
 import re
+
+from client.models import ClientPostProject, ClientRegisterLogin
+from freelancer.models import FreelancerProposal, FreelancerRegisterLogin
 from .models import *
 
 # Create your views here.
@@ -9,7 +12,13 @@ def header_footer(request):
     return render(request, 'header_footer.html')
 
 def home(request):
-    return render(request, 'home.html')
+    stats = {
+        'total_clients': ClientRegisterLogin.objects.count(),
+        'total_freelancers': FreelancerRegisterLogin.objects.count(),
+        'total_proposals': FreelancerProposal.objects.count(),
+        'total_projects': ClientPostProject.objects.count(),
+    }
+    return render(request, 'home.html', {'stats': stats})
 
 def terms(request):
     return render(request, 'terms.html')
@@ -121,3 +130,6 @@ def select_login(request):
 
 def header_footer_select(request):
     return render(request, 'header_footer_select.html')
+
+def error_404_view(request, exception=None):
+    return render(request, '404.html', status=404)

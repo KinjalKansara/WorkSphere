@@ -169,6 +169,7 @@ def freelancer_register_login(request):
 
 
 def freelancer_forgot_password(request):
+    error_message = None
     if request.method == 'POST':
         user_email = request.POST.get('email')
 
@@ -200,6 +201,8 @@ def freelancer_forgot_password(request):
     return render(request, 'auth/freelancer_forgot_password.html', {'error_message': error_message})
 
 def freelancer_verify_otp(request):
+    error_message = None
+
     if request.method == 'POST':
         otp = request.POST.get('otp')
 
@@ -218,6 +221,8 @@ def freelancer_verify_otp(request):
     return render(request, 'auth/freelancer_verify_otp.html')
 
 def freelancer_reset_password(request):
+    error_message = None
+
     if request.method == 'POST':
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
@@ -468,11 +473,19 @@ def confirm_proposal(request):
             proposal.save()
 
             # Send email to freelancer notifying them about the proposal completion
-            subject = f"Proposal for '{proposal.project.title}' has been Confirmed"
-            message = f"Hello {freelancer.first_name},\n\nCongratulations! Your proposal for the project '{proposal.project.title}' has been confirmed and completed by the client.\n\nDetails:\nTitle: {proposal.project.title}\nBid: ${proposal.bid}\n\nBest regards,\nWorksPhere Team"
+            subject = f"Project for '{proposal.project.title}' has been Confirmed"
+            message = f"Hello {freelancer.first_name},\n\nCongratulations! Your proposal for the project '{proposal.project.title}' has been confirmed and completed by the client {proposal.client.first_name} {proposal.client.last_name}.\n\nDetails:\nTitle: {proposal.project.title}\nBid: ${proposal.bid}\n\nBest regards,\nWorksPhere Team"
             from_email = 'worksphere05@gmail.com'
             recipient_list = [freelancer.email]
             send_mail(subject, message, from_email, recipient_list)
+
+            # Send email to client notifying them about the proposal completion
+            subject = f"Project for '{proposal.project.title}' has been Confirmed"
+            message = f"Hello {client.first_name},\n\nYour project '{proposal.project.title}' has been successfully completed by the freelancer '{freelancer.first_name} {freelancer.last_name}'.\n\nDetails:\nTitle: {proposal.project.title}\nFreelancer: {freelancer.first_name} {freelancer.last_name}\nBid: ${proposal.bid}\n\nThank you for using WorksPhere!\n\nBest regards,\nWorksPhere Team"
+            from_email = 'worksphere05@gmail.com'
+            recipient_list = [client.email]
+            send_mail(subject, message, from_email, recipient_list)
+
 
             # Send a notification to the freelancer about the proposal confirmation
             Notification.objects.create(
@@ -611,7 +624,7 @@ def freelancer_send_proposal(request, project_id):
 
                 # Email to freelancer confirming proposal submission
                 subject = f"Proposal Submitted for '{title}'"
-                message = f"Hello {freelancer.first_name},\n\nYou have successfully submitted your proposal for the project titled '{title}'.\n\nDetails:\nDescription: {description}\nBid: ${bid}\nDuration: {duration} days\n\nYou will be notified if the client accepts your proposal.\n\nBest regards,\nWorksPhere Team"
+                message = f"Hello {freelancer.first_name},\n\nYou have successfully submitted your proposal for the project titled '{title}'.\n\nDetails:\nClient: {client.first_name} {client.last_name}\nBid: ${bid}\nDuration: {duration} days\n\nYou will be notified if the client accepts your proposal.\n\nBest regards,\nWorksPhere Team"
                 from_email = 'worksphere05@gmail.com'
                 recipient_list = [freelancer.email]
                 send_mail(subject, message, from_email, recipient_list)

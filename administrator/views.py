@@ -341,6 +341,8 @@ def generate_pdf(request):
             data['clients'] = ClientRegisterLogin.objects.all()
         if "freelancer" in selected_fields:
             data['freelancers'] = FreelancerRegisterLogin.objects.all()
+        if "freelancer_bank" in selected_fields:
+            data['freelancer_bank'] = ClientPostProject.objects.all()
         if "contact" in selected_fields:
             data['contacts'] = ClientContact.objects.all()
         if "payment" in selected_fields:

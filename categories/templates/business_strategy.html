@@ -62,6 +62,7 @@
       border: 1px solid #ccc;
       border-radius: 8px 0 0 8px;
       font-size: 16px;
+      font-family: Candara;
       outline: none;
     }
 
@@ -246,26 +247,27 @@
       <h2>Business Strategy Projects</h2>
       <p>Discover projects focused on strategic planning, market analysis, and growth initiatives. Showcase your expertise in business strategy and make an impact.</p>
     </div>
-    <div class="search-bar">
-      <input type="text" placeholder="Search for projects...">
-      <button><i class="fas fa-search"></i></button>
-    </div>
+    <form method="GET" action="">    
+      <div class="search-bar">
+          <input type="text" name="q" placeholder="Search for projects..." value="{{ query }}">
+          <button type="submit"><i class="fas fa-search"></i></button>
+      </div>
+    </form>
     <ul class="project-list">
-      {% for business in business %}
+      {% for business in machine %}
       <li class="project-card">
         <div class="project-header">
-          <h3>{{ business.title }}</h3>
+          <h3>{{ business.title | truncatechars:20 }}</h3>
           {% if business.status == "open" %}
           <span class="status-open">Open</span>
           {% else %}
           <span class="status-closed">Closed</span>
           {% endif %}
         </div>
-        <img src="/media/{{ business.photosurl }}" alt="Project Image">
+        <img src="/media/{{business.photo}}" alt="Project Image">
         <div class="project-footer">
           <span><i class="fas fa-dollar-sign"></i> Budget: {{ business.budget }}</span>
           <span><i class="fas fa-coins"></i> Type: {{ business.budget_type }}</span>
-          <span><i class="fas fa-star"></i> Rating: {{ business.rating }}</span>
           <span><i class="fas fa-calendar-alt"></i> Deadline: {{ business.deadline }}</span>
         </div>
         <a href="{% url 'project_view' business.id %}" class="view-details">View Project</a>

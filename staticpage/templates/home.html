@@ -7,8 +7,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WorksPhare - Empowering Your Projects</title>
-    <meta name="description" content="WorksPhare is your ultimate platform for seamless collaboration between clients and freelancers. Post your project or browse exciting opportunities.">
+    <title>WorkSphere - Empowering Your Projects</title>
+    <meta name="description" content="WorkSphere is your ultimate platform for seamless collaboration between clients and freelancers. Post your project or browse exciting opportunities.">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arial:wght@400;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
@@ -16,8 +16,11 @@
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Arial', sans-serif;
             background-color: #f4f4f9;
+        }
+
+        .home{
+            max-width: 1000;
         }
 
         .hero {
@@ -26,7 +29,8 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 6rem 1rem;
+            height: 350px; /* Set a specific height */
+            padding: 1rem;
             background: linear-gradient(135deg, #007BFF, #0056b3) no-repeat center center/cover;
             color: #fff;
             position: relative;
@@ -35,13 +39,15 @@
         }
 
         .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
+            font-size: 70px;
+            font-family:Candara;
+            margin-bottom: 18px;
             font-weight: bold;
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 16px;
+            font-family: verdana;
             margin-bottom: 2rem;
         }
 
@@ -58,186 +64,485 @@
             transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
         }
 
-        .btn-primary {
-            background: #007BFF;
-            color: #fff;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background: #0056b3;
-            transform: translateY(-2px);
-        }
-
         .btn-secondary {
-            background: #333;
+            background: #1e88e5; /* Original blue color */
             color: #fff;
             border: none;
+            font-family: verdana;
+            font-size:15px;
+            transition: background 0.3s ease, transform 0.3s ease; /* Smooth transition */
         }
-
+        
         .btn-secondary:hover {
-            background: #555;
+            background:rgb(8, 123, 255); /* Slightly darker blue for hover */
             transform: translateY(-2px);
         }
+        
 
         /* Features Section */
         .features {
-            padding: 4rem 1rem;
+            margin-top: 50px;
+            padding: 1rem 20px; /* Reduced padding */
             text-align: center;
+            {% comment %} background: rgb(217, 229, 240); /* Light background color */ {% endcomment %}
+            border-radius: 10px;
+            width: 90%; /* Makes the width responsive */
+            max-width: 1500px; /* Optional: limits the maximum width */
+            margin-left: auto;
+            margin-right: auto; /* Centers the box horizontally */
         }
-
+        
         .features h2 {
-            margin-bottom: 2rem;
-            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-size: 30px;
+            font-family: verdana;
             color: #007BFF;
+            font-weight: 600;
         }
-
+        
         .feature-list {
             display: flex;
-            justify-content: center;
-            gap: 3rem;
-            flex-wrap: wrap;
+            justify-content: space-between; /* Distributes the items evenly in one row */
+            gap: 20px; /* Adjusts the space between items */
+            flex-wrap: nowrap; /* Prevents wrapping and keeps all items in one row */
+            margin-top: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
+        .feature-list{
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
         .feature {
             background: #fff;
-            padding: 2rem;
+            padding: 10px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 280px;
-            text-align: left;
+            width: 23%; /* Adjusted width to fit 4 items in one row */
+            text-align: center;
+            margin: 0; /* Removes extra margin around each feature */
         }
-
+        
         .feature i {
-            font-size: 2rem;
-            margin-bottom: 1rem;
+            font-size: 24px;
+            margin-top: 14px;
+            margin-bottom: 14px;
             color: #007BFF;
         }
-
+        
         .feature h3 {
-            font-size: 1.6rem;
+            font-size: 18px;
+            font-family: verdana;
             margin-bottom: 1rem;
             color: #333;
         }
-
+        
         .feature p {
-            font-size: 1rem;
+            font-size: 16px;
+            font-family: Candara;
             color: #555;
         }
 
+
+        /* Top Categories Section */
+        .top-categories {
+            margin-top: 50px;
+            padding: 1rem 20px; /* Reduced padding */
+            text-align: center;
+            {% comment %} background: rgb(217, 229, 240); /* Light background color */ {% endcomment %}
+            border-radius: 10px;
+            width: 90%; /* Makes the width responsive */
+            max-width: 1500px; /* Optional: limits the maximum width */
+            margin-left: auto;
+            margin-right: auto; /* Centers the box horizontally */
+        }
+        
+        .top-categories h2 {
+            margin-bottom: 20px;
+            font-size: 30px;
+            font-family: verdana;
+            color: #007BFF;
+            font-weight: 600;
+        }
+        
+        .category-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 items per row */
+            gap: 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .category {
+            background: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .category:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Smaller Image Sizes */
+        .category-img {
+            width: 100%; /* Ensure it takes full width of its parent */
+            height: 150px; /* Reduced height to make all images smaller */
+            object-fit: cover; /* Ensures images maintain aspect ratio without distortion */
+            border-radius: 8px;
+            margin-bottom: 14px;
+        }
+        
+        .category h4 {
+            font-size: 18px;
+            font-family: Verdana;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .category p {
+            font-size: 16px;
+            font-family: Candara;
+            color: #555;
+        }
+        
+        .explore-button {
+            display: inline-block;
+            padding: 12px 24px; /* Adjusts the size of the button */
+            font-size: 18px;
+            font-family:verdana;
+            color: #fff;
+            background-color: #007BFF; /* Blue background */
+            border-radius: 8px;
+            text-decoration: none; /* Removes the default underline */
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions for color and hover effect */
+        }
+        
+        .explore-button:hover {
+            background-color: #0056b3; /* Darker blue when hovered */
+            transform: translateY(-5px); /* Slight lift on hover */
+        }
+        
+
         /* Left-Right Content Section */
         .left-right-content {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 4rem;
+            margin-top: 50px;
+            padding: 1rem 20px; /* Reduced padding */
+            text-align: center;
+            {% comment %} background-color: rgb(217, 229, 240); /* Light background color */ {% endcomment %}
+            border-radius: 10px;
+            width: 90%; /* Makes the width responsive */
+            max-width: 1500px; /* Optional: limits the maximum width */
+            margin-left: auto;
+            margin-right: auto; /* Centers the box horizontally */
         }
-
-        .left-right-content img {
-            max-width: 50%;
-            border-radius: 8px;
+        
+        .left-right-content h2 {
+            margin-bottom: 20px;
+            font-size: 30px;
+            font-family: Verdana;
+            color: #007BFF;
+            font-weight: 600;
         }
-
+        
         .left-right-content-text {
-            max-width: 50%;
-            text-align: left;
+            display: flex;
+            justify-content: space-between; 
+            align-items: center; 
+            flex-wrap: wrap; 
+            gap: 20px; 
         }
+        
+        .left-right-content-text p {
+            font-size: 16px;
+            font-family: Candara;
+            margin-bottom: 2rem;
+            flex: 1; /* Allows paragraphs to adjust and grow */
+        }
+        
+        .left-right-content-text img {
+            height: 250px;
+            width: 300px;
+            object-fit: cover; /* Maintains image aspect ratio */
+            border-radius: 10%; /* Optional: Makes the image circular */
+        }
+
+
+        /* Countdown Section */
+        .countdown-container {
+            margin-top: 50px;
+            padding: 1rem 20px;
+            text-align: center;
+            {% comment %} background: rgb(217, 229, 240); {% endcomment %}
+            border-radius: 10px;
+            width: 90%;
+            max-width: 1500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Heading */
+        .countdown-container h2 {
+            margin-bottom: 20px;
+            font-size: 30px;
+            font-family: verdana;
+            color: #007BFF;
+            font-weight: 600;
+        }
+        
+        /* Counter Wrapper - Keeps All Boxes in One Row */
+        .counter-wrapper {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+        }
+        
+        /* Counter Box */
+        .counter-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 180px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 10px;
+        }
+        
+        /* Hover effect */
+        .counter-box:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Counter Title */
+        .counter-box h3 {
+            margin-bottom: 10px;
+            font-size: 18px;
+            font-family: verdana;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        /* Counter Number */
+        .counter-box p {
+            font-size: 26px;
+            font-familt:Candara;
+            font-weight: bold;
+            color: #007bff;
+        }
+        
 
         /* Call to Action Section */
         .call-to-action {
+            margin-top: 50px;
             background: linear-gradient(135deg, #007BFF, #0056b3);
             color: #fff;
-            padding: 5rem 1rem;
+            padding: 1rem 20px;
             text-align: center;
             border-radius: 8px;
+            width: 90%;
+            max-width: 1500px;
+            margin-left: auto;
+            margin-right: auto;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
         }
 
         .call-to-action h2 {
-            font-size: 2.8rem;
+            font-size: 30px;
+            font-family: verdana;
             margin-bottom: 1.5rem;
             font-weight: bold;
         }
 
         .call-to-action p {
-            font-size: 1.2rem;
+            font-size: 16px;
+            font-family: Candara;
             margin-bottom: 2rem;
         }
 
+        /* Call to Action Button Container */
         .cta-buttons {
             display: flex;
             justify-content: center;
-            gap: 1rem;
+            gap: 1rem; /* Space between buttons */
         }
-
-        .testimonials {
-            background: #f9f9f9;
-            padding: 4rem 1rem;
-            text-align: center;
-        }
-
-        .testimonials h2 {
-            font-size: 2.5rem;
-            color: #007BFF;
-            margin-bottom: 3rem;
-        }
-
-        .testimonial {
-            display: flex;
-            align-items: center;
-            margin-bottom: 2rem;
-            background: #fff;
-            padding: 2rem;
+        
+        /* Individual Button Style */
+        .cta-button {
+            display: inline-block;
+            padding: 12px 24px; /* Adjusts the size of the button */
+            font-size: 18px;
+            font-family: Verdana, sans-serif;
+            color: #fff;
+            background-color: #007BFF; /* Blue background */
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-decoration: none; /* Removes the default underline */
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions for color and hover effect */
         }
+        
+        /* Hover Effect for Buttons */
+        .cta-button:hover {
+            background-color: #0056b3; /* Darker blue when hovered */
+            transform: translateY(-5px); /* Slight lift on hover */
+        }
+        
 
+        /* Testimonials Section */
+        .testimonials {
+            margin-top: 50px;
+            padding: 1rem 20px;
+            text-align: center;
+            {% comment %} background: rgb(217, 229, 240); /* Light background color */ {% endcomment %}
+            border-radius: 10px;
+            width: 90%;
+            max-width: 1500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Heading */
+        .testimonials h2 {
+            margin-bottom: 20px;
+            font-size: 30px;
+            font-family: verdana, sans-serif;
+            color: #007BFF;
+            font-weight: 600;
+        }
+        
+        /* Flexbox Container for Testimonials */
+        .testimonial-container {
+            display: flex;
+            justify-content: space-between; /* Distributes testimonials evenly */
+            gap: 20px; /* Space between each testimonial */
+            flex-wrap: wrap; /* Allows wrapping if necessary (for smaller screens) */
+            overflow-x: auto; /* Enables horizontal scrolling if necessary */
+            margin: 0 auto; /* Centers the container horizontally */
+        }
+        
+        /* Individual Testimonial */
+        .testimonial {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 300px; /* Fixed width like countdown boxes */
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 10px;
+            box-sizing: border-box; /* Prevents overflow */
+        }
+        
+        /* Hover effect */
+        .testimonial:hover {
+           
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Testimonial Image */
         .testimonial img {
             border-radius: 50%;
-            width: 80px;
-            height: 80px;
-            margin-right: 1.5rem;
+            width: 120px;
+            height: 120px;
+            margin-bottom: 10px; /* Adds space between image and text */
         }
-
+        
+        /* Testimonial Text */
+        .testimonial div {
+            text-align: center;
+        }
+        
+        /* Text Styling */
         .testimonial p {
-            font-size: 1rem;
+            font-size: 16px;
+            font-family: Candara, sans-serif;
             color: #555;
-            margin-bottom: 0.5rem;
+            line-height: 1.6;
         }
-
+        
+        /* Testimonial Name */
         .testimonial h3 {
-            margin: 0;
-            color: #007BFF;
+            font-size: 18px;
+            font-family: Verdana, sans-serif;
+            color: #333;
+            margin: 10px 0;
         }
+        
+        /* Testimonial Position */
+        .testimonial p:last-child {
+            font-size: 14px;
+            font-family: Verdana, sans-serif;
+            color: #777;
+        }
+        
 
         /* FAQ Section */
         .faq {
-            padding: 4rem 1rem;
-            background: #fff;
-        }
-
-        .faq h2 {
+            margin-top: 50px;
+            margin-bottom: 50px;
+            padding: 1rem 20px;
             text-align: center;
-            font-size: 2.5rem;
+            {% comment %} background: rgb(217, 229, 240); /* Light background color */ {% endcomment %}
+            border-radius: 10px;
+            width: 90%;
+            max-width: 1500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .faq-container {
+            display: flex;
+            justify-content: space-between; /* Space between image and content */
+            align-items: flex-start; /* Align items to the top */
+            max-width: 1200px;
+            width: 100%;
+            gap: 3rem; /* Space between image and content */
+        }
+        
+        .faq-image {
+            flex: 1;
+        }
+        
+        .faq-image img {
+            width: 100%;
+            max-width: 300px; /* Adjusts image size */
+            border-radius: 10px;
+            object-fit: cover; /* Ensures image aspect ratio is maintained */
+        }
+        
+        .faq-content {
+            flex: 2; /* Takes up more space for the FAQ content */
+            text-align: left;
+        }
+        
+        .faq h2 {
+            margin-bottom: 20px;
+            font-size: 30px;
+            font-family: verdana;
             color: #007BFF;
-            margin-bottom: 2rem;
+            font-weight: 600;
         }
-
+        
         .faq .faq-item {
-            margin-bottom: 1.5rem;
+            margin-bottom: 20px;
             border-bottom: 1px solid #ddd;
-            padding-bottom: 1rem;
+            padding-bottom: 10px;
         }
-
+        
         .faq h3 {
-            font-size: 1.4rem;
+            font-size: 18px;
+            font-family:Candara;
             color: #333;
-            margin-bottom: 0.5rem;
+            margin-bottom: 10px;
             cursor: pointer;
             position: relative;
         }
-
+        
         .faq h3::after {
             content: '\f078'; /* FontAwesome down arrow */
             font-family: 'FontAwesome';
@@ -245,18 +550,19 @@
             right: 0;
             transition: transform 0.3s ease;
         }
-
+        
         .faq p {
-            font-size: 1rem;
+            font-size: 14px;
+            font-family:verdana;
             color: #555;
             display: none;
             margin-top: 0.5rem;
         }
-
+        
         .faq-item.active h3::after {
-            transform: rotate(180deg);
+            transform: rotate(180deg); /* Rotates the arrow */
         }
-
+        
         .faq-item.active p {
             display: block;
         }
@@ -267,17 +573,17 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <h1>Welcome to WorksPhare</h1>
+        <img src="#" alt="logo"> 
+        <h1>Welcome to WorkSphere</h1>
         <p>Your ultimate platform for seamless collaboration between clients and freelancers.</p>
         <div class="cta-buttons">
-            <a href="/post-project" class="btn btn-primary">Post a Project</a>
             <a href="#features" class="btn btn-secondary">Learn More</a>
         </div>
     </section>
 
     <!-- Features Section -->
     <section id="features" class="features">
-        <h2>Why Choose WorksPhare?</h2>
+        <h2>Why Choose WorkSphere?</h2>
         <div class="feature-list">
             <div class="feature">
                 <i class="fas fa-briefcase fa-2x"></i>
@@ -302,100 +608,188 @@
         </div>
     </section>
 
+
+    <section id="top-categories" class="top-categories">
+        <h2>Top Categories</h2>
+        <div class="category-list">
+            <!-- Top Row of Categories -->
+            <div class="category">
+                <img src="/media/c1.jpg" alt="AI Development" class="category-img">
+                <h4>AI Development</h4>
+                <p>Explore advanced AI solutions with top professionals.</p>
+                <a href="{% url 'ai_developement' %}" class="explore-button">Explore More</a>
+            </div>
+            <div class="category">
+                <img src="/media/c3.jpg" alt="Software Development" class="category-img">
+                <h4>Software Development</h4>
+                <p>Hire skilled software developers for your next project.</p>
+                <a href="{% url 'software_development' %}" class="explore-button">Explore More</a>
+            </div>
+            <div class="category">
+                <img src="/media/c6.jpg" alt="Logo Design" class="category-img">
+                <h4>Logo Design</h4>
+                <p>Get a unique and creative logo designed for your brand.</p>
+                <a href="{% url 'logo_design' %}" class="explore-button">Explore More</a>
+            </div>
+            <div class="category">
+                <img src="/media/c7.jpg" alt="Video Editing" class="category-img">
+                <h4>Video Editing</h4>
+                <p>Enhance your video content with expert video editing.</p>
+                <a href="{% url 'video_editing' %}" class="explore-button">Explore More</a>
+            </div>
+            
+            <!-- Bottom Row of Categories -->
+            <div class="category">
+                <img src="/media/c9.jpg" alt="Business Strategy" class="category-img">
+                <h4>Business Strategy</h4>
+                <p>Strategize your business for growth and expansion.</p>
+                <a href="{% url 'business_strategy' %}" class="explore-button">Explore More</a>
+            </div>
+            <div class="category">
+                <img src="/media/c12.jpg" alt="Lyric Writing" class="category-img">
+                <h4>Lyric Writing</h4>
+                <p>Get professional lyricists for your music production.</p>
+                <a href="{% url 'lyric_writting' %}" class="explore-button">Explore More</a>
+            </div>
+            <div class="category">
+                <img src="/media/c13.jpg" alt="Content Creation" class="category-img">
+                <h4>Content Creation</h4>
+                <p>Get expert content creators for engaging social media posts.</p>
+                <a href="{% url 'content_creation' %}" class="explore-button">Explore More</a>
+            </div>
+            <div class="category">
+                <img src="/media/c16.jpg" alt="Legal Consulting" class="category-img">
+                <h4>Legal Consulting</h4>
+                <p>Consult with legal experts to protect your business.</p>
+                <a href="{% url 'legal_consulting' %}" class="explore-button">Explore More</a>
+            </div>
+        </div>
+    </section>
+    
     <!-- Left-Right Content Section -->
     <section class="left-right-content">
+        <h2>Why WorkSphere is Perfect for You</h2>
         <div class="left-right-content-text">
-            <h2>Why WorksPhare is Perfect for You</h2>
-            <p>Our platform is designed to foster collaboration, streamline workflows, and ensure seamless communication between project owners and skilled professionals. Whether you’re a client looking for top talent or a freelancer seeking exciting opportunities, WorksPhare is the perfect bridge to achieve your goals.</p>
+            <p>Our platform is designed to foster collaboration, streamline workflows, and ensure seamless communication between project owners and skilled professionals. Whether you’re a client looking for top talent or a freelancer seeking exciting opportunities, WorkSphere is the perfect bridge to achieve your goals.
+               At WorkSphere, we believe in connecting clients and freelancers to bring their visions to life. Our platform is designed to foster collaboration, streamline workflows, and ensure seamless communication between project owners and skilled professionals. 
+               Whether you’re a client looking for top talent or a freelancer seeking exciting opportunities, WorkSphere is the perfect bridge to achieve your goals.We aim to empower businesses and individuals to unlock their full potential, one project at a time. Our commitment to transparency, security, and quality ensures that every project, no matter how big or small, is handled with care and precision.
+            </p>
+            <img src="/media/Logo.jpg" alt="Collaboration Illustration" />
         </div>
-        <img src="https://via.placeholder.com/600x400" alt="Collaboration Illustration" />
     </section>
 
-    <!-- About WorksPhare Section -->
-    <section class="about-worksphare">
-        <h2>About WorksPhare</h2>
-        <p>At WorksPhare, we believe in connecting clients and freelancers to bring their visions to life. Our platform is designed to foster collaboration, streamline workflows, and ensure seamless communication between project owners and skilled professionals. Whether you’re a client looking for top talent or a freelancer seeking exciting opportunities, WorksPhare is the perfect bridge to achieve your goals.</p>
-        <p>We aim to empower businesses and individuals to unlock their full potential, one project at a time. Our commitment to transparency, security, and quality ensures that every project, no matter how big or small, is handled with care and precision.</p>
-    </section>
-
-    <!-- Benefits Section for Freelancers and Clients -->
-    <section class="benefits">
-        <h2>Benefits for Freelancers and Clients</h2>
-        <div class="left-right-content">
-            <img src="https://via.placeholder.com/600x400" alt="Freelancer Benefits Illustration" />
-            <div class="left-right-content-text">
-                <h3>Freelancers</h3>
-                <p>Gain access to a variety of projects, showcase your skills, and connect with potential clients who value your expertise. Earn competitive rates and build a portfolio that reflects your talent.</p>
-            </div>
-        </div>
-        <div class="left-right-content">
-            <div class="left-right-content-text">
+    <!-- Count Section -->
+    <section class="countdown-container">
+        <h2>Platform Statistics</h2>
+        <div class="counter-wrapper">
+            <div class="counter-box">
                 <h3>Clients</h3>
-                <p>Find top-tier freelancers for your projects, streamline workflows, and ensure quality deliverables. Save time and resources while ensuring your project goals are met with precision.</p>
+                <p>{{ stats.total_clients }}</p>
             </div>
-            <img src="https://via.placeholder.com/600x400" alt="Client Benefits Illustration" />
+            <div class="counter-box">
+                <h3>Freelancers</h3>
+                <p>{{ stats.total_freelancers }}</p>
+            </div>
+            <div class="counter-box">
+                <h3>Proposals</h3>
+                <p>{{ stats.total_proposals }}</p>
+            </div>
+            <div class="counter-box">
+                <h3>Posted Projects</h3>
+                <p>{{ stats.total_projects }}</p>
+            </div>
         </div>
     </section>
+
 
     <!-- Call to Action Section -->
     <section class="call-to-action">
         <h2>Ready to Get Started?</h2>
-        <p>Join thousands of clients and freelancers who are transforming their ideas into reality. Post your project or browse exciting opportunities today!</p>
+        <p>Join thousands of users who are transforming their businesses with WorkSphere. Start posting projects or browsing freelancers today!</p>
+
+        <!-- Call to Action Buttons -->
         <div class="cta-buttons">
-            <a href="/post-project" class="btn btn-primary">Post Your Project</a>
-            <a href="#testimonials" class="btn btn-secondary">See Testimonials</a>
+            <a href="#post-project" class="cta-button">Post a Project</a>
         </div>
     </section>
+
+
 
     <!-- Testimonials Section -->
     <section id="testimonials" class="testimonials">
         <h2>What Our Users Say</h2>
-        <div class="testimonial">
-            <img src="https://via.placeholder.com/80" alt="User Image" />
-            <div>
-                <p>"WorksPhare has transformed the way I work! The seamless project management and access to top-tier freelancers are exactly what I needed. Highly recommend!"</p>
-                <h3>John Doe</h3>
-                <p>CEO, Example Company</p>
+
+        <!-- Flexbox Container for Testimonials -->
+        <div class="testimonial-container">
+            
+            <!-- Testimonial 1 -->
+            <div class="testimonial">
+                <img src="/media/f1.jpg" alt="User Image" />
+                <div>
+                    <p>"Finding skilled freelancers was never this easy. WorkSphere helped me complete my project on time and exceeded my expectations!"</p>
+                    <h3>Dev Singhaniya</h3>
+                    <p>Freelancer</p>
+                </div>
+                
             </div>
-        </div>
-        <div class="testimonial">
-            <img src="https://via.placeholder.com/80" alt="User Image" />
-            <div>
-                <p>"Finding skilled freelancers was never this easy. WorksPhare helped me complete my project on time and exceeded my expectations!"</p>
-                <h3>Jane Smith</h3>
-                <p>Project Manager</p>
+
+            <!-- Testimonial 2 -->
+            <div class="testimonial">
+                <img src="/media/f2.jpg" alt="User Image" />
+                <div>
+                    <p>"WorkSphere has transformed the way I work! The seamless project management and access to top-tier freelancers are exactly what I needed."</p>
+                    <h3>Riya Varma</h3>
+                    <p>Client</p>
+                </div>
             </div>
-        </div>
-        <div class="testimonial">
-            <img src="https://via.placeholder.com/80" alt="User Image" />
-            <div>
-                <p>"The platform is intuitive, user-friendly, and secure. I've had a fantastic experience with WorksPhare!"</p>
-                <h3>Emily Johnson</h3>
-                <p>Freelancer</p>
+
+            <!-- Testimonial 3 -->
+            <div class="testimonial">
+                <img src="/media/f3.jpg" alt="User Image" />
+                <div>
+                    <p>"The platform is intuitive, user-friendly, and secure. I've had a fantastic experience with WorkSphere!"</p>
+                    <h3>Emily Johnson</h3>
+                    <p>Freelancer</p>
+                </div>
+                
             </div>
         </div>
     </section>
 
-    <!-- FAQ Section -->
-    <section class="faq">
-        <h2>Frequently Asked Questions</h2>
-        <div class="faq-item">
-            <h3>How does WorksPhare ensure payment security?</h3>
-            <p>We use secure payment systems to ensure trust and transparency between clients and freelancers. Funds are held securely until project milestones are met.</p>
+
+
+<!-- FAQ Section -->
+<section class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-container">
+        <!-- Image on One Side -->
+        <div class="faq-image">
+            <img src="/media/faq.gif" alt="FAQ Image" />
         </div>
-        <div class="faq-item">
-            <h3>Can I post projects for free?</h3>
-            <p>Yes, you can post projects for free. Our platform offers flexible options to meet your needs, whether you're a client or a freelancer.</p>
+
+        <!-- FAQ Items on the Other Side -->
+        <div class="faq-content">
+            <div class="faq-item">
+                <h3>How does WorkSphere ensure payment security?</h3>
+                <p>We use secure payment systems to ensure trust and transparency between clients and freelancers. Funds are held securely until project milestones are met.</p>
+            </div>
+            <div class="faq-item">
+                <h3>Can I post projects for free?</h3>
+                <p>Yes, you can post projects for free. Our platform offers flexible options to meet your needs, whether you're a client or a freelancer.</p>
+            </div>
+            <div class="faq-item">
+                <h3>How do I get started as a client?</h3>
+                <p>Create an account, fill in your profile details, and start posting your project requirements or searching for freelancers.</p>
+            </div>
+            <div class="faq-item">
+                <h3>Is there customer support available?</h3>
+                <p>Yes, we offer 24/7 customer support to assist with any questions or issues you may encounter while using WorkSphere. For more information, please visit our <a href="/contact.html">Contact Us</a> page.</p>
+            </div>
         </div>
-        <div class="faq-item">
-            <h3>How do I find the right freelancer for my project?</h3>
-            <p>Our advanced search and filtering tools allow you to browse through a diverse range of freelancers based on your specific requirements and preferences.</p>
-        </div>
-        <div class="faq-item">
-            <h3>Is there customer support available?</h3>
-            <p>Yes, we offer 24/7 customer support to assist with any questions or issues you may encounter while using WorksPhare. For more information, please visit our <a href="/contact.html">Contact Us</a> page.</p>
-        </div>
-    </section>
+    </div>
+</section>
+
+
 
 </section>
 <script>

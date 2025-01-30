@@ -156,7 +156,7 @@ def client_register_login(request):
 
 
 def client_forgot_password(request):
-    # error_message = None
+    error_message = None
 
     if request.method == 'POST':
         user_email = request.POST.get('email')
@@ -195,6 +195,8 @@ def client_forgot_password(request):
 
 
 def client_verify_otp(request):
+    error_message = None
+    
     if request.method == 'POST':
         otp = request.POST.get('otp')
 

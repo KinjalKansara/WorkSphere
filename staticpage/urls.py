@@ -16,4 +16,5 @@ urlpatterns = [
     path('categories/', views.categories, name='categories'),
     path('header_footer/', views.header_footer, name='header_footer'),
     path('header_footer_select/', views.header_footer_select, name='header_footer_select'),
+    path('page-not-found/', views.error_404_view, name='error_404_view'),
 ]

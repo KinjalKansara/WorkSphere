@@ -13,143 +13,224 @@ def project_view(request, project_id):
     return render(request, 'project_view.html', context)
 
 def ai_developement(request):
-    category = ClientPostProject.objects.filter(category = 'ai_developement')
+    query = request.GET.get('q', '')  # Get search query from the GET request
+    machine = ClientPostProject.objects.filter(category='ai_developement')  # Filter only Machine Learning projects
+
+    if query:
+        machine = machine.filter(title__icontains=query)  # Apply search filter on project titles
     
     context ={
-        'ai' : category
+        'machine': machine, 
+        'query': query
     }
     return render(request, 'ai_development.html', context)
 
 def animation(request):
-    category = ClientPostProject.objects.filter(category = 'animation')
+    query = request.GET.get('q', '')  # Get search query from the GET request
+    machine = ClientPostProject.objects.filter(category='animation')  # Filter only Machine Learning projects
+
+    if query:
+        machine = machine.filter(title__icontains=query)  # Apply search filter on project titles
     
     context ={
-        'anim' : category
+        'machine': machine, 
+        'query': query
     }
+
     return render(request, 'animation.html', context)
 
 def business_strategy(request):
-    category = ClientPostProject.objects.filter(category = 'business_strategy')
+    query = request.GET.get('q', '')  # Get search query from the GET request
+    machine = ClientPostProject.objects.filter(category='business_strategy')  # Filter only Machine Learning projects
+
+    if query:
+        machine = machine.filter(title__icontains=query)  # Apply search filter on project titles
     
     context ={
-        'business' : category
+        'machine': machine, 
+        'query': query
     }
 
     return render(request, 'business_strategy.html', context)
 
 def content_creation(request):
-    category = ClientPostProject.objects.filter(category = 'content_creation')
+    query = request.GET.get('q', '')  # Get search query from the GET request
+    machine = ClientPostProject.objects.filter(category='content_creation')  # Filter only Machine Learning projects
+
+    if query:
+        machine = machine.filter(title__icontains=query)  # Apply search filter on project titles
     
     context ={
-        'content' : category
+        'machine': machine, 
+        'query': query
     }
 
     return render(request, 'content_creation.html', context)
 
 def contract_drafting(request):
-    category = ClientPostProject.objects.filter(category = 'contract_drafting')
+    query = request.GET.get('q', '')  # Get search query from the GET request
+    machine = ClientPostProject.objects.filter(category='contract_drafting')  # Filter only Machine Learning projects
+
+    if query:
+        machine = machine.filter(title__icontains=query)  # Apply search filter on project titles
     
     context ={
-        'contract' : category
+        'machine': machine, 
+        'query': query
     }
     
     return render(request, 'contract_drafting.html', context)
 
 def graphic_design(request):
-    category = ClientPostProject.objects.filter(category = 'graphic_design')
+    query = request.GET.get('q', '')  # Get search query from the GET request
+    machine = ClientPostProject.objects.filter(category='graphic_design')  # Filter only Machine Learning projects
+
+    if query:
+        machine = machine.filter(title__icontains=query)  # Apply search filter on project titles
     
     context ={
-        'graphic' : category
+        'machine': machine, 
+        'query': query
     }
     
     return render(request, 'graphic_design.html', context)
 
 def legal_consulting(request):
-    category = ClientPostProject.objects.filter(category = 'legal_consulting')
+    query = request.GET.get('q', '')  # Get search query from the GET request
+    machine = ClientPostProject.objects.filter(category='legal_consulting')  # Filter only Machine Learning projects
+
+    if query:
+        machine = machine.filter(title__icontains=query)  # Apply search filter on project titles
     
     context ={
-        'legal' : category
+        'machine': machine, 
+        'query': query
     }
     
     return render(request, 'legal_consulting.html', context)
 
 def logo_design(request):
-    category = ClientPostProject.objects.filter(category = 'logo_design')
+    query = request.GET.get('q', '')  # Get search query from the GET request
+    machine = ClientPostProject.objects.filter(category='logo_design')  # Filter only Machine Learning projects
+
+    if query:
+        machine = machine.filter(title__icontains=query)  # Apply search filter on project titles
     
     context ={
-        'logo' : category
+        'machine': machine, 
+        'query': query
     }
     
     return render(request, 'logo_design.html', context)
 
 def machine_learning(request):
-    category = ClientPostProject.objects.filter(category = 'machine_learning')
+    query = request.GET.get('q', '')  # Get search query from the GET request
+    machine = ClientPostProject.objects.filter(category='machine_learning')  # Filter only Machine Learning projects
+
+    if query:
+        machine = machine.filter(title__icontains=query)  # Apply search filter on project titles
     
     context ={
-        'machine' : category
+        'machine': machine, 
+        'query': query
     }
     
     return render(request, 'machine_learning.html', context)
 
 def market_research(request):
-    category = ClientPostProject.objects.filter(category = 'market_research')
+    query = request.GET.get('q', '')  # Get search query from the GET request
+    machine = ClientPostProject.objects.filter(category='market_research')  # Filter only Machine Learning projects
+
+    if query:
+        machine = machine.filter(title__icontains=query)  # Apply search filter on project titles
     
     context ={
-        'market' : category
+        'machine': machine, 
+        'query': query
     }
     
     return render(request, 'market_research.html', context)
 
 def social_media_marketing(request):
-    category = ClientPostProject.objects.filter(category = 'social_media_marketing')
+    query = request.GET.get('q', '')  # Get search query from the GET request
+    machine = ClientPostProject.objects.filter(category='social_media_marketing')  # Filter only Machine Learning projects
+
+    if query:
+        machine = machine.filter(title__icontains=query)  # Apply search filter on project titles
     
     context ={
-        'social' : category
+        'machine': machine, 
+        'query': query
     }
     
     return render(request, 'social_media_marketing.html', context)
 
 def software_development(request):
-    category = ClientPostProject.objects.filter(category = 'software_development')
+    query = request.GET.get('q', '')  # Get search query from the GET request
+    machine = ClientPostProject.objects.filter(category='software_development')  # Filter only Machine Learning projects
+
+    if query:
+        machine = machine.filter(title__icontains=query)  # Apply search filter on project titles
     
     context ={
-        'software' : category
+        'machine': machine, 
+        'query': query
     }
     
     return render(request, 'software_development.html', context)
 
 def video_editing(request):
-    category = ClientPostProject.objects.filter(category = 'video_editing')
+    query = request.GET.get('q', '')  # Get search query from the GET request
+    machine = ClientPostProject.objects.filter(category='video_editing')  # Filter only Machine Learning projects
+
+    if query:
+        machine = machine.filter(title__icontains=query)  # Apply search filter on project titles
     
     context ={
-        'video' : category
+        'machine': machine, 
+        'query': query
     }
     
     return render(request, 'video_editing.html', context)
 
 def web_development(request):
-    category = ClientPostProject.objects.filter(category = 'web_development')
+    query = request.GET.get('q', '')  # Get search query from the GET request
+    machine = ClientPostProject.objects.filter(category='web_development')  # Filter only Machine Learning projects
+
+    if query:
+        machine = machine.filter(title__icontains=query)  # Apply search filter on project titles
     
     context ={
-        'web' : category
+        'machine': machine, 
+        'query': query
     }
     
     return render(request, 'web_development.html', context)
 
 def music_composition(request):
-    category = ClientPostProject.objects.filter(category = 'music_composition')
+    query = request.GET.get('q', '')  # Get search query from the GET request
+    machine = ClientPostProject.objects.filter(category='music_composition')  # Filter only Machine Learning projects
+
+    if query:
+        machine = machine.filter(title__icontains=query)  # Apply search filter on project titles
     
     context ={
-        'music' : category
+        'machine': machine, 
+        'query': query
     }
     
     return render(request, 'music_composition.html', context)
 
 def lyric_writting(request):
-    category = ClientPostProject.objects.filter(category = 'lyric_writting')
+    query = request.GET.get('q', '')  # Get search query from the GET request
+    machine = ClientPostProject.objects.filter(category='lyric_writting') 
+
+    if query:
+        machine = machine.filter(title__icontains=query)  # Apply search filter on project titles
     
     context ={
-        'lyric' : category
+        'machine': machine, 
+        'query': query
     }
     
     return render(request, 'lyric_writting.html', context)

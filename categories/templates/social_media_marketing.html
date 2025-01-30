@@ -12,7 +12,6 @@
   <style>
     /* General Styling */
     body {
-      font-family: 'Poppins', sans-serif;
       margin: 0;
       background-color: #f0f2f5;
       color: #333;
@@ -37,7 +36,8 @@
     }
 
     .projects-header h2 {
-      font-size: 28px;
+      font-size: 40px;
+      font-family: Candara;
       color: #333;
       font-weight: 600;
       margin: 0;
@@ -45,6 +45,7 @@
 
     .projects-header p {
       font-size: 16px;
+      font-family: verdana;
       color: #666;
       margin: 10px 0 0;
     }
@@ -62,6 +63,7 @@
       border: 1px solid #ccc;
       border-radius: 8px 0 0 8px;
       font-size: 16px;
+      font-family: Candara;
       outline: none;
     }
 
@@ -100,7 +102,6 @@
     }
 
     .project-card:hover {
-      transform: scale(1.02);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
     }
 
@@ -121,6 +122,7 @@
 
     .project-header h3 {
       font-size: 22px;
+      font-family: Candara;
       color: #333;
       margin: 0;
     }
@@ -130,6 +132,7 @@
       border-radius: 5px;
       color: white;
       font-size: 12px;
+      font-family: Candara;
     }
 
     .project-header .status-open {
@@ -145,6 +148,7 @@
       flex-direction: column;
       gap: 10px;
       font-size: 14px;
+      font-family: verdana;
       color: #666;
     }
 
@@ -168,6 +172,7 @@
       border-radius: 8px;
       cursor: pointer;
       font-size: 12px;
+      font-family: verdana;
       text-decoration: none;
       transition: background-color 0.3s ease, transform 0.3s ease;
       text-align: center;
@@ -175,7 +180,7 @@
 
     .view-details:hover {
       background-color: #104a8e;
-      transform: scale(1.05);
+      transform: scale(1.01);
     }
 
     /* Responsive Design */
@@ -246,26 +251,27 @@
       <h2>Social Media Marketing</h2>
       <p>Explore dynamic social media marketing projects and seize the opportunity to enhance brand presence, engagement, and strategy across various platforms.</p>
     </div>    
-    <div class="search-bar">
-      <input type="text" placeholder="Search for projects...">
-      <button><i class="fas fa-search"></i></button>
-    </div>
+    <form method="GET" action="">    
+      <div class="search-bar">
+          <input type="text" name="q" placeholder="Search for projects..." value="{{ query }}">
+          <button type="submit"><i class="fas fa-search"></i></button>
+      </div>
+    </form>
     <ul class="project-list">
-      {% for social in social %}
+      {% for social in machine %}
       <li class="project-card">
         <div class="project-header">
-          <h3>{{ social.title }}</h3>
+          <h3>{{ social.title | truncatechars:20 }}</h3>
           {% if social.status == "open" %}
           <span class="status-open">Open</span>
           {% else %}
           <span class="status-closed">Closed</span>
           {% endif %}
         </div>
-        <img src="/media/{{ social.photosurl }}" alt="Project Image">
+        <img src="/media/{{social.photo}}" alt="Project Image">
         <div class="project-footer">
           <span><i class="fas fa-dollar-sign"></i> Budget: {{ social.budget }}</span>
           <span><i class="fas fa-coins"></i> Type: {{ social.budget_type }}</span>
-          <span><i class="fas fa-star"></i> Rating: {{ social.rating }}</span>
           <span><i class="fas fa-calendar-alt"></i> Deadline: {{ social.deadline }}</span>
         </div>
         <a href="{% url 'project_view' social.id %}" class="view-details">View Project</a>

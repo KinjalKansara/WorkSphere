@@ -11,83 +11,91 @@
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
     body {
-      font-family: 'Poppins', sans-serif;
       margin: 0;
       background-color: #f4f6f9;
       color: #333;
     }
 
     .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      padding: 20px;
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
     }
 
     .report-container {
       display: flex;
       flex-wrap: wrap;
-      max-width: 1200px;
+      max-width: 1000px;
       background: #fff;
-      border-radius: 15px;
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
       overflow: hidden;
       width: 100%;
     }
 
+    /* Header Centered with Bottom Spacing */
+    .report-header {
+      width: 100%;
+      text-align: center;
+      padding: 20px 0 10px;
+    }
+
+    .report-header h2 {
+      font-size: 40px;
+      font-family: Candara;
+      color: #1565c0;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
     .gif-container {
       flex: 1;
-      background-color: #1565c0;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 20px;
+      margin-left:25px;
+      margin-bottom:25px;
     }
 
     .gif-container img {
       max-width: 100%;
-      max-height: 400px;
-      border-radius: 10px;
+      max-height: 300px;
+      border-radius: 8px;
     }
 
     .form-container {
       flex: 1;
-      padding: 30px;
-    }
-
-    .report-header {
+      padding: 40px;
       text-align: center;
     }
 
-    .report-header h2 {
-      font-size: 28px;
-      font-weight: bold;
-      margin-bottom: 20px;
-      color: #333;
-    }
-
     .form-group {
-      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 15px;
     }
 
     .form-group label {
       font-size: 16px;
-      margin-bottom: 10px;
+      font-family: verdana;
+      background-color: #f0f2f5;
+      padding: 10px 18px;
+      width: 100%;
+      max-width: 280px;
+      border-radius: 6px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       display: flex;
       align-items: center;
       cursor: pointer;
-      background-color: #f0f2f5;
-      padding: 8px 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      transition: background-color 0.3s ease, transform 0.3s ease;
+      transition: all 0.3s ease;
+      margin: 5px 0;
     }
 
     .form-group label:hover {
-      background-color: #e8eaf6;
-      transform: scale(1.05);
+      background-color: #e3e6ef;
     }
 
     .form-group input[type="checkbox"] {
@@ -95,21 +103,21 @@
     }
 
     .submit-button {
-      padding: 12px 25px;
+      padding: 12px 30px;
       background-color: #1565c0;
       color: white;
       border: none;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
       font-size: 16px;
-      transition: background-color 0.3s ease, transform 0.3s ease;
-      display: block;
-      margin: 20px auto 0;
+      font-family: verdana;
+      margin-top: 20px;
+      transition: all 0.3s ease;
     }
 
     .submit-button:hover {
       background-color: #104a8e;
-      transform: scale(1.05);
+      transform: scale(1.01);
     }
 
     @media (max-width: 768px) {
@@ -117,15 +125,21 @@
         flex-direction: column;
       }
 
-      .gif-container,
-      .form-container {
-        flex: unset;
+      .gif-container {
+        flex: none;
         width: 100%;
+        padding: 30px;
         text-align: center;
       }
 
       .gif-container img {
-        max-height: 250px;
+        max-height: 220px;
+      }
+
+      .form-container {
+        flex: none;
+        width: 100%;
+        padding: 30px;
       }
     }
   </style>
@@ -133,38 +147,45 @@
 <body>
   <div class="container">
     <div class="report-container">
+      
+      <!-- Header Section -->
+      <div class="report-header">
+        <h2>Generate Your Reports</h2>
+      </div>
+
       <!-- GIF Section -->
       <div class="gif-container">
-        <img src="https://media.giphy.com/media/xTiTnxpQ3ghPiB2Hp6/giphy.gif" alt="Reports">
+        <img src="/media/report.gif" alt="Reports">
       </div>
 
       <!-- Report Form Section -->
       <div class="form-container">
-        <div class="report-header">
-          <h2>Generate Your Reports</h2>
-        </div>
         <form method="post" action="{% url 'generate_pdf' %}">
           {% csrf_token %}
           <div class="form-group">
             <label>
-              <input type="checkbox" name="fields" value="client"> Client
+              <input type="checkbox" name="fields" value="client"> Client Information
             </label>
             <label>
-              <input type="checkbox" name="fields" value="freelancer"> Freelancer
+              <input type="checkbox" name="fields" value="freelancer"> Freelancer Information
             </label>
             <label>
-              <input type="checkbox" name="fields" value="contact"> Contact
+              <input type="checkbox" name="fields" value="freelancer_bank"> Freelancer Bank Information
             </label>
             <label>
-              <input type="checkbox" name="fields" value="payment"> Payment
+              <input type="checkbox" name="fields" value="contact"> Contact Information
             </label>
             <label>
-              <input type="checkbox" name="fields" value="project"> Project
+              <input type="checkbox" name="fields" value="payment"> Payment Information
+            </label>
+            <label>
+              <input type="checkbox" name="fields" value="project"> Project Information
             </label>
           </div>
           <button type="submit" class="submit-button">Download PDF</button>
         </form>
       </div>
+
     </div>
   </div>
 </body>

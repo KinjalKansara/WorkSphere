@@ -156,9 +156,9 @@
     <div id="myModal" class="modal">
         <div class="modal-content">
             <div class="modal-description">
-                <h2>Welcome to Your Dashboard!</h2>
-                <p>We're excited to have you here. This dashboard will help you navigate through our platform and make the most out of your experience.</p>
-                <p>Here, you can post new projects, browse through available projects, manage your profile, and much more.</p>
+                <h2>Welcome to Your Freelancer Dashboard!</h2>
+                <p>We're thrilled to have you on board. This dashboard is your gateway to discovering exciting opportunities and managing your freelance career.</p>
+                <p>Here, you can submit proposals for available projects, manage your profile, track your work, and much more.</p>
             </div>
             <button class="modal-button">OK</button>
         </div>
@@ -183,11 +183,10 @@
         <!-- Submit Proposal -->
         <div class="box">
             <div class="icon icon-proposal"><i class="fas fa-file-alt"></i></div>
-            <h3>Submit Proposal</h3>
-            <p>Find the right projects and submit your proposal to start winning jobs.</p>
-            <a href="{% url 'freelancer_proposal' %}">Submit Proposal</a>
+            <h3>Your Submitted Proposals</h3>
+            <p>View the proposals you've submitted to projects, track their progress, and see responses from clients.</p>
+            <a href="{% url 'freelancer_proposal' %}">View Proposals</a>
         </div>
-
         <!-- Received Projects -->
         <div class="box">
             <div class="icon icon-received"><i class="fas fa-inbox"></i></div>
@@ -199,9 +198,9 @@
         <!-- Submit Project -->
         <div class="box">
             <div class="icon icon-submit"><i class="fas fa-upload"></i></div>
-            <h3>Submit Work</h3>
-            <p>Submit completed work for client approval and get paid for your hard work.</p>
-            <a href="{% url 'freelancer_submitted_project' %}">Submit Work</a>
+            <h3>Completed Projects</h3>
+            <p>View the projects you have completed successfully.</p>
+            <a href="{% url 'freelancer_submitted_project' %}">Completed Project</a>
         </div>
 
         <!-- Contact Support -->
