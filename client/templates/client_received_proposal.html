@@ -368,9 +368,9 @@
 
         <div class="button-group">
           <button class="view-details" onclick="viewDetails('{{ proposal.title }}', '{{ proposal.description }}', '{{ proposal.duration }}', '{{ proposal.bid }}', '{{ proposal.cover_letter }}', '{{ proposal.attachment}}', '{{ proposal.submitted_at|date:"Y-m-d H:i:s" }}')">View Details</button>
-          {% if proposal.status == 'Pending' %}
+         
           <a href="javascript:void(0);" class="view-details" onclick="startPayment({{proposal.id}}, {{proposal.bid}})">Approve and Payment</a>
-          {% endif %}
+          
         </div>        
       </li>
       {% endfor %}
