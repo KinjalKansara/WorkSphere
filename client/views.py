@@ -175,6 +175,7 @@ def client_forgot_password(request):
                 otp = random.randint(100000, 999999)
                 request.session['otp'] = otp
                 request.session['email'] = user.email
+                request.sesstion['check_email'] = user.email
 
                 # Send OTP via email
                 send_mail(
@@ -195,6 +196,9 @@ def client_forgot_password(request):
 
 
 def client_verify_otp(request):
+    if request.session.get('check_email') is None:
+        return redirect('client_register_login')
+
     error_message = None
     
     if request.method == 'POST':
@@ -219,6 +223,9 @@ def client_verify_otp(request):
 
 
 def client_reset_password(request):
+    if request.session.get('check_email') is None:
+        return redirect('client_register_login')
+
     error_message = None  # Initialize error message variable
 
     if request.method == "POST":
@@ -336,8 +343,16 @@ def client_contact(request):
 
 
 def client_post_project(request):
-    username = request.session.get('logged_user')
-    client = ClientRegisterLogin.objects.get(username=username)
+    try:
+        # Attempt to get the logged-in user from the session
+        username = request.session.get('logged_user')
+        if not username:
+            raise ValueError("Session expired or user not logged in.")
+
+        client = ClientRegisterLogin.objects.get(username=username)
+
+    except (ClientRegisterLogin.DoesNotExist, ValueError) as e:
+        return redirect('client_register_login')  # Redirect to login page if session is invalid or user is not found
 
     error_message = None  # Initialize error_message as None
     
@@ -451,146 +466,216 @@ def client_post_project(request):
     return render(request, 'client_post_project.html')
 
 
-
-
 def client_job_details(request, project_id):
-    username = request.session.get('logged_user')
-    client = ClientRegisterLogin.objects.get(username = username)
-    details = ClientPostProject.objects.get(id=project_id, client=client)
-    skills = details.skills_required.split(',')  # Assuming skills are stored as a comma-separated string
-    
-    context = {
-        'details' : details,
-        'skills' : skills,
-    }
-    return render(request, 'client_job_details.html', context)
+    try:
+        # Attempt to get the logged-in user from the session
+        username = request.session.get('logged_user')
+        if not username:
+            raise ValueError("Session expired or user not logged in.")
+
+        client = ClientRegisterLogin.objects.get(username=username)
+        details = ClientPostProject.objects.get(id=project_id, client=client)
+        skills = details.skills_required.split(',')  # Assuming skills are stored as a comma-separated string
+        
+        context = {
+            'details': details,
+            'skills': skills,
+        }
+        return render(request, 'client_job_details.html', context)
+
+    except (ClientRegisterLogin.DoesNotExist, ClientPostProject.DoesNotExist, ValueError):
+        return redirect('client_register_login')  # Redirect to login if user or project is not found
+
 
 def client_list_of_project(request):
-    username = request.session.get('logged_user')
-    client = ClientRegisterLogin.objects.get(username=username)
+    try:
+        # Attempt to get the logged-in user from the session
+        username = request.session.get('logged_user')
+        if not username:
+            raise ValueError("Session expired or user not logged in.")
 
-    # Fetch projects associated with the client and order by date (descending)
-    projects = ClientPostProject.objects.filter(client=client).order_by('-created_at')
+        client = ClientRegisterLogin.objects.get(username=username)
 
-    context = {
-        'projects': projects,
-        'details': {'description': 'Your project description <br> with <strong>HTML</strong> formatting here.'},
-    }
-    return render(request, 'client_list_of_project.html', context)
+        # Fetch projects associated with the client and order by date (descending)
+        projects = ClientPostProject.objects.filter(client=client).order_by('-created_at')
+
+        context = {
+            'projects': projects,
+            'details': {'description': 'Your project description <br> with <strong>HTML</strong> formatting here.'},
+        }
+        return render(request, 'client_list_of_project.html', context)
+
+    except (ClientRegisterLogin.DoesNotExist, ValueError):
+        return redirect('client_register_login')  # Redirect to login if session is invalid or user not found
 
 
 def client_profile(request):
-    username = request.session.get('logged_user')
-    client = ClientRegisterLogin.objects.get(username=username)
+    try:
+        # Attempt to get the logged-in user from the session
+        username = request.session.get('logged_user')
+        if not username:
+            raise ValueError("Session expired or user not logged in.")
 
-    context ={
-        'client' : client,
-    }
-    return render(request, 'client_profile.html', context)
+        client = ClientRegisterLogin.objects.get(username=username)
+
+        context = {
+            'client': client,
+        }
+        return render(request, 'client_profile.html', context)
+
+    except (ClientRegisterLogin.DoesNotExist, ValueError):
+        return redirect('client_register_login')  # Redirect to login if session is invalid or user not found
+
 
 def client_edit_profile(request):
-    username = request.session.get('logged_user')
-    client = ClientRegisterLogin.objects.get(username=username)
+    try:
+        # Attempt to get the logged-in user from the session
+        username = request.session.get('logged_user')
+        if not username:
+            raise ValueError("Session expired or user not logged in.")
 
-    if request.method == "POST":
-        bio = request.POST.get('bio')
-        password = request.POST.get('password')
-        phone = request.POST.get('phone')
-        location = request.POST.get('location')
-        company = request.POST.get('company')
+        client = ClientRegisterLogin.objects.get(username=username)
 
-        if bio:
-            client.bio = bio
-        if password:
-            client.password = password
-        if phone:
-            client.phone_no = phone
-        if location:
-            client.location = location
-        if company:
-            client.company = company
+        if request.method == "POST":
+            bio = request.POST.get('bio')
+            password = request.POST.get('password')
+            phone = request.POST.get('phone')
+            location = request.POST.get('location')
+            company = request.POST.get('company')
 
-        client.save()
+            if bio:
+                client.bio = bio
+            if password:
+                client.password = password  # Consider hashing the password before saving
+            if phone:
+                client.phone_no = phone
+            if location:
+                client.location = location
+            if company:
+                client.company = company
 
-        return redirect('client_profile')
+            client.save()
 
-    context = {
-        'client': client,
-    }
+            return redirect('client_profile')
 
-    return render(request, 'client_edit_profile.html', context)
+        context = {
+            'client': client,
+        }
+        return render(request, 'client_edit_profile.html', context)
+
+    except (ClientRegisterLogin.DoesNotExist, ValueError):
+        return redirect('client_register_login')  # Redirect to login if session is invalid or user not found
+
 
 def client_received_proposal(request):
-    user = request.session.get('logged_user')
-    client = ClientRegisterLogin.objects.get(username=user)  # Get the logged-in client
-    # Get all projects for this client
-    client_projects = ClientPostProject.objects.filter(client=client)
-    # Fetch the proposals related to this client's projects
-    proposals = FreelancerProposal.objects.filter(project__in=client_projects)
-    # Now filter all proposals for that project ID
-    selected_proposals = proposals.filter(project__in=client_projects)
-    # Prepare context data to pass to the template
-    context = {
-        'client': client,
-        'proposals': proposals,  
-        'selected_proposal': selected_proposals,
-    }
+    try:
+        # Attempt to get the logged-in user from the session
+        user = request.session.get('logged_user')
+        if not user:
+            raise ValueError("Session expired or user not logged in.")
 
-    return render(request, 'client_received_proposal.html', context)
+        client = ClientRegisterLogin.objects.get(username=user)  # Get the logged-in client
+        
+        # Get all projects for this client
+        client_projects = ClientPostProject.objects.filter(client=client)
+        
+        # Fetch the proposals related to this client's projects
+        proposals = FreelancerProposal.objects.filter(project__in=client_projects)
+        
+        # Now filter all proposals for that project ID
+        selected_proposals = proposals.filter(project__in=client_projects)
+
+        # Prepare context data to pass to the template
+        context = {
+            'client': client,
+            'proposals': proposals,  
+            'selected_proposal': selected_proposals,
+        }
+
+        return render(request, 'client_received_proposal.html', context)
+
+    except (ClientRegisterLogin.DoesNotExist, ValueError):
+        return redirect('client_register_login')  # Redirect to login if session is invalid or user not found
+
 
 def client_payment(request):
-    # Fetch all payments with status 'Completed' from the database
-    payments = Payment.objects.filter(status="Completed")
+    try:
+        # Attempt to get the logged-in user from the session
+        username = request.session.get('logged_user')
+        if not username:
+            raise ValueError("Session expired or user not logged in.")
 
-    # Pass the filtered payments to the template
-    return render(request, 'client_payment.html', {'payments': payments})
+        client = ClientRegisterLogin.objects.get(username=username)  # Ensure the client exists
+
+        # Fetch all payments with status 'Completed' from the database
+        payments = Payment.objects.filter(status="Completed")
+
+        # Pass the filtered payments to the template
+        return render(request, 'client_payment.html', {'payments': payments})
+
+    except (ClientRegisterLogin.DoesNotExist, ValueError):
+        return redirect('client_register_login')  # Redirect to login if session is invalid or user not found
+
 
 def client_dashboard(request):
     return render(request, 'client_dashboard.html')
 
-# Client's received proposals
+
+
 def client_submitted_project(request):
-    user = request.session.get('logged_user')
     try:
+        # Attempt to get the logged-in user from the session
+        user = request.session.get('logged_user')
+        if not user:
+            raise ValueError("Session expired or user not logged in.")
+
         client = ClientRegisterLogin.objects.get(username=user)
-    except ClientRegisterLogin.DoesNotExist:
-        return redirect('error_page')
 
-    # Get the client's received proposals (proposals from freelancers)
-    received_proposals = FreelancerProposal.objects.filter(client=client, status = 'Completed')
-    freelancer = FreelancerRegisterLogin.objects.all()
+        # Get the client's received proposals (proposals from freelancers)
+        received_proposals = FreelancerProposal.objects.filter(client=client, status='Completed')
+        freelancer = FreelancerRegisterLogin.objects.all()
 
-    context = {
-        'completed_projects': received_proposals,
-        'freelancer' : freelancer
-    }
-    return render(request, 'client_submitted_project.html', context)
+        context = {
+            'completed_projects': received_proposals,
+            'freelancer': freelancer
+        }
+        return render(request, 'client_submitted_project.html', context)
+
+    except (ClientRegisterLogin.DoesNotExist, ValueError):
+        return redirect('client_register_login')  # Redirect to login if session is invalid or user not found
 
 
 def client_notification(request):
-# Determine the role of the logged-in user
-    username = request.session.get('logged_user')
-    role = request.session.get('role')  # e.g., 'ADMIN', 'CLIENT', 'FREELANCER'
+    try:
+        # Attempt to get the logged-in user from the session
+        username = request.session.get('logged_user')
+        role = request.session.get('role')  # e.g., 'ADMIN', 'CLIENT', 'FREELANCER'
 
-    # Query notifications based on role
-    if role == 'ADMIN':
-        # Admin gets all notifications of type 'admin'
-        notifications = Notification.objects.filter(notification_type='admin').order_by('-created_at')
-    elif role == 'CLIENT':
-        # Clients see notifications sent to 'ALL_CLIENTS' or their specific username
-        notifications = Notification.objects.filter(notification_type='client',).order_by('-created_at')
-    elif role == 'FREELANCER':
-        # Freelancers see notifications sent to their specific username
-        notifications = Notification.objects.filter(notification_type='freelancer').order_by('-created_at')
-    else:
-        # Invalid role, redirect to login or handle accordingly
-        return redirect('client_register_login')
+        if not username or not role:
+            raise ValueError("Session expired or invalid role.")
 
-    context = {
-        'notifications': notifications,
-    }
-    
-    return render(request, 'client_notification.html', context)
+        # Query notifications based on role
+        if role == 'ADMIN':
+            # Admin gets all notifications of type 'admin'
+            notifications = Notification.objects.filter(notification_type='admin').order_by('-created_at')
+        elif role == 'CLIENT':
+            # Clients see notifications sent to 'ALL_CLIENTS' or their specific username
+            notifications = Notification.objects.filter(notification_type='client').order_by('-created_at')
+        elif role == 'FREELANCER':
+            # Freelancers see notifications sent to their specific username
+            notifications = Notification.objects.filter(notification_type='freelancer').order_by('-created_at')
+        else:
+            # Invalid role, redirect to login or handle accordingly
+            return redirect('client_register_login')
+
+        context = {
+            'notifications': notifications,
+        }
+        return render(request, 'client_notification.html', context)
+
+    except ValueError:
+        return redirect('client_register_login')  # Redirect to login if session is invalid or role is missing
+
 
 def client_services(request):
     return render(request, 'client_services.html')
@@ -599,8 +684,8 @@ def header_1(request):
     return render(request, 'header_1.html')
 
 def header_2(request):
-    if request.session.get('role') != 'CLIENT':
-        return redirect('client_register_login')  # Redirect to login if not a client
+    # if request.session.get('role') != 'CLIENT':
+    #     return redirect('client_register_login')  # Redirect to login if not a client
     return render(request, 'header_2.html')
 
 def header_3(request):

@@ -339,8 +339,8 @@
         function updateFees() {
             var bid = parseFloat(document.getElementById('bid').value);
             if (isNaN(bid) || bid <= 0) {
-                document.getElementById('service_fee').value = "$0.00";
-                document.getElementById('you_receive').value = "$0.00";
+                document.getElementById('service_fee').value = "0.00";
+                document.getElementById('you_receive').value = "0.00";
                 return;
             }
 
@@ -349,8 +349,8 @@
             var youReceive = bid - serviceFee;
 
             // Update the fields with dollar formatting
-            document.getElementById('service_fee').value = "$" + serviceFee.toFixed(2);
-            document.getElementById('you_receive').value = "$" + youReceive.toFixed(2);
+            document.getElementById('service_fee').value =  serviceFee.toFixed(2);
+            document.getElementById('you_receive').value =  youReceive.toFixed(2);
         }
 
         // Add event listener to the 'bid' field to update values on change

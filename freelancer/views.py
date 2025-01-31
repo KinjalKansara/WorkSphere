@@ -186,6 +186,7 @@ def freelancer_forgot_password(request):
                 otp = random.randint(100000,999999)
                 request.session['otp'] = otp
                 request.session['email'] = user.email
+                request.sesstion['check_email'] = user.email
 
                 send_mail(
                     subject='Password Reset',
@@ -201,6 +202,9 @@ def freelancer_forgot_password(request):
     return render(request, 'auth/freelancer_forgot_password.html', {'error_message': error_message})
 
 def freelancer_verify_otp(request):
+    if request.session.get('check_email') is None:
+        return redirect('client_register_login')
+
     error_message = None
 
     if request.method == 'POST':
@@ -221,6 +225,9 @@ def freelancer_verify_otp(request):
     return render(request, 'auth/freelancer_verify_otp.html')
 
 def freelancer_reset_password(request):
+    if request.session.get('check_email') is None:
+        return redirect('client_register_login')
+    
     error_message = None
 
     if request.method == 'POST':
@@ -339,200 +346,234 @@ def freelancer_contact(request):
 def freelancer_dashboard(request):
     return render(request, 'freelancer_dashboard.html')
 
-def freelancer_job_details(request, project_id):
-    username = request.session.get('logged_user')
-    freelancer = FreelancerRegisterLogin.objects.get(username = username)
-    details = ClientPostProject.objects.get(id=project_id)
-    proposal = FreelancerProposal.objects.filter(freelancer=freelancer, project=details).first()
-    payment = Payment.objects.filter(proposal=proposal).first()
-    skills = details.skills_required.split(',')  # Assuming skills are stored as a comma-separated string
-    deadline = details.deadline
-    today = datetime.date.today()
-    context = {
-        'details' : details,
-        'skills' : skills,
-        'freelancer' : freelancer,
-        'today' : today,
-        'deadline' : deadline,
-        'payment' : payment,
-    }
-    return render(request, 'freelancer_job_details.html', context)
 
-import random
+def freelancer_job_details(request, project_id):
+    try:
+        # Attempt to get the logged-in freelancer from the session
+        username = request.session.get('logged_user')
+        if not username:
+            raise ValueError("Session expired or user not logged in.")
+
+        freelancer = FreelancerRegisterLogin.objects.get(username=username)
+        details = ClientPostProject.objects.get(id=project_id)
+        
+        # Get the freelancer's proposal for the project
+        proposal = FreelancerProposal.objects.filter(freelancer=freelancer, project=details).first()
+        
+        # Get payment related to the proposal
+        payment = Payment.objects.filter(proposal=proposal).first()
+        
+        skills = details.skills_required.split(',')  # Assuming skills are stored as a comma-separated string
+        deadline = details.deadline
+        today = datetime.date.today()
+
+        context = {
+            'details': details,
+            'skills': skills,
+            'freelancer': freelancer,
+            'today': today,
+            'deadline': deadline,
+            'payment': payment,
+        }
+        return render(request, 'freelancer_job_details.html', context)
+
+    except (FreelancerRegisterLogin.DoesNotExist, ClientPostProject.DoesNotExist, ValueError):
+        return redirect('freelancer_register_login')  # Redirect to login if session is invalid or project is not found
 
 def freelancer_list_of_project(request):
-    # Fetch all open projects
-    projects = list(ClientPostProject.objects.filter(status='open'))  # Convert queryset to a list
-    
-    # Shuffle the list of projects
-    random.shuffle(projects)
-    
-    context = {
-        'projects': projects,
-        # Additional context if needed
-        'details': {
-            'description': 'Your project description <br> with <strong>HTML</strong> formatting here.'
-        },
-    }
-    return render(request, 'freelancer_list_of_project.html', context)
+    try:
+        # Fetch all open projects
+        projects = list(ClientPostProject.objects.filter(status='open'))  # Convert queryset to a list
+        
+        # Shuffle the list of projects
+        random.shuffle(projects)
+        
+        context = {
+            'projects': projects,
+            # Additional context if needed
+            'details': {
+                'description': 'Your project description <br> with <strong>HTML</strong> formatting here.'
+            },
+        }
+        return render(request, 'freelancer_list_of_project.html', context)
+
+    except Exception as e:
+        return render(request, 'error_page.html', {'error_message': str(e)})  # Redirect to error page if an error occurs
 
 
 def freelancer_profile(request):
-    username = request.session.get('logged_user')
-    freelancer = FreelancerRegisterLogin.objects.get(username=username)
+    try:
+        # Attempt to get the logged-in freelancer from the session
+        username = request.session.get('logged_user')
+        if not username:
+            raise ValueError("Session expired or user not logged in.")
 
-    context ={
-        'freelancer' : freelancer,
-    }
-    
-    return render(request, 'freelancer_profile.html', context)
+        freelancer = FreelancerRegisterLogin.objects.get(username=username)
+
+        context = {
+            'freelancer': freelancer,
+        }
+        return render(request, 'freelancer_profile.html', context)
+
+    except (FreelancerRegisterLogin.DoesNotExist, ValueError):
+        return redirect('freelancer_register_login')  # Redirect to login if session is invalid or freelancer not found
+
 
 def freelancer_edit_profile(request):
-    username = request.session.get('logged_user')
-    freelancer = FreelancerRegisterLogin.objects.get(username=username)
+    try:
+        # Attempt to get the logged-in freelancer from the session
+        username = request.session.get('logged_user')
+        if not username:
+            raise ValueError("Session expired or user not logged in.")
 
-    if request.method == "POST":
-        about = request.POST.get('about')
-        password = request.POST.get('password')
-        phone = request.POST.get('phone')
-        location = request.POST.get('location')
-        skill = request.POST.get('skill')
-        rate = request.POST.get('rate')
-        bank_name = request.POST.get('bank_name')
-        bank_ifsc = request.POST.get('ifsc_code')
-        account_number = request.POST.get('account_number')
+        freelancer = FreelancerRegisterLogin.objects.get(username=username)
 
-        errors_message = None
+        if request.method == "POST":
+            about = request.POST.get('about')
+            password = request.POST.get('password')
+            phone = request.POST.get('phone')
+            location = request.POST.get('location')
+            skill = request.POST.get('skill')
+            rate = request.POST.get('rate')
+            bank_name = request.POST.get('bank_name')
+            bank_ifsc = request.POST.get('ifsc_code')
+            account_number = request.POST.get('account_number')
 
-        # Validate bank details
-        if bank_name and len(bank_name.strip()) == 0:
-            errors_message = "Bank name cannot be empty."
-        
-        if bank_ifsc and (len(bank_ifsc.strip()) != 11 or not bank_ifsc.isalnum()):
-            errors_message = "IFSC Code must be 11 alphanumeric characters."
+            errors_message = None
 
-        if account_number and not account_number.isdigit():
-            errors_message = "Account number must contain only digits."
+            # Validate bank details
+            if bank_name and len(bank_name.strip()) == 0:
+                errors_message = "Bank name cannot be empty."
+            
+            if bank_ifsc and (len(bank_ifsc.strip()) != 11 or not bank_ifsc.isalnum()):
+                errors_message = "IFSC Code must be 11 alphanumeric characters."
 
-        # If there is an error, return the template with the error message and existing data
-        if errors_message:
-            context = {
-                'freelancer': freelancer,
-                'error_message': errors_message,
-            }
-            return render(request, 'freelancer_edit_profile.html', context)
+            if account_number and not account_number.isdigit():
+                errors_message = "Account number must contain only digits."
 
-        # Update freelancer details
-        if about:
-            freelancer.about_me = about 
-        if password:
-            freelancer.password = password
-        if phone:
-            freelancer.phone_number = phone
-        if location:
-            freelancer.location = location
-        if skill:
-            freelancer.skills = skill
-        if rate:
-            freelancer.hourly_rate = Decimal(rate)
-        if bank_name:
-            freelancer.bank_name = bank_name
-        if bank_ifsc:
-            freelancer.ifsc_code = bank_ifsc
-        if account_number:
-            freelancer.account_number = account_number
+            # If there is an error, return the template with the error message and existing data
+            if errors_message:
+                context = {
+                    'freelancer': freelancer,
+                    'error_message': errors_message,
+                }
+                return render(request, 'freelancer_edit_profile.html', context)
 
-        # Save the updated data
-        freelancer.save()
+            # Update freelancer details
+            if about:
+                freelancer.about_me = about 
+            if password:
+                freelancer.password = password
+            if phone:
+                freelancer.phone_number = phone
+            if location:
+                freelancer.location = location
+            if skill:
+                freelancer.skills = skill
+            if rate:
+                freelancer.hourly_rate = Decimal(rate)
+            if bank_name:
+                freelancer.bank_name = bank_name
+            if bank_ifsc:
+                freelancer.ifsc_code = bank_ifsc
+            if account_number:
+                freelancer.account_number = account_number
 
-        return redirect('freelancer_profile')
+            # Save the updated data
+            freelancer.save()
 
-    # Render the initial page with the freelancer's data
-    context = {
-        'freelancer': freelancer,
-    }
-    return render(request, 'freelancer_edit_profile.html', context)
+            return redirect('freelancer_profile')
 
+        # Render the initial page with the freelancer's data
+        context = {
+            'freelancer': freelancer,
+        }
+        return render(request, 'freelancer_edit_profile.html', context)
+
+    except (FreelancerRegisterLogin.DoesNotExist, ValueError) as e:
+        return redirect('freelancer_register_login')  # Redirect to login if session is invalid or freelancer not found
 
 
 def confirm_proposal(request):
-    user = request.session.get('logged_user')  # Get the logged-in user's session
-    freelancer = FreelancerRegisterLogin.objects.get(username=user)
-    
-    # Fetching proposals related to the freelancer
-    proposals = Payment.objects.filter(proposal__freelancer=freelancer)
+    try:
+        user = request.session.get('logged_user')  # Get the logged-in user's session
+        if not user:
+            raise ValueError("Session expired or user not logged in.")
+        
+        freelancer = FreelancerRegisterLogin.objects.get(username=user)
+        
+        # Fetching proposals related to the freelancer
+        proposals = Payment.objects.filter(proposal__freelancer=freelancer)
+        print(proposals)
 
-    if request.method == 'POST':
-        proposal_id = request.POST.get('proposal_id')
+        if request.method == 'POST':
+            proposal_id = request.POST.get('proposal_id')
 
-        try:
-            proposal = FreelancerProposal.objects.get(id=proposal_id)
-            proposal.status = 'Completed'  # Change proposal status to 'Completed'
+            try:
+                proposal = FreelancerProposal.objects.get(id=proposal_id)
+                proposal.status = 'Completed'  # Change proposal status to 'Completed'
 
-            # Save the proposal status change
-            proposal.save()
+                # Save the proposal status change
+                proposal.save()
+                
+                # Send email to freelancer notifying them about the proposal completion
+                subject = f"Project for '{proposal.project.title}' has been Confirmed"
+                message = f"Hello {freelancer.first_name},\n\nCongratulations! Your proposal for the project '{proposal.project.title}' has been confirmed and completed by the client {proposal.client.first_name} {proposal.client.last_name}.\n\nDetails:\nTitle: {proposal.project.title}\nBid: ${proposal.bid}\n\nBest regards,\nWorkSphere Team"
+                from_email = 'worksphere05@gmail.com'
+                recipient_list = [freelancer.email]
+                send_mail(subject, message, from_email, recipient_list)
 
-            
+                # Send email to client notifying them about the proposal completion
+                subject = f"Project for '{proposal.project.title}' has been Confirmed"
+                message = f"Hello {proposal.client.first_name},\n\nYour project '{proposal.project.title}' has been successfully completed by the freelancer '{freelancer.first_name} {freelancer.last_name}'.\n\nDetails:\nTitle: {proposal.project.title}\nFreelancer: {freelancer.first_name} {freelancer.last_name}\nBid: ${proposal.bid}\n\nThank you for using WorkSphere!\n\nBest regards,\nWorkSphere Team"
+                recipient_list = [proposal.client.email]
+                send_mail(subject, message, from_email, recipient_list)
 
-            
-            # Send email to freelancer notifying them about the proposal completion
-            subject = f"Project for '{proposal.project.title}' has been Confirmed"
-            message = f"Hello {freelancer.first_name},\n\nCongratulations! Your proposal for the project '{proposal.project.title}' has been confirmed and completed by the client {proposal.client.first_name} {proposal.client.last_name}.\n\nDetails:\nTitle: {proposal.project.title}\nBid: ${proposal.bid}\n\nBest regards,\nWorkSphere Team"
-            from_email = 'worksphere05@gmail.com'
-            recipient_list = [freelancer.email]
-            send_mail(subject, message, from_email, recipient_list)
+                # Send a notification to the freelancer about the proposal confirmation
+                Notification.objects.create(
+                    title="Proposal Confirmed",
+                    message=f"Your proposal for the project '{proposal.project.title}' has been confirmed and marked as completed.",
+                    notification_type='freelancer',
+                    username=freelancer.username,
+                    is_read=False
+                )
 
+                # Send a notification to the client about the proposal completion
+                client = proposal.client  # Fetch the client related to the proposal's project
+                Notification.objects.create(
+                    title="Proposal Completed",
+                    message=f"Your proposal for the project '{proposal.project.title}' has been completed by {freelancer.first_name} {freelancer.last_name}.",
+                    notification_type='client',
+                    username=client.username,  # Use the client's username
+                    is_read=False
+                )
 
-            client = ClientRegisterLogin.objects.all()
+                # Send a notification to the admin about the proposal confirmation
+                Notification.objects.create(
+                    title="Proposal Completed",
+                    message=f"Freelancer {freelancer.first_name} {freelancer.last_name} has completed the proposal for the project '{proposal.project.title}' posted by {client.first_name} {client.last_name}.",
+                    notification_type='admin',
+                    username='ADMIN',
+                    is_read=False
+                )
 
-            # Send email to client notifying them about the proposal completion
-            # subject = f"Project for '{proposal.project.title}' has been Confirmed"
-            # message = f"Hello client,\n\nYour project '{proposal.project.title}' has been successfully completed by the freelancer '{freelancer.first_name} {freelancer.last_name}'.\n\nDetails:\nTitle: {proposal.project.title}\nFreelancer: {freelancer.first_name} {freelancer.last_name}\nBid: ${proposal.bid}\n\nThank you for using WorkSphere!\n\nBest regards,\nWorkSphere Team"
-            # from_email = 'worksphere05@gmail.com'
-            # recipient_list = [client.email]
-            # send_mail(subject, message, from_email, recipient_list)
+                return redirect('freelancer_submitted_project')
 
+            except FreelancerProposal.DoesNotExist:
+                error_message = 'Freelancer proposal does not exist.'
+            except Payment.DoesNotExist:
+                error_message = 'Payment is not done.'
 
-            # Send a notification to the freelancer about the proposal confirmation
-            Notification.objects.create(
-                title="Proposal Confirmed",
-                message=f"Your proposal for the project '{proposal.project.title}' has been confirmed and marked as completed.",
-                notification_type='freelancer',
-                username=freelancer.username,
-                is_read=False
-            )
+        context = {
+            'proposals': proposals,  # Change variable name for clarity
+            'error_message': error_message if 'error_message' in locals() else None
+        }
 
-            # Send a notification to the client about the proposal completion
-            client = proposal.client  # Fetch the client related to the proposal's project
-            Notification.objects.create(
-                title="Proposal Completed",
-                message=f"Your proposal for the project '{proposal.project.title}' has been completed by {freelancer.first_name} {freelancer.last_name}.",
-                notification_type='client',
-                username=client.username,  # Use the client's username
-                is_read=False
-            )
+        return render(request, 'confirm_proposal.html', context)
 
-            # Send a notification to the admin about the proposal confirmation
-            Notification.objects.create(
-                title="Proposal Completed",
-                message=f"Freelancer {freelancer.first_name} {freelancer.last_name} has completed the proposal for the project '{proposal.project.title}' posted by {client.first_name} {client.last_name}.",
-                notification_type='admin',
-                username='ADMIN',
-                is_read=False
-            )
+    except (FreelancerRegisterLogin.DoesNotExist, ValueError):
+        return redirect('freelancer_register_login')  # Redirect to login if session is invalid or freelancer not found
 
-            return redirect('freelancer_submitted_project')
-
-        except FreelancerProposal.DoesNotExist:
-            error_message = 'Freelancer proposal does not exist.'
-        except Payment.DoesNotExist:
-            error_message = 'Payment is not done.'
-
-    context = {
-        'proposals': proposals  # Change variable name for clarity
-    }
-
-    return render(request, 'confirm_proposal.html', context)
 
 
 # def confirm_proposal(request):
@@ -572,20 +613,31 @@ def confirm_proposal(request):
 #     return render(request, 'confirm_proposal.html', context)
 
 
-def freelancer_proposal(request):
-    user = request.session.get('logged_user')  # Get the logged-in user's session
-    freelancer = FreelancerRegisterLogin.objects.get(username=user)
-    proposals = FreelancerProposal.objects.filter(freelancer=freelancer)
 
-    context={
-        'proposal' : proposals,
-    }
-    return render(request, 'freelancer_proposal.html', context)
+def freelancer_proposal(request):
+    try:
+        # Attempt to get the logged-in freelancer from the session
+        user = request.session.get('logged_user')
+        if not user:
+            raise ValueError("Session expired or user not logged in.")
+        
+        freelancer = FreelancerRegisterLogin.objects.get(username=user)
+        
+        # Fetch all proposals for the freelancer
+        proposals = FreelancerProposal.objects.filter(freelancer=freelancer)
+
+        context = {
+            'proposal': proposals,
+        }
+        return render(request, 'freelancer_proposal.html', context)
+
+    except (FreelancerRegisterLogin.DoesNotExist, ValueError) as e:
+        return redirect('freelancer_register_login')  # Redirect to login if session is invalid or freelancer not found
 
 
 def freelancer_send_proposal(request, project_id):
-    user = request.session.get('logged_user')  # Get the logged-in user's session
     try:
+        user = request.session.get('logged_user')  # Get the logged-in user's session
         freelancer = FreelancerRegisterLogin.objects.get(username=user)  # Get the freelancer object
         project = ClientPostProject.objects.get(id=project_id)
         client = project.client
@@ -668,49 +720,58 @@ def freelancer_send_proposal(request, project_id):
 
 
 
-# Freelancer's completed proposals (those marked as completed)
 def freelancer_submitted_project(request):
-    user = request.session.get('logged_user')
     try:
+        user = request.session.get('logged_user')  # Get the logged-in user's session
+        if not user:
+            raise ValueError("Session expired or user not logged in.")
+        
         freelancer = FreelancerRegisterLogin.objects.get(username=user)
-    except FreelancerRegisterLogin.DoesNotExist:
-        messages.error(request, 'Freelancer not found!')
-        return redirect('error_page')
-    
-    # Get the freelancer's completed proposals (those marked as completed)
-    submitted_proposals = FreelancerProposal.objects.filter(freelancer=freelancer, status='Completed')
-    context = {
-        'completed_proposals': submitted_proposals
-    }
 
-    return render(request, 'freelancer_submitted_project.html', context)
+        # Get the freelancer's completed proposals (those marked as completed)
+        submitted_proposals = FreelancerProposal.objects.filter(freelancer=freelancer, status='Completed')
+        context = {
+            'completed_proposals': submitted_proposals
+        }
+
+        return render(request, 'freelancer_submitted_project.html', context)
+
+    except (FreelancerRegisterLogin.DoesNotExist, ValueError) as e:
+        messages.error(request, 'Freelancer not found or session expired!')
+        return redirect('freelancer_submitted_project')  # Redirect to error page if freelancer or session is not found
+
 
 
 def freelancer_notification(request):
-    # Determine the role of the logged-in user
-    username = request.session.get('logged_user')
-    role = request.session.get('role')  # e.g., 'ADMIN', 'CLIENT', 'FREELANCER'
+    try:
+        # Attempt to get the logged-in user from the session
+        username = request.session.get('logged_user')
+        role = request.session.get('role')  # e.g., 'ADMIN', 'CLIENT', 'FREELANCER'
 
+        if not username or not role:
+            raise ValueError("Session expired or invalid role.")
 
-    # Query notifications based on role
-    if role == 'ADMIN':
-        # Admin gets all notifications of type 'admin'
-        notifications = Notification.objects.filter(notification_type='admin').order_by('-created_at')
-    elif role == 'CLIENT':
-        # Clients see notifications sent to 'ALL_CLIENTS' or their specific username
-        notifications = Notification.objects.filter(notification_type='client',).order_by('-created_at')
-    elif role == 'FREELANCER':
-        # Freelancers see notifications sent to their specific username
-        notifications = Notification.objects.filter(notification_type='freelancer').order_by('-created_at')
-    else:
-        # Invalid role, redirect to login or handle accordingly
-        return redirect('login')
+        # Query notifications based on role
+        if role == 'ADMIN':
+            # Admin gets all notifications of type 'admin'
+            notifications = Notification.objects.filter(notification_type='admin').order_by('-created_at')
+        elif role == 'CLIENT':
+            # Clients see notifications sent to 'ALL_CLIENTS' or their specific username
+            notifications = Notification.objects.filter(notification_type='client').order_by('-created_at')
+        elif role == 'FREELANCER':
+            # Freelancers see notifications sent to their specific username
+            notifications = Notification.objects.filter(notification_type='freelancer').order_by('-created_at')
+        else:
+            # Invalid role, redirect to login or handle accordingly
+            return redirect('client_register_login')
 
-    context = {
-        'notifications': notifications,
-    }
-    
-    return render(request, 'freelancer_notification.html',context)
+        context = {
+            'notifications': notifications,
+        }
+        return render(request, 'client_notification.html', context)
+
+    except ValueError:
+        return redirect('freelancer_register_login')  # Redirect to login if session is invalid or role is missing
 
 # def complete_project(request):
 #     if request.method == "POST":

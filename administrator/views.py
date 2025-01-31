@@ -40,6 +40,7 @@ def admin_forgot_password(request):
             otp = random.randint(100000,999999)
             request.session['otp']= otp
             request.session['email']= user.email
+            request.session['check_email']= user.email
 
             send_mail(
                 subject='Password Reset',
@@ -53,6 +54,9 @@ def admin_forgot_password(request):
     return render(request, 'auth/admin_forgot_password.html')
 
 def admin_verify_otp(request):
+    if request.session.get('check_email') is None:
+        return redirect('admin_login')
+    
     if request.method == 'POST':
         otp = request.POST.get('otp')
 
@@ -63,6 +67,9 @@ def admin_verify_otp(request):
     return render(request, 'auth/admin_verify_otp.html')
 
 def admin_reset_password(request):
+    if request.session.get('check_email') is None:
+        return redirect('admin_login')
+
     if request.method == 'POST':
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
@@ -282,28 +289,35 @@ def admin_delete_project(request, id):
     return redirect('admin_project')
 
 def admin_notification(request):
-    # Determine the role of the logged-in user
-    username = request.session.get('logged_user')
-    role = request.session.get('role')  # e.g., 'ADMIN', 'CLIENT', 'FREELANCER'
+    try:
+        # Attempt to get the logged-in user from the session
+        username = request.session.get('admin')
+        role = request.session.get('role')  # e.g., 'ADMIN', 'CLIENT', 'FREELANCER'
 
-    # Query notifications based on role
-    if role == 'ADMIN':
-        # Admin gets all notifications of type 'admin'
-        notifications = Notification.objects.filter(notification_type='admin').order_by('-created_at')
-    elif role == 'CLIENT':
-        # Clients see notifications sent to 'ALL_CLIENTS' or their specific username
-        notifications = Notification.objects.filter(notification_type='client',).order_by('-created_at')
-    elif role == 'FREELANCER':
-        # Freelancers see notifications sent to their specific username
-        notifications = Notification.objects.filter(notification_type='freelancer').order_by('-created_at')
-    else:
-        # Invalid role, redirect to login or handle accordingly
-        return redirect('admin_login')
+        if not username or not role:
+            raise ValueError("Session expired or invalid role.")
 
-    context = {
-        'notifications': notifications,
-    }
-    return render(request, 'admin_notification.html', context)
+        # Query notifications based on role
+        if role == 'ADMIN':
+            # Admin gets all notifications of type 'admin'
+            notifications = Notification.objects.filter(notification_type='admin').order_by('-created_at')
+        elif role == 'CLIENT':
+            # Clients see notifications sent to 'ALL_CLIENTS' or their specific username
+            notifications = Notification.objects.filter(notification_type='client').order_by('-created_at')
+        elif role == 'FREELANCER':
+            # Freelancers see notifications sent to their specific username
+            notifications = Notification.objects.filter(notification_type='freelancer').order_by('-created_at')
+        else:
+            # Invalid role, redirect to login or handle accordingly
+            return redirect('client_register_login')
+
+        context = {
+            'notifications': notifications,
+        }
+        return render(request, 'client_notification.html', context)
+
+    except ValueError:
+        return redirect('admin_login')  # Redirect to login if session is invalid or role is missing
 
 
 def admin_proposal(request):
@@ -322,6 +336,8 @@ def generate_report(request):
     return render(request, 'generate_report.html')  # Render the report selection page
 
 def admin_freelancer_bank_details(request):
+    if request.session.get('admin'):
+        return render('admin_login')
         # Retrieve all freelancer bank details
     bank_details = FreelancerRegisterLogin.objects.all()
 
@@ -367,5 +383,4 @@ def generate_pdf(request):
 
 def admin_logout(request):
     request.session.flush()
-    request.session['done'] = True
     return redirect('admin_login')

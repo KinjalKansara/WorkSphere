@@ -122,7 +122,7 @@ def verify_payment(request):
                 # Send email notification to the client
                 client = proposal.client
                 subject = f"Proposal Selected for '{proposal.project.title}'"
-                message = f"Hello {client.first_name},\n\nYour project '{proposal.project.title}' has successfully selected a {proposal.freelancer.first_name} {proposal.freelancer.last_name}. Payment for the proposal has been successfully completed.\n\nBest regards,\nWorkSphere Team"
+                message = f"Hello {client.first_name},\n\nYour project '{proposal.project.title}' has successfully selected a freelancer: {proposal.freelancer.first_name} {proposal.freelancer.last_name}. Payment for the proposal has been successfully completed.\n\nYou can now contact the freelancer directly for further details:\n\nFreelancer's Email: {proposal.freelancer.email}\nFreelancer's Phone: {proposal.freelancer.phone_number}\n\nBest regards,\nWorkSphere Team"
                 from_email = 'worksphere05@gmail.com'
                 recipient_list = [client.email]
                 send_mail(subject, message, from_email, recipient_list)
