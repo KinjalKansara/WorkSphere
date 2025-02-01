@@ -278,7 +278,7 @@
       {% for proposal in proposal %}
       <li class="proposal-card">
         <div class="proposal-header">
-          <h3>{{proposal.title}}</h3>
+          <h3>{{proposal.title | truncatechars:20 }}</h3>
           <span class="status-open">Open</span>
         </div>
         <div class="proposal-body">

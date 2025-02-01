@@ -309,12 +309,12 @@ def admin_notification(request):
             notifications = Notification.objects.filter(notification_type='freelancer').order_by('-created_at')
         else:
             # Invalid role, redirect to login or handle accordingly
-            return redirect('client_register_login')
+            return redirect('admin_login')
 
         context = {
             'notifications': notifications,
         }
-        return render(request, 'client_notification.html', context)
+        return render(request, 'admin_notification.html', context)
 
     except ValueError:
         return redirect('admin_login')  # Redirect to login if session is invalid or role is missing
@@ -337,7 +337,7 @@ def generate_report(request):
 
 def admin_freelancer_bank_details(request):
     if request.session.get('admin'):
-        return render('admin_login')
+        return redirect('admin_login')
         # Retrieve all freelancer bank details
     bank_details = FreelancerRegisterLogin.objects.all()
 

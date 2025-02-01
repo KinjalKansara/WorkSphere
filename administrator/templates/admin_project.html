@@ -1,7 +1,6 @@
 {% extends 'admin_header_2.html' %}
 
 {% block content %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -310,7 +309,7 @@
       </thead>
       <tbody>
         {% if project %}
-            {% for project in project %}
+          {% for project in project %}
             <tr>
               <td>{{ project.client.first_name }} {{ project.client.last_name }}</td>
               <td>{{ project.title }}</td>
@@ -326,15 +325,15 @@
                 </div>
               </td>
             </tr>
-            {% endfor %}
+          {% endfor %}
         {% else %}
-            <tr>
-                <td colspan="5" style="text-align: center; font-size: 18px; font-family: Verdana; color: #666; padding: 20px;">
-                    No project information available.
-                </td>
-            </tr>
+          <tr>
+            <td colspan="5" style="text-align: center; font-size: 18px; font-family: Verdana; color: #666; padding: 20px;">
+              No project information available.
+            </td>
+          </tr>
         {% endif %}
-    </tbody>    
+      </tbody>    
     </table>
   </div>
 
@@ -350,59 +349,44 @@
 
   <script>
     function viewProject(projectId, title, description, category, budget, deadline, skillsRequired, experienceLevel, createdAt) {
-      // Format project details for the modal
       const modalDetails = `
         <div style="margin-bottom: 15px; font-size: 14px; font-family: Verdana; color: #333;">
           <p><strong>Title:</strong> ${title}</p>
         </div>
-  
         <div style="margin-bottom: 15px; font-size: 14px; font-family: Verdana; color: #333;">
           <p><strong>Category:</strong> ${category}</p>
         </div>
-  
         <div style="margin-bottom: 15px; font-size: 14px; font-family: Verdana; color: #333;">
           <p><strong>Budget:</strong> ${budget}</p>
         </div>
-  
         <div style="margin-bottom: 15px; font-size: 14px; font-family: Verdana; color: #333;">
           <p><strong>Deadline:</strong> ${deadline}</p>
         </div>
-  
         <div style="margin-bottom: 15px; font-size: 14px; font-family: Verdana; color: #333;">
           <p><strong>Skills Required:</strong> ${skillsRequired}</p>
         </div>
-  
         <div style="margin-bottom: 15px; font-size: 14px; font-family: Verdana; color: #333;">
           <p><strong>Description:</strong> ${description}</p>
         </div>
-  
         <div style="margin-bottom: 15px; font-size: 14px; font-family: Verdana; color: #333;">
           <p><strong>Experience Level:</strong> ${experienceLevel}</p>
         </div>
-  
         <div style="margin-bottom: 15px; font-size: 14px; font-family: Verdana; color: #333;">
           <p><strong>Posted On:</strong> ${createdAt}</p>
         </div>
       `;
       
-      // Insert project details into the modal content
       document.getElementById('projectDetails').innerHTML = modalDetails;
-      
-      // Show the modal by changing display to block
       document.getElementById('projectModal').style.display = 'block';
     }
   
     function closeModal() {
-      // Hide the modal by changing display to none
       document.getElementById('projectModal').style.display = 'none';
     }
-  
-    // Ensure the modal close button works on click
+
+    // Ensure the modal close button works
     document.querySelector('.close').addEventListener('click', closeModal);
   </script>
-  
-  
 </body>
 </html>
-
 {% endblock %}
