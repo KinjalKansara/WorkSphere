@@ -3,6 +3,8 @@ from . import views
 
 urlpatterns = [
     path('admin_dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path('admin_profile/', views.admin_profile, name='admin_profile'),
+    path('admin_edit_profile/', views.admin_edit_profile, name='admin_edit_profile'),
     path('send-email/', views.send_email, name='send_email'),
     path('admin_contact/', views.admin_contact, name='admin_contact'),
     path('admin_delete_contact/<int:id>', views.admin_delete_contact, name='admin_delete_contact'),

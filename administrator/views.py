@@ -16,42 +16,61 @@ from django.core.mail import send_mail
 # Create your views here.
 
 def admin_login(request):
-    if request.method=='POST':
+    if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
+
+        error_message = None
+
+        if not email:
+            error_message = "Admin Name is Required"
+        
+        if not password:
+            error_message = "Password is Required"
+
+        if error_message:
+            return render(request, 'auth/admin_login.html', {'error_message': error_message})
 
         try:
             user = AdminUser.objects.get(email=email, password=password)
             request.session['admin'] = email
             request.session['role'] = 'ADMIN'
             return redirect('admin_dashboard')
-            
-        except:
-            return redirect('admin_login')
+
+        except AdminUser.DoesNotExist:
+            error_message = 'Invalid username or password.'
+            return render(request, 'auth/admin_login.html', {'error_message': error_message})
     
     return render(request, 'auth/admin_login.html')
 
+
 def admin_forgot_password(request):
+    error_message = None
+    
     if request.method == 'POST':
         user_email = request.POST.get('email')
-        user = AdminUser.objects.get(email = user_email)
 
-        if user:
-            otp = random.randint(100000,999999)
-            request.session['otp']= otp
-            request.session['email']= user.email
-            request.session['check_email']= user.email
+        if not user_email:
+            error_message = "Email is required."
+        # Validation: Check if email exists in the database
+        elif '@' not in user_email:
+            error_message = "Enter a valid email."
+        else:
+            try:
+                user = AdminUser.objects.get(email=user_email)
+                otp = random.randint(100000, 999999)
+                request.session['otp'] = otp
+                request.session['email'] = user.email
+                request.session['check_email'] = user.email
+                return redirect('admin_verify_otp')
+            except AdminUser.DoesNotExist:
+                error_message = "Email not found in our records."
 
-            send_mail(
-                subject='Password Reset',
-                message=f'Your OTP is {otp}',
-                from_email='worksphere05@gmail.com',  # Replace with your sender email
-                recipient_list=[user.email],
-                fail_silently=False,
-            )
-            return redirect('admin_verify_otp')
-            
-    return render(request, 'auth/admin_forgot_password.html')
+    context = {
+        'error_message': error_message,
+    }
+
+    return render(request, 'auth/admin_forgot_password.html', context)
 
 def admin_verify_otp(request):
     if request.session.get('check_email') is None:
@@ -60,10 +79,15 @@ def admin_verify_otp(request):
     if request.method == 'POST':
         otp = request.POST.get('otp')
 
-        if request.session.get('otp') == int(otp):
-            return redirect('admin_reset_password')
+        if not otp:
+            error_message = "OTP is required."
+        elif not otp.isdigit() or len(otp) != 6:
+            error_message = "Please enter a valid 6-digit OTP."
+        elif int(otp) != request.session.get('otp'):
+            # Check if the entered OTP matches the one stored in the session
+            error_message = "Invalid OTP. Please try again."
         else:
-            return redirect('admin_verify_otp')
+            return redirect('admin_verify_otp', {'error_message':error_message})
     return render(request, 'auth/admin_verify_otp.html')
 
 def admin_reset_password(request):
@@ -74,8 +98,25 @@ def admin_reset_password(request):
         password = request.POST.get('password')
         confirm_password = request.POST.get('confirm_password')
 
-        if password == confirm_password:
-            user_email = request.session.get('email')
+        # Password Validation
+        if not password:
+            error_message = 'Password is required.'
+        elif len(password) < 8:
+            error_message = 'The password must be at least 8 characters long.'
+        elif not any(char.isalpha() for char in password):
+            error_message = 'The password must contain at least one letter.'
+        elif not any(char.isdigit() for char in password):
+            error_message = 'The password must contain at least one digit.'
+        elif not any(char in "!@#$%^&*(){}[]" for char in password):
+            error_message = 'The password must contain at least one special character.'
+        elif password != confirm_password:
+            error_message = 'Password and confirm password do not match.'
+
+        if error_message:
+            return render(request, 'auth/client_reset_password.html', {'error_message': error_message})
+
+        else:
+            user_email = request.session.get('admin')
             user = AdminUser.objects.get(email = user_email)
             user.password = password
             user.save()
@@ -84,6 +125,44 @@ def admin_reset_password(request):
 
 def admin_dashboard(request):   
     return render(request, 'admin_dashboard.html')
+
+def admin_profile(request):
+    if not request.session.get('admin'):
+        return redirect('admin_login')
+    
+    admin = AdminUser.objects.first()
+
+    context={
+        'admin':admin,
+    }
+    return render(request, 'admin_profile.html',context)
+
+def admin_edit_profile(request):
+    try:
+        if not request.session.get('admin'): 
+            return redirect('admin_login') 
+
+        admin = AdminUser.objects.first()
+
+        if request.method == 'POST':
+            password = request.POST.get('password')
+
+            if password:
+                admin.password = password
+
+            admin.save()
+
+            return redirect('admin_profile')
+
+        context = {
+            'admin' : admin,
+        }
+
+        return render(request, 'admin_edit_profile.html', context)
+    except(AdminUser.DoesNotExist, ValueError):
+        return redirect('client_edit_profile')
+
+
 
 def admin_contact(request):
     if not request.session.get('admin'): 
@@ -380,6 +459,7 @@ def generate_pdf(request):
         return response
 
     return HttpResponse("Invalid request", status=400)
+
 
 def admin_logout(request):
     request.session.flush()

@@ -58,6 +58,7 @@
         .icon-contact { background-color: #ff9800; color: white; } /* Orange */
         .icon-proposal { background-color: #9c27b0; color: white; } /* Purple */
         .icon-logout { background-color: #607d8b; color: white; } /* Blue Grey */
+        .icon-profile { background-color: #1e88e5; color: white; } /* Green */
 
         .box h3 {
             font-size: 20px;
@@ -105,6 +106,12 @@
 </head>
 <body>
     <div class="container">
+        <div class="box">
+            <div class="icon icon-profile"><i class="fas fa-users"></i></div>
+            <h3>Admin Profile</h3>
+            <p>Manage your admin settings, update your details.</p>
+            <a href="{% url 'admin_profile' %}">Manage Profile</a>
+        </div>
         <!-- Client Information -->
         <div class="box">
             <div class="icon icon-client"><i class="fas fa-user-tie"></i></div>

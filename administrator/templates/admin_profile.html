@@ -1,0 +1,188 @@
+{% extends 'admin_header_2.html' %}
+
+{% block content %}
+
+<style>
+  /* General Styling */
+  body {
+      background-color: #f7f9fc;
+      margin: 0;
+      padding: 0;
+  }
+  
+  /* Profile Container */
+  .profile-container {
+      max-width: 900px;
+      margin: 60px auto;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      overflow: hidden;
+  }
+  
+  /* Header Section */
+  h1 {
+      text-align: center;
+      color: #1565c0;
+      margin-bottom: 30px;
+      font-weight: 700;
+      font-size: 40px;
+      font-family: Candara;
+  }
+  
+  .profile-header {
+      display: flex;
+      align-items: flex-start; /* Align items at the top */
+      border-bottom: 2px solid #e0e0e0;
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+  }
+  
+  .profile-header img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 20px;
+      margin-left: 300px;
+      border: 4px solid #1565c0;
+      flex-shrink: 0; /* Prevent image from shrinking */
+  }
+  
+  .profile-info {
+      color: #333;
+      flex-grow: 1; /* Allow bio to take up remaining space */
+  }
+  
+  .profile-info h2 {
+      font-size: 25px;
+      margin: 0;
+      margin-top: 25px;
+      font-family: verdana;
+      font-weight: 600;
+  }
+
+  
+  /* Profile Details */
+  .profile-details {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* Two columns */
+      gap: 20px; /* Space between fields */
+  }
+  
+  .detail {
+      background: #f0f4f8;
+      padding: 20px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      transition: box-shadow 0.3s ease-in-out;
+  }
+  
+  .detail i {
+      color: #1565c0;
+      font-size: 1.5rem;
+  }
+  
+  .detail span {
+      font-weight: 550;
+      color: #555;
+      font-family: verdana;
+      font-size: 16px;
+  }
+  
+  .detail p {
+      margin: 0;
+      font-size: 16px;
+      font-family: Candara;
+      color: #333;
+  }
+  
+  .detail:hover {
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Buttons */
+  .buttons {
+      text-align: center;
+      margin-top: 30px;
+  }
+  
+  .edit-button {
+      background-color: #1565c0;
+      color: #ffffff;
+      font-size: 16px;
+      font-family: verdana;
+      padding: 12px 20px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .edit-button i {
+      font-size: 1.2rem;
+  }
+  
+  .edit-button:hover {
+      background-color: #004ba0;
+      transform: translateY(-2px);
+  }
+  
+  .edit-button:active {
+      transform: translateY(0);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+      .profile-details {
+          grid-template-columns: 1fr; /* Single column for small screens */
+      }
+  }
+</style>
+
+<div class="profile-container">
+    <h1>Admin Profile</h1>
+    <div class="profile-header">
+        <img src="/media/developer.jpg" alt="Profile Picture">
+        <div class="profile-info">
+            <h2>Kinjal Kansara</h2>
+        </div>
+    </div>
+    <div class="profile-details">
+        <div class="detail">
+            <i class="fas fa-envelope"></i>
+            <span>Email:</span>
+            <p>{{admin.email}}</p>
+        </div>
+        <div class="detail">
+            <i class="fas fa-lock"></i>
+            <span>Password:</span>
+            <p>********</p>
+        </div>
+    </div>
+    <div class="buttons">
+        <button class="edit-button">
+            <i class="fas fa-edit"></i>Edit Profile
+        </button>
+    </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const editButton = document.querySelector(".edit-button");
+    
+    editButton.addEventListener("click", () => {
+      // Redirect to the Django URL for editing the admin profile
+      window.location.href = "{% url 'admin_edit_profile' %}";
+    });
+  });
+</script>
+
+{% endblock %}

@@ -146,6 +146,7 @@
     .icon-submitted { background-color: #7986cb; color: white; }
     .icon-services { background-color: #ff8a65; color: white; }
     .icon-notification { background-color: #4fc3f7; color: white; }
+    .icon-profile { background-color: #4db7ab; color: white; }
 
     /* Laptop View (Screens Larger than 1024px) */
     @media (min-width: 1024px) {
@@ -209,6 +210,11 @@
     <div class="icon icon-client" data-tooltip="Dashboard">
       <a href="{% url 'admin_dashboard' %}">
         <i class="fas fa-home"></i>
+      </a>
+    </div>
+    <div class="icon icon-profile" data-tooltip="Admin">
+      <a href="{% url 'admin_profile' %}">
+        <i class="fas fa-user"></i>
       </a>
     </div>
     <div class="icon icon-post" data-tooltip="Client Info">
