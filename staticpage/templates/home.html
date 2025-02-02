@@ -802,7 +802,7 @@
         let range = end - start;
         let stepTime = Math.abs(Math.floor(duration / range));
         let current = start;
-        let increment = end > start ? 1 : -1;
+        let increment = end > start ? 1 : 0;
         let timer = setInterval(() => {
             current += increment;
             element.innerText = "+" + current;
