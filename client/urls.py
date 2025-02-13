@@ -10,6 +10,7 @@ urlpatterns = [
     path('client_payment/', views.client_payment, name='client_payment'),
     path('client_dashboard/', views.client_dashboard, name='client_dashboard'),
     path('client_post_project/', views.client_post_project, name='client_post_project'),
+    path('project_list/', views.project_list, name='project_list'),
     # path('client_freelancer_profile/', views.client_freelancer_profile, name='client_freelancer_profile'),
     # path('client_job_details/', views.client_job_details, name='client_job_details'),
     path('client_job_details/<int:project_id>/', views.client_job_details, name='client_job_details'),

@@ -7,6 +7,7 @@ urlpatterns = [
     path('freelancer_reset_password/', views.freelancer_reset_password, name='freelancer_reset_password'),
     path('freelancer_verify_otp/', views.freelancer_verify_otp, name='freelancer_verify_otp'),
     path('freelancer_dashboard/', views.freelancer_dashboard, name='freelancer_dashboard'),
+    path('project_list/', views.project_list, name='project_list'),
     path('freelancer_contact/', views.freelancer_contact, name='freelancer_contact'),
     path('freelancer_job_details/<int:project_id>', views.freelancer_job_details, name='freelancer_job_details'),
     path('freelancer_list_of_project/', views.freelancer_list_of_project, name='freelancer_list_of_project'),

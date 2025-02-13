@@ -41,7 +41,7 @@
     .projects-header h2 {
       font-size: 40px;
       font-family: Candara;
-      color: #333;
+      color: #007bff;
       font-weight: 700;
       margin: 0;
     }
@@ -175,6 +175,48 @@
       transform: scale(1.05);
     }
 
+    /* Search Form */
+    .search-form {
+      display: flex;
+      align-items: center;
+    }
+  
+    /* Search Bar */
+    .search-bar {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+  
+    .search-bar input {
+      padding: 10px 15px;
+      border: none;
+      font-size: 16px;
+      font-family: Candara;
+      width: 250px;
+      outline: none;
+    }
+  
+    .search-bar button {
+      padding: 10px 15px;
+      border: none;
+      background-color: #1565c0;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+  
+    .search-bar button:hover {
+      background-color: #104a8e;
+    }
+  
+    .search-bar button i {
+      font-size: 16px;
+    }
+
     /* Responsive Design */
     @media (max-width: 768px) {
       .projects-container {
@@ -257,40 +299,52 @@
   </style>
 </head>
 <body>
-  <div class="projects-container">
+<div class="projects-container">
     <div class="projects-header">
-      <h2>My Projects</h2>
-      <button class="add-project-button" onclick="window.location.href='/client/client_post_project/'">Add New Project</button>
+        <h2>My Projects</h2>
+        <button class="add-project-button" onclick="window.location.href='/client/client_post_project/'">Add New Project</button>
+        <form method="GET" action="{% url 'project_list' %}">
+            <div class="search-bar">
+                <input type="text" name="q" placeholder="Search for projects..." value="{{ query }}">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
     </div>
 
     {% if projects %}
-    <ul class="project-list">
-      {% for project in projects %}
-      <li class="project-card">
-        <img src="/media/{{ project.photo }}" alt="Project Image">
-        <div class="project-header">
-          <h3>{{ project.title|truncatechars:20 }}</h3>
-          {% if project.status == "open" %}
-          <span class="status-open">Open</span>
-          {% else %}
-          <span class="status-closed">Closed</span>
-          {% endif %}
-        </div>
-        <div class="project-body">
-            <p>{{ project.description|truncatechars:50 }}</p>
-        </div>
-        <div class="project-footer">
-          <span><i class="fas fa-calendar-alt"></i> Deadline: {{ project.deadline }}</span>
-        </div>
-        <a class="view-details" href="{% url 'client_job_details' project.id %}">View Details</a>
-      </li>
-      {% endfor %}
-    </ul>
+        <ul class="project-list">
+            {% for project in projects %}
+            <li class="project-card">
+                <img src="/media/{{ project.photo }}" alt="Project Image">
+                <div class="project-header">
+                    <h3>{{ project.title|truncatechars:20 }}</h3>
+                    {% if project.status == "open" %}
+                    <span class="status-open">Open</span>
+                    {% else %}
+                    <span class="status-closed">Closed</span>
+                    {% endif %}
+                </div>
+                <div class="project-body">
+                    <p>{{ project.description|truncatechars:50 }}</p>
+                </div>
+                <div class="project-body">
+                    <p>Category: {{ project.category }}</p>
+                </div>
+                <div class="project-footer">
+                    <span><i class="fas fa-calendar-alt"></i> Deadline: {{ project.deadline }}</span>
+                </div>
+                <a class="view-details" href="{% url 'client_job_details' project.id %}">View Details</a>
+            </li>
+            {% endfor %}
+        </ul>
     {% else %}
-    <p>No projects available at the moment. Please check back later.</p>
+        {% if query %}
+            <p>No projects found matching your search criteria. Try searching with different keywords.</p>
+        {% else %}
+            <p>There are no projects available yet. Start by adding a new project!</p>
+        {% endif %}
     {% endif %}
-  </div>
-</body>
-</html>
+</div>
+
 
 {% endblock %}

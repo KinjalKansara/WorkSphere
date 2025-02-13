@@ -297,7 +297,7 @@
             display: flex;
             justify-content: space-between;
             gap: 20px;
-            flex-wrap: nowrap;
+            flex-wrap: wrap;
             overflow-x: auto;
         }
         
@@ -334,6 +334,7 @@
             font-weight: bold;
             color: #007bff;
         }
+        
         
 
         /* Call to Action Section */
@@ -681,6 +682,10 @@
         <h2>Platform Statistics</h2>
         <div class="counter-wrapper">
             <div class="counter-box">
+                <h3>Total Users</h3>
+                <p class="counter-number" data-value="{{ stats.total_users }}">+0</p>
+            </div>
+            <div class="counter-box">
                 <h3>Clients</h3>
                 <p class="counter-number" data-value="{{ stats.total_clients }}">+0</p>
             </div>
@@ -696,8 +701,21 @@
                 <h3>Posted Projects</h3>
                 <p class="counter-number" data-value="{{ stats.total_projects }}">+0</p>
             </div>
+            <div class="counter-box">
+                <h3>Completed Projects</h3>
+                <p class="counter-number" data-value="{{ stats.completed_projects }}">+0</p>
+            </div>
+            <div class="counter-box">
+                <h3>Total Payments</h3>
+                <p class="counter-number" data-value="{{ stats.total_payments }}">$0</p>
+            </div>
+            <div class="counter-box">
+                <h3>Total Approve Proposals</h3>
+                <p class="counter-number" data-value="{{ stats.approved_proposals }}">$0</p>
+            </div>
         </div>
     </section>
+
 
 
     <!-- Call to Action Section -->
@@ -824,7 +842,6 @@
   
     // Restart counters every 10 seconds for a continuous effect
     setInterval(startCounters, 5000);
-
     
 </script>
 {% endblock %}

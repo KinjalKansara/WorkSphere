@@ -1,11 +1,11 @@
 import datetime
 from pyexpat.errors import messages
 from django.shortcuts import render, redirect
-
-from WorkSphere import settings
+# from WorkSphere import settings
 from administrator.models import AdminUser
 from notification.models import Notification
 from payment.models import Payment
+from django.db.models import Q
 from .models import *
 from staticpage.models import *
 from freelancer.models import *
@@ -621,7 +621,6 @@ def client_dashboard(request):
     return render(request, 'client_dashboard.html')
 
 
-
 def client_submitted_project(request):
     try:
         # Attempt to get the logged-in user from the session
@@ -679,6 +678,26 @@ def client_notification(request):
 
 def client_services(request):
     return render(request, 'client_services.html')
+
+
+def project_list(request):
+    query = request.GET.get('q', '').strip()  # Get and strip search query
+
+    # Fetch all projects
+    projects = ClientPostProject.objects.all()
+
+    # Filter by title if a search query is provided
+    if query:
+        projects = projects.filter(
+            Q(title__icontains=query) | Q(category__icontains=query)  # Search in title OR category
+        )
+
+    context = {
+        'projects': projects,
+        'query': query,
+    }
+    return render(request, 'client_list_of_project.html', context)
+
 
 def header_1(request):
     return render(request, 'header_1.html')

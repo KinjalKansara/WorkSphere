@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.core.mail import send_mail
 import re
-
+from django.db.models import Sum
 from client.models import ClientPostProject, ClientRegisterLogin
 from freelancer.models import FreelancerProposal, FreelancerRegisterLogin
+from payment.models import Payment
 from .models import *
 
 # Create your views here.
@@ -12,12 +13,20 @@ def header_footer(request):
     return render(request, 'header_footer.html')
 
 def home(request):
+    total_clients = int(ClientRegisterLogin.objects.count() or 0)
+    total_freelancers = int(FreelancerRegisterLogin.objects.count() or 0)
+    
     stats = {
-        'total_clients': ClientRegisterLogin.objects.count(),
-        'total_freelancers': FreelancerRegisterLogin.objects.count(),
-        'total_proposals': FreelancerProposal.objects.count(),
-        'total_projects': ClientPostProject.objects.count(),
+        'total_clients': total_clients,
+        'total_freelancers': total_freelancers,
+        'total_users': total_clients + total_freelancers,  # Ensure integer addition
+        'total_proposals': int(FreelancerProposal.objects.count() or 0),
+        'total_projects': int(ClientPostProject.objects.count() or 0),
+        'completed_projects': int(ClientPostProject.objects.filter(status='Completed').count() or 0),  # Assuming 'status' field exists
+        'total_payments': Payment.objects.filter(status='Completed').aggregate(total=Sum('amount'))['total'] or 0,
+        'approved_proposals': FreelancerProposal.objects.filter(status='Approved').count(),  # New Counter: Total Approved Proposals
     }
+    
     return render(request, 'home.html', {'stats': stats})
 
 def terms(request):

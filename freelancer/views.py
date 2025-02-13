@@ -12,6 +12,7 @@ from staticpage.models import *
 from client.models import *
 import random
 import re
+from django.db.models import Q
 from django.core.mail import send_mail
 
 # Create your views here.
@@ -802,6 +803,25 @@ def freelancer_notification(request):
 #             return HttpResponse("Something went wrong.", status=500)
 
 #     return HttpResponse("Invalid request method.", status=405)
+
+
+def project_list(request):
+    query = request.GET.get('q', '').strip()  # Get and strip search query
+
+    # Fetch all projects
+    projects = ClientPostProject.objects.all()
+
+    # Filter by title if a search query is provided
+    if query:
+        projects = projects.filter(
+            Q(title__icontains=query) | Q(category__icontains=query)  # Search in title OR category
+        )
+
+    context = {
+        'projects': projects,
+        'query': query,
+    }
+    return render(request, 'freelancer_list_of_project.html', context)
 
 def freelancer_services(request):
     return render(request, 'freelancer_services.html')
