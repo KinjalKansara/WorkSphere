@@ -14,10 +14,17 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+# load_dotenv()
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# # Build paths inside the project like this: BASE_DIR / 'subdir'.
+# BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Define the base directory (assumes this file is in your_project/settings.py)
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Explicitly load the .env file from the base directory
+env_path = BASE_DIR / '.env'
+load_dotenv(dotenv_path=env_path)
 
 
 # Retrieve Razorpay credentials from environment variables
