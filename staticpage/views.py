@@ -109,23 +109,23 @@ def contact(request):
             phone_number=phone_number
         )
 
-        
-        contact.save()
-        # Send email to admin
-        send_mail(
-            subject=f'New Contact Form Submission: {subject}',
-            message=f'You have a new contact form submission.\n\n'
-                    f'Name: {first} {last}\n'
-                    f'Email: {email}\n'
-                    f'Phone: {phone_number}\n\n'
-                    f'Message:\n{message}',
-            from_email=email,
-            recipient_list=['worksphere05@gmail.com'],  # Replace with your admin email
-            fail_silently=False,
-        )
-        #     return render(request, 'home.html')
-        # except:
-        #     return render(request, 'contact.html', {'error': 'Failed to save contact information.'})
+        try:
+            contact.save()
+            # Send email to admin
+            send_mail(
+                subject=f'New Contact Form Submission: {subject}',
+                message=f'You have a new contact form submission.\n\n'
+                        f'Name: {first} {last}\n'
+                        f'Email: {email}\n'
+                        f'Phone: {phone_number}\n\n'
+                        f'Message:\n{message}',
+                from_email=email,
+                recipient_list=['worksphere05@gmail.com'],  # Replace with your admin email
+                fail_silently=False,
+            )
+            return render(request, 'home.html')
+        except:
+            return render(request, 'contact.html', {'error': 'Failed to save contact information.'})
     return render(request, 'contact.html')  
 
 def categories(request):
