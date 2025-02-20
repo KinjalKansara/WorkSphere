@@ -124,10 +124,14 @@ def contact(request):
             recipient_list=['worksphere05@gmail.com'],  # Replace with your admin email
             fail_silently=False,
         )
+
+        context={
+            "PWD" : os.getenv('EMAIL_PASSWORD')
+        }
         #     return render(request, 'home.html')
         # except:
         #     return render(request, 'contact.html', {'error': 'Failed to save contact information.'})
-    return render(request, 'contact.html', PWD = os.getenv('EMAIL_PASSWORD') )  
+    return render(request, 'contact.html', context )  
 
 def categories(request):
     return render(request, 'categories.html')
