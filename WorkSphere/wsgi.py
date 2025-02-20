@@ -16,15 +16,26 @@
 # application = get_wsgi_application()
 
 
-from django.core.wsgi import get_wsgi_application 
-from pathlib import * 
-import os 
-from dotenv import load_dotenv 
-  
-BASE_DIR = Path(__file__).resolve().parent.parent 
-load_dotenv(os.path.join(BASE_DIR, ".env"))  # Manually load .env 
-  
-  
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'WorkSphere.settings') 
-  
+import os
+import sys
+from pathlib import Path
+from dotenv import load_dotenv
+from django.core.wsgi import get_wsgi_application
+
+# Define BASE_DIR manually
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Ensure the project directory is in the system path
+sys.path.append(str(BASE_DIR))
+
+# Load environment variables
+dotenv_path = os.path.join(BASE_DIR, '.env')
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
+
+# Set Django settings module
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'WorkSphere.settings')
+
+# Get WSGI application
 application = get_wsgi_application()
+

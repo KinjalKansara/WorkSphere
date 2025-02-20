@@ -52,9 +52,6 @@ def service(request):
     return render(request, 'service.html')
 
 def contact(request):
-    context={
-            "PWD" : os.getenv('EMAIL_PASSWORD')
-        }
     if request.method == 'POST':
         first = request.POST.get('firstname')
         last = request.POST.get('lastname')
@@ -113,26 +110,24 @@ def contact(request):
             phone_number=phone_number
         )
 
-        
-        contact.save()
+        try:
+            contact.save()
             # Send email to admin
-        send_mail(
-            subject=f'New Contact Form Submission: {subject}',
-            message=f'You have a new contact form submission.\n\n'
-                    f'Name: {first} {last}\n'
-                    f'Email: {email}\n'
-                    f'Phone: {phone_number}\n\n'
-                    f'Message:\n{message}',
-            from_email=email,
-            recipient_list=['worksphere05@gmail.com'],  # Replace with your admin email
-            fail_silently=False,
-        )
-
-        
-        #     return render(request, 'home.html')
-        # except:
-        #     return render(request, 'contact.html', {'error': 'Failed to save contact information.'})
-    return render(request, 'contact.html', context )  
+            send_mail(
+                subject=f'New Contact Form Submission: {subject}',
+                message=f'You have a new contact form submission.\n\n'
+                        f'Name: {first} {last}\n'
+                        f'Email: {email}\n'
+                        f'Phone: {phone_number}\n\n'
+                        f'Message:\n{message}',
+                from_email=email,
+                recipient_list=['worksphere05@gmail.com'],  # Replace with your admin email
+                fail_silently=False,
+            )
+            return render(request, 'home.html')
+        except:
+            return render(request, 'contact.html', {'error': 'Failed to save contact information.'})
+    return render(request, 'contact.html') 
 
 def categories(request):
     return render(request, 'categories.html')
