@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render
 from django.core.mail import send_mail
 import re
@@ -126,7 +127,7 @@ def contact(request):
         #     return render(request, 'home.html')
         # except:
         #     return render(request, 'contact.html', {'error': 'Failed to save contact information.'})
-    return render(request, 'contact.html')  
+    return render(request, 'contact.html', PWd = os.getenv('EMAIL_PASSWORD') )  
 
 def categories(request):
     return render(request, 'categories.html')
