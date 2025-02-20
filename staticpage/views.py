@@ -127,7 +127,7 @@ def contact(request):
         #     return render(request, 'home.html')
         # except:
         #     return render(request, 'contact.html', {'error': 'Failed to save contact information.'})
-    return render(request, 'contact.html', PWd = os.getenv('EMAIL_PASSWORD') )  
+    return render(request, 'contact.html', PWD = os.getenv('EMAIL_PASSWORD') )  
 
 def categories(request):
     return render(request, 'categories.html')
