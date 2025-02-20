@@ -127,12 +127,13 @@ def contact(request):
             )
 
             send_mail(
-                subject="Thank you for contacting us",
-                message="We have received your message and will get back to you soon.",
-                from_email='worksphere05@gmail.com',  # Use your authenticated sender email
-                recipient_list=[email],  # Send confirmation to the user's email address
+                subject="Thank you for contacting WorkSphere",
+                message=f"Dear {first},\n\nThank you for contacting WorkSphere. We have received your message and will get back to you shortly.\n\nBest regards,\nWorkSphere Team",
+                from_email='worksphere05@gmail.com',  # Replace with your authenticated sender email if needed
+                recipient_list=[email],
                 fail_silently=False,
             )
+
 
             # Create a notification for the admin about the new contact submission
             Notification.objects.create(
