@@ -327,7 +327,7 @@
                 <div class="project-footer">
                     <span><i class="fas fa-calendar-alt"></i> Deadline: {{ project.deadline }}</span>
                 </div>
-                <a class="view-details" href="{% url 'client_job_details' project.id %}">View Details</a>
+                <a class="view-details" href="{% url 'freelancer_job_details' project.id %}">View Details</a>
             </li>
             {% endfor %}
         </ul>
