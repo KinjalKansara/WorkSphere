@@ -52,6 +52,9 @@ def service(request):
     return render(request, 'service.html')
 
 def contact(request):
+    context={
+            "PWD" : os.getenv('EMAIL_PASSWORD')
+        }
     if request.method == 'POST':
         first = request.POST.get('firstname')
         last = request.POST.get('lastname')
@@ -125,9 +128,7 @@ def contact(request):
             fail_silently=False,
         )
 
-        context={
-            "PWD" : os.getenv('EMAIL_PASSWORD')
-        }
+        
         #     return render(request, 'home.html')
         # except:
         #     return render(request, 'contact.html', {'error': 'Failed to save contact information.'})
