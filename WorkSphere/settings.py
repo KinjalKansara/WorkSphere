@@ -146,7 +146,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'worksphere05@gmail.com'
 EMAIL_HOST_PASSWORD = f'{EMAIL_PASSWORD}'
-DEFAULT_FROM_EMAIL = 'worksphere05@gmail.com'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 # Default primary key field type
