@@ -22,28 +22,25 @@ from pathlib import Path
 from dotenv import load_dotenv
 from django.core.wsgi import get_wsgi_application
 
-# Define the base directory
+# Determine the base directory (two levels up from this file)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Ensure the project directory is in the system path
-sys.path.append(str(BASE_DIR))
+# Add the BASE_DIR to the Python path (this helps PythonAnywhere locate your project)
+if str(BASE_DIR) not in sys.path:
+    sys.path.append(str(BASE_DIR))
 
-# Load .env file manually
-dotenv_path = os.path.join(BASE_DIR, '.env')
-if os.path.exists(dotenv_path):
-    print(f"Loading environment variables from: {dotenv_path}")  # Debugging line
-    load_dotenv(dotenv_path)
+# Define the path to your .env file
+env_file = BASE_DIR / '.env'
+if env_file.exists():
+    load_dotenv(dotenv_path=env_file)
 else:
-    print("WARNING: .env file not found!")  # Debugging line
+    print(f"Warning: .env file not found in {BASE_DIR}", file=sys.stderr)
 
-# Set the default settings module
+# Set the default Django settings module
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'WorkSphere.settings')
-
-# Print loaded environment variables for debugging
-print("EMAIL_HOST_USER:", os.getenv('EMAIL_HOST_USER'))
-print("EMAIL_HOST_PASSWORD:", os.getenv('EMAIL_HOST_PASSWORD'))
 
 # Get the WSGI application
 application = get_wsgi_application()
+
 
 
