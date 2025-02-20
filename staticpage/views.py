@@ -5,6 +5,7 @@ import re
 from django.db.models import Sum
 from client.models import ClientPostProject, ClientRegisterLogin
 from freelancer.models import FreelancerProposal, FreelancerRegisterLogin
+from notification.models import Notification
 from payment.models import Payment
 from .models import *
 
@@ -123,6 +124,28 @@ def contact(request):
                 from_email=email,
                 recipient_list=['worksphere05@gmail.com'],  # Replace with your admin email
                 fail_silently=False,
+            )
+
+            send_mail(
+                subject="Thank you for contacting us",
+                message="We have received your message and will get back to you soon.",
+                from_email='worksphere05@gmail.com',  # Use your authenticated sender email
+                recipient_list=[email],  # Send confirmation to the user's email address
+                fail_silently=False,
+            )
+
+            # Create a notification for the admin about the new contact submission
+            Notification.objects.create(
+                title="New Contact Form Submission",
+                message=(
+                    f"New contact form submission received from {first} {last}.\n"
+                    f"Email: {email}\n"
+                    f"Subject: {subject}\n"
+                    f"Message: {message}"
+                ),
+                notification_type='admin',  # Use a type that distinguishes admin notifications
+                username='admin',           # Replace with your admin's username if needed
+                is_read=False
             )
             return render(request, 'home.html')
         except:
