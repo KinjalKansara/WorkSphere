@@ -686,11 +686,8 @@ def project_list(request):
     # Fetch all projects
     projects = ClientPostProject.objects.all()
 
-    # Filter by title if a search query is provided
     if query:
-        projects = projects.filter(
-            Q(title__icontains=query) | Q(category__icontains=query)  # Search in title OR category
-        )
+        machine = machine.filter(title__icontains=query)
 
     context = {
         'projects': projects,
