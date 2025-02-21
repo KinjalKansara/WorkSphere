@@ -303,12 +303,6 @@
     <div class="projects-header">
         <h2>My Projects</h2>
         <button class="add-project-button" onclick="window.location.href='/client/client_post_project/'">Add New Project</button>
-        <form method="GET" action="{% url 'project_list' %}">
-            <div class="search-bar">
-                <input type="text" name="q" placeholder="Search for projects..." value="{{ query }}">
-                <button type="submit"><i class="fas fa-search"></i></button>
-            </div>
-        </form>
     </div>
 
     {% if projects %}
