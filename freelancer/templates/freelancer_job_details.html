@@ -346,7 +346,7 @@
         <div class="client-bio">
           <h3>Client Bio</h3>
           <p>
-            {{ details.client.bio }}
+            {{ details.client.bio | truncatechars:300}}
           </p>
           <span class="read-more" onclick="openModal()">Read More</span>
         </div>
