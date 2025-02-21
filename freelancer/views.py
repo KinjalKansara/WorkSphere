@@ -813,7 +813,7 @@ def project_list(request):
 
     # Filter by title if a search query is provided
     if query:
-        machine = machine.filter(title__icontains=query)
+        projects = projects.filter(title__icontains=query)
 
     context = {
         'projects': projects,
