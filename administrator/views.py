@@ -415,7 +415,7 @@ def generate_report(request):
     return render(request, 'generate_report.html')  # Render the report selection page
 
 def admin_freelancer_bank_details(request):
-    if request.session.get('admin'):
+    if not request.session.get('admin'):
         return redirect('admin_login')
         # Retrieve all freelancer bank details
     bank_details = FreelancerRegisterLogin.objects.all()

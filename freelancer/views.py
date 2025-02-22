@@ -764,12 +764,12 @@ def freelancer_notification(request):
             notifications = Notification.objects.filter(notification_type='freelancer').order_by('-created_at')
         else:
             # Invalid role, redirect to login or handle accordingly
-            return redirect('client_register_login')
+            return redirect('freelancer_register_login')
 
         context = {
             'notifications': notifications,
         }
-        return render(request, 'client_notification.html', context)
+        return render(request, 'freelancer_notification.html', context)
 
     except ValueError:
         return redirect('freelancer_register_login')  # Redirect to login if session is invalid or role is missing
