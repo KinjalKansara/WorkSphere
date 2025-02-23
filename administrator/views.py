@@ -126,7 +126,7 @@ def admin_reset_password(request):
             error_message = 'Password and confirm password do not match.'
 
         if error_message:
-            return render(request, 'auth/client_reset_password.html', {'error_message': error_message})
+            return render(request, 'auth/admin_reset_password.html', {'error_message': error_message})
 
         else:
             user_email = request.session.get('admin')
