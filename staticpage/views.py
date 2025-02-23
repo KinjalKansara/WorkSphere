@@ -25,8 +25,8 @@ def home(request):
         'total_proposals': int(FreelancerProposal.objects.count() or 0),
         'total_projects': int(ClientPostProject.objects.count() or 0),
         'completed_projects': int(ClientPostProject.objects.filter(status='Completed').count() or 0),  # Assuming 'status' field exists
-        'total_payments': Payment.objects.filter(status='Completed').aggregate(total=Sum('amount'))['total'] or 0,
-        'approved_proposals': FreelancerProposal.objects.filter(status='Approved').count(),  # New Counter: Total Approved Proposals
+        'total_payments': Payment.objects.filter(status='Closed').count(),
+        'approved_proposals': FreelancerProposal.objects.filter(status='Completed').count(),  # New Counter: Total Approved Proposals
     }
     
     return render(request, 'home.html', {'stats': stats})
