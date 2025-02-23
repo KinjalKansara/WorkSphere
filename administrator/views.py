@@ -129,8 +129,8 @@ def admin_reset_password(request):
             return render(request, 'auth/admin_reset_password.html', {'error_message': error_message})
 
         else:
-            user_email = request.session.get('admin')
-            user = AdminUser.objects.get(email = user_email)
+            user_email = request.session.get('check_email')
+            user = AdminUser.objects.get(email=user_email)
             user.password = password
             user.save()
             return redirect('admin_login')
