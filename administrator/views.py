@@ -95,7 +95,7 @@ def admin_verify_otp(request):
             # Check if the entered OTP matches the one stored in the session
             error_message = "Invalid OTP. Please try again."
         else:
-            return redirect('admin_verify_otp')
+            return redirect('admin_reset_password')
         
         return render(request, 'auth/admin_verify_otp.html', {'error_message': error_message})
     
