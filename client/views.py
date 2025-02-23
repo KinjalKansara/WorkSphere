@@ -175,7 +175,7 @@ def client_forgot_password(request):
                 otp = random.randint(100000, 999999)
                 request.session['otp'] = otp
                 request.session['email'] = user.email
-                request.sesstion['check_email'] = user.email
+                request.session['check_email'] = user.email
 
                 # Send OTP via email
                 send_mail(
