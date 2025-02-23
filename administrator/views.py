@@ -62,6 +62,16 @@ def admin_forgot_password(request):
                 request.session['otp'] = otp
                 request.session['email'] = user.email
                 request.session['check_email'] = user.email
+
+                # Send OTP via email
+                send_mail(
+                    subject='Password Reset',
+                    message=f'Your OTP is {otp}',
+                    from_email='worksphere05@gmail.com',  # Replace with your sender email
+                    recipient_list=[user.email],
+                    fail_silently=False,
+                )
+
                 return redirect('admin_verify_otp')
             except AdminUser.DoesNotExist:
                 error_message = "Email not found in our records."
