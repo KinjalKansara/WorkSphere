@@ -219,7 +219,7 @@ def freelancer_verify_otp(request):
             # Check if the entered OTP matches the one stored in the session
             error_message = "Invalid OTP. Please try again."
         else:
-            return redirect('client_reset_password')
+            return redirect('freelancer_reset_password')
         
         return render(request, 'auth/freelancer_verify_otp.html', {'error_message': error_message})
         
@@ -227,7 +227,7 @@ def freelancer_verify_otp(request):
 
 def freelancer_reset_password(request):
     if request.session.get('check_email') is None:
-        return redirect('client_register_login')
+        return redirect('freelancer_register_login')
     
     error_message = None
 
@@ -255,7 +255,7 @@ def freelancer_reset_password(request):
 
         else:
             user_email = request.session.get('email')
-            user = ClientRegisterLogin.objects.get(email=user_email)
+            user = FreelancerRegisterLogin.objects.get(email=user_email)
             user.password = password  # Set the new password
             user.save()  # Save the updated user object
             request.session.flush()  # Clear the session
