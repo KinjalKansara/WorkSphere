@@ -76,15 +76,13 @@ def admin_forgot_password(request):
             except AdminUser.DoesNotExist:
                 error_message = "Email not found in our records."
 
-    context = {
-        'error_message': error_message,
-    }
-
-    return render(request, 'auth/admin_forgot_password.html', context)
+    return render(request, 'auth/admin_forgot_password.html', {'error_message': error_message})
 
 def admin_verify_otp(request):
     if request.session.get('check_email') is None:
         return redirect('admin_login')
+    
+    error_message = None
     
     if request.method == 'POST':
         otp = request.POST.get('otp')
@@ -106,6 +104,8 @@ def admin_verify_otp(request):
 def admin_reset_password(request):
     if request.session.get('check_email') is None:
         return redirect('admin_login')
+    
+    error_message = None
 
     if request.method == 'POST':
         password = request.POST.get('password')
