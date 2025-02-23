@@ -24,10 +24,11 @@ def home(request):
         'total_users': total_clients + total_freelancers,  # Ensure integer addition
         'total_proposals': int(FreelancerProposal.objects.count() or 0),
         'total_projects': int(ClientPostProject.objects.count() or 0),
-        'completed_projects': ClientPostProject.objects.filter(status='Completed').count(),  # Assuming 'status' field exists
-        'total_payments': Payment.objects.filter(status='Closed').count(),
-        'approved_proposals': FreelancerProposal.objects.filter(status='Completed').count(),  # New Counter: Total Approved Proposals
+        'completed_projects': ClientPostProject.objects.filter(status='Closed').count(),
+        'total_payments': Payment.objects.filter(status='Completed').count(),
+        'approved_proposals': FreelancerProposal.objects.filter(status='Completed').count(),
     }
+
     
     return render(request, 'home.html', {'stats': stats})
 
