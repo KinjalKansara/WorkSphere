@@ -517,12 +517,28 @@ def confirm_proposal(request):
                 # Save the proposal status change
                 proposal.save()
                 
-                # Send email to freelancer notifying them about the proposal completion
-                subject = f"Project for '{proposal.project.title}' has been Confirmed"
-                message = f"Hello {freelancer.first_name},\n\nCongratulations! Your proposal for the project '{proposal.project.title}' has been confirmed and completed by the client {proposal.client.first_name} {proposal.client.last_name}.\n\nDetails:\nTitle: {proposal.project.title}\nBid: ${proposal.bid}\n\nBest regards,\nWorkSphere Team"
+               # Send email to freelancer notifying them about the proposal completion and payment process
+                subject = f"Project '{proposal.project.title}' has been Confirmed and Payment is Processing"
+                message = f"""Hello {freelancer.first_name},
+
+                Congratulations! Your proposal for the project '{proposal.project.title}' has been confirmed and successfully completed by the client {proposal.client.first_name} {proposal.client.last_name}.
+
+                Payment Information:
+                Your payment for this project (${proposal.bid}) is being processed and will be credited to your account within 2-3 working days.
+
+                Project Details:
+                Title: {proposal.project.title}
+                Bid Amount: ${proposal.bid}
+
+                If you have any queries regarding your payment, feel free to contact our support team.
+
+                Best regards,  
+                WorkSphere Team"""
+
                 from_email = 'worksphere05@gmail.com'
                 recipient_list = [freelancer.email]
                 send_mail(subject, message, from_email, recipient_list)
+
 
                 # Send email to client notifying them about the proposal completion
                 subject = f"Project for '{proposal.project.title}' has been Confirmed"
