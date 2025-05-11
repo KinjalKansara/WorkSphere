@@ -569,7 +569,7 @@ def client_edit_profile(request):
 
 
 def client_received_proposal(request):
-    razorpay_key = settings.RAZORPAY_KEY_ID
+    RAZORPAY_KEY = settings.RAZORPAY_KEY_ID
     try:
         # Attempt to get the logged-in user from the session
         user = request.session.get('logged_user')
@@ -592,7 +592,7 @@ def client_received_proposal(request):
             'client': client,
             'proposals': proposals,  
             'selected_proposal': selected_proposals,
-            'razorpay_key': razorpay_key,
+            'RAZORPAY_KEY': RAZORPAY_KEY,
         }
 
         return render(request, 'client_received_proposal.html', context)
