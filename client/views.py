@@ -2,6 +2,7 @@ import datetime
 from pyexpat.errors import messages
 from django.shortcuts import render, redirect
 # from WorkSphere import settings
+from WorkSphere import settings
 from administrator.models import AdminUser
 from notification.models import Notification
 from payment.models import Payment
@@ -568,6 +569,7 @@ def client_edit_profile(request):
 
 
 def client_received_proposal(request):
+    razorpay_key = settings.RAZORPAY_KEY_ID
     try:
         # Attempt to get the logged-in user from the session
         user = request.session.get('logged_user')
@@ -590,6 +592,7 @@ def client_received_proposal(request):
             'client': client,
             'proposals': proposals,  
             'selected_proposal': selected_proposals,
+            'razorpay_key': razorpay_key,
         }
 
         return render(request, 'client_received_proposal.html', context)
